@@ -31,6 +31,7 @@ export const enum PerspectiveType {
   ibmOcp = 'ibm_ocp', // IBM filtered by Ocp
   ocp = 'ocp',
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
+  ocpOnPremise = 'ocp_on_premise', // All OpenShift on premise
   rhel = 'rhel',
 }
 
@@ -123,6 +124,7 @@ export const getPerspectiveDefault = ({
     case PerspectiveType.gcp:
     case PerspectiveType.gcpOcp:
     case PerspectiveType.ocpCloud:
+    case PerspectiveType.ocpOnPremise:
       return perspective;
   }
 
@@ -164,6 +166,7 @@ export const getGroupByDefault = (perspective: string) => {
       break;
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
+    case PerspectiveType.ocpOnPremise:
       result = 'project';
       break;
     default:
@@ -196,6 +199,7 @@ export const getGroupByOptions = (perspective: string) => {
       break;
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
+    case PerspectiveType.ocpOnPremise:
       result = groupByOcpOptions;
       break;
     default:
@@ -243,6 +247,7 @@ export const getIsDataAvailable = ({
       break;
     case PerspectiveType.ocp:
     case PerspectiveType.ocpCloud:
+    case PerspectiveType.ocpOnPremise:
       isDataAvailable = hasData(ocpProviders);
       isCurrentMonthData = hasCurrentMonthData(ocpProviders);
       isPreviousMonthData = hasPreviousMonthData(ocpProviders);
@@ -305,6 +310,9 @@ export const getReportPathsType = (perspective: string) => {
     case PerspectiveType.ocpCloud:
       result = ReportPathsType.ocpCloud;
       break;
+    case PerspectiveType.ocpOnPremise:
+      result = ReportPathsType.ocpOnPremise;
+      break;
     default:
       result = undefined;
       break;
@@ -331,6 +339,8 @@ export const getResourcePathsType = (perspective: string) => {
       return ResourcePathsType.ocp;
     case PerspectiveType.ocpCloud:
       return ResourcePathsType.ocpCloud;
+    case PerspectiveType.ocpOnPremise:
+      return ResourcePathsType.ocpOnPremise;
     default:
       result = undefined;
       break;
@@ -357,6 +367,8 @@ export const getTagReportPathsType = (perspective: string) => {
       return TagPathsType.ocp;
     case PerspectiveType.ocpCloud:
       return TagPathsType.ocpCloud;
+    case PerspectiveType.ocpOnPremise:
+      return TagPathsType.ocpOnPremise;
     default:
       result = undefined;
       break;

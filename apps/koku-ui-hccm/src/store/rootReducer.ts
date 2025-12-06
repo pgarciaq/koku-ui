@@ -20,6 +20,7 @@ import { gcpDashboardReducer, gcpDashboardStateKey } from 'store/dashboard/gcpDa
 import { gcpOcpDashboardReducer, gcpOcpDashboardStateKey } from 'store/dashboard/gcpOcpDashboard';
 import { ocpCloudDashboardReducer, ocpCloudDashboardStateKey } from 'store/dashboard/ocpCloudDashboard';
 import { ocpDashboardReducer, ocpDashboardStateKey } from 'store/dashboard/ocpDashboard';
+import { ocpOnPremiseDashboardReducer, ocpOnPremiseDashboardStateKey } from 'store/dashboard/ocpOnPremiseDashboard';
 import { exportReducer, exportStateKey } from 'store/export';
 import { forecastReducer, forecastStateKey } from 'store/forecasts';
 import { orgReducer, orgStateKey } from 'store/orgs';
@@ -62,6 +63,7 @@ export const rootReducer = combineReducers({
   [ocpCostOverviewStateKey]: ocpCostOverviewReducer,
   [ocpDashboardStateKey]: ocpDashboardReducer,
   [ocpCloudDashboardStateKey]: ocpCloudDashboardReducer,
+  [ocpOnPremiseDashboardStateKey]: ocpOnPremiseDashboardReducer,
   [ocpHistoricalDataStateKey]: ocpHistoricalDataReducer,
   [orgStateKey]: orgReducer,
   [priceListStateKey]: priceListReducer,

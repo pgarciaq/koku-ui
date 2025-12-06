@@ -36,6 +36,9 @@ export function runTag(tagPathsType: TagPathsType, tagType: TagType, query: stri
     case TagPathsType.ocpCloud:
       result = runOcpCloudTag(tagType, query);
       break;
+    case TagPathsType.ocpOnPremise:
+      result = runOcpTag(tagType, query);
+      break;
   }
   return result;
 }

@@ -43,6 +43,7 @@ import { GcpDashboard } from 'routes/overview/gcpDashboard';
 import { GcpOcpDashboard } from 'routes/overview/gcpOcpDashboard';
 import { OcpCloudDashboard } from 'routes/overview/ocpCloudDashboard';
 import { OcpDashboard } from 'routes/overview/ocpDashboard';
+import { OcpOnPremiseDashboard } from 'routes/overview/ocpOnPremiseDashboard';
 import {
   filterProviders,
   hasCloudCurrentMonthData,
@@ -79,6 +80,7 @@ const enum InfrastructurePerspective {
   gcp = 'gcp',
   gcpOcp = 'gcp_ocp', // GCP filtered by Ocp
   ocpCloud = 'ocp_cloud', // All filtered by Ocp
+  ocpOnPremise = 'ocp_on_premise', // All OpenShift on premise
 }
 
 const enum OcpPerspective {
@@ -170,7 +172,11 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     const availableTabs = [];
 
     const infrastructureTabs =
-      this.isAwsAvailable() || this.isAzureAvailable() || this.isGcpAvailable() || this.isOcpCloudAvailable()
+      this.isAwsAvailable() ||
+      this.isAzureAvailable() ||
+      this.isGcpAvailable() ||
+      this.isOcpCloudAvailable() ||
+      this.isOcpOnPremiseAvailable()
         ? [
             {
               contentRef: React.createRef(),
@@ -229,8 +235,9 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     const hasGcp = this.isGcpAvailable();
     const hasOcp = this.isOcpAvailable();
     const hasOcpCloud = this.isOcpCloudAvailable();
+    const hasOcpOnPremise = this.isOcpOnPremiseAvailable();
 
-    const hasInfrastructure = hasAws || hasAzure || hasGcp || hasOcpCloud;
+    const hasInfrastructure = hasAws || hasAzure || hasGcp || hasOcpCloud || hasOcpOnPremise;
     const showInfrastructureOnly = hasInfrastructure && !hasOcp;
     const showOcpOnly = hasOcp && !hasInfrastructure;
 
@@ -260,11 +267,15 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
       case InfrastructurePerspective.gcp:
       case InfrastructurePerspective.gcpOcp:
       case InfrastructurePerspective.ocpCloud:
+      case InfrastructurePerspective.ocpOnPremise:
         return perspective;
     }
 
     if (this.isOcpCloudAvailable()) {
       return InfrastructurePerspective.ocpCloud;
+    }
+    if (this.isOcpOnPremiseAvailable()) {
+      return InfrastructurePerspective.ocpOnPremise;
     }
     if (this.isAwsAvailable()) {
       return InfrastructurePerspective.aws;
@@ -327,6 +338,7 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
         hasGcpOcp={this.isGcpOcpAvailable()}
         hasOcp={hasOcp}
         hasOcpCloud={this.isOcpCloudAvailable()}
+        hasOcpOnPremise={this.isOcpOnPremiseAvailable()}
         isInfrastructureTab={OverviewTab.infrastructure === currentTab}
         onSelect={this.handleOnPerspectiveSelect}
       />
@@ -385,6 +397,9 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
           hasCloudData(azureProviders, ocpProviders) ||
           hasCloudData(gcpProviders, ocpProviders);
         return hasData ? <OcpCloudDashboard currency={currency} /> : noData;
+      } else if (currentInfrastructurePerspective === InfrastructurePerspective.ocpOnPremise) {
+        const hasData = hasCurrentMonthData(ocpProviders) || hasPreviousMonthData(ocpProviders);
+        return hasData ? <OcpOnPremiseDashboard currency={currency} /> : noData;
       } else if (currentInfrastructurePerspective === InfrastructurePerspective.aws) {
         const hasData = hasCurrentMonthData(awsProviders) || hasPreviousMonthData(awsProviders);
         return hasData ? <AwsDashboard costType={costType} currency={currency} /> : noData;
@@ -542,6 +557,13 @@ class OverviewBase extends React.Component<OverviewProps, OverviewState> {
     const hasGcpOcp = this.isGcpOcpAvailable();
 
     return hasAwsOcp || hasAzureOcp || hasGcpOcp;
+  };
+
+  private isOcpOnPremiseAvailable = () => {
+    // On-premise perspective is available when there are OCP providers
+    // The backend will filter out cloud clusters
+    const { ocpProviders, userAccess } = this.props;
+    return isOcpAvailable(userAccess, ocpProviders);
   };
 
   public render() {

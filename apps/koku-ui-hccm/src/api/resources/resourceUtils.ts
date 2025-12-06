@@ -19,7 +19,8 @@ export function isResourceTypeValid(resourcePathsType: ResourcePathsType, resour
     resourcePathsType === ResourcePathsType.gcp ||
     resourcePathsType === ResourcePathsType.gcpOcp ||
     resourcePathsType === ResourcePathsType.ocp ||
-    resourcePathsType === ResourcePathsType.ocpCloud
+    resourcePathsType === ResourcePathsType.ocpCloud ||
+    resourcePathsType === ResourcePathsType.ocpOnPremise
   ) {
     switch (resourceType) {
       case ResourceType.account:
@@ -70,6 +71,7 @@ export function runResource(resourcePathsType: ResourcePathsType, resourceType: 
       break;
     case ResourcePathsType.ocp:
     case ResourcePathsType.ocpCloud:
+    case ResourcePathsType.ocpOnPremise:
       result = runOcpResource(resourceType, query);
       break;
   }

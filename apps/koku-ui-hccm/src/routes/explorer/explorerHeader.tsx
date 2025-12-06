@@ -148,6 +148,7 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
         hasGcpOcp={this.isGcpOcpAvailable()}
         hasOcp={hasOcp}
         hasOcpCloud={this.isOcpCloudAvailable()}
+        hasOcpOnPremise={this.isOcpOnPremiseAvailable()}
         isDisabled={isDisabled}
         onSelect={this.handleOnPerspectiveSelect}
       />
@@ -215,6 +216,13 @@ class ExplorerHeaderBase extends React.Component<ExplorerHeaderProps, ExplorerHe
     const hasGcpOcp = this.isGcpOcpAvailable();
 
     return hasAwsOcp || hasAzureOcp || hasGcpOcp;
+  };
+
+  private isOcpOnPremiseAvailable = () => {
+    // On-premise perspective is available when there are OCP providers
+    // The backend will filter out cloud clusters
+    const { ocpProviders, userAccess } = this.props;
+    return isOcpAvailable(userAccess, ocpProviders);
   };
 
   public render() {

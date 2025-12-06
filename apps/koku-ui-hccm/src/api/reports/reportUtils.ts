@@ -5,6 +5,7 @@ import { runReport as runAzureReport } from './azureReports';
 import { runReport as runGcpOcpReport } from './gcpOcpReports';
 import { runReport as runGcpReport } from './gcpReports';
 import { runReport as runOcpCloudReport } from './ocpCloudReports';
+import { runReport as runOcpOnPremiseReport } from './ocpOnPremiseReports';
 import { runReport as runOcpReport } from './ocpReports';
 import type { ReportType } from './report';
 import { ReportPathsType } from './report';
@@ -35,6 +36,9 @@ export function runReport(reportPathsType: ReportPathsType, reportType: ReportTy
       break;
     case ReportPathsType.ocpCloud:
       result = runOcpCloudReport(reportType, query);
+      break;
+    case ReportPathsType.ocpOnPremise:
+      result = runOcpOnPremiseReport(reportType, query);
       break;
   }
   return result;

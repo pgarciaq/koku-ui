@@ -23,6 +23,9 @@ const infrastructureGcpOcpOptions = [{ label: messages.perspectiveValues, value:
 // Infrastructure Ocp cloud options
 const infrastructureOcpCloudOptions = [{ label: messages.perspectiveValues, value: 'ocp_cloud' }];
 
+// Infrastructure Ocp on-premise options
+const infrastructureOcpOnPremiseOptions = [{ label: messages.perspectiveValues, value: 'ocp_on_premise' }];
+
 // Ocp options
 const ocpOptions = [{ label: messages.perspectiveValues, value: 'ocp' }];
 
@@ -36,6 +39,7 @@ interface PerspectiveProps {
   hasGcpOcp?: boolean;
   hasOcp?: boolean;
   hasOcpCloud?: boolean;
+  hasOcpOnPremise?: boolean;
   isDisabled?: boolean;
   isInfrastructureTab?: boolean; // Used by the overview page
   onSelect?: (value: string) => void;
@@ -75,6 +79,7 @@ const Perspective: React.FC<PerspectiveProps> = ({
   hasGcpOcp,
   hasOcp,
   hasOcpCloud,
+  hasOcpOnPremise,
   isDisabled,
   isInfrastructureTab,
   onSelect,
@@ -86,6 +91,9 @@ const Perspective: React.FC<PerspectiveProps> = ({
     if (isInfrastructureTab) {
       if (hasOcpCloud) {
         options.push(...infrastructureOcpCloudOptions);
+      }
+      if (hasOcpOnPremise) {
+        options.push(...infrastructureOcpOnPremiseOptions);
       }
       options.push(
         ...getInfrastructureOptions({
@@ -106,6 +114,9 @@ const Perspective: React.FC<PerspectiveProps> = ({
     }
     if (hasOcpCloud) {
       options.push(...infrastructureOcpCloudOptions);
+    }
+    if (hasOcpOnPremise) {
+      options.push(...infrastructureOcpOnPremiseOptions);
     }
     options.push(
       ...getInfrastructureOptions({

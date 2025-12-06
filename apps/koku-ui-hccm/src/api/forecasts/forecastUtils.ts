@@ -8,6 +8,7 @@ import { runForecast as runGcpForecast } from './gcpForecast';
 import { runForecast as runGcpOcpForecast } from './gcpOcpForecast';
 import { runForecast as runOcpCloudForecast } from './ocpCloudForecast';
 import { runForecast as runOcpForecast } from './ocpForecast';
+import { runForecast as runOcpOnPremiseForecast } from './ocpOnPremiseForecast';
 
 export function runForecast(forecastPathsType: ForecastPathsType, forecastType: ForecastType, query: string) {
   let result;
@@ -35,6 +36,9 @@ export function runForecast(forecastPathsType: ForecastPathsType, forecastType: 
       break;
     case ForecastPathsType.ocpCloud:
       result = runOcpCloudForecast(forecastType, query);
+      break;
+    case ForecastPathsType.ocpOnPremise:
+      result = runOcpOnPremiseForecast(forecastType, query);
       break;
   }
   return result;

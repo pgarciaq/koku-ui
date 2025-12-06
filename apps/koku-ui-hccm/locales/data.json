@@ -11184,6 +11184,40 @@
         "value": ")"
       }
     ],
+    "ocpOnPremiseDashboardCostTitle": [
+      {
+        "type": 0,
+        "value": "All OpenShift on premise cost"
+      }
+    ],
+    "ocpOnPremiseDashboardCostTrendTitle": [
+      {
+        "type": 0,
+        "value": "All OpenShift on premise cumulative cost comparison ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "ocpOnPremiseDashboardDailyCostTrendTitle": [
+      {
+        "type": 0,
+        "value": "All OpenShift on premise daily cost comparison ("
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
     "ocpClusterDetails": [
       {
         "type": 0,
@@ -11582,6 +11616,14 @@
               {
                 "type": 0,
                 "value": "All cloud filtered by OpenShift"
+              }
+            ]
+          },
+          "ocp_on_premise": {
+            "value": [
+              {
+                "type": 0,
+                "value": "All OpenShift on premise"
               }
             ]
           },
