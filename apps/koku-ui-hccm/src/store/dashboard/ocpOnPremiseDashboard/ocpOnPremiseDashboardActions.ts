@@ -43,3 +43,5 @@ export const changeWidgetTab = (id: number, tab: OcpOnPremiseDashboardTab): Thun
   };
 };
 
+
+

@@ -21,3 +21,5 @@ export function runForecast(forecastType: ForecastType, query: string) {
   return axiosInstance.get<OcpOnPremiseForecast>(`${path}?${query}`);
 }
 
+
+

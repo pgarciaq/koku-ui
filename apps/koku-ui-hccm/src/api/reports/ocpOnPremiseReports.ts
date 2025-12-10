@@ -84,3 +84,5 @@ export function runReport(reportType: ReportType, query: string) {
   return axiosInstance.get<OcpOnPremiseReport>(`${path}?${query}`);
 }
 
+
+
