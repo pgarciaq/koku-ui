@@ -77,6 +77,15 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const data = costDistribution
       ? [
           {
+            name: 'r1', // rate name placeholder 1
+          },
+          {
+            name: 'r2', // rate name placeholder 2
+          },
+          {
+            name: 'r3', // rate name placeholder 3
+          },
+          {
             name: 'a1', // rawLabel
           },
           {
@@ -128,6 +137,31 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const links = costDistribution
       ? [
           {
+            source: 'r1', // rate name placeholder 1
+            target: 'a3', // usageLabel
+            value: 10, // Skeleton only value
+          },
+          {
+            source: 'r2', // rate name placeholder 2
+            target: 'a3', // usageLabel
+            value: 10, // Skeleton only value
+          },
+          {
+            source: 'r3', // rate name placeholder 3
+            target: 'a3', // usageLabel
+            value: 10, // Skeleton only value
+          },
+          {
+            source: 'r1', // rate name placeholder 1
+            target: 'b3', // platformDistributedLabel
+            value: 5, // Skeleton only value
+          },
+          {
+            source: 'r2', // rate name placeholder 2
+            target: 'b5', // workerUnallocatedLabel
+            value: 5, // Skeleton only value
+          },
+          {
             source: 'a1', // rawLabel
             target: 'c1', // workloadCostLabel
             value: 20, // Skeleton only value
@@ -155,7 +189,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
           {
             source: 'b3', // platformDistributedLabel
             target: 'c2', // overheadCostLabel
-            value: 10, // Skeleton only value
+            value: 15, // Skeleton only value
           },
           {
             source: 'b4', // storageUnattributedDistributedLabel
@@ -165,7 +199,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
           {
             source: 'b5', // workerUnallocatedLabel
             target: 'c2', // overheadCostLabel
-            value: 10, // Skeleton only value
+            value: 15, // Skeleton only value
           },
           {
             source: 'c1', // workloadCostLabel
@@ -175,7 +209,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
           {
             source: 'c2', // overheadCostLabel
             target: 'd1', // totalCostLabel
-            value: 110, // Skeleton only value
+            value: 120, // Skeleton only value
           },
         ]
       : [
