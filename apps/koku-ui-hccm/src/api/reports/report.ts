@@ -1,6 +1,14 @@
 import type { PagedMetaData, PagedResponse } from 'api/api';
 
+export interface BreakdownEntry {
+  name: string;
+  source: 'rate' | 'service' | 'cloud' | 'other';
+  value: number;
+  units: string;
+}
+
 export interface ReportValue {
+  breakdown?: BreakdownEntry[];
   units?: string;
   value?: number;
 }

@@ -13,6 +13,7 @@ export interface Filters {
 }
 
 export interface Query {
+  breakdown_limit?: number;
   breakdown_title?: string | number;
   category?: string;
   cost_type?: any;

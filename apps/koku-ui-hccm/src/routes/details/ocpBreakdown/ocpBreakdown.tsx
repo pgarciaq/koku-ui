@@ -58,6 +58,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
 
   const query = { ...queryFromRoute };
   const reportQuery = {
+    breakdown_limit: 10,
     currency,
     filter: {
       resolution: 'monthly',

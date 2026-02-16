@@ -1,7 +1,7 @@
 import 'routes/components/charts/common/chart.scss';
 
 import { Charts, ThemeColor } from '@patternfly/react-charts/echarts';
-import type { Report } from 'api/reports/report';
+import type { BreakdownEntry, Report } from 'api/reports/report';
 import { SankeyChart } from 'echarts/charts';
 import { TitleComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
@@ -27,6 +27,7 @@ interface CostBreakdownChartOwnProps {
 }
 
 interface CostBreakdownChartStateProps {
+  chartHeight?: number;
   data?: any[];
   links?: any[];
   units?: string;
@@ -47,6 +48,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
   private observer: any = noop;
 
   public state: CostBreakdownChartStateProps = {
+    chartHeight: chartStyles.chartHeight,
     units: 'USD',
     width: 0,
   };
@@ -303,8 +305,52 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const reportItemValue = costDistribution ? costDistribution : 'total';
     const units = report.meta.total.cost?.[reportItemValue] ? report.meta.total.cost[reportItemValue].units : 'USD';
 
+    // Collect breakdown entries for rate-name layer (Phase 1: usage + overhead types)
+    const breakdownNodeNames = new Set<string>();
+    const breakdownLinks: Array<{ source: string; target: string; value: number; _value: number }> = [];
+
+    if (isDistributed) {
+      const breakdownSources: Array<{ label: string; entries?: BreakdownEntry[] }> = [
+        { label: usageLabel, entries: report?.meta?.total?.cost?.usage?.breakdown },
+        { label: platformDistributedLabel, entries: report?.meta?.total?.cost?.platform_distributed?.breakdown },
+        {
+          label: workerUnallocatedLabel,
+          entries: report?.meta?.total?.cost?.worker_unallocated_distributed?.breakdown,
+        },
+        {
+          label: storageUnattributedDistributedLabel,
+          entries: report?.meta?.total?.cost?.storage_unattributed_distributed?.breakdown,
+        },
+        {
+          label: networkUnattributedDistributedLabel,
+          entries: report?.meta?.total?.cost?.network_unattributed_distributed?.breakdown,
+        },
+        {
+          label: gpuUnallocatedLabel,
+          entries: report?.meta?.total?.cost?.gpu_unallocated_distributed?.breakdown,
+        },
+      ];
+
+      for (const { label, entries } of breakdownSources) {
+        if (entries && entries.length > 0) {
+          for (const entry of entries) {
+            breakdownNodeNames.add(entry.name);
+            breakdownLinks.push({
+              source: entry.name,
+              target: label,
+              value: Math.abs(entry.value),
+              _value: entry.value,
+            });
+          }
+        }
+      }
+    }
+
+    const breakdownNodes = Array.from(breakdownNodeNames).map(name => ({ name }));
+
     const data = costDistribution
       ? [
+          ...breakdownNodes,
           {
             name: rawLabel,
           },
@@ -374,6 +420,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
 
     const links = costDistribution
       ? [
+          ...breakdownLinks,
           {
             source: rawLabel,
             target: workloadCostLabel,
@@ -545,23 +592,28 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       }
     }
 
-    this.setState({ data, links, units });
+    const chartHeight = breakdownNodeNames.size > 0
+      ? chartStyles.chartHeight + breakdownNodeNames.size * 28
+      : chartStyles.chartHeight;
+
+    this.setState({ chartHeight, data, links, units });
   };
 
   public render() {
     const { id, intl } = this.props;
-    const { data, links, units, width } = this.state;
+    const { chartHeight: currentChartHeight, data, links, units, width } = this.state;
 
     const isSkeleton = !(data && links) || !links.find(link => link.value !== 0);
+    const height = currentChartHeight || chartStyles.chartHeight;
 
     return (
-      <div className="chartOverride" ref={this.containerRef}>
-        <div style={{ height: chartStyles.chartHeight }}>
+      <div className="chartOverride" data-testid="cost-breakdown-chart-wrapper" ref={this.containerRef}>
+        <div style={{ height }}>
           {isSkeleton ? (
             this.getSkeleton()
           ) : (
             <Charts
-              height={chartStyles.chartHeight}
+              height={height}
               id={id}
               option={{
                 series: [

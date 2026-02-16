@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`CostBreakdownChart OCP views OCP report with breakdown renders 5-layer Sankey 1`] = `
+<div
+  class="chartOverride"
+  data-testid="cost-breakdown-chart-wrapper"
+>
+  <div
+    style="height: 416px;"
+  >
+    <div
+      data-testid="echarts-chart"
+      data-width="0"
+    >
+      [{"bottom":20,"data":[{"name":"CPU charge"},{"name":"Memory charge"},{"name":"Node monthly"},{"name":"Raw cost"},{"name":"Markup"},{"name":"Usage cost"},{"name":"GPU unallocated"},{"name":"Network unattributed"},{"name":"Platform distributed"},{"name":"Storage unattributed"},{"name":"Worker unallocated"},{"name":"Project (All other costs)"},{"name":"Overhead cost"},{"name":"Total cost"}],"label":{"lineHeight":12,"rich":{"a":{"fontWeight":"bold","fontSize":12}}},"layoutIterations":0,"links":[{"source":"CPU charge","target":"Usage cost","value":60,"_value":60},{"source":"Memory charge","target":"Usage cost","value":40,"_value":40},{"source":"Node monthly","target":"Platform distributed","value":60,"_value":60},{"source":"Node monthly","target":"Worker unallocated","value":40,"_value":40},{"source":"Raw cost","target":"Project (All other costs)","value":0,"_value":0},{"source":"Markup","target":"Project (All other costs)","value":0,"_value":0},{"source":"Usage cost","target":"Project (All other costs)","value":100,"_value":100},{"source":"GPU unallocated","target":"Overhead cost","value":0,"_value":0},{"source":"Network unattributed","target":"Overhead cost","value":0,"_value":0},{"source":"Platform distributed","target":"Overhead cost","value":60,"_value":60},{"source":"Storage unattributed","target":"Overhead cost","value":0,"_value":0},{"source":"Worker unallocated","target":"Overhead cost","value":40,"_value":40},{"source":"Project (All other costs)","target":"Total cost","value":100,"_value":100},{"source":"Overhead cost","target":"Total cost","value":0,"_value":100},{"source":"Total cost","value":100,"_value":200}],"left":0,"nodeGap":26,"right":110,"top":20,"type":"sankey"}]
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CostBreakdownChart backward compatibility renders chart with no breakdown arrays 1`] = `
+<div
+  class="chartOverride"
+  data-testid="cost-breakdown-chart-wrapper"
+>
+  <div
+    style="height: 332px;"
+  >
+    <div
+      data-testid="echarts-chart"
+      data-width="0"
+    >
+      [{"bottom":20,"data":[{"name":"Raw cost"},{"name":"Markup"},{"name":"Usage cost"},{"name":"GPU unallocated"},{"name":"Network unattributed"},{"name":"Platform distributed"},{"name":"Storage unattributed"},{"name":"Worker unallocated"},{"name":"Project (All other costs)"},{"name":"Overhead cost"},{"name":"Total cost"}],"label":{"lineHeight":12,"rich":{"a":{"fontWeight":"bold","fontSize":12}}},"layoutIterations":0,"links":[{"source":"Raw cost","target":"Project (All other costs)","value":50,"_value":50},{"source":"Markup","target":"Project (All other costs)","value":5,"_value":5},{"source":"Usage cost","target":"Project (All other costs)","value":100,"_value":100},{"source":"GPU unallocated","target":"Overhead cost","value":0,"_value":0},{"source":"Network unattributed","target":"Overhead cost","value":0,"_value":0},{"source":"Platform distributed","target":"Overhead cost","value":30,"_value":30},{"source":"Storage unattributed","target":"Overhead cost","value":0,"_value":0},{"source":"Worker unallocated","target":"Overhead cost","value":15,"_value":15},{"source":"Project (All other costs)","target":"Total cost","value":155,"_value":155},{"source":"Overhead cost","target":"Total cost","value":0,"_value":45},{"source":"Total cost","value":155,"_value":200}],"left":0,"nodeGap":26,"right":110,"top":20,"type":"sankey"}]
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CostBreakdownChart cloud views backward compatibility chart renders AWS report (no breakdown arrays) without crash 1`] = `
+<div
+  class="chartOverride"
+  data-testid="cost-breakdown-chart-wrapper"
+>
+  <div
+    style="height: 332px;"
+  >
+    <div
+      data-testid="echarts-chart"
+      data-width="0"
+    >
+      [{"bottom":20,"data":[{"name":"Raw cost"},{"name":"Markup"},{"name":"Usage cost"},{"name":"GPU unallocated"},{"name":"Network unattributed"},{"name":"Platform distributed"},{"name":"Storage unattributed"},{"name":"Worker unallocated"},{"name":"Project (All other costs)"},{"name":"Overhead cost"},{"name":"Total cost"}],"label":{"lineHeight":12,"rich":{"a":{"fontWeight":"bold","fontSize":12}}},"layoutIterations":0,"links":[{"source":"Raw cost","target":"Project (All other costs)","value":400,"_value":400},{"source":"Markup","target":"Project (All other costs)","value":40,"_value":40},{"source":"Usage cost","target":"Project (All other costs)","value":60,"_value":60},{"source":"GPU unallocated","target":"Overhead cost","value":0,"_value":0},{"source":"Network unattributed","target":"Overhead cost","value":0,"_value":0},{"source":"Platform distributed","target":"Overhead cost","value":0,"_value":0},{"source":"Storage unattributed","target":"Overhead cost","value":0,"_value":0},{"source":"Worker unallocated","target":"Overhead cost","value":0,"_value":0},{"source":"Project (All other costs)","target":"Total cost","value":500,"_value":500},{"source":"Overhead cost","target":"Total cost","value":0,"_value":0},{"source":"Total cost","value":500,"_value":500}],"left":0,"nodeGap":26,"right":110,"top":20,"type":"sankey"}]
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CostBreakdownChart edge cases handles empty breakdown array gracefully 1`] = `
+<div
+  class="chartOverride"
+  data-testid="cost-breakdown-chart-wrapper"
+>
+  <div
+    style="height: 360px;"
+  >
+    <div
+      data-testid="echarts-chart"
+      data-width="0"
+    >
+      [{"bottom":20,"data":[{"name":"Node monthly"},{"name":"Raw cost"},{"name":"Markup"},{"name":"Usage cost"},{"name":"GPU unallocated"},{"name":"Network unattributed"},{"name":"Platform distributed"},{"name":"Storage unattributed"},{"name":"Worker unallocated"},{"name":"Project (All other costs)"},{"name":"Overhead cost"},{"name":"Total cost"}],"label":{"lineHeight":12,"rich":{"a":{"fontWeight":"bold","fontSize":12}}},"layoutIterations":0,"links":[{"source":"Node monthly","target":"Platform distributed","value":60,"_value":60},{"source":"Node monthly","target":"Worker unallocated","value":40,"_value":40},{"source":"Raw cost","target":"Project (All other costs)","value":0,"_value":0},{"source":"Markup","target":"Project (All other costs)","value":0,"_value":0},{"source":"Usage cost","target":"Project (All other costs)","value":100,"_value":100},{"source":"GPU unallocated","target":"Overhead cost","value":0,"_value":0},{"source":"Network unattributed","target":"Overhead cost","value":0,"_value":0},{"source":"Platform distributed","target":"Overhead cost","value":60,"_value":60},{"source":"Storage unattributed","target":"Overhead cost","value":0,"_value":0},{"source":"Worker unallocated","target":"Overhead cost","value":40,"_value":40},{"source":"Project (All other costs)","target":"Total cost","value":100,"_value":100},{"source":"Overhead cost","target":"Total cost","value":0,"_value":100},{"source":"Total cost","value":100,"_value":200}],"left":0,"nodeGap":26,"right":110,"top":20,"type":"sankey"}]
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CostBreakdownChart usage breakdown raw, markup, and credit remain as leaf nodes without breakdown 1`] = `
+<div
+  class="chartOverride"
+  data-testid="cost-breakdown-chart-wrapper"
+>
+  <div
+    style="height: 416px;"
+  >
+    <div
+      data-testid="echarts-chart"
+      data-width="0"
+    >
+      [{"bottom":20,"data":[{"name":"CPU charge"},{"name":"Memory charge"},{"name":"Node monthly"},{"name":"Raw cost"},{"name":"Markup"},{"name":"Usage cost"},{"name":"GPU unallocated"},{"name":"Network unattributed"},{"name":"Platform distributed"},{"name":"Storage unattributed"},{"name":"Worker unallocated"},{"name":"Project (All other costs)"},{"name":"Overhead cost"},{"name":"Total cost"}],"label":{"lineHeight":12,"rich":{"a":{"fontWeight":"bold","fontSize":12}}},"layoutIterations":0,"links":[{"source":"CPU charge","target":"Usage cost","value":60,"_value":60},{"source":"Memory charge","target":"Usage cost","value":40,"_value":40},{"source":"Node monthly","target":"Platform distributed","value":60,"_value":60},{"source":"Node monthly","target":"Worker unallocated","value":40,"_value":40},{"source":"Raw cost","target":"Project (All other costs)","value":0,"_value":0},{"source":"Markup","target":"Project (All other costs)","value":0,"_value":0},{"source":"Usage cost","target":"Project (All other costs)","value":100,"_value":100},{"source":"GPU unallocated","target":"Overhead cost","value":0,"_value":0},{"source":"Network unattributed","target":"Overhead cost","value":0,"_value":0},{"source":"Platform distributed","target":"Overhead cost","value":60,"_value":60},{"source":"Storage unattributed","target":"Overhead cost","value":0,"_value":0},{"source":"Worker unallocated","target":"Overhead cost","value":40,"_value":40},{"source":"Project (All other costs)","target":"Total cost","value":100,"_value":100},{"source":"Overhead cost","target":"Total cost","value":0,"_value":100},{"source":"Total cost","value":100,"_value":200}],"left":0,"nodeGap":26,"right":110,"top":20,"type":"sankey"}]
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CostBreakdownChart usage breakdown renders usage breakdown entries as Sankey nodes on the left 1`] = `
+<div
+  class="chartOverride"
+  data-testid="cost-breakdown-chart-wrapper"
+>
+  <div
+    style="height: 416px;"
+  >
+    <div
+      data-testid="echarts-chart"
+      data-width="0"
+    >
+      [{"bottom":20,"data":[{"name":"CPU charge"},{"name":"Memory charge"},{"name":"Node monthly"},{"name":"Raw cost"},{"name":"Markup"},{"name":"Usage cost"},{"name":"GPU unallocated"},{"name":"Network unattributed"},{"name":"Platform distributed"},{"name":"Storage unattributed"},{"name":"Worker unallocated"},{"name":"Project (All other costs)"},{"name":"Overhead cost"},{"name":"Total cost"}],"label":{"lineHeight":12,"rich":{"a":{"fontWeight":"bold","fontSize":12}}},"layoutIterations":0,"links":[{"source":"CPU charge","target":"Usage cost","value":60,"_value":60},{"source":"Memory charge","target":"Usage cost","value":40,"_value":40},{"source":"Node monthly","target":"Platform distributed","value":60,"_value":60},{"source":"Node monthly","target":"Worker unallocated","value":40,"_value":40},{"source":"Raw cost","target":"Project (All other costs)","value":0,"_value":0},{"source":"Markup","target":"Project (All other costs)","value":0,"_value":0},{"source":"Usage cost","target":"Project (All other costs)","value":100,"_value":100},{"source":"GPU unallocated","target":"Overhead cost","value":0,"_value":0},{"source":"Network unattributed","target":"Overhead cost","value":0,"_value":0},{"source":"Platform distributed","target":"Overhead cost","value":60,"_value":60},{"source":"Storage unattributed","target":"Overhead cost","value":0,"_value":0},{"source":"Worker unallocated","target":"Overhead cost","value":40,"_value":40},{"source":"Project (All other costs)","target":"Total cost","value":100,"_value":100},{"source":"Overhead cost","target":"Total cost","value":0,"_value":100},{"source":"Total cost","value":100,"_value":200}],"left":0,"nodeGap":26,"right":110,"top":20,"type":"sankey"}]
+    </div>
+  </div>
+</div>
+`;
