@@ -238,6 +238,71 @@ When a user views an OCP-on-cloud cluster (e.g., OCP on AWS), they access it thr
 
 ---
 
+## Part D: Post-Implementation Validation
+
+After all Parts A, B, and C are complete, perform a systematic validation against the three authoritative documents to catch gaps and inconsistencies before considering the feature done.
+
+**Authoritative documents:**
+- PRD: `koku/docs/architecture/prd04-cost-breakdown/README.md`
+- DD: `koku/docs/architecture/prd04-cost-breakdown/DETAILED_DESIGN.md`
+- Test Plan: `koku/docs/architecture/prd04-cost-breakdown/TEST_PLAN.md`
+
+### D1. API contract alignment
+
+Verify the TypeScript interfaces (`BreakdownEntry`, `ReportValue`, `Rate`, `RateRequest`) match the backend API contract in the PRD exactly:
+- Field names, types, and optionality match the JSON examples in the PRD's "Phase 1 extended response" section
+- `BreakdownEntry.source` union covers all four values: `'rate'`, `'service'`, `'cloud'`, `'other'`
+- `ReportValue.breakdown` is optional (`breakdown?: BreakdownEntry[]`)
+- `Rate.name` and `RateRequest.name` are required strings (not optional)
+
+### D2. Sankey structure correctness
+
+Verify the implemented Sankey chart in distributed mode:
+- Has exactly 5 layers: rate names (leftmost) -> cost categories -> workload/overhead -> total cost (rightmost)
+- Flow direction is parts-to-total (left-to-right), consistent with the existing chart
+- `raw`, `markup`, and `credit` have NO breakdown sub-layer (they remain leaf nodes)
+- Rate name nodes appear on the leftmost column
+- Rate name nodes can have multiple outgoing edges (e.g., "JBoss subscription" links to both "Usage cost" and "Platform distributed")
+- "Cloud cost" placeholder appears in overhead breakdown for OCP-on-cloud clusters
+
+### D3. Acceptance criteria audit
+
+Walk through every Phase 1 frontend acceptance criterion in the PRD (Acceptance Criteria > Phase 1 > Frontend section) and confirm each is satisfied by a specific code change and covered by a test:
+- [ ] Rate creation/editing form includes the `name` field (required, max 50 chars) -- covered by Part A + A8 tests
+- [ ] Sankey diagram renders individual rate names as new nodes on the left side -- covered by Part B + B7 tests
+- [ ] Overhead types receive flow from constituent rate name nodes on the left -- covered by Part B + B7 tests
+- [ ] `raw`, `markup`, and `credit` nodes remain unchanged -- covered by B7 tests
+
+### D4. Cross-document consistency
+
+Verify no stale references remain across all documents:
+- Sankey direction is described as parts-to-total (left-to-right) everywhere
+- Phase 1 scope consistently says: `usage` + 5 overhead types get breakdown; `raw`/`markup`/`credit` do not
+- Overhead mechanism is described as pre-computed (distribution SQL), not query-time proportional
+- File paths in the frontend plan match actual codebase paths (e.g., `rateTable.tsx`, not `priceListTable.tsx`)
+- Widget config path references are correct (`ocpBreakdown.tsx` reportQuery, not widget config file)
+
+### D5. Backward compatibility
+
+Verify the chart renders correctly in all backward-compatibility scenarios:
+- No cost model assigned to the cluster (no `breakdown` arrays in response)
+- Pure cloud breakdown views (`awsBreakdown`, `azureBreakdown`, `gcpBreakdown`) that hit non-OCP endpoints
+- Pre-migration data where `cost_model_rate_name` is NULL
+- Non-distributed mode (where `costDistribution` is not `'distributed'`) -- the credit/simple view should be unaffected
+
+### D6. Edge cases
+
+Verify handling of edge cases:
+- Empty `breakdown` arrays (`"breakdown": []`)
+- Zero-value breakdown entries (`"value": 0`)
+- Single-entry breakdown (only one rate name)
+- `breakdown_limit` boundary: exactly N entries (no "Other"), N+1 entries (triggers "Other" aggregation)
+- "Cloud cost" placeholder with `source: "cloud"` in overhead breakdown
+- Very long rate names (up to 50 chars) fitting in the Sankey node labels
+- On-prem OCP with no cloud cost (overhead breakdown contains only `"rate"` entries, no `"cloud"` entries)
+
+---
+
 ## Architecture: Sankey Data Flow
 
 ```mermaid
