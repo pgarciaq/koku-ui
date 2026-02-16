@@ -21,6 +21,8 @@ Tests are numbered `FT-<area>.<seq>` (Frontend Test). Each test specifies:
 
 Mock data fixtures are defined in the [Mock Data Fixtures](#mock-data-fixtures) section at the end and referenced by name throughout.
 
+**Type correctness:** TypeScript interfaces (`BreakdownEntry`, `ReportValue`, `Rate`, `RateRequest`) are validated by compilation (`npx tsc --noEmit`), not by dedicated runtime tests. This follows the codebase convention — no compile-time-only type tests exist in koku-ui.
+
 ---
 
 ## Test Conventions
@@ -32,11 +34,13 @@ Based on the existing koku-ui-hccm codebase:
 | **Framework** | Jest 30 + @testing-library/react 16 |
 | **File naming** | `*.test.tsx` or `*.test.ts`, colocated with source |
 | **Mocking** | `jest.mock('module')` for API/component mocks; inline fixtures for data |
-| **Chart tests** | Snapshot tests via `toMatchSnapshot()` |
-| **Reducer tests** | Direct `reducer(state, action)` calls |
+| **Chart tests** | Snapshot tests via `toMatchSnapshot()` on `getByTestId` wrapper element |
+| **Reducer tests** | Direct `reducer(state, action)` calls; assertions use `.toEqual()` |
 | **Component tests** | `render()` + `screen` queries + `userEvent` interactions |
-| **i18n** | `jest.mock('react-intl')` or `regExp(msg.defaultMessage)` assertions |
-| **Redux store** | `createMockStoreCreator()` from `store/mockStore.ts` |
+| **OUIA test IDs** | `configure({ testIdAttribute: 'data-ouia-component-id' })` for PatternFly components |
+| **Fake timers** | Globally enabled; component tests must use `userEvent.setup({ advanceTimers: jest.advanceTimersByTime })` |
+| **i18n assertions** | `import messages from 'locales/messages'` + `const regExp = (msg) => new RegExp(msg.defaultMessage)` |
+| **Redux store** | `configureStore({} as any)` with `<Provider>` wrapper for component tests |
 | **E2E** | Cypress (in `koku-ui-onprem`; not currently used in hccm) |
 
 ---
@@ -58,19 +62,20 @@ Based on the existing koku-ui-hccm codebase:
 
 **Test file:** `routes/settings/costModels/components/rateForm/useRateForm.test.tsx` (existing — add tests)
 
-These follow the existing pattern of testing `rateFormReducer(state, action)` directly.
+These follow the existing pattern of testing `rateFormReducer(state, action)` directly. Assertions use `.toEqual()` matching the existing test convention.
 
 #### FT-A1.1 `UPDATE_NAME sets name and clears error`
 
 ```typescript
-test('UPDATE_NAME with valid name sets name and clears error', () => {
-  const state = rateFormReducer(
-    { ...initialRateFormData, step: 'set_rate' },
-    { type: 'UPDATE_NAME', value: 'CPU charge' }
-  );
-  expect(state.name).toBe('CPU charge');
-  expect(state.errors.name).toBeNull();
-});
+describe('UPDATE_NAME action', () => {
+  test('UPDATE_NAME with valid name sets name and clears error', () => {
+    const state = rateFormReducer(
+      { ...initialRateFormData, step: 'set_rate' },
+      { type: 'UPDATE_NAME', value: 'CPU charge' }
+    );
+    expect(state.name).toEqual('CPU charge');
+    expect(state.errors.name).toEqual(null);
+  });
 ```
 
 - **Preconditions:** Rate form in `set_rate` step
@@ -80,14 +85,14 @@ test('UPDATE_NAME with valid name sets name and clears error', () => {
 #### FT-A1.2 `UPDATE_NAME with empty string sets required error`
 
 ```typescript
-test('UPDATE_NAME with empty string sets required error', () => {
-  const state = rateFormReducer(
-    { ...initialRateFormData, step: 'set_rate', name: 'previously set' },
-    { type: 'UPDATE_NAME', value: '' }
-  );
-  expect(state.name).toBe('');
-  expect(state.errors.name).toBeTruthy(); // required error message
-});
+  test('UPDATE_NAME with empty string sets required error', () => {
+    const state = rateFormReducer(
+      { ...initialRateFormData, step: 'set_rate', name: 'previously set' },
+      { type: 'UPDATE_NAME', value: '' }
+    );
+    expect(state.name).toEqual('');
+    expect(state.errors.name).toBeTruthy(); // required error message
+  });
 ```
 
 - **Preconditions:** Rate form in `set_rate` step with existing name
@@ -97,14 +102,14 @@ test('UPDATE_NAME with empty string sets required error', () => {
 #### FT-A1.3 `UPDATE_NAME with >50 chars sets too-long error`
 
 ```typescript
-test('UPDATE_NAME with >50 chars sets too-long error', () => {
-  const state = rateFormReducer(
-    { ...initialRateFormData, step: 'set_rate' },
-    { type: 'UPDATE_NAME', value: 'X'.repeat(51) }
-  );
-  expect(state.name).toBe('X'.repeat(51));
-  expect(state.errors.name).toBeTruthy(); // max length error
-});
+  test('UPDATE_NAME with >50 chars sets too-long error', () => {
+    const state = rateFormReducer(
+      { ...initialRateFormData, step: 'set_rate' },
+      { type: 'UPDATE_NAME', value: 'X'.repeat(51) }
+    );
+    expect(state.name).toEqual('X'.repeat(51));
+    expect(state.errors.name).toBeTruthy(); // max length error
+  });
 ```
 
 - **Preconditions:** Rate form in `set_rate` step
@@ -114,14 +119,14 @@ test('UPDATE_NAME with >50 chars sets too-long error', () => {
 #### FT-A1.4 `UPDATE_NAME with exactly 50 chars is valid`
 
 ```typescript
-test('UPDATE_NAME with exactly 50 chars is valid', () => {
-  const state = rateFormReducer(
-    { ...initialRateFormData, step: 'set_rate' },
-    { type: 'UPDATE_NAME', value: 'X'.repeat(50) }
-  );
-  expect(state.name).toBe('X'.repeat(50));
-  expect(state.errors.name).toBeNull();
-});
+  test('UPDATE_NAME with exactly 50 chars is valid', () => {
+    const state = rateFormReducer(
+      { ...initialRateFormData, step: 'set_rate' },
+      { type: 'UPDATE_NAME', value: 'X'.repeat(50) }
+    );
+    expect(state.name).toEqual('X'.repeat(50));
+    expect(state.errors.name).toEqual(null);
+  });
 ```
 
 - **Preconditions:** Rate form in `set_rate` step
@@ -131,16 +136,16 @@ test('UPDATE_NAME with exactly 50 chars is valid', () => {
 #### FT-A1.5 `UPDATE_NAME with duplicate name sets uniqueness error`
 
 ```typescript
-test('UPDATE_NAME with duplicate name sets uniqueness error', () => {
-  const otherTiers = [
-    { name: 'CPU charge', metric: { name: 'cpu_core_usage_per_hour' }, cost_type: 'Infrastructure' },
-  ] as Rate[];
-  const state = rateFormReducer(
-    { ...initialRateFormData, step: 'set_rate', otherTiers },
-    { type: 'UPDATE_NAME', value: 'CPU charge' }
-  );
-  expect(state.errors.name).toBeTruthy(); // duplicate error message
-});
+  test('UPDATE_NAME with duplicate name sets uniqueness error', () => {
+    const otherTiers = [
+      { name: 'CPU charge', metric: { name: 'cpu_core_usage_per_hour' }, cost_type: 'Infrastructure' },
+    ] as Rate[];
+    const state = rateFormReducer(
+      { ...initialRateFormData, step: 'set_rate', otherTiers },
+      { type: 'UPDATE_NAME', value: 'CPU charge' }
+    );
+    expect(state.errors.name).toBeTruthy(); // duplicate error message
+  });
 ```
 
 - **Preconditions:** `otherTiers` contains a rate with name "CPU charge"
@@ -150,10 +155,11 @@ test('UPDATE_NAME with duplicate name sets uniqueness error', () => {
 #### FT-A1.6 `UPDATE_NAME discarded unless step is set_rate`
 
 ```typescript
-test('UPDATE_NAME is discarded unless step is set_rate', () => {
-  const state = rateFormReducer(undefined, { type: 'UPDATE_NAME', value: 'test' });
-  expect(state.name).toBe(initialRateFormData.name);
-});
+  test('UPDATE_NAME is discarded unless step is set_rate', () => {
+    const state = rateFormReducer(undefined, { type: 'UPDATE_NAME', value: 'test' });
+    expect(state.name).toEqual(initialRateFormData.name);
+  });
+}); // end describe('UPDATE_NAME action')
 ```
 
 - **Preconditions:** Default initial state (step is not `set_rate`)
@@ -161,25 +167,36 @@ test('UPDATE_NAME is discarded unless step is set_rate', () => {
 
 ### A2. Form data utilities
 
-**Test file:** `routes/settings/costModels/components/rateForm/useRateForm.test.tsx` (or new `utils.test.tsx`)
+**Test file:** `routes/settings/costModels/components/rateForm/useRateForm.test.tsx` (existing — add tests)
 
 #### FT-A2.1 `transformFormDataToRequest includes name`
 
 ```typescript
-test('transformFormDataToRequest includes name in output', () => {
-  const formData = {
-    ...initialRateFormData,
-    name: 'CPU charge',
-    step: 'set_rate',
-    rateKind: 'regular',
-    metric: 'cpu_core_usage_per_hour',
-    measurement: 'Usage',
-    calculation: 'Infrastructure',
-    tieredRates: [{ value: '0.05' }],
-  };
-  const request = transformFormDataToRequest(formData);
-  expect(request.name).toBe('CPU charge');
-});
+describe('form data utilities with name', () => {
+  test('transformFormDataToRequest includes name in output', () => {
+    const metricsHash = {
+      cpu_core_usage_per_hour: {
+        Usage: {
+          metric: 'cpu_core_usage_per_hour',
+          label_metric: 'CPU',
+          label_measurement: 'Usage',
+          label_measurement_unit: 'core-hours',
+        },
+      },
+    };
+    const formData = {
+      ...initialRateFormData,
+      name: 'CPU charge',
+      step: 'set_rate',
+      rateKind: 'regular',
+      metric: 'cpu_core_usage_per_hour',
+      measurement: { value: 'Usage', isDirty: true },
+      calculation: 'Infrastructure',
+      tieredRates: [{ isDirty: true, value: '0.05' }],
+    };
+    const request = transformFormDataToRequest(formData, metricsHash, 'USD');
+    expect(request.name).toEqual('CPU charge');
+  });
 ```
 
 - **Expected:** Output `RateRequest` includes `name: 'CPU charge'`
@@ -188,16 +205,16 @@ test('transformFormDataToRequest includes name in output', () => {
 #### FT-A2.2 `genFormDataFromRate populates name`
 
 ```typescript
-test('genFormDataFromRate populates name from rate', () => {
-  const rate: Rate = {
-    name: 'Memory charge',
-    metric: { name: 'memory_gb_usage_per_hour', label_metric: 'Memory', label_measurement: 'Usage', label_measurement_unit: 'GB-hours' },
-    tiered_rates: [{ value: 0.03, unit: 'USD', usage: { unit: 'GB-hours' } }],
-    cost_type: 'Supplementary',
-  };
-  const formData = genFormDataFromRate(rate, '', []);
-  expect(formData.name).toBe('Memory charge');
-});
+  test('genFormDataFromRate populates name from rate', () => {
+    const rate: Rate = {
+      name: 'Memory charge',
+      metric: { name: 'memory_gb_usage_per_hour', label_metric: 'Memory', label_measurement: 'Usage', label_measurement_unit: 'GB-hours' },
+      tiered_rates: [{ value: 0.03, unit: 'USD', usage: { unit: 'GB-hours' } }],
+      cost_type: 'Supplementary',
+    };
+    const formData = genFormDataFromRate(rate, '', []);
+    expect(formData.name).toEqual('Memory charge');
+  });
 ```
 
 - **Expected:** Form data has name from rate
@@ -206,38 +223,45 @@ test('genFormDataFromRate populates name from rate', () => {
 #### FT-A2.3 `genFormDataFromRate with no name defaults to empty`
 
 ```typescript
-test('genFormDataFromRate with no name defaults to empty string', () => {
-  const rate: Rate = {
-    metric: { name: 'cpu_core_usage_per_hour', label_metric: 'CPU', label_measurement: 'Usage', label_measurement_unit: 'core-hours' },
-    tiered_rates: [{ value: 0.05, unit: 'USD', usage: { unit: 'core-hours' } }],
-    cost_type: 'Infrastructure',
-  };
-  const formData = genFormDataFromRate(rate, '', []);
-  expect(formData.name).toBe('');
-});
+  test('genFormDataFromRate with no name defaults to empty string', () => {
+    const rate: Rate = {
+      metric: { name: 'cpu_core_usage_per_hour', label_metric: 'CPU', label_measurement: 'Usage', label_measurement_unit: 'core-hours' },
+      tiered_rates: [{ value: 0.05, unit: 'USD', usage: { unit: 'core-hours' } }],
+      cost_type: 'Infrastructure',
+    };
+    const formData = genFormDataFromRate(rate, '', []);
+    expect(formData.name).toEqual('');
+  });
+}); // end describe('form data utilities with name')
 ```
 
 - **Expected:** Graceful fallback for legacy rates without name
 
 ### A3. Form submit validation — canSubmit
 
-**Test file:** `routes/settings/costModels/components/rateForm/canSubmit.test.tsx` (new, or extend existing)
+**Test file:** `routes/settings/costModels/components/rateForm/canSubmit.test.ts` (new — colocated with `canSubmit.tsx`)
+
+This follows the codebase convention for pure utility functions (e.g., `format.test.ts`, `chartUtils.extra.test.ts`).
 
 #### FT-A3.1 `canSubmit returns false when name has error`
 
 ```typescript
-test('canSubmit returns false when name has an error', () => {
-  const formData = {
-    ...initialRateFormData,
-    step: 'set_rate',
-    rateKind: 'regular',
-    errors: { ...initialRateFormData.errors, name: 'Rate name is required' },
-    metric: 'cpu_core_usage_per_hour',
-    measurement: 'Usage',
-    calculation: 'Infrastructure',
-  };
-  expect(canSubmit(formData)).toBe(false);
-});
+import { canSubmit } from './canSubmit';
+import { initialRateFormData } from './utils';
+
+describe('canSubmit with name field', () => {
+  test('canSubmit returns false when name has an error', () => {
+    const formData = {
+      ...initialRateFormData,
+      step: 'set_rate',
+      rateKind: 'regular',
+      errors: { ...initialRateFormData.errors, name: 'Rate name is required' },
+      metric: 'cpu_core_usage_per_hour',
+      measurement: { value: 'Usage', isDirty: true },
+      calculation: 'Infrastructure',
+    };
+    expect(canSubmit(formData)).toEqual(false);
+  });
 ```
 
 - **Expected:** Form cannot submit with name error
@@ -246,20 +270,21 @@ test('canSubmit returns false when name has an error', () => {
 #### FT-A3.2 `canSubmit returns true when name is valid`
 
 ```typescript
-test('canSubmit returns true when name and all other fields are valid', () => {
-  const formData = {
-    ...initialRateFormData,
-    step: 'set_rate',
-    rateKind: 'regular',
-    name: 'CPU charge',
-    errors: { ...initialRateFormData.errors, name: null, tieredRates: null },
-    metric: 'cpu_core_usage_per_hour',
-    measurement: 'Usage',
-    calculation: 'Infrastructure',
-    tieredRates: [{ value: '0.05' }],
-  };
-  expect(canSubmit(formData)).toBe(true);
-});
+  test('canSubmit returns true when name and all other fields are valid', () => {
+    const formData = {
+      ...initialRateFormData,
+      step: 'set_rate',
+      rateKind: 'regular',
+      name: 'CPU charge',
+      errors: { ...initialRateFormData.errors, name: null, measurement: null, tieredRates: null },
+      metric: 'cpu_core_usage_per_hour',
+      measurement: { value: 'Usage', isDirty: true },
+      calculation: 'Infrastructure',
+      tieredRates: [{ isDirty: true, value: '0.05' }],
+    };
+    expect(canSubmit(formData)).toEqual(true);
+  });
+}); // end describe('canSubmit with name field')
 ```
 
 - **Expected:** Valid form can submit
@@ -269,20 +294,25 @@ test('canSubmit returns true when name and all other fields are valid', () => {
 
 **Test file:** `routes/settings/costModels/components/addPriceList.test.tsx` (existing — add tests)
 
-These follow the existing pattern: render `AddPriceList` with mocked metric/rate data, interact with `userEvent`.
+These follow the existing pattern: render `AddPriceList` wrapped in `RenderFormDataUI` (Redux `Provider` + `CostModelContext.Provider`), interact with `userEvent`. Uses `configure({ testIdAttribute: 'data-ouia-component-id' })` and `regExp()` for i18n messages.
 
 #### FT-A4.1 `name input is rendered and required`
 
 ```typescript
-test('name input field is rendered', async () => {
-  render(<AddPriceList {...defaultProps} />);
-  // Navigate to set_rate step
-  await userEvent.click(screen.getByText(/Usage/i)); // select measurement
-  // ...navigate to rate step...
-  const nameInput = screen.getByLabelText(/rate name/i);
-  expect(nameInput).toBeInTheDocument();
-  expect(nameInput).toBeRequired();
-});
+describe('rate name field', () => {
+  test('name input field is rendered', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    render(
+      <RenderFormDataUI metricsHash={metricsHash} submit={jest.fn()} cancel={jest.fn()}>
+        <AddPriceList {...defaultProps} />
+      </RenderFormDataUI>
+    );
+    // Navigate to set_rate step (follow existing test pattern for step navigation)
+    // ...
+    const nameInput = screen.getByLabelText(regExp(messages.rateName));
+    expect(nameInput).toBeInTheDocument();
+    expect(nameInput).toBeRequired();
+  });
 ```
 
 - **Expected:** Name input visible and marked required
@@ -291,14 +321,19 @@ test('name input field is rendered', async () => {
 #### FT-A4.2 `name input shows validation error on blur when empty`
 
 ```typescript
-test('name input shows error when blurred empty', async () => {
-  render(<AddPriceList {...defaultProps} />);
-  // Navigate to rate step, focus then blur name field
-  const nameInput = screen.getByLabelText(/rate name/i);
-  await userEvent.click(nameInput);
-  await userEvent.tab();
-  expect(screen.getByText(/rate name is required/i)).toBeInTheDocument();
-});
+  test('name input shows error when blurred empty', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    render(
+      <RenderFormDataUI metricsHash={metricsHash} submit={jest.fn()} cancel={jest.fn()}>
+        <AddPriceList {...defaultProps} />
+      </RenderFormDataUI>
+    );
+    // Navigate to rate step, focus then blur name field
+    const nameInput = screen.getByLabelText(regExp(messages.rateName));
+    await user.click(nameInput);
+    await user.tab();
+    expect(screen.getByText(regExp(messages.rateNameRequired))).toBeInTheDocument();
+  });
 ```
 
 - **Expected:** Error message displayed
@@ -307,12 +342,18 @@ test('name input shows error when blurred empty', async () => {
 #### FT-A4.3 `submit button disabled when name is empty`
 
 ```typescript
-test('submit button is disabled when name is not filled', async () => {
-  render(<AddPriceList {...defaultProps} />);
-  // Fill all fields EXCEPT name, navigate to final step
-  // ...
-  expect(screen.getByRole('button', { name: /add rate/i })).toBeDisabled();
-});
+  test('submit button is disabled when name is not filled', async () => {
+    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    render(
+      <RenderFormDataUI metricsHash={metricsHash} submit={jest.fn()} cancel={jest.fn()}>
+        <AddPriceList {...defaultProps} />
+      </RenderFormDataUI>
+    );
+    // Fill all fields EXCEPT name, navigate to final step
+    // ...
+    expect(screen.getByRole('button', { name: regExp(messages.createRate) })).toBeDisabled();
+  });
+}); // end describe('rate name field')
 ```
 
 - **Expected:** Cannot submit without name
@@ -320,16 +361,18 @@ test('submit button is disabled when name is not filled', async () => {
 
 ### A5. Rate table — name column
 
-**Test file:** `routes/settings/costModels/components/rateTable.test.tsx` (new)
+**Test file:** `routes/settings/costModels/components/rateTable.test.tsx` (existing — add tests to the 176-line file that has smoke, expand, and sort tests)
 
 #### FT-A5.1 `rate table displays name column`
 
 ```typescript
-test('rate table includes Name column header', () => {
-  const tiers = [MOCK_RATE_CPU_CHARGE, MOCK_RATE_MEMORY_CHARGE];
-  render(<RateTable tiers={tiers} />);
-  expect(screen.getByText(/name/i)).toBeInTheDocument();
-});
+describe('rate name column', () => {
+  test('rate table includes Name column header', () => {
+    configure({ testIdAttribute: 'data-ouia-component-id' });
+    const tiers = [MOCK_RATE_CPU_CHARGE, MOCK_RATE_MEMORY_CHARGE];
+    render(<RateTable tiers={tiers} />);
+    expect(screen.getByText(regExp(messages.rateName))).toBeInTheDocument();
+  });
 ```
 
 - **Expected:** "Name" column header present
@@ -338,32 +381,34 @@ test('rate table includes Name column header', () => {
 #### FT-A5.2 `rate table displays rate names in rows`
 
 ```typescript
-test('rate table displays rate name values', () => {
-  const tiers = [MOCK_RATE_CPU_CHARGE, MOCK_RATE_MEMORY_CHARGE];
-  render(<RateTable tiers={tiers} />);
-  expect(screen.getByText('CPU charge')).toBeInTheDocument();
-  expect(screen.getByText('Memory charge')).toBeInTheDocument();
-});
+  test('rate table displays rate name values', () => {
+    configure({ testIdAttribute: 'data-ouia-component-id' });
+    const tiers = [MOCK_RATE_CPU_CHARGE, MOCK_RATE_MEMORY_CHARGE];
+    render(<RateTable tiers={tiers} />);
+    expect(screen.getByText('CPU charge')).toBeInTheDocument();
+    expect(screen.getByText('Memory charge')).toBeInTheDocument();
+  });
+}); // end describe('rate name column')
 ```
 
 - **Expected:** Rate names from fixture data visible in table rows
 - **PRD:** AC-FE-1
 
-### A6. API types — compile-time validation
+### A6. API types — runtime smoke test
 
-**Test file:** `api/rates.test.ts` (new)
+**Test file:** `api/rates.test.ts` (existing — add tests to the 10-line file that has one `fetchRate` test)
 
-#### FT-A6.1 `RateRequest type requires name`
+#### FT-A6.1 `RateRequest with name compiles and runs`
 
 ```typescript
-test('RateRequest with name compiles correctly', () => {
+test('RateRequest with name field is accepted', () => {
   const request: RateRequest = {
     name: 'CPU charge',
     metric: { name: 'cpu_core_usage_per_hour' },
     tiered_rates: [{ value: 0.05, unit: 'USD', usage: { unit: 'core-hours' } }],
     cost_type: 'Infrastructure',
   };
-  expect(request.name).toBe('CPU charge');
+  expect(request.name).toEqual('CPU charge');
 });
 ```
 
@@ -380,7 +425,7 @@ test('Rate interface includes name field', () => {
     tiered_rates: [{ value: 0.03, unit: 'USD', usage: { unit: 'GB-hours' } }],
     cost_type: 'Supplementary',
   };
-  expect(rate.name).toBe('Memory charge');
+  expect(rate.name).toEqual('Memory charge');
 });
 ```
 
@@ -391,408 +436,363 @@ test('Rate interface includes name field', () => {
 
 ## Part B: Sankey Diagram Tests
 
-### B1. API types — BreakdownEntry and extended ReportValue
-
-**Test file:** `api/reports/report.test.ts` (new)
-
-#### FT-B1.1 `BreakdownEntry interface with rate source`
-
-```typescript
-test('BreakdownEntry with source rate is valid', () => {
-  const entry: BreakdownEntry = {
-    name: 'CPU charge',
-    source: 'rate',
-    value: 42.50,
-    units: 'USD',
-  };
-  expect(entry.source).toBe('rate');
-});
-```
-
-- **Expected:** Interface compiles and runtime check passes
-- **PRD:** AC-BE-CB (breakdown entry shape)
-
-#### FT-B1.2 `BreakdownEntry interface with cloud source`
-
-```typescript
-test('BreakdownEntry with source cloud is valid', () => {
-  const entry: BreakdownEntry = {
-    name: 'Cloud cost',
-    source: 'cloud',
-    value: 150.00,
-    units: 'USD',
-  };
-  expect(entry.source).toBe('cloud');
-});
-```
-
-- **Expected:** Cloud source compiles
-- **PRD:** AC-BE-CB (overhead cloud placeholder)
-
-#### FT-B1.3 `BreakdownEntry interface with other source`
-
-```typescript
-test('BreakdownEntry with source other is valid', () => {
-  const entry: BreakdownEntry = {
-    name: 'Other',
-    source: 'other',
-    value: 10.00,
-    units: 'USD',
-  };
-  expect(entry.source).toBe('other');
-});
-```
-
-- **Expected:** "Other" (top-N remainder) source compiles
-- **PRD:** AC-BE-CB (top-N aggregation)
-
-#### FT-B1.4 `ReportValue with optional breakdown`
-
-```typescript
-test('ReportValue can have optional breakdown array', () => {
-  const value: ReportValue = {
-    value: 100,
-    units: 'USD',
-    breakdown: [
-      { name: 'CPU charge', source: 'rate', value: 60, units: 'USD' },
-      { name: 'Memory charge', source: 'rate', value: 40, units: 'USD' },
-    ],
-  };
-  expect(value.breakdown).toHaveLength(2);
-});
-```
-
-- **Expected:** `breakdown` is optional and typed as `BreakdownEntry[]`
-- **PRD:** AC-FE-2
-
-#### FT-B1.5 `ReportValue without breakdown is valid`
-
-```typescript
-test('ReportValue without breakdown is valid (backward compat)', () => {
-  const value: ReportValue = {
-    value: 100,
-    units: 'USD',
-  };
-  expect(value.breakdown).toBeUndefined();
-});
-```
-
-- **Expected:** Existing code compiles without breakdown
-- **PRD:** Backward compatibility
-
-### B2. Sankey chart — data transformation (initDatum)
+### Required test setup for CostBreakdownChart
 
 **Test file:** `routes/details/components/costBreakdownChart/costBreakdownChart.test.tsx` (new)
 
-These tests exercise the chart's data transformation logic. The component reads `report.meta.total.cost` and produces Sankey `nodes[]` and `links[]` for ECharts.
+The `CostBreakdownChart` component uses ECharts (via `@patternfly/react-charts/echarts`), `getResizeObserver`, and `injectIntl`. All must be mocked in jsdom. The `__mocks__/react-intl.ts` handles `injectIntl` automatically.
 
-#### FT-B2.1 `renders without breakdown data (backward compatibility)`
+**Implementation precondition:** Add `data-testid="cost-breakdown-chart-wrapper"` to the outer `<div>` in `costBreakdownChart.tsx` for snapshot targeting (matching the `usageChart` convention of `data-testid="usage-chart-wrapper"`).
 
 ```typescript
-test('renders chart with no breakdown arrays', () => {
-  const { container } = render(
-    <CostBreakdownChart report={MOCK_REPORT_NO_BREAKDOWN} />
-  );
-  expect(container.querySelector('[data-testid="cost-breakdown-chart"]')).toBeInTheDocument();
-  // Snapshot baseline — existing 4-layer Sankey
-  expect(container).toMatchSnapshot();
-});
+import { configure, render, screen } from '@testing-library/react';
+import React from 'react';
+import messages from 'locales/messages';
+
+// Mock ECharts — prevents real SVG rendering in jsdom
+jest.mock('@patternfly/react-charts/echarts', () => ({
+  Charts: ({ id, option, height, width }: any) => (
+    <div data-testid="echarts-chart" data-chart-id={id} data-width={width}>
+      {JSON.stringify(option?.series)}
+    </div>
+  ),
+  ThemeColor: { skeleton: 'skeleton', green: 'green' },
+}));
+jest.mock('echarts/core', () => ({ use: jest.fn() }));
+jest.mock('echarts/charts', () => ({ SankeyChart: {} }));
+jest.mock('echarts/components', () => ({ TitleComponent: {}, TooltipComponent: {} }));
+jest.mock('echarts/renderers', () => ({ SVGRenderer: {} }));
+
+// Mock getResizeObserver — sets width without real ResizeObserver/timers
+jest.mock('routes/components/charts/common', () => ({
+  ...jest.requireActual('routes/components/charts/common'),
+  getResizeObserver: () => (_: any, cb: any) => {
+    cb?.({ clientWidth: 400 });
+    return () => {};
+  },
+}));
+```
+
+The mocked `Charts` component serializes `option.series` as JSON, allowing tests to assert on the Sankey data structure (nodes, links) without rendering real SVG. This follows the pattern from `costChart.test.tsx` (which mocks Victory charts similarly).
+
+**Note on providers:** `CostBreakdownChart` uses `injectIntl` (mocked by `src/__mocks__/react-intl.ts` automatically) and does not use Redux, so no `<Provider>` wrapper is needed. Pass `report` as a prop directly.
+
+### B1. Sankey chart — data transformation (initDatum)
+
+These tests exercise the chart's data transformation logic. The component reads `report.meta.total.cost` and produces Sankey `nodes[]` and `links[]` for ECharts.
+
+#### FT-B1.1 `renders without breakdown data (backward compatibility)`
+
+```typescript
+describe('CostBreakdownChart', () => {
+  describe('backward compatibility', () => {
+    test('renders chart with no breakdown arrays', () => {
+      render(<CostBreakdownChart report={MOCK_REPORT_NO_BREAKDOWN} />);
+      const wrapper = screen.getByTestId('cost-breakdown-chart-wrapper');
+      expect(wrapper).toBeInTheDocument();
+      // Snapshot baseline — existing 4-layer Sankey
+      expect(wrapper).toMatchSnapshot();
+    });
+  });
 ```
 
 - **Preconditions:** `MOCK_REPORT_NO_BREAKDOWN` — report with usage/raw/markup values but no `breakdown` arrays
 - **Expected:** Chart renders the existing 4-layer Sankey unchanged
 - **PRD:** AC-FE-4 (backward compat)
 
-#### FT-B2.2 `renders usage breakdown as additional leftmost nodes`
+#### FT-B1.2 `renders usage breakdown as additional leftmost nodes`
 
 ```typescript
-test('renders usage breakdown entries as Sankey nodes on the left', () => {
-  const { container } = render(
-    <CostBreakdownChart report={MOCK_REPORT_WITH_BREAKDOWN} />
-  );
-  // Verify rate name nodes exist
-  expect(screen.getByText('CPU charge')).toBeInTheDocument();
-  expect(screen.getByText('Memory charge')).toBeInTheDocument();
-  // Snapshot — 5-layer Sankey
-  expect(container).toMatchSnapshot();
-});
+  describe('usage breakdown', () => {
+    test('renders usage breakdown entries as Sankey nodes on the left', () => {
+      render(<CostBreakdownChart report={MOCK_REPORT_WITH_BREAKDOWN} />);
+      const wrapper = screen.getByTestId('cost-breakdown-chart-wrapper');
+      // Verify rate name nodes exist in serialized series data
+      expect(screen.getByText(/CPU charge/)).toBeInTheDocument();
+      expect(screen.getByText(/Memory charge/)).toBeInTheDocument();
+      // Snapshot — 5-layer Sankey
+      expect(wrapper).toMatchSnapshot();
+    });
 ```
 
 - **Preconditions:** `MOCK_REPORT_WITH_BREAKDOWN` — report with `usage.breakdown` containing 2 rate entries
 - **Expected:** Rate name nodes rendered; snapshot shows 5-layer structure
 - **PRD:** AC-FE-2 (Sankey renders rate names)
 
-#### FT-B2.3 `renders overhead breakdown entries`
+#### FT-B1.3 `renders overhead breakdown entries`
 
 ```typescript
-test('renders overhead breakdown entries flowing to overhead nodes', () => {
-  render(<CostBreakdownChart report={MOCK_REPORT_WITH_OVERHEAD_BREAKDOWN} />);
-  // Rate name nodes connected to overhead categories
-  expect(screen.getByText('Node monthly')).toBeInTheDocument();
-  // "Cloud cost" placeholder for non-attributed cloud cost
-  expect(screen.getByText('Cloud cost')).toBeInTheDocument();
-});
+    test('renders overhead breakdown entries flowing to overhead nodes', () => {
+      render(<CostBreakdownChart report={MOCK_REPORT_WITH_OVERHEAD_BREAKDOWN} />);
+      // Rate name nodes connected to overhead categories
+      expect(screen.getByText(/Node monthly/)).toBeInTheDocument();
+      // "Cloud cost" placeholder for non-attributed cloud cost
+      expect(screen.getByText(/Cloud cost/)).toBeInTheDocument();
+    });
 ```
 
 - **Preconditions:** `MOCK_REPORT_WITH_OVERHEAD_BREAKDOWN` — report with `platform_distributed.breakdown` and `worker_unallocated_distributed.breakdown`
 - **Expected:** Overhead rate name nodes and "Cloud cost" node rendered
 - **PRD:** AC-FE-3 (overhead types receive flow from rate names)
 
-#### FT-B2.4 `rate name node has multiple outgoing links`
+#### FT-B1.4 `rate name node has multiple outgoing links`
 
 ```typescript
-test('rate name node has outgoing links to multiple categories', () => {
-  render(<CostBreakdownChart report={MOCK_REPORT_MULTI_LINK} />);
-  // "Node monthly" appears in both usage and platform_distributed breakdown
-  // Should be rendered as ONE node with TWO outgoing links
-  const nodeMonthlyElements = screen.getAllByText('Node monthly');
-  // ECharts Sankey renders each node name once
-  expect(nodeMonthlyElements).toHaveLength(1);
-});
+    test('rate name node has outgoing links to multiple categories', () => {
+      render(<CostBreakdownChart report={MOCK_REPORT_MULTI_LINK} />);
+      // "Node monthly" appears in both usage and platform_distributed breakdown
+      // Should be rendered as ONE node with TWO outgoing links
+      const nodeMonthlyElements = screen.getAllByText(/Node monthly/);
+      // ECharts Sankey renders each node name once
+      expect(nodeMonthlyElements).toHaveLength(1);
+    });
 ```
 
 - **Preconditions:** `MOCK_REPORT_MULTI_LINK` — "Node monthly" appears in both `usage.breakdown` and `platform_distributed.breakdown`
 - **Expected:** Single node, multiple edges
 - **PRD:** AC-FE-2, AC-FE-3
 
-#### FT-B2.5 `raw, markup, and credit have no breakdown sub-layer`
+#### FT-B1.5 `raw, markup, and credit have no breakdown sub-layer`
 
 ```typescript
-test('raw, markup, and credit remain as leaf nodes without breakdown', () => {
-  render(<CostBreakdownChart report={MOCK_REPORT_WITH_BREAKDOWN} />);
-  // raw and markup should be present as nodes
-  expect(screen.getByText(/raw cost/i)).toBeInTheDocument();
-  expect(screen.getByText(/markup/i)).toBeInTheDocument();
-  // But they should NOT have any child nodes on their left
-  // Verify by checking the Sankey data structure (no links into raw/markup from rate nodes)
-  // This is verified via snapshot comparison
-  expect(screen.queryByText(/raw.*breakdown/i)).not.toBeInTheDocument();
-});
+    test('raw, markup, and credit remain as leaf nodes without breakdown', () => {
+      render(<CostBreakdownChart report={MOCK_REPORT_WITH_BREAKDOWN} />);
+      // raw and markup should be present as nodes (via serialized series JSON)
+      // But they should NOT have rate-name sub-nodes linking into them
+      // Verified via snapshot comparison against baseline
+      const wrapper = screen.getByTestId('cost-breakdown-chart-wrapper');
+      expect(wrapper).toMatchSnapshot();
+    });
+  }); // end describe('usage breakdown')
 ```
 
 - **Preconditions:** Report has `raw.value` and `markup.value` but no `raw.breakdown` or `markup.breakdown`
 - **Expected:** Raw and markup are leaf nodes
 - **PRD:** AC-FE-4
 
-### B3. Sankey chart — edge cases
+### B2. Sankey chart — edge cases
 
-**Test file:** `routes/details/components/costBreakdownChart/costBreakdownChart.test.tsx` (same as B2)
-
-#### FT-B3.1 `handles empty breakdown arrays`
+#### FT-B2.1 `handles empty breakdown arrays`
 
 ```typescript
-test('handles empty breakdown array gracefully', () => {
-  const report = {
-    ...MOCK_REPORT_WITH_BREAKDOWN,
-    meta: {
-      ...MOCK_REPORT_WITH_BREAKDOWN.meta,
-      total: {
-        ...MOCK_REPORT_WITH_BREAKDOWN.meta.total,
-        cost: {
-          ...MOCK_REPORT_WITH_BREAKDOWN.meta.total.cost,
-          usage: { value: 100, units: 'USD', breakdown: [] },
+  describe('edge cases', () => {
+    test('handles empty breakdown array gracefully', () => {
+      const report = {
+        ...MOCK_REPORT_WITH_BREAKDOWN,
+        meta: {
+          ...MOCK_REPORT_WITH_BREAKDOWN.meta,
+          total: {
+            ...MOCK_REPORT_WITH_BREAKDOWN.meta.total,
+            cost: {
+              ...MOCK_REPORT_WITH_BREAKDOWN.meta.total.cost,
+              usage: { value: 100, units: 'USD', breakdown: [] },
+            },
+          },
         },
-      },
-    },
-  };
-  const { container } = render(<CostBreakdownChart report={report} />);
-  // Should render usage node without rate-name sub-layer
-  expect(container).toBeInTheDocument();
-  expect(container).toMatchSnapshot();
-});
+      };
+      render(<CostBreakdownChart report={report} />);
+      const wrapper = screen.getByTestId('cost-breakdown-chart-wrapper');
+      // Should render usage node without rate-name sub-layer
+      expect(wrapper).toBeInTheDocument();
+      expect(wrapper).toMatchSnapshot();
+    });
 ```
 
 - **Expected:** Chart renders like the no-breakdown case; no crash
 - **PRD:** D6 edge case
 
-#### FT-B3.2 `handles zero-value breakdown entries`
+#### FT-B2.2 `handles zero-value breakdown entries`
 
 ```typescript
-test('handles zero-value breakdown entry', () => {
-  const report = createReportWithBreakdown({
-    usage: {
-      value: 42.50,
-      units: 'USD',
-      breakdown: [
-        { name: 'CPU charge', source: 'rate', value: 42.50, units: 'USD' },
-        { name: 'Unused rate', source: 'rate', value: 0, units: 'USD' },
-      ],
-    },
-  });
-  render(<CostBreakdownChart report={report} />);
-  expect(screen.getByText('CPU charge')).toBeInTheDocument();
-  // Zero-value entry may or may not be rendered (implementation decision)
-  // But it must not crash
-});
+    test('handles zero-value breakdown entry', () => {
+      const report = createReportWithBreakdown({
+        usage: {
+          value: 42.50,
+          units: 'USD',
+          breakdown: [
+            { name: 'CPU charge', source: 'rate', value: 42.50, units: 'USD' },
+            { name: 'Unused rate', source: 'rate', value: 0, units: 'USD' },
+          ],
+        },
+      });
+      render(<CostBreakdownChart report={report} />);
+      expect(screen.getByText(/CPU charge/)).toBeInTheDocument();
+      // Zero-value entry may or may not be rendered (implementation decision)
+      // But it must not crash
+    });
 ```
 
 - **Expected:** No crash; zero-value handling is graceful
 - **PRD:** D6 edge case
 
-#### FT-B3.3 `handles single-entry breakdown`
+#### FT-B2.3 `handles single-entry breakdown`
 
 ```typescript
-test('handles single-entry breakdown', () => {
-  const report = createReportWithBreakdown({
-    usage: {
-      value: 42.50,
-      units: 'USD',
-      breakdown: [
-        { name: 'CPU charge', source: 'rate', value: 42.50, units: 'USD' },
-      ],
-    },
-  });
-  render(<CostBreakdownChart report={report} />);
-  expect(screen.getByText('CPU charge')).toBeInTheDocument();
-});
+    test('handles single-entry breakdown', () => {
+      const report = createReportWithBreakdown({
+        usage: {
+          value: 42.50,
+          units: 'USD',
+          breakdown: [
+            { name: 'CPU charge', source: 'rate', value: 42.50, units: 'USD' },
+          ],
+        },
+      });
+      render(<CostBreakdownChart report={report} />);
+      expect(screen.getByText(/CPU charge/)).toBeInTheDocument();
+    });
 ```
 
 - **Expected:** Single rate-name node renders correctly
 - **PRD:** D6 edge case
 
-#### FT-B3.4 `handles "Other" aggregation entry`
+#### FT-B2.4 `handles "Other" aggregation entry`
 
 ```typescript
-test('renders "Other" aggregation entry from breakdown_limit', () => {
-  const report = createReportWithBreakdown({
-    usage: {
-      value: 100,
-      units: 'USD',
-      breakdown: [
-        { name: 'CPU charge', source: 'rate', value: 60, units: 'USD' },
-        { name: 'Memory charge', source: 'rate', value: 30, units: 'USD' },
-        { name: 'Other', source: 'other', value: 10, units: 'USD' },
-      ],
-    },
-  });
-  render(<CostBreakdownChart report={report} />);
-  expect(screen.getByText('CPU charge')).toBeInTheDocument();
-  expect(screen.getByText('Memory charge')).toBeInTheDocument();
-  expect(screen.getByText('Other')).toBeInTheDocument();
-});
+    test('renders "Other" aggregation entry from breakdown_limit', () => {
+      const report = createReportWithBreakdown({
+        usage: {
+          value: 100,
+          units: 'USD',
+          breakdown: [
+            { name: 'CPU charge', source: 'rate', value: 60, units: 'USD' },
+            { name: 'Memory charge', source: 'rate', value: 30, units: 'USD' },
+            { name: 'Other', source: 'other', value: 10, units: 'USD' },
+          ],
+        },
+      });
+      render(<CostBreakdownChart report={report} />);
+      expect(screen.getByText(/CPU charge/)).toBeInTheDocument();
+      expect(screen.getByText(/Memory charge/)).toBeInTheDocument();
+      expect(screen.getByText(/Other/)).toBeInTheDocument();
+    });
 ```
 
 - **Expected:** "Other" node rendered alongside named rates
 - **PRD:** PRD open question #1 (top-N with "Other")
 
-#### FT-B3.5 `handles long rate names (50 chars)`
+#### FT-B2.5 `handles long rate names (50 chars)`
 
 ```typescript
-test('handles long rate name (50 chars)', () => {
-  const longName = 'A'.repeat(50);
-  const report = createReportWithBreakdown({
-    usage: {
-      value: 42.50,
-      units: 'USD',
-      breakdown: [
-        { name: longName, source: 'rate', value: 42.50, units: 'USD' },
-      ],
-    },
-  });
-  render(<CostBreakdownChart report={report} />);
-  expect(screen.getByText(longName)).toBeInTheDocument();
-});
+    test('handles long rate name (50 chars)', () => {
+      const longName = 'A'.repeat(50);
+      const report = createReportWithBreakdown({
+        usage: {
+          value: 42.50,
+          units: 'USD',
+          breakdown: [
+            { name: longName, source: 'rate', value: 42.50, units: 'USD' },
+          ],
+        },
+      });
+      render(<CostBreakdownChart report={report} />);
+      expect(screen.getByText(longName)).toBeInTheDocument();
+    });
 ```
 
 - **Expected:** Long name renders without overflow or crash
 - **PRD:** D6 edge case
 
-#### FT-B3.6 `on-prem OCP with no cloud cost in overhead`
+#### FT-B2.6 `on-prem OCP with no cloud cost in overhead`
 
 ```typescript
-test('overhead breakdown with only rate entries (no cloud)', () => {
-  const report = createReportWithBreakdown({
-    usage: {
-      value: 42.50,
-      units: 'USD',
-      breakdown: [
-        { name: 'CPU charge', source: 'rate', value: 42.50, units: 'USD' },
-      ],
-    },
-    platform_distributed: {
-      value: 20.00,
-      units: 'USD',
-      breakdown: [
-        { name: 'Node monthly', source: 'rate', value: 20.00, units: 'USD' },
-        // No "cloud" entry — pure on-prem
-      ],
-    },
-  });
-  render(<CostBreakdownChart report={report} />);
-  expect(screen.getByText('Node monthly')).toBeInTheDocument();
-  expect(screen.queryByText('Cloud cost')).not.toBeInTheDocument();
-});
+    test('overhead breakdown with only rate entries (no cloud)', () => {
+      const report = createReportWithBreakdown({
+        usage: {
+          value: 42.50,
+          units: 'USD',
+          breakdown: [
+            { name: 'CPU charge', source: 'rate', value: 42.50, units: 'USD' },
+          ],
+        },
+        platform_distributed: {
+          value: 20.00,
+          units: 'USD',
+          breakdown: [
+            { name: 'Node monthly', source: 'rate', value: 20.00, units: 'USD' },
+            // No "cloud" entry — pure on-prem
+          ],
+        },
+      });
+      render(<CostBreakdownChart report={report} />);
+      expect(screen.getByText(/Node monthly/)).toBeInTheDocument();
+      expect(screen.queryByText(/Cloud cost/)).not.toBeInTheDocument();
+    });
+  }); // end describe('edge cases')
 ```
 
 - **Expected:** No "Cloud cost" node when on-prem only
 - **PRD:** D6 edge case
 
-### B4. Sankey chart — dynamic height and styles
+### B3. Sankey chart — dynamic height and styles
 
-**Test file:** `routes/details/components/costBreakdownChart/costBreakdownChart.test.tsx`
-
-#### FT-B4.1 `chart height increases with more breakdown nodes`
+#### FT-B3.1 `chart height increases with more breakdown nodes`
 
 ```typescript
-test('chart height scales with number of breakdown entries', () => {
-  const manyEntries = Array.from({ length: 10 }, (_, i) => ({
-    name: `Rate ${i}`,
-    source: 'rate' as const,
-    value: 10,
-    units: 'USD',
-  }));
-  const report = createReportWithBreakdown({
-    usage: { value: 100, units: 'USD', breakdown: manyEntries },
-  });
-  const { container } = render(<CostBreakdownChart report={report} />);
-  // Chart container should have increased height
-  const chartEl = container.querySelector('[data-testid="cost-breakdown-chart"]');
-  // Implementation-specific: check style or computed height
-  expect(chartEl).toBeInTheDocument();
-});
+  describe('dynamic height', () => {
+    test('chart height scales with number of breakdown entries', () => {
+      const manyEntries = Array.from({ length: 10 }, (_, i) => ({
+        name: `Rate ${i}`,
+        source: 'rate' as const,
+        value: 10,
+        units: 'USD',
+      }));
+      const report = createReportWithBreakdown({
+        usage: { value: 100, units: 'USD', breakdown: manyEntries },
+      });
+      render(<CostBreakdownChart report={report} />);
+      const wrapper = screen.getByTestId('cost-breakdown-chart-wrapper');
+      // Implementation-specific: check style or computed height
+      expect(wrapper).toBeInTheDocument();
+    });
+  }); // end describe('dynamic height')
 ```
 
 - **Expected:** Chart accommodates many nodes without visual compression
 - **PRD:** FRONTEND_PLAN B3 (dynamic height)
 
-### B5. Report query — breakdown_limit parameter
+### B4. Report query — breakdown_limit parameter
 
 **Test file:** `routes/details/ocpBreakdown/ocpBreakdown.test.tsx` (new or extend existing)
 
-#### FT-B5.1 `report query includes breakdown_limit`
+#### FT-B4.1 `report query includes breakdown_limit`
 
 ```typescript
-test('OCP breakdown report query includes breakdown_limit', () => {
-  // Mock store with OCP breakdown state
-  const store = createMockStoreCreator(rootReducer)({ /* ... */ });
-  // The mapStateToProps builds reportQuery that should include breakdown_limit
-  // Verify the query string passed to fetchReport includes breakdown_limit=10
-  expect(mockFetchReport).toHaveBeenCalledWith(
-    expect.anything(),
-    expect.stringContaining('breakdown_limit=10'),
-    expect.anything()
-  );
-});
+describe('OCP breakdown report query', () => {
+  test('report query includes breakdown_limit', () => {
+    // Mock store with OCP breakdown state
+    const store = createMockStoreCreator(rootReducer)({ /* ... */ });
+    // The mapStateToProps builds reportQuery that should include breakdown_limit
+    // Verify the query string passed to fetchReport includes breakdown_limit=10
+    expect(mockFetchReport).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining('breakdown_limit=10'),
+      expect.anything()
+    );
+  });
+}); // end describe('OCP breakdown report query')
 ```
 
 - **Expected:** API call includes `breakdown_limit=10` in query string
 - **PRD:** FRONTEND_PLAN B4
 
-### B6. Localization
+### B5. Localization
 
 **Test file:** `locales/messages.test.ts` (new or extend existing locale tests)
 
-#### FT-B6.1 `localization keys for breakdown exist`
+#### FT-B5.1 `localization keys for breakdown exist`
 
 ```typescript
-test('breakdown localization messages are defined', () => {
-  expect(messages.breakdownOther).toBeDefined();
-  expect(messages.breakdownCloudCost).toBeDefined();
-  expect(messages.rateName).toBeDefined();
-  expect(messages.rateNameRequired).toBeDefined();
-  expect(messages.rateNameTooLong).toBeDefined();
-  expect(messages.rateNameDuplicate).toBeDefined();
-});
+describe('breakdown localization', () => {
+  test('breakdown localization messages are defined', () => {
+    expect(messages.breakdownOther).toBeDefined();
+    expect(messages.breakdownCloudCost).toBeDefined();
+    expect(messages.rateName).toBeDefined();
+    expect(messages.rateNameRequired).toBeDefined();
+    expect(messages.rateNameTooLong).toBeDefined();
+    expect(messages.rateNameDuplicate).toBeDefined();
+  });
+}); // end describe('breakdown localization')
 ```
 
 - **Expected:** All new message keys exist
@@ -802,21 +802,21 @@ test('breakdown localization messages are defined', () => {
 
 ## Part C: Cross-View Verification Tests
 
-### C1. Cloud breakdown views — absent breakdown arrays
+**Test file:** `routes/details/components/costBreakdownChart/costBreakdownChart.test.tsx` (same file as Part B — uses the same ECharts mock setup)
 
-**Test file:** `routes/details/components/costBreakdownChart/costBreakdownChart.test.tsx`
+### C1. Cloud breakdown views — absent breakdown arrays
 
 #### FT-C1.1 `AWS breakdown view renders without crash`
 
 ```typescript
-test('chart renders AWS report (no breakdown arrays) without crash', () => {
-  const { container } = render(
-    <CostBreakdownChart report={MOCK_AWS_REPORT} />
-  );
-  expect(container).toBeInTheDocument();
-  // Should render existing chart without rate-name layer
-  expect(container).toMatchSnapshot();
-});
+  describe('cloud views backward compatibility', () => {
+    test('chart renders AWS report (no breakdown arrays) without crash', () => {
+      render(<CostBreakdownChart report={MOCK_AWS_REPORT} />);
+      const wrapper = screen.getByTestId('cost-breakdown-chart-wrapper');
+      expect(wrapper).toBeInTheDocument();
+      // Should render existing chart without rate-name layer
+      expect(wrapper).toMatchSnapshot();
+    });
 ```
 
 - **Preconditions:** `MOCK_AWS_REPORT` — pure AWS report with no `breakdown` arrays
@@ -826,12 +826,10 @@ test('chart renders AWS report (no breakdown arrays) without crash', () => {
 #### FT-C1.2 `Azure breakdown view renders without crash`
 
 ```typescript
-test('chart renders Azure report (no breakdown arrays) without crash', () => {
-  const { container } = render(
-    <CostBreakdownChart report={MOCK_AZURE_REPORT} />
-  );
-  expect(container).toBeInTheDocument();
-});
+    test('chart renders Azure report (no breakdown arrays) without crash', () => {
+      render(<CostBreakdownChart report={MOCK_AZURE_REPORT} />);
+      expect(screen.getByTestId('cost-breakdown-chart-wrapper')).toBeInTheDocument();
+    });
 ```
 
 - **Preconditions:** Pure Azure report
@@ -840,12 +838,11 @@ test('chart renders Azure report (no breakdown arrays) without crash', () => {
 #### FT-C1.3 `GCP breakdown view renders without crash`
 
 ```typescript
-test('chart renders GCP report (no breakdown arrays) without crash', () => {
-  const { container } = render(
-    <CostBreakdownChart report={MOCK_GCP_REPORT} />
-  );
-  expect(container).toBeInTheDocument();
-});
+    test('chart renders GCP report (no breakdown arrays) without crash', () => {
+      render(<CostBreakdownChart report={MOCK_GCP_REPORT} />);
+      expect(screen.getByTestId('cost-breakdown-chart-wrapper')).toBeInTheDocument();
+    });
+  }); // end describe('cloud views backward compatibility')
 ```
 
 - **Preconditions:** Pure GCP report
@@ -856,17 +853,14 @@ test('chart renders GCP report (no breakdown arrays) without crash', () => {
 #### FT-C2.1 `OCP report with breakdown renders 5-layer Sankey`
 
 ```typescript
-test('OCP report with breakdown renders 5-layer Sankey', () => {
-  render(<CostBreakdownChart report={MOCK_REPORT_WITH_BREAKDOWN} />);
-  // Rate name nodes (layer 0)
-  expect(screen.getByText('CPU charge')).toBeInTheDocument();
-  // Cost category nodes (layer 1)
-  expect(screen.getByText(/usage cost/i)).toBeInTheDocument();
-  // Workload/overhead nodes (layer 2)
-  expect(screen.getByText(/overhead/i)).toBeInTheDocument();
-  // Total cost node (layer 3)
-  expect(screen.getByText(/total cost/i)).toBeInTheDocument();
-});
+  describe('OCP views', () => {
+    test('OCP report with breakdown renders 5-layer Sankey', () => {
+      render(<CostBreakdownChart report={MOCK_REPORT_WITH_BREAKDOWN} />);
+      // Rate name nodes (layer 0) — in serialized series JSON
+      expect(screen.getByText(/CPU charge/)).toBeInTheDocument();
+      // Snapshot captures the full 5-layer structure
+      expect(screen.getByTestId('cost-breakdown-chart-wrapper')).toMatchSnapshot();
+    });
 ```
 
 - **Preconditions:** `MOCK_REPORT_WITH_BREAKDOWN`
@@ -876,14 +870,12 @@ test('OCP report with breakdown renders 5-layer Sankey', () => {
 #### FT-C2.2 `OCP report without cost model renders 4-layer Sankey`
 
 ```typescript
-test('OCP report without cost model (no breakdown) renders 4-layer Sankey', () => {
-  render(<CostBreakdownChart report={MOCK_REPORT_NO_BREAKDOWN} />);
-  // No rate name nodes
-  expect(screen.queryByText('CPU charge')).not.toBeInTheDocument();
-  // Existing layers still present
-  expect(screen.getByText(/usage cost/i)).toBeInTheDocument();
-  expect(screen.getByText(/total cost/i)).toBeInTheDocument();
-});
+    test('OCP report without cost model (no breakdown) renders 4-layer Sankey', () => {
+      render(<CostBreakdownChart report={MOCK_REPORT_NO_BREAKDOWN} />);
+      // No rate name nodes
+      expect(screen.queryByText(/CPU charge/)).not.toBeInTheDocument();
+    });
+  }); // end describe('OCP views')
 ```
 
 - **Preconditions:** `MOCK_REPORT_NO_BREAKDOWN`
@@ -895,12 +887,15 @@ test('OCP report without cost model (no breakdown) renders 4-layer Sankey', () =
 #### FT-C3.1 `non-distributed mode does not show breakdown layer`
 
 ```typescript
-test('non-distributed mode (simple Sankey) does not show breakdown', () => {
-  render(<CostBreakdownChart report={MOCK_REPORT_NON_DISTRIBUTED} />);
-  // Credit node should be visible (non-distributed only)
-  // No breakdown nodes should appear
-  expect(screen.queryByText('CPU charge')).not.toBeInTheDocument();
-});
+  describe('non-distributed mode', () => {
+    test('non-distributed mode (simple Sankey) does not show breakdown', () => {
+      render(<CostBreakdownChart report={MOCK_REPORT_NON_DISTRIBUTED} />);
+      // Credit node should be visible (non-distributed only)
+      // No breakdown nodes should appear
+      expect(screen.queryByText(/CPU charge/)).not.toBeInTheDocument();
+    });
+  }); // end describe('non-distributed mode')
+}); // end describe('CostBreakdownChart')
 ```
 
 - **Preconditions:** Report without distributed overhead categories
@@ -1191,14 +1186,14 @@ Maps PRD acceptance criteria to specific tests.
 | PRD Acceptance Criterion | ID | Tests |
 |---|---|---|
 | Rate form includes `name` field (required, max 50 chars) | AC-FE-1 | FT-A1.1–A1.6, FT-A2.1–A2.3, FT-A3.1–A3.2, FT-A4.1–A4.3, FT-A5.1–A5.2, FT-A6.1–A6.2 |
-| Sankey renders rate names as new left-side nodes | AC-FE-2 | FT-B2.2, FT-B2.4, FT-C2.1 |
-| Overhead types receive flow from rate name nodes | AC-FE-3 | FT-B2.3, FT-B2.4, FT-C2.1 |
-| `raw`, `markup`, `credit` unchanged (no breakdown sub-layer) | AC-FE-4 | FT-B2.5, FT-C3.1 |
-| Backward compat (no breakdown arrays → existing chart) | BC | FT-B1.5, FT-B2.1, FT-C1.1–C1.3, FT-C2.2, FT-C3.1 |
-| Edge cases (empty, zero, single, top-N, long names, on-prem) | EDGE | FT-B3.1–B3.6 |
-| API types match backend contract | TYPE | FT-B1.1–B1.5, FT-A6.1–A6.2 |
-| Breakdown_limit query parameter | LIMIT | FT-B5.1, FT-B3.4 |
-| Localization messages | L10N | FT-B6.1 |
+| Sankey renders rate names as new left-side nodes | AC-FE-2 | FT-B1.2, FT-B1.4, FT-C2.1 |
+| Overhead types receive flow from rate name nodes | AC-FE-3 | FT-B1.3, FT-B1.4, FT-C2.1 |
+| `raw`, `markup`, `credit` unchanged (no breakdown sub-layer) | AC-FE-4 | FT-B1.5, FT-C3.1 |
+| Backward compat (no breakdown arrays → existing chart) | BC | FT-B1.1, FT-C1.1–C1.3, FT-C2.2, FT-C3.1 |
+| Edge cases (empty, zero, single, top-N, long names, on-prem) | EDGE | FT-B2.1–B2.6 |
+| API types match backend contract | TYPE | FT-A6.1–A6.2 + `npx tsc --noEmit` |
+| Breakdown_limit query parameter | LIMIT | FT-B4.1, FT-B2.4 |
+| Localization messages | L10N | FT-B5.1 |
 
 ---
 
@@ -1221,10 +1216,19 @@ These are not covered by the main happy-path tests above and should be added as 
 
 | Area | Test Count | New Files | Modified Files |
 |---|---|---|---|
-| Part A: Rate Name Field | 16 | `canSubmit.test.tsx`, `rateTable.test.tsx`, `api/rates.test.ts` | `useRateForm.test.tsx`, `addPriceList.test.tsx` |
-| Part B: Sankey Diagram | 15 | `costBreakdownChart.test.tsx`, `api/reports/report.test.ts`, `ocpBreakdown.test.tsx` | — |
+| Part A: Rate Name Field | 16 | `canSubmit.test.ts` | `useRateForm.test.tsx`, `addPriceList.test.tsx`, `rateTable.test.tsx`, `api/rates.test.ts` |
+| Part B: Sankey Diagram | 10 | `costBreakdownChart.test.tsx` | — |
 | Part C: Cross-View | 6 | — | `costBreakdownChart.test.tsx` (same as B) |
-| **Total** | **37** | **5 new** | **2 modified** |
+| **Total** | **32** | **2 new** | **4 modified** |
+
+### Type validation
+
+TypeScript interface correctness (`BreakdownEntry`, `ReportValue`, `Rate`, `RateRequest`) is verified by:
+
+```bash
+cd apps/koku-ui-hccm
+npx tsc --noEmit
+```
 
 ### Test execution
 
