@@ -3,6 +3,9 @@ import messages from 'locales/messages';
 export const textHelpers = {
   description_too_long: messages.costModelsDescTooLong,
   duplicate: messages.priceListDuplicate,
+  name_duplicate: messages.rateNameDuplicate,
+  name_required: messages.rateNameRequired,
+  name_too_long: messages.rateNameTooLong,
   not_number: messages.priceListNumberRate,
   not_positive: messages.priceListPosNumberRate,
   rate_too_long: messages.costModelsRateTooLong,

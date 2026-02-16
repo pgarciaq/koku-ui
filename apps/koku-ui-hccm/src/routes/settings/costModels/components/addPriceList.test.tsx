@@ -128,6 +128,7 @@ describe('add-a-new-rate', () => {
     let options = null;
     render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
+    await user.type(screen.getByLabelText(/Rate name/), 'CPU charge');
     await user.type(screen.getByLabelText('Description'), 'regular rate test');
 
     // select CPU metric explicitly by name
@@ -200,6 +201,7 @@ describe('add-a-new-rate', () => {
 
     render(<RenderFormDataUI submit={submit} cancel={cancel} />);
 
+    await user.type(screen.getByLabelText(/Rate name/), 'Tag rate');
     await user.type(screen.getByLabelText('Description'), 'tag rate test');
 
     await user.click(screen.getByLabelText('Select metric'));

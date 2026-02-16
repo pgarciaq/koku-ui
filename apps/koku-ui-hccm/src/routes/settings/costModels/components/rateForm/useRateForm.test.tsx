@@ -1,5 +1,7 @@
+import type { Rate } from 'api/rates';
+
 import { rateFormReducer } from './useRateForm';
-import { initialRateFormData } from './utils';
+import { genFormDataFromRate, initialRateFormData, transformFormDataToRequest } from './utils';
 
 describe('do not update state scenarios', () => {
   test('in the initial step discard UPDATE_MEASUREMENT', () => {
@@ -78,5 +80,120 @@ describe('do not update state scenarios', () => {
   test('discard any action that is not a valid type', () => {
     const state = rateFormReducer(undefined, { type: 'BLAAAAA' });
     expect(state).toEqual(initialRateFormData);
+  });
+});
+
+describe('UPDATE_NAME action', () => {
+  test('UPDATE_NAME with valid name sets name and clears error', () => {
+    const state = rateFormReducer(
+      { ...initialRateFormData, step: 'set_rate' },
+      { type: 'UPDATE_NAME', value: 'CPU charge' }
+    );
+    expect(state.name).toEqual('CPU charge');
+    expect(state.errors.name).toEqual(null);
+  });
+
+  test('UPDATE_NAME with empty string sets required error', () => {
+    const state = rateFormReducer(
+      { ...initialRateFormData, step: 'set_rate', name: 'previously set' },
+      { type: 'UPDATE_NAME', value: '' }
+    );
+    expect(state.name).toEqual('');
+    expect(state.errors.name).toBeTruthy();
+  });
+
+  test('UPDATE_NAME with >50 chars sets too-long error', () => {
+    const state = rateFormReducer(
+      { ...initialRateFormData, step: 'set_rate' },
+      { type: 'UPDATE_NAME', value: 'X'.repeat(51) }
+    );
+    expect(state.name).toEqual('X'.repeat(51));
+    expect(state.errors.name).toBeTruthy();
+  });
+
+  test('UPDATE_NAME with exactly 50 chars is valid', () => {
+    const state = rateFormReducer(
+      { ...initialRateFormData, step: 'set_rate' },
+      { type: 'UPDATE_NAME', value: 'X'.repeat(50) }
+    );
+    expect(state.name).toEqual('X'.repeat(50));
+    expect(state.errors.name).toEqual(null);
+  });
+
+  test('UPDATE_NAME with duplicate name sets uniqueness error', () => {
+    const otherTiers = [
+      { name: 'CPU charge', metric: { name: 'cpu_core_usage_per_hour' }, cost_type: 'Infrastructure' },
+    ] as Rate[];
+    const state = rateFormReducer(
+      { ...initialRateFormData, step: 'set_rate', otherTiers },
+      { type: 'UPDATE_NAME', value: 'CPU charge' }
+    );
+    expect(state.errors.name).toBeTruthy();
+  });
+
+  test('UPDATE_NAME is accepted at any step', () => {
+    const state = rateFormReducer(undefined, { type: 'UPDATE_NAME', value: 'test' });
+    expect(state.name).toEqual('test');
+    expect(state.errors.name).toEqual(null);
+  });
+});
+
+describe('form data utilities with name', () => {
+  test('transformFormDataToRequest includes name in output', () => {
+    const metricsHash = {
+      CPU: {
+        Usage: {
+          metric: 'cpu_core_usage_per_hour',
+          label_metric: 'CPU',
+          label_measurement: 'Usage',
+          label_measurement_unit: 'core-hours',
+          default_cost_type: 'Infrastructure',
+          source_type: 'OpenShift Cluster Platform',
+        },
+      },
+    };
+    const formData = {
+      ...initialRateFormData,
+      name: 'CPU charge',
+      step: 'set_rate',
+      rateKind: 'regular',
+      metric: 'CPU',
+      measurement: { value: 'Usage', isDirty: true },
+      calculation: 'Infrastructure',
+      tieredRates: [{ isDirty: true, value: '0.05' }],
+    };
+    const request = transformFormDataToRequest(formData, metricsHash, 'USD');
+    expect(request.name).toEqual('CPU charge');
+  });
+
+  test('genFormDataFromRate populates name from rate', () => {
+    const rate: Rate = {
+      name: 'Memory charge',
+      metric: {
+        name: 'memory_gb_usage_per_hour',
+        label_metric: 'Memory',
+        label_measurement: 'Usage',
+        label_measurement_unit: 'GB-hours',
+      },
+      tiered_rates: [{ value: 0.03, unit: 'USD', usage: { unit: 'GB-hours' } }],
+      cost_type: 'Supplementary',
+    };
+    const formData = genFormDataFromRate(rate, undefined, []);
+    expect(formData.name).toEqual('Memory charge');
+  });
+
+  test('genFormDataFromRate with no name defaults to empty string', () => {
+    const rate: Rate = {
+      metric: {
+        name: 'cpu_core_usage_per_hour',
+        label_metric: 'CPU',
+        label_measurement: 'Usage',
+        label_measurement_unit: 'core-hours',
+      },
+      tiered_rates: [{ value: 0.05, unit: 'USD', usage: { unit: 'core-hours' } }],
+      cost_type: 'Infrastructure',
+    };
+    const formData = genFormDataFromRate(rate, undefined, []);
+    expect(formData.name).toEqual('');
   });
 });

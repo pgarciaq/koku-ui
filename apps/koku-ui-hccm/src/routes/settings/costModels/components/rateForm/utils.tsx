@@ -26,6 +26,7 @@ export const initialTaggingRates = {
 export const initialRateFormData = {
   otherTiers: [] as Rate[],
   step: 'initial',
+  name: '',
   description: '',
   metric: '',
   measurement: {
@@ -42,6 +43,7 @@ export const initialRateFormData = {
   ],
   taggingRates: { ...initialTaggingRates },
   errors: {
+    name: textHelpers.required as string | null,
     description: null,
     measurement: textHelpers.required,
     tieredRates: textHelpers.required,
@@ -97,6 +99,7 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
   let tieredRates = [{ isDirty: true, value: '' }];
   const tagRates = { ...initialTaggingRates };
   const errors = {
+    name: null as string | null,
     description: null,
     measurement: null,
     tieredRates: null,
@@ -139,6 +142,7 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
   return {
     otherTiers,
     step: 'set_rate',
+    name: rate.name || '',
     description: rate.description,
     metric: rate.metric.label_metric,
     measurement: {
@@ -211,6 +215,7 @@ export const transformFormDataToRequest = (
         });
   const metricData = metricsHash[rateFormData.metric]?.[rateFormData.measurement.value];
   return {
+    name: rateFormData.name,
     description: rateFormData.description,
     ...(metricData && {
       metric: {
@@ -280,6 +285,19 @@ export function compareBy(
   }
   return m1 > m2 ? -1 : m1 < m2 ? 1 : 0;
 }
+
+export const nameErrors = (value: string, otherTiers: Rate[] = []) => {
+  if (value.length === 0) {
+    return textHelpers.name_required;
+  }
+  if (value.length > 50) {
+    return textHelpers.name_too_long;
+  }
+  if (otherTiers.some(t => t.name === value)) {
+    return textHelpers.name_duplicate;
+  }
+  return null;
+};
 
 export const descriptionErrors = (value: string) => {
   if (value.length > 500) {

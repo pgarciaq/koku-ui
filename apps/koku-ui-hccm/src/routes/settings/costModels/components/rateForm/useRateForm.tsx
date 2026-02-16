@@ -8,6 +8,7 @@ import {
   descriptionErrors,
   initialTaggingRates,
   isDuplicateTagRate,
+  nameErrors,
   OtherTierFromRate,
   OtherTierFromRateForm,
   tagKeyValueErrors,
@@ -23,6 +24,7 @@ type Actions =
   | { type: 'UPDATE_DESCRIPTION'; value: string }
   | { type: 'UPDATE_METRIC'; value: string; defaultCalculation: string }
   | { type: 'UPDATE_MEASUREMENT'; value: string }
+  | { type: 'UPDATE_NAME'; value: string }
   | { type: 'UPDATE_REGULAR'; value: string }
   | {
       type: 'UPDATE_TAG';
@@ -177,6 +179,16 @@ export function rateFormReducer(state = initialRateFormData, action: Actions) {
         errors: { ...newState.errors, tagKey: duplicate ? textHelpers.duplicate : null },
       };
     }
+    case 'UPDATE_NAME': {
+      return {
+        ...state,
+        name: action.value,
+        errors: {
+          ...state.errors,
+          name: nameErrors(action.value, state.otherTiers),
+        },
+      };
+    }
     case 'UPDATE_REGULAR': {
       return {
         ...state,
@@ -307,6 +319,7 @@ export function useRateData(metricsHash: MetricHash, rate: Rate = undefined, tie
     reset: (payload: RateFormData) => dispatch({ type: 'RESET_FORM', payload }),
     setCalculation: (value: string) => dispatch({ type: 'UPDATE_CALCULATION', value }),
     setDescription: (value: string) => dispatch({ type: 'UPDATE_DESCRIPTION', value }),
+    setName: (value: string) => dispatch({ type: 'UPDATE_NAME', value }),
     setMeasurement: (value: string) =>
       dispatch({
         type: 'UPDATE_MEASUREMENT',

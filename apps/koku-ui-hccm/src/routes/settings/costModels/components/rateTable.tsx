@@ -63,6 +63,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
           stateIndex: tier.stateIndex,
         },
         cells: [
+          tier.name || '',
           getMetric(tier.metric.label_metric),
           tier.description || '',
           getMeasurement(tier.metric.label_measurement, tier.metric.label_measurement_unit),
@@ -78,9 +79,10 @@ const RateTableBase: React.FC<RateTableProps> = ({
     ];
   }, []);
   const columns = [
-    { title: intl.formatMessage(messages.metric), sortable: true, sortIndex: 0 },
+    { title: intl.formatMessage(messages.rateName) },
+    { title: intl.formatMessage(messages.metric), sortable: true, sortIndex: 1 },
     { title: intl.formatMessage(messages.description) },
-    { title: intl.formatMessage(messages.measurement), sortable: true, sortIndex: 2 },
+    { title: intl.formatMessage(messages.measurement), sortable: true, sortIndex: 3 },
     { title: intl.formatMessage(messages.calculationType) },
     { title: intl.formatMessage(messages.rate) },
   ];
@@ -120,7 +122,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
     onToggle: () => setRowExpanded(rowIndex),
     expandId: 'expand-' + rowIndex,
     rowIndex,
-    columnIndex: 4,
+    columnIndex: 5,
   });
 
   const sortedRows =
@@ -189,7 +191,7 @@ const RateTableBase: React.FC<RateTableProps> = ({
             </Tr>
             {row.data.hasChildren && (
               <Tr isExpanded={isExpanded}>
-                <Td colSpan={6}>
+                <Td colSpan={7}>
                   <ExpandableRowContent>
                     <Table borders={false} variant={TableVariant.compact}>
                       <Thead>

@@ -60,12 +60,14 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
     errors,
     measurement: { value: measurement, isDirty: measurementDirty },
     metric,
+    name,
     rateKind,
     removeTag,
     setCalculation,
     setDescription,
     setMeasurement,
     setMetric,
+    setName,
     setRegular,
     setTagKey,
     step,
@@ -129,6 +131,16 @@ const RateFormBase: React.FC<RateFormProps> = ({ currencyUnits, intl = defaultIn
 
   return (
     <>
+      <SimpleInput
+        isRequired
+        style={style}
+        id="rate-name"
+        label={messages.rateName}
+        value={name}
+        validated={errors.name ? 'error' : 'default'}
+        helperTextInvalid={errors.name}
+        onChange={(_evt, value) => setName(value)}
+      />
       <SimpleInput
         style={style}
         id="description"

@@ -335,7 +335,7 @@ describe('update-rate', () => {
     expect(saveButton.getAttribute('disabled')).not.toBeNull();
     await user.type(screen.getByLabelText(regExp(messages.costModelsFilterTagKey)), 'openshift');
     await user.type(screen.getByLabelText(regExp(messages.costModelsTagRateTableValue)), 'worker');
-    await user.type(screen.getByLabelText(regExp(messages.rate)), '0.321');
+    await user.type(screen.getByLabelText('Assign rate'), '0.321');
     expect(saveButton.getAttribute('disabled')).toBeNull();
     await user.click(saveButton);
   });
@@ -369,7 +369,7 @@ describe('update-rate', () => {
     await act(async () =>
       user.type(screen.getAllByLabelText(regExp(messages.costModelsTagRateTableValue))[4], 'something_random')
     );
-    await user.type(screen.getAllByLabelText(regExp(messages.rate))[4], '1.01');
+    await user.type(screen.getAllByLabelText('Assign rate')[4], '1.01');
     expect(saveButton.getAttribute('disabled')).toBeNull();
     await user.click(screen.getAllByLabelText(regExp(messages.costModelsRemoveTagLabel))[4]);
     expect(saveButton.getAttribute('disabled')).not.toBeNull();

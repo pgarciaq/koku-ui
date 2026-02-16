@@ -193,6 +193,16 @@ export default defineMessages({
     description: 'Cost by {value}',
     id: 'breakdownSummaryTitle',
   },
+  breakdownCloudCost: {
+    defaultMessage: 'Cloud cost',
+    description: 'Cloud cost',
+    id: 'breakdownCloudCost',
+  },
+  breakdownOther: {
+    defaultMessage: 'Other',
+    description: 'Other',
+    id: 'breakdownOther',
+  },
   breakdownTitle: {
     defaultMessage: '{value}',
     description: 'Breakdown title',
@@ -3318,6 +3328,26 @@ export default defineMessages({
     defaultMessage: 'Rate',
     description: 'Rate',
     id: 'rate',
+  },
+  rateName: {
+    defaultMessage: 'Rate name',
+    description: 'Rate name',
+    id: 'rateName',
+  },
+  rateNameDuplicate: {
+    defaultMessage: 'Rate name must be unique within this cost model',
+    description: 'Rate name must be unique within this cost model',
+    id: 'rateNameDuplicate',
+  },
+  rateNameRequired: {
+    defaultMessage: 'Rate name is required',
+    description: 'Rate name is required',
+    id: 'rateNameRequired',
+  },
+  rateNameTooLong: {
+    defaultMessage: 'Rate name must be 50 characters or less',
+    description: 'Rate name must be 50 characters or less',
+    id: 'rateNameTooLong',
   },
   rawCostDesc: {
     defaultMessage: 'The costs reported by a cloud provider without any cost model calculations applied.',

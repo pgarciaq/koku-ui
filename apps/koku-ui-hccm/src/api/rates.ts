@@ -4,6 +4,7 @@ import type { PagedResponse } from './api';
 import type { Metric } from './metrics';
 
 export interface RateRequest {
+  name: string;
   metric: { name: string };
   tiered_rates?: TieredRate[];
   tag_rates?: TagRates;
@@ -25,6 +26,7 @@ export interface TagRates {
 }
 
 export interface Rate {
+  name?: string;
   stateIndex?: any;
   description?: string;
   metric: Metric;

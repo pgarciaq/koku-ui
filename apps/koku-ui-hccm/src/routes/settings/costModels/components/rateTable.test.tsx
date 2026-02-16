@@ -1,9 +1,12 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, configure, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { Rate } from 'api/rates';
+import messages from 'locales/messages';
 import React from 'react';
 
 import { RateTable } from './rateTable';
+
+const regExp = (msg: { defaultMessage: string }) => new RegExp(msg.defaultMessage);
 
 describe('rate-table', () => {
   test('smoke-test', async () => {
@@ -173,5 +176,52 @@ describe('rate-table', () => {
     userEvent.click(screen.getByRole('button', { name: /measurement/i })).then(() => {
       expect(metrics).toMatchSnapshot();
     });
+  });
+});
+
+describe('rate name column', () => {
+  const MOCK_RATE_CPU_CHARGE: Rate = {
+    name: 'CPU charge',
+    description: 'cpu rate',
+    metric: {
+      name: 'cpu_core_usage_per_hour',
+      metric: 'cpu_core_usage_per_hour',
+      source_type: 'openshift container platform',
+      label_metric: 'CPU',
+      label_measurement: 'Usage',
+      label_measurement_unit: 'core-hours',
+      default_cost_type: 'Infrastructure',
+    },
+    cost_type: 'Infrastructure',
+    tiered_rates: [{ unit: 'USD', value: 0.05, usage: { unit: 'core-hours' } }],
+  };
+
+  const MOCK_RATE_MEMORY_CHARGE: Rate = {
+    name: 'Memory charge',
+    description: 'memory rate',
+    metric: {
+      name: 'memory_gb_usage_per_hour',
+      metric: 'memory_gb_usage_per_hour',
+      source_type: 'openshift container platform',
+      label_metric: 'Memory',
+      label_measurement: 'Usage',
+      label_measurement_unit: 'GB-hours',
+      default_cost_type: 'Supplementary',
+    },
+    cost_type: 'Supplementary',
+    tiered_rates: [{ unit: 'USD', value: 0.03, usage: { unit: 'GB-hours' } }],
+  };
+
+  test('rate table includes Name column header', () => {
+    configure({ testIdAttribute: 'data-ouia-component-id' });
+    render(<RateTable tiers={[MOCK_RATE_CPU_CHARGE, MOCK_RATE_MEMORY_CHARGE]} />);
+    expect(screen.getByText(regExp(messages.rateName))).toBeInTheDocument();
+  });
+
+  test('rate table displays rate name values', () => {
+    configure({ testIdAttribute: 'data-ouia-component-id' });
+    render(<RateTable tiers={[MOCK_RATE_CPU_CHARGE, MOCK_RATE_MEMORY_CHARGE]} />);
+    expect(screen.getByText('CPU charge')).toBeInTheDocument();
+    expect(screen.getByText('Memory charge')).toBeInTheDocument();
   });
 });

@@ -3,6 +3,7 @@ import type { RateFormData } from './utils';
 export function canSubmit(rateFormData: RateFormData): boolean {
   if (rateFormData.rateKind === 'tagging') {
     return (
+      rateFormData.errors.name === null &&
       rateFormData.errors.description === null &&
       rateFormData.errors.measurement === null &&
       rateFormData.errors.tagValues.every(err => err === null) &&
@@ -12,6 +13,7 @@ export function canSubmit(rateFormData: RateFormData): boolean {
     );
   }
   return (
+    rateFormData.errors.name === null &&
     rateFormData.errors.description === null &&
     rateFormData.errors.measurement === null &&
     rateFormData.errors.tieredRates === null
