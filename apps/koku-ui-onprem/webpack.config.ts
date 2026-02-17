@@ -43,9 +43,8 @@ const config: Configuration & {
         target: process.env.API_PROXY_URL,
         changeOrigin: true,
         secure: false,
-        pathRewrite: { '^/api/cost-management/v1': '' },
         headers: {
-          Authorization: `Bearer ${process.env.API_TOKEN}`,
+          'x-rh-identity': process.env.API_TOKEN || '',
         },
       },
     ],

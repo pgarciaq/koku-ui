@@ -43,7 +43,7 @@ export const initialRateFormData = {
   ],
   taggingRates: { ...initialTaggingRates },
   errors: {
-    name: textHelpers.required as string | null,
+    name: textHelpers.required,
     description: null,
     measurement: textHelpers.required,
     tieredRates: textHelpers.required,
@@ -99,7 +99,7 @@ export function genFormDataFromRate(rate: Rate, defaultValue = initialRateFormDa
   let tieredRates = [{ isDirty: true, value: '' }];
   const tagRates = { ...initialTaggingRates };
   const errors = {
-    name: null as string | null,
+    name: null,
     description: null,
     measurement: null,
     tieredRates: null,
