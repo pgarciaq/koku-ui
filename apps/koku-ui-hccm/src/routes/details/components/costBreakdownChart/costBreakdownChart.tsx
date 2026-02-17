@@ -230,9 +230,12 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const units = report.meta.total.cost?.[reportItemValue] ? report.meta.total.cost[reportItemValue].units : 'USD';
 
     // Build breakdown nodes and links — one node per (rate_name, target) pair so each
-    // rate appears as a separate bar for each cost category it flows into
+    // rate appears as a separate bar for each cost category it flows into.
+    // Node IDs are made unique by appending invisible zero-width spaces; the visible
+    // label is stored in _displayName and rendered by the label formatter.
     const breakdownNodeData: Array<{ name: string; _displayName: string; _value: number }> = [];
-    const breakdownLinkData: Array<{ source: string; target: string; value: number; _value: number; _displayName: string }> = [];
+    const breakdownLinkData: Array<{ source: string; target: string; value: number; _value: number }> = [];
+    let uniqueIdCounter = 0;
 
     if (isDistributed) {
       const breakdownSources: Array<{ label: string; entries?: BreakdownEntry[] }> = [
@@ -259,8 +262,9 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       for (const { label, entries } of breakdownSources) {
         if (entries && entries.length > 0) {
           for (const entry of entries) {
-            // Unique node ID per (rate_name, target) — zero-width space separator
-            const nodeId = `${entry.name}\u200B${label}`;
+            uniqueIdCounter++;
+            // Unique, invisibly-padded ID so ECharts treats each as a distinct node
+            const nodeId = entry.name + '\u200B'.repeat(uniqueIdCounter);
             breakdownNodeData.push({
               name: nodeId,
               _displayName: entry.name,
@@ -271,7 +275,6 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
               target: label,
               value: Math.abs(entry.value),
               _value: entry.value,
-              _displayName: entry.name,
             });
           }
         }
@@ -435,6 +438,18 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
             },
           ];
 
+    // Ensure every link.value is unique so the PatternFly tooltip valueFormatter
+    // can map rendered values back to _value for correct currency formatting
+    const usedValues = new Set<number>();
+    for (const link of links) {
+      let v = link.value;
+      while (usedValues.has(v)) {
+        v += 1e-10;
+      }
+      link.value = v;
+      usedValues.add(v);
+    }
+
     const chartHeight = breakdownNodeData.length > 0
       ? chartStyles.chartHeight + breakdownNodeData.length * 28
       : chartStyles.chartHeight;
@@ -488,18 +503,11 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                   },
                 ],
                 tooltip: {
-                  formatter: (params: any) => {
-                    if (params.dataType === 'edge') {
-                      const srcName = params.data?._displayName || params.data?.source || '';
-                      const tgtName = params.data?.target || '';
-                      const val = formatCurrency(params.data?._value ?? params.data?.value ?? 0, units);
-                      const srcLabel = intl.formatMessage(messages.chartSource);
-                      const dstLabel = intl.formatMessage(messages.chartDestination);
-                      return `${srcLabel}: ${srcName}<br/>${dstLabel}: ${tgtName}<br/>${val}`;
-                    }
-                    const name = params.data?._displayName || params.name || '';
-                    const val = formatCurrency(params.data?._value ?? 0, units);
-                    return `${name}<br/>${val}`;
+                  destinationLabel: intl.formatMessage(messages.chartDestination),
+                  sourceLabel: intl.formatMessage(messages.chartSource),
+                  valueFormatter: (value: number) => {
+                    const link = links.find(val => val.value === value);
+                    return `&nbsp;${formatCurrency(link ? link._value : value, units)}`;
                   },
                 },
               }}
