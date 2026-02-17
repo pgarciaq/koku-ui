@@ -393,6 +393,25 @@ The host serves static files from the remote dist directories:
 | `TS2322` in cost model components | `name` not optional in `RateRequest` | Ensure `name?: string` (optional) in `api/rates.ts` |
 | Stale build artifacts | Old cache/dist files | Run `npm run clean` then `npm install` |
 | HMR not working | Missing `HMR=true` env var | Use `HMR=true npm run start:hccm` for cloud mode |
+| UI shows stale API data after backend fix | Browser HTTP cache (Django sets Cache-Control: max-age=3600) | Flush server cache: `docker exec koku_valkey redis-cli FLUSHALL`, then hard-refresh browser (`Ctrl+Shift+R`) |
+| Sankey shows cluster-wide breakdown values | Backend `_breakdown_query_filter` not scoped | See `koku/AGENTS.md` — entity scoping fix handles `exact:` prefix filters |
+| "Don't distribute" mode shows broken overhead nodes | Layout condition using `costDistribution` (truthy) instead of `isDistributed` | Use `isDistributed` (checks for `ComputedReportItemValueType.distributed` specifically) |
+
+### Critical Gotchas
+
+1. **Browser cache after backend changes:** The Koku API returns `Cache-Control: max-age=3600`.
+   After ANY backend code change, you must: (a) `docker compose restart koku-server`,
+   (b) `docker exec koku_valkey redis-cli FLUSHALL`, (c) hard-refresh browser (`Ctrl+Shift+R`).
+
+2. **`costDistribution` vs `isDistributed`:** The Sankey chart layout condition MUST use
+   `isDistributed = costDistribution === ComputedReportItemValueType.distributed`, NOT
+   `costDistribution` directly. The `costDistribution` prop is `'total'` (truthy) in
+   non-distributed mode, which would incorrectly render the 5-layer distributed layout
+   with zero-value overhead nodes.
+
+3. **Frontend query pattern:** The breakdown page sends `filter[exact:project]=<name>`
+   with `group_by[project]=*`. The `exact:` prefix is critical — the backend must handle
+   it when scoping breakdown queries. See `ocpBreakdown.tsx` lines 60-91.
 
 ---
 
