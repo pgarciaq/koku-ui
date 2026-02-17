@@ -73,9 +73,10 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
   private getSkeleton = () => {
     const { costDistribution, id } = this.props;
     const { width } = this.state;
+    const isDistributed = costDistribution === ComputedReportItemValueType.distributed;
 
     // Skeleton uses separate nodes per (rate, target) pair to match the real chart
-    const data = costDistribution
+    const data = isDistributed
       ? [
           { name: 'r1-u' }, // rate 1 → usage
           { name: 'r2-u' }, // rate 2 → usage
@@ -101,7 +102,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
           { name: 'd1' },   // totalCostLabel
         ];
 
-    const links = costDistribution
+    const links = isDistributed
       ? [
           { source: 'r1-u', target: 'a3', value: 10 },
           { source: 'r2-u', target: 'a3', value: 10 },
@@ -281,7 +282,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       }
     }
 
-    const data = costDistribution
+    const data = isDistributed
       ? [
           ...breakdownNodeData,
           { name: rawLabel, _value: rawValue },
@@ -311,7 +312,7 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
             { name: totalCostLabel, _value: _workloadCostValue },
           ];
 
-    const links = costDistribution
+    const links = isDistributed
       ? [
           ...breakdownLinkData,
           {
