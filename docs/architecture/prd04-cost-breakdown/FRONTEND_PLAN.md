@@ -146,15 +146,19 @@ Cloud cost ------------/                           |
                               Network unattributed/
 ```
 
-Note: Rate name nodes (e.g., "JBoss subscription") can have outgoing links to **multiple** category nodes (e.g., to both "Usage cost" and "Platform distributed"). ECharts Sankey handles this natively — each node appears once with multiple outgoing edges.
+**Note on the diagram above:** Each rate name (e.g., "JBoss subscription") that appears in multiple categories is rendered as **separate nodes** in the Sankey — one per category. For example, "JBoss subscription" appears three times: once flowing into "Usage cost", once into "Platform distributed", and once into "Worker unallocated". Internally, each is a distinct ECharts node with a unique ID (`JBoss subscription\u200BUsage cost`, etc.) but the label displays just "JBoss subscription".
+
+**IMPORTANT — Separate nodes per target:** When a rate name (e.g., "JBoss subscription") flows into multiple category nodes (e.g., "Usage cost" AND "Platform distributed"), it must appear as **separate nodes** on the left — one per target. ECharts requires unique node names, so each node uses an internal ID of `${rateName}\u200B${targetLabel}` (zero-width space separator) while displaying just the rate name via `_displayName`. This avoids the visual issue of a single bar splitting into multiple targets.
 
 Concretely, in `initDatum()`:
 
 - Read `report.meta.total.cost.usage.breakdown` for usage breakdown entries
 - Read `report.meta.total.cost.platform_distributed.breakdown` for platform overhead entries
 - Read similar for `worker_unallocated_distributed`, `storage_unattributed_distributed`, `network_unattributed_distributed`, `gpu_unallocated_distributed`
-- For each breakdown entry, create a Sankey **node** (if not already added) with the entry's `name`
-- For each breakdown entry, create a Sankey **link** from the rate-name node to the category node with the entry's `value`
+- For each breakdown entry, create a Sankey **node** with a unique ID `${entry.name}\u200B${targetLabel}`, storing `_displayName: entry.name` and `_value: entry.value` on the node object
+- For each breakdown entry, create a Sankey **link** from the unique node ID to the category node with the entry's `value`
+- Each rate name that flows to N categories produces N separate left-side nodes (not one shared node with N edges)
+- All nodes in the `data` array carry a `_value` property for the label formatter to read directly (never use positional `links[params.dataIndex]` — the data and links arrays have different sizes)
 - `raw`, `markup`, and `credit` have NO breakdown in Phase 1 — they remain as leaf nodes on the left (no rate-name sub-layer)
 - Handle top-N: if there are many entries, show up to ~10 and aggregate remainder as "Other" (matching the backend's `breakdown_limit` behavior, but also handle it in the UI for visual clarity)
 - When `breakdown` arrays are absent (e.g., no cost model assigned, or cloud-only data), render the existing chart unchanged (backward compatibility)
@@ -262,7 +266,7 @@ Verify the implemented Sankey chart in distributed mode:
 - Flow direction is parts-to-total (left-to-right), consistent with the existing chart
 - `raw`, `markup`, and `credit` have NO breakdown sub-layer (they remain leaf nodes)
 - Rate name nodes appear on the leftmost column
-- Rate name nodes can have multiple outgoing edges (e.g., "JBoss subscription" links to both "Usage cost" and "Platform distributed")
+- Rate name nodes that flow to multiple categories are rendered as separate nodes per target (not one node with multiple edges)
 - "Cloud cost" placeholder appears in overhead breakdown for OCP-on-cloud clusters
 
 ### D3. Acceptance criteria audit

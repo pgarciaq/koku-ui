@@ -74,165 +74,55 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const { costDistribution, id } = this.props;
     const { width } = this.state;
 
+    // Skeleton uses separate nodes per (rate, target) pair to match the real chart
     const data = costDistribution
       ? [
-          {
-            name: 'r1', // rate name placeholder 1
-          },
-          {
-            name: 'r2', // rate name placeholder 2
-          },
-          {
-            name: 'r3', // rate name placeholder 3
-          },
-          {
-            name: 'a1', // rawLabel
-          },
-          {
-            name: 'a2', // markupLabel
-          },
-          {
-            name: 'a3', // usageLabel
-          },
-          {
-            name: 'b1', // gpuUnallocatedLabel
-          },
-          {
-            name: 'b2', // networkUnattributedDistributedLabel
-          },
-          {
-            name: 'b3', // platformDistributedLabel
-          },
-          {
-            name: 'b4', // storageUnattributedDistributedLabel
-          },
-          {
-            name: 'b5', // workerUnallocatedLabel
-          },
-          {
-            name: 'c1', // workloadCostLabel
-          },
-          {
-            name: 'c2', // overheadCostLabel
-          },
-          {
-            name: 'd1', // totalCostLabel
-          },
+          { name: 'r1-u' }, // rate 1 → usage
+          { name: 'r2-u' }, // rate 2 → usage
+          { name: 'r3-u' }, // rate 3 → usage
+          { name: 'r1-p' }, // rate 1 → platform distributed
+          { name: 'r2-w' }, // rate 2 → worker unallocated
+          { name: 'a1' },   // rawLabel
+          { name: 'a2' },   // markupLabel
+          { name: 'a3' },   // usageLabel
+          { name: 'b1' },   // gpuUnallocatedLabel
+          { name: 'b2' },   // networkUnattributedDistributedLabel
+          { name: 'b3' },   // platformDistributedLabel
+          { name: 'b4' },   // storageUnattributedDistributedLabel
+          { name: 'b5' },   // workerUnallocatedLabel
+          { name: 'c1' },   // workloadCostLabel
+          { name: 'c2' },   // overheadCostLabel
+          { name: 'd1' },   // totalCostLabel
         ]
       : [
-          {
-            name: 'a1', // rawLabel
-          },
-          {
-            name: 'a2', // markupLabel
-          },
-          {
-            name: 'a3', // usageLabel
-          },
-          {
-            name: 'd1', // totalCostLabel
-          },
+          { name: 'a1' },   // rawLabel
+          { name: 'a2' },   // markupLabel
+          { name: 'a3' },   // usageLabel
+          { name: 'd1' },   // totalCostLabel
         ];
 
     const links = costDistribution
       ? [
-          {
-            source: 'r1', // rate name placeholder 1
-            target: 'a3', // usageLabel
-            value: 10, // Skeleton only value
-          },
-          {
-            source: 'r2', // rate name placeholder 2
-            target: 'a3', // usageLabel
-            value: 10, // Skeleton only value
-          },
-          {
-            source: 'r3', // rate name placeholder 3
-            target: 'a3', // usageLabel
-            value: 10, // Skeleton only value
-          },
-          {
-            source: 'r1', // rate name placeholder 1
-            target: 'b3', // platformDistributedLabel
-            value: 5, // Skeleton only value
-          },
-          {
-            source: 'r2', // rate name placeholder 2
-            target: 'b5', // workerUnallocatedLabel
-            value: 5, // Skeleton only value
-          },
-          {
-            source: 'a1', // rawLabel
-            target: 'c1', // workloadCostLabel
-            value: 20, // Skeleton only value
-          },
-          {
-            source: 'a2', // markupLabel
-            target: 'c1', // workloadCostLabel
-            value: 10, // Skeleton only value
-          },
-          {
-            source: 'a3', // usageLabel
-            target: 'c1', // workloadCostLabel
-            value: 30, // Skeleton only value
-          },
-          {
-            source: 'b1', // gpuUnallocatedLabel
-            target: 'c2', // overheadCostLabel
-            value: 60, // Skeleton only value
-          },
-          {
-            source: 'b2', // networkUnattributedDistributedLabel
-            target: 'c2', // overheadCostLabel
-            value: 20, // Skeleton only value
-          },
-          {
-            source: 'b3', // platformDistributedLabel
-            target: 'c2', // overheadCostLabel
-            value: 15, // Skeleton only value
-          },
-          {
-            source: 'b4', // storageUnattributedDistributedLabel
-            target: 'c2', // overheadCostLabel
-            value: 10, // Skeleton only value
-          },
-          {
-            source: 'b5', // workerUnallocatedLabel
-            target: 'c2', // overheadCostLabel
-            value: 15, // Skeleton only value
-          },
-          {
-            source: 'c1', // workloadCostLabel
-            target: 'd1', // totalCostLabel
-            value: 60, // Skeleton only value
-          },
-          {
-            source: 'c2', // overheadCostLabel
-            target: 'd1', // totalCostLabel
-            value: 120, // Skeleton only value
-          },
+          { source: 'r1-u', target: 'a3', value: 10 },
+          { source: 'r2-u', target: 'a3', value: 10 },
+          { source: 'r3-u', target: 'a3', value: 10 },
+          { source: 'r1-p', target: 'b3', value: 5 },
+          { source: 'r2-w', target: 'b5', value: 5 },
+          { source: 'a1', target: 'c1', value: 20 },
+          { source: 'a2', target: 'c1', value: 10 },
+          { source: 'a3', target: 'c1', value: 30 },
+          { source: 'b1', target: 'c2', value: 60 },
+          { source: 'b2', target: 'c2', value: 20 },
+          { source: 'b3', target: 'c2', value: 15 },
+          { source: 'b4', target: 'c2', value: 10 },
+          { source: 'b5', target: 'c2', value: 15 },
+          { source: 'c1', target: 'd1', value: 60 },
+          { source: 'c2', target: 'd1', value: 120 },
         ]
       : [
-          {
-            source: 'a1', // rawLabel
-            target: 'c1', // workloadCostLabel
-            value: 20, // Skeleton only value
-          },
-          {
-            source: 'a2', // markupLabel
-            target: 'c1', // workloadCostLabel
-            value: 10, // Skeleton only value
-          },
-          {
-            source: 'a3', // usageLabel
-            target: 'c1', // workloadCostLabel
-            value: 30, // Skeleton only value
-          },
-          {
-            source: 'c1', // workloadCostLabel
-            target: 'd1', // totalCostLabel
-            value: 60, // Skeleton only value
-          },
+          { source: 'a1', target: 'd1', value: 20 },
+          { source: 'a2', target: 'd1', value: 10 },
+          { source: 'a3', target: 'd1', value: 30 },
         ];
 
     return (
@@ -339,9 +229,10 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
     const reportItemValue = costDistribution ? costDistribution : 'total';
     const units = report.meta.total.cost?.[reportItemValue] ? report.meta.total.cost[reportItemValue].units : 'USD';
 
-    // Collect breakdown entries for rate-name layer (Phase 1: usage + overhead types)
-    const breakdownNodeNames = new Set<string>();
-    const breakdownLinks: Array<{ source: string; target: string; value: number; _value: number }> = [];
+    // Build breakdown nodes and links — one node per (rate_name, target) pair so each
+    // rate appears as a separate bar for each cost category it flows into
+    const breakdownNodeData: Array<{ name: string; _displayName: string; _value: number }> = [];
+    const breakdownLinkData: Array<{ source: string; target: string; value: number; _value: number; _displayName: string }> = [];
 
     if (isDistributed) {
       const breakdownSources: Array<{ label: string; entries?: BreakdownEntry[] }> = [
@@ -368,93 +259,58 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
       for (const { label, entries } of breakdownSources) {
         if (entries && entries.length > 0) {
           for (const entry of entries) {
-            breakdownNodeNames.add(entry.name);
-            breakdownLinks.push({
-              source: entry.name,
+            // Unique node ID per (rate_name, target) — zero-width space separator
+            const nodeId = `${entry.name}\u200B${label}`;
+            breakdownNodeData.push({
+              name: nodeId,
+              _displayName: entry.name,
+              _value: entry.value,
+            });
+            breakdownLinkData.push({
+              source: nodeId,
               target: label,
               value: Math.abs(entry.value),
               _value: entry.value,
+              _displayName: entry.name,
             });
           }
         }
       }
     }
 
-    const breakdownNodes = Array.from(breakdownNodeNames).map(name => ({ name }));
-
     const data = costDistribution
       ? [
-          ...breakdownNodes,
-          {
-            name: rawLabel,
-          },
-          {
-            name: markupLabel,
-          },
-          {
-            name: usageLabel,
-          },
-          {
-            name: gpuUnallocatedLabel,
-          },
-          {
-            name: networkUnattributedDistributedLabel,
-          },
-          {
-            name: platformDistributedLabel,
-          },
-          {
-            name: storageUnattributedDistributedLabel,
-          },
-          {
-            name: workerUnallocatedLabel,
-          },
-          {
-            name: workloadCostLabel,
-          },
-          {
-            name: overheadCostLabel,
-          },
-          {
-            name: totalCostLabel,
-          },
+          ...breakdownNodeData,
+          { name: rawLabel, _value: rawValue },
+          { name: markupLabel, _value: markupValue },
+          { name: usageLabel, _value: usageValue },
+          { name: gpuUnallocatedLabel, _value: gpuUnallocatedValue },
+          { name: networkUnattributedDistributedLabel, _value: networkUnattributedDistributedValue },
+          { name: platformDistributedLabel, _value: platformDistributedValue },
+          { name: storageUnattributedDistributedLabel, _value: storageUnattributedDistributedValue },
+          { name: workerUnallocatedLabel, _value: workerUnallocatedValue },
+          { name: workloadCostLabel, _value: _workloadCostValue },
+          { name: overheadCostLabel, _value: _overheadCostValue },
+          { name: totalCostLabel, _value: _overheadCostValue + _workloadCostValue },
         ]
       : hasCredit
         ? [
-            {
-              name: creditLabel,
-            },
-            {
-              name: rawLabel,
-            },
-            {
-              name: markupLabel,
-            },
-            {
-              name: usageLabel,
-            },
-            {
-              name: totalCostLabel,
-            },
+            { name: creditLabel, _value: creditValue },
+            { name: rawLabel, _value: rawValue },
+            { name: markupLabel, _value: markupValue },
+            { name: usageLabel, _value: usageValue },
+            { name: totalCostLabel, _value: _workloadCostValue },
           ]
         : [
-            {
-              name: rawLabel,
-            },
-            {
-              name: markupLabel,
-            },
-            {
-              name: usageLabel,
-            },
-            {
-              name: totalCostLabel,
-            },
+            { name: rawLabel, _value: rawValue },
+            { name: markupLabel, _value: markupValue },
+            { name: usageLabel, _value: usageValue },
+            { name: totalCostLabel, _value: _workloadCostValue },
           ];
 
     const links = costDistribution
       ? [
-          ...breakdownLinks,
+          ...breakdownLinkData,
           {
             source: rawLabel,
             target: workloadCostLabel,
@@ -579,55 +435,8 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
             },
           ];
 
-    // Workaround for https://echarts.apache.org/en/option.html#series-sankey.tooltip.valueFormatter
-    const dataIndexWorkaround = (source: string) => {
-      const countDecimals = (value: number) => {
-        if (value % 1 !== 0) {
-          return value.toString().split('.')[1].length;
-        }
-        return 0;
-      };
-
-      const link = links.find(item => item.source === source);
-      if (link.value > 0) {
-        // Want most decimals here, so value is still unique
-        const count = countDecimals(link.value);
-        if (count > 0) {
-          link.value = Number(link.value.toFixed(count - 1));
-          return link.value;
-        }
-      }
-      return 0;
-    };
-    if (costDistribution) {
-      const newGpuUnallocatedValue = dataIndexWorkaround(gpuUnallocatedLabel);
-      const newNetworkUnattributedDistributedValue = dataIndexWorkaround(networkUnattributedDistributedLabel);
-      const newPlatformDistributedValue = dataIndexWorkaround(platformDistributedLabel);
-      const newStorageUnattributedDistributedValue = dataIndexWorkaround(storageUnattributedDistributedLabel);
-      const newWorkerUnallocatedValue = dataIndexWorkaround(workerUnallocatedLabel);
-
-      // Recalculate overhead cost
-      const newOverheadCostValue =
-        newGpuUnallocatedValue +
-        newNetworkUnattributedDistributedValue +
-        newPlatformDistributedValue +
-        newStorageUnattributedDistributedValue +
-        newWorkerUnallocatedValue;
-
-      const overheadCostLink = links.find(item => item.source === overheadCostLabel);
-      if (overheadCostLink) {
-        overheadCostLink.value = newOverheadCostValue;
-      }
-
-      // Recalculate total cost
-      const totalCostLink = links.find(item => item.source === totalCostLabel);
-      if (totalCostLink) {
-        totalCostLink.value = newOverheadCostValue + workloadCostValue;
-      }
-    }
-
-    const chartHeight = breakdownNodeNames.size > 0
-      ? chartStyles.chartHeight + breakdownNodeNames.size * 28
+    const chartHeight = breakdownNodeData.length > 0
+      ? chartStyles.chartHeight + breakdownNodeData.length * 28
       : chartStyles.chartHeight;
 
     this.setState({ chartHeight, data, links, units });
@@ -656,8 +465,10 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                     data,
                     label: {
                       formatter: params => {
-                        const value = formatCurrency(links[params.dataIndex]._value, units);
-                        return `{a|${value}}\n${params.name}`;
+                        const node = data[params.dataIndex];
+                        const value = formatCurrency(node?._value ?? 0, units);
+                        const displayName = node?._displayName || params.name;
+                        return `{a|${value}}\n${displayName}`;
                       },
                       lineHeight: 12,
                       rich: {
@@ -677,12 +488,18 @@ class CostBreakdownChartBase extends React.Component<CostBreakdownChartProps, an
                   },
                 ],
                 tooltip: {
-                  destinationLabel: intl.formatMessage(messages.chartDestination),
-                  sourceLabel: intl.formatMessage(messages.chartSource),
-                  valueFormatter: (value: number) => {
-                    // Workaround for missing dataIndex param -- see https://echarts.apache.org/en/option.html#series-sankey.tooltip.valueFormatter
-                    const link = links.find(val => val.value === value);
-                    return `&nbsp;${formatCurrency(link ? link._value : value, units)}`;
+                  formatter: (params: any) => {
+                    if (params.dataType === 'edge') {
+                      const srcName = params.data?._displayName || params.data?.source || '';
+                      const tgtName = params.data?.target || '';
+                      const val = formatCurrency(params.data?._value ?? params.data?.value ?? 0, units);
+                      const srcLabel = intl.formatMessage(messages.chartSource);
+                      const dstLabel = intl.formatMessage(messages.chartDestination);
+                      return `${srcLabel}: ${srcName}<br/>${dstLabel}: ${tgtName}<br/>${val}`;
+                    }
+                    const name = params.data?._displayName || params.name || '';
+                    const val = formatCurrency(params.data?._value ?? 0, units);
+                    return `${name}<br/>${val}`;
                   },
                 },
               }}

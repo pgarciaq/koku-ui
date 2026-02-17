@@ -277,12 +277,21 @@ describe('CostBreakdownChart', () => {
       expect(screen.getByText(/Cloud cost/)).toBeInTheDocument();
     });
 
-    test('rate name node has outgoing links to multiple categories', () => {
+    test('rate name that flows to multiple categories appears as separate nodes per target', () => {
       render(
         <CostBreakdownChart report={MOCK_REPORT_MULTI_LINK as any} costDistribution="distributed" intl={mockIntl} />
       );
-      const nodeMonthlyElements = screen.getAllByText(/Node monthly/);
-      expect(nodeMonthlyElements).toHaveLength(1);
+      // "Node monthly" appears in usage, platform_distributed, and worker_unallocated
+      // breakdowns, so it should produce 3 separate nodes (one per target)
+      const chartEl = screen.getByTestId('echarts-chart');
+      const series = JSON.parse(chartEl.textContent || '[]');
+      const nodeMonthlyNodes = series[0].data.filter((d: any) =>
+        (d._displayName || d.name).includes('Node monthly')
+      );
+      expect(nodeMonthlyNodes).toHaveLength(3);
+      // Each should have a unique ID (name) but same display name
+      const uniqueIds = new Set(nodeMonthlyNodes.map((n: any) => n.name));
+      expect(uniqueIds.size).toBe(3);
     });
 
     test('raw, markup, and credit remain as leaf nodes without breakdown', () => {
