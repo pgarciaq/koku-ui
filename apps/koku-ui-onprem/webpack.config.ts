@@ -12,6 +12,7 @@ const NODE_ENV = (process.env.NODE_ENV || 'development') as Configuration['mode'
 const config: Configuration & {
   devServer?: WebpackDevServerConfiguration;
 } = {
+  context: path.resolve(__dirname),
   mode: NODE_ENV,
   devtool: 'eval-source-map',
   devServer: {
@@ -38,6 +39,15 @@ const config: Configuration & {
       overlay: true,
     },
     proxy: [
+      {
+        context: ['/api/cost-management/v1/recommendations'],
+        target: process.env.ROS_PROXY_URL || 'http://localhost:8003',
+        changeOrigin: true,
+        secure: false,
+        headers: {
+          'x-rh-identity': process.env.API_TOKEN || '',
+        },
+      },
       {
         context: ['/api/cost-management/v1'],
         target: process.env.API_PROXY_URL,

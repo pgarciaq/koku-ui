@@ -7,6 +7,9 @@ export function hasDiff(rate: Rate, rateFormData: RateFormData): boolean {
   if (!rate) {
     return true;
   }
+  if ((rate.name || '') !== (rateFormData.name || '')) {
+    return true;
+  }
   if (rate.description !== rateFormData.description) {
     return true;
   }
