@@ -49,8 +49,10 @@ describe('chartDatum helpers', () => {
 	test('getDatumDateRange and getDateRange compute ranges with offset and boundaries', () => {
 		const data = [{ key: '2021-01-02', y: 1 }, { key: '2021-01-04', y: 2 }];
 		const [s1, e1] = getDatumDateRange(data as any);
-		expect(s1.toISOString().startsWith('2021-01-02')).toBe(true);
-		expect(e1.toISOString().startsWith('2021-01-04')).toBe(true);
+		expect(s1.getFullYear()).toBe(2021);
+		expect(s1.getMonth()).toBe(0);
+		expect(s1.getDate()).toBe(2);
+		expect(e1.getDate()).toBe(4);
 		const [s2, e2] = getDateRange(data as any, true, true, 0);
 		expect(s2.getDate()).toBe(1);
 		expect(e2.getDate()).toBeGreaterThan(1);
