@@ -45,7 +45,7 @@ const config: Configuration & {
         changeOrigin: true,
         secure: false,
         headers: {
-          'x-rh-identity': process.env.API_TOKEN || '',
+          'x-rh-identity': process.env.ROS_TOKEN || process.env.API_TOKEN || '',
         },
       },
       {
