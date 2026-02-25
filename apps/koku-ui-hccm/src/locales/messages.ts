@@ -159,6 +159,16 @@ export default defineMessages({
     description: 'Breakdown back to page titles',
     id: 'breakdownBackToTitles',
   },
+  breakdownCostDetailsPercentColumn: {
+    defaultMessage: '% of cost',
+    description: 'Percent of cost column header',
+    id: 'breakdownCostDetailsPercentColumn',
+  },
+  breakdownCostDetailsTitle: {
+    defaultMessage: 'Cost details',
+    description: 'Cost details',
+    id: 'breakdownCostDetailsTitle',
+  },
   breakdownCostOverviewTitle: {
     defaultMessage: 'Cost overview',
     description: 'Cost overview',

@@ -30,6 +30,7 @@ import BreakdownHeader from './breakdownHeader';
 
 const enum BreakdownTab {
   costOverview = 'cost-overview',
+  costDetails = 'cost-details',
   historicalData = 'historical-data',
   instances = 'instances',
   optimizations = 'optimizations',
@@ -40,6 +41,8 @@ export const getIdKeyForTab = (tab: BreakdownTab) => {
   switch (tab) {
     case BreakdownTab.costOverview:
       return 'cost-overview';
+    case BreakdownTab.costDetails:
+      return 'cost-details';
     case BreakdownTab.historicalData:
       return 'historical-data';
     case BreakdownTab.instances:
@@ -60,6 +63,7 @@ export interface BreakdownStateProps {
   breadcrumbPath?: string; // Default breadcrumb path
   clusterInfoComponent?: React.ReactNode;
   costDistribution?: string;
+  costDetailsComponent?: React.ReactNode;
   costOverviewComponent?: React.ReactNode;
   costType?: string;
   currency?: string;
@@ -111,7 +115,7 @@ type BreakdownProps = BreakdownOwnProps & BreakdownStateProps & BreakdownDispatc
 
 class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
   protected defaultState: BreakdownState = {
-    activeTabKey: this.props.isOptimizationsTab ? 3 : 0,
+    activeTabKey: this.props.isOptimizationsTab ? 4 : 0,
   };
   public state: BreakdownState = { ...this.defaultState };
 
@@ -133,6 +137,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
 
   private getAvailableTabs = () => {
     const {
+      costDetailsComponent,
       costOverviewComponent,
       historicalDataComponent,
       instancesComponent,
@@ -145,6 +150,12 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
       availableTabs.push({
         contentRef: React.createRef(),
         tab: BreakdownTab.costOverview,
+      });
+    }
+    if (costDetailsComponent) {
+      availableTabs.push({
+        contentRef: React.createRef(),
+        tab: BreakdownTab.costDetails,
       });
     }
     if (historicalDataComponent) {
@@ -218,6 +229,7 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
 
   private getTabItem = (tab: BreakdownTab, index: number) => {
     const {
+      costDetailsComponent,
       costOverviewComponent,
       historicalDataComponent,
       instancesComponent,
@@ -233,6 +245,8 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
     const currentTab = getIdKeyForTab(tab);
     if (currentTab === BreakdownTab.costOverview) {
       return costOverviewComponent;
+    } else if (currentTab === BreakdownTab.costDetails) {
+      return costDetailsComponent;
     } else if (currentTab === BreakdownTab.historicalData) {
       return historicalDataComponent;
     } else if (currentTab === BreakdownTab.instances) {
@@ -261,6 +275,8 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
 
     if (tab === BreakdownTab.costOverview) {
       return intl.formatMessage(messages.breakdownCostOverviewTitle);
+    } else if (tab === BreakdownTab.costDetails) {
+      return intl.formatMessage(messages.breakdownCostDetailsTitle);
     } else if (tab === BreakdownTab.historicalData) {
       return intl.formatMessage(messages.breakdownHistoricalDataTitle);
     } else if (tab === BreakdownTab.instances) {
@@ -361,9 +377,9 @@ class BreakdownBase extends React.Component<BreakdownProps, BreakdownState> {
             onCurrencySelect={() => handleOnCurrencySelect(query, router, router.location.state)}
             query={query}
             report={report}
-            showCostDistribution={showCostDistribution && !(optimizationsComponent && activeTabKey === 3)}
+            showCostDistribution={showCostDistribution && !(optimizationsComponent && activeTabKey === 4)}
             showCostType={showCostType}
-            showCurrency={!(optimizationsComponent && activeTabKey === 3)}
+            showCurrency={!(optimizationsComponent && activeTabKey === 4)}
             tabs={this.getTabs(availableTabs)}
             tagPathsType={tagPathsType}
             timeScopeValue={timeScopeValue}

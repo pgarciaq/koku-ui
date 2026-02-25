@@ -50,9 +50,10 @@ Based on the existing koku-ui-hccm codebase:
 1. [Part A: Rate Name Field Tests](#part-a-rate-name-field-tests)
 2. [Part B: Sankey Diagram Tests](#part-b-sankey-diagram-tests)
 3. [Part C: Cross-View Verification Tests](#part-c-cross-view-verification-tests)
-4. [Mock Data Fixtures](#mock-data-fixtures)
-5. [Traceability Matrix](#traceability-matrix)
-6. [Summary](#summary)
+4. [Part D: Cost Details Tree Table Tests](#part-d-cost-details-tree-table-tests)
+5. [Mock Data Fixtures](#mock-data-fixtures)
+6. [Traceability Matrix](#traceability-matrix)
+7. [Summary](#summary)
 
 ---
 
@@ -904,6 +905,173 @@ describe('breakdown localization', () => {
 
 ---
 
+## Part D: Cost Details Tree Table Tests
+
+**Test file:** `routes/details/ocpBreakdown/costDetails.test.tsx` (new)
+
+The `CostDetails` component uses PatternFly's `Table`, `TreeRowWrapper`, and `injectIntl`. Tests pass a `mockIntl` prop directly to the component (same pattern as `costBreakdownChart.test.tsx`), avoiding the need for `IntlProvider` context.
+
+### D1. Loading state
+
+#### FT-D1.1 `renders skeleton when fetch is in progress`
+
+```typescript
+test('renders skeleton when fetch is in progress', () => {
+  const { container } = render(
+    <CostDetails reportFetchStatus={FetchStatus.inProgress} intl={mockIntl} />
+  );
+  const skeletons = container.querySelectorAll('.pf-v6-c-skeleton');
+  expect(skeletons.length).toBeGreaterThan(0);
+});
+```
+
+- **Expected:** Skeleton elements rendered during loading
+- **PRD:** AC-FE-5 (loading skeleton while data is fetched)
+
+#### FT-D1.2 `renders skeleton when report is undefined`
+
+```typescript
+test('renders skeleton when report is undefined', () => {
+  const { container } = render(
+    <CostDetails reportFetchStatus={FetchStatus.complete} intl={mockIntl} />
+  );
+  const skeletons = container.querySelectorAll('.pf-v6-c-skeleton');
+  expect(skeletons.length).toBeGreaterThan(0);
+});
+```
+
+- **Expected:** Skeleton shown even after fetch completes if report data is missing
+- **PRD:** AC-FE-5
+
+### D2. Tree structure
+
+#### FT-D2.1 `renders table when data is loaded`
+
+```typescript
+test('renders table when data is loaded', () => {
+  render(
+    <CostDetails
+      report={MOCK_REPORT_DISTRIBUTED as any}
+      reportFetchStatus={FetchStatus.complete}
+      intl={mockIntl}
+    />
+  );
+  expect(screen.getByRole('treegrid')).toBeInTheDocument();
+});
+```
+
+- **Expected:** PatternFly tree table (`role="treegrid"`) rendered
+- **PRD:** AC-FE-5
+
+#### FT-D2.2 `renders Total cost root node`
+
+- **Expected:** "Total cost" text visible as root
+- **PRD:** AC-FE-5 (hierarchy mirrors Sankey structure)
+
+#### FT-D2.3 `renders workload and overhead grouping nodes`
+
+- **Expected:** "Project (All other costs)" and "Overhead cost" visible
+- **PRD:** AC-FE-5
+
+#### FT-D2.4 `renders cost category nodes`
+
+- **Expected:** All 8 cost category nodes visible: Raw cost, Markup, Usage cost, GPU unallocated, Network unattributed, Platform distributed, Storage unattributed, Worker unallocated
+- **PRD:** AC-FE-5
+
+#### FT-D2.5 `renders per-rate breakdown entries`
+
+- **Expected:** Rate names from `breakdown` arrays visible (e.g., "CPU charge", "Memory charge", "Node monthly", "Cloud cost", "Worker rate")
+- **PRD:** AC-FE-5
+
+#### FT-D2.6 `renders Credit node when credit is present`
+
+- **Expected:** "Credit" row visible when `cost.credit` exists in report
+- **PRD:** AC-FE-5
+
+#### FT-D2.7 `does not render Credit node when credit is absent`
+
+- **Expected:** No "Credit" row when `cost.credit` is not in report
+- **PRD:** AC-FE-5
+
+### D3. Zero-value rows
+
+#### FT-D3.1 `renders rows with zero values`
+
+- **Expected:** GPU unallocated, Storage unattributed, Network unattributed visible even with `value: 0`
+- **PRD:** AC-FE-5 (all rows shown including zero-value)
+
+### D4. Percentage column
+
+#### FT-D4.1 `displays 100.00% for total cost row`
+
+- **Expected:** "100.00%" text present for the root Total cost row
+- **PRD:** AC-FE-5 (% of cost column)
+
+#### FT-D4.2 `displays 0.00% when total cost is zero`
+
+- **Expected:** "0.00%" for all rows when total cost is zero (no division-by-zero crash)
+- **PRD:** AC-FE-5
+
+### D5. Expand and collapse
+
+#### FT-D5.1 `all parent nodes are expanded by default`
+
+- **Expected:** All leaf breakdown entries (e.g., "CPU charge") visible without any user interaction
+- **PRD:** AC-FE-5 (fully expanded by default)
+
+#### FT-D5.2 `collapsing a parent hides its children`
+
+```typescript
+test('collapsing a parent hides its children', () => {
+  render(
+    <CostDetails
+      report={MOCK_REPORT_DISTRIBUTED as any}
+      reportFetchStatus={FetchStatus.complete}
+      intl={mockIntl}
+    />
+  );
+  const usageToggle = screen.getByLabelText('Usage cost');
+  fireEvent.click(usageToggle);
+  const cpuRow = screen.getByText('CPU charge').closest('tr');
+  expect(cpuRow).toHaveAttribute('hidden');
+});
+```
+
+- **Expected:** Children rows get `hidden` attribute after collapsing parent
+- **PRD:** AC-FE-5 (expand/collapse functionality)
+
+#### FT-D5.3 `re-expanding a collapsed parent shows its children`
+
+- **Expected:** Children rows lose `hidden` attribute after re-expanding
+- **PRD:** AC-FE-5
+
+### D6. No breakdown entries
+
+#### FT-D6.1 `renders without breakdown leaf nodes when no breakdown data`
+
+- **Expected:** Cost category nodes render without children; no crash
+- **PRD:** AC-FE-5 (graceful fallback)
+
+### D7. Duplicate rate names across categories
+
+#### FT-D7.1 `same rate name under different categories renders as separate rows`
+
+```typescript
+test('same rate name under different categories renders as separate rows', () => {
+  // "Node monthly" appears in usage, platform_distributed, and worker_unallocated_distributed
+  render(
+    <CostDetails report={duplicateReport as any} reportFetchStatus={FetchStatus.complete} intl={mockIntl} />
+  );
+  const nodeMonthlyElements = screen.getAllByText('Node monthly');
+  expect(nodeMonthlyElements).toHaveLength(3);
+});
+```
+
+- **Expected:** Three separate "Node monthly" rows (one per parent category), each with unique React keys
+- **PRD:** AC-FE-5 (tree hierarchy mirrors Sankey: per-rate breakdown under each category)
+
+---
+
 ## Mock Data Fixtures
 
 All mock data is defined as TypeScript constants in test files. The shapes match the backend API contract from the PRD.
@@ -1189,8 +1357,9 @@ Maps PRD acceptance criteria to specific tests.
 | Sankey renders rate names as new left-side nodes | AC-FE-2 | FT-B1.2, FT-B1.4, FT-C2.1 |
 | Overhead types receive flow from rate name nodes | AC-FE-3 | FT-B1.3, FT-B1.4, FT-C2.1 |
 | `raw`, `markup`, `credit` unchanged (no breakdown sub-layer) | AC-FE-4 | FT-B1.5, FT-C3.1 |
-| Backward compat (no breakdown arrays → existing chart) | BC | FT-B1.1, FT-C1.1–C1.3, FT-C2.2, FT-C3.1 |
-| Edge cases (empty, zero, single, top-N, long names, on-prem) | EDGE | FT-B2.1–B2.6 |
+| Cost details tree table with full hierarchy, icons, columns, expand/collapse, loading skeleton, zero-value rows | AC-FE-5 | FT-D1.1–D1.2, FT-D2.1–D2.7, FT-D3.1, FT-D4.1–D4.2, FT-D5.1–D5.3, FT-D6.1, FT-D7.1 |
+| Backward compat (no breakdown arrays → existing chart) | BC | FT-B1.1, FT-C1.1–C1.3, FT-C2.2, FT-C3.1, FT-D6.1 |
+| Edge cases (empty, zero, single, top-N, long names, on-prem) | EDGE | FT-B2.1–B2.6, FT-D3.1, FT-D4.2, FT-D7.1 |
 | API types match backend contract | TYPE | FT-A6.1–A6.2 + `npx tsc --noEmit` |
 | Breakdown_limit query parameter | LIMIT | FT-B4.1, FT-B2.4 |
 | Localization messages | L10N | FT-B5.1 |
@@ -1219,7 +1388,8 @@ These are not covered by the main happy-path tests above and should be added as 
 | Part A: Rate Name Field | 16 | `canSubmit.test.ts` | `useRateForm.test.tsx`, `addPriceList.test.tsx`, `rateTable.test.tsx`, `api/rates.test.ts` |
 | Part B: Sankey Diagram | 10 | `costBreakdownChart.test.tsx` | — |
 | Part C: Cross-View | 6 | — | `costBreakdownChart.test.tsx` (same as B) |
-| **Total** | **32** | **2 new** | **4 modified** |
+| Part D: Cost Details Tree Table | 17 | `costDetails.test.tsx` | — |
+| **Total** | **49** | **3 new** | **4 modified** |
 
 ### Type validation
 

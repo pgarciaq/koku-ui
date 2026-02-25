@@ -277,6 +277,7 @@ Walk through every Phase 1 frontend acceptance criterion in the PRD (Acceptance 
 - [ ] Sankey diagram renders individual rate names as new nodes on the left side -- covered by Part B + B7 tests
 - [ ] Overhead types receive flow from constituent rate name nodes on the left -- covered by Part B + B7 tests
 - [ ] `raw`, `markup`, and `credit` nodes remain unchanged -- covered by B7 tests
+- [ ] "Cost details" tab renders tree table with full hierarchy, columns (Name/Cost/% of cost), icons, expand/collapse, loading skeleton, zero-value rows, fully expanded by default -- covered by Part E + E5 tests (17 tests in `costDetails.test.tsx`)
 
 ### D4. Cross-document consistency
 
@@ -343,6 +344,129 @@ flowchart LR
 
 ---
 
+## Part E: Cost Details Tree Table
+
+In addition to the Sankey diagram, a **"Cost details" tab** provides the same breakdown data in a PatternFly tree table. This offers an accessible, tabular alternative that is easier to scan for exact dollar amounts and percentages.
+
+### E1. Tab integration — `breakdownBase.tsx`
+
+- `routes/details/components/breakdown/breakdownBase.tsx`:
+  - Add `costDetails = 'cost-details'` to the `BreakdownTab` enum (between `costOverview` and `historicalData`)
+  - Add `costDetailsComponent?: React.ReactNode` to `BreakdownBaseProps`
+  - In `getAvailableTabs()`: if `costDetailsComponent` is provided, insert the `costDetails` tab after `costOverview`
+  - In `getTabItem()`: return `costDetailsComponent` when `currentTab === BreakdownTab.costDetails`
+  - In `getTabTitle()`: return `intl.formatMessage(messages.breakdownCostDetailsTitle)` for the tab label
+
+### E2. OCP breakdown page — wire `CostDetails` component
+
+- `routes/details/ocpBreakdown/ocpBreakdown.tsx`:
+  - Import `CostDetails` from `./costDetails`
+  - In `mapStateToProps`, add `costDetailsComponent` to the returned props:
+
+```typescript
+costDetailsComponent: (
+  <CostDetails
+    costDistribution={costDistribution}
+    currency={currency}
+    report={report}
+    reportFetchStatus={reportFetchStatus}
+  />
+),
+```
+
+  - The `CostDetails` component reuses the **same report** already fetched for the Sankey chart — no additional API call
+
+### E3. `CostDetails` component — `costDetails.tsx` (new file)
+
+- `routes/details/ocpBreakdown/costDetails.tsx`:
+  - A React functional component wrapped with `injectIntl`
+  - **Props:** `costDistribution`, `currency`, `report` (Report), `reportFetchStatus` (FetchStatus)
+  - **Data source:** `report.meta.total.cost` — same object the Sankey reads
+
+#### Tree hierarchy
+
+The full hierarchy is always shown regardless of `costDistribution`:
+
+```
+Total cost
+├── Project (All other costs)
+│   ├── Raw cost
+│   ├── Markup
+│   ├── Usage cost
+│   │   └── <per-rate breakdown entries from usage.breakdown>
+│   └── Credit (conditional — only when cost.credit exists)
+└── Overhead cost
+    ├── GPU unallocated
+    │   └── <breakdown entries from gpu_unallocated_distributed.breakdown>
+    ├── Network unattributed
+    │   └── <breakdown entries>
+    ├── Platform distributed
+    │   └── <breakdown entries>
+    ├── Storage unattributed
+    │   └── <breakdown entries>
+    └── Worker unallocated
+        └── <breakdown entries>
+```
+
+#### Table columns
+
+| Column | Width | Content |
+|--------|-------|---------|
+| Name | 50% | Node label with expand/collapse toggle and category icon |
+| Cost | 25% | `formatCurrency(value, units)` |
+| % of cost | 25% | `(value / totalCost * 100).toFixed(2)%` |
+
+#### Icons per category
+
+| Category | Icon |
+|----------|------|
+| Total cost | `MoneyBillIcon` |
+| Project (All other costs) | `OpenshiftIcon` |
+| Raw cost | `CogsIcon` |
+| Markup | `PercentIcon` |
+| Usage cost | `TachometerAltIcon` |
+| Credit | `CreditCardIcon` |
+| Overhead cost | `InfrastructureIcon` |
+| GPU unallocated | `MicrochipIcon` |
+| Network unattributed | `NetworkIcon` |
+| Platform distributed | `ClusterIcon` |
+| Storage unattributed | `StorageDomainIcon` |
+| Worker unallocated | `ServerIcon` |
+
+#### Key behaviors
+
+- **Fully expanded by default:** `useEffect` collects all parent node IDs on first render and sets them as expanded
+- **All rows visible:** Zero-value rows (e.g., GPU unallocated = $0.00) are always shown
+- **Loading skeleton:** Rendered when `reportFetchStatus === FetchStatus.inProgress` or `report` is undefined
+- **Unique breakdown entry IDs:** Format `${parentId}--${entry.name}-${idx}` to prevent React key collisions when the same rate name appears under different cost categories
+- **No checkboxes:** Read-only tree table
+
+#### Implementation pattern
+
+1. **`tree` memo** — Builds `TreeNode[]` hierarchy from `report.meta.total.cost`
+2. **`flatRows` memo** — Flattens tree to `FlatRow[]` with PatternFly tree table ARIA attributes
+3. **`expandedIds` state** — `Set<string>` tracking which nodes are expanded
+4. **`handleCollapse`** — Toggles a node's expanded state by row index
+
+### E4. Localization
+
+- `locales/messages.ts`:
+  - `breakdownCostDetailsTitle`: "Cost details" — tab label
+  - `breakdownCostDetailsPercentColumn`: "% of cost" — column header
+
+### E5. Tests
+
+- `routes/details/ocpBreakdown/costDetails.test.tsx` (new file, 17 tests):
+  - Loading state (2): skeleton during fetch, skeleton when report undefined
+  - Tree structure (7): root node, grouping nodes, cost categories, per-rate entries, conditional Credit
+  - Zero-value rows (1): zero-value categories visible
+  - Percentage column (2): 100% for total, 0% when total is zero
+  - Expand/collapse (3): default expanded, collapse hides children, re-expand shows them
+  - No breakdown entries (1): graceful rendering without breakdown arrays
+  - Duplicate rate names (1): same rate name under different categories renders separately
+
+---
+
 ## Key Files Summary
 
 | Change area | Files to modify |
@@ -352,9 +476,11 @@ flowchart LR
 | Rate form UI | `rateForm/rateForm.tsx` |
 | Rate table columns | `components/rateTable.tsx` |
 | Sankey chart | `costBreakdownChart/costBreakdownChart.tsx`, `costBreakdownChart.styles.ts` |
+| Cost details tree table | `ocpBreakdown/costDetails.tsx` (new), `ocpBreakdown/costDetails.test.tsx` (new) |
+| Breakdown page integration | `ocpBreakdown/ocpBreakdown.tsx`, `breakdown/breakdownBase.tsx` |
 | Report query | `routes/details/ocpBreakdown/ocpBreakdown.tsx` (add `breakdown_limit` to `reportQuery`) |
 | Localization | `locales/messages.ts` |
-| Tests | `rateForm/useRateForm.test.tsx`, new `costBreakdownChart.test.tsx` |
+| Tests | `rateForm/useRateForm.test.tsx`, `costBreakdownChart.test.tsx` (new), `costDetails.test.tsx` (new) |
 
 ---
 

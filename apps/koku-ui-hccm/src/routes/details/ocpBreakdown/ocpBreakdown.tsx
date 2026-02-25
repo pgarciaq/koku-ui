@@ -28,6 +28,7 @@ import type { RouterComponentProps } from 'utils/router';
 import { withRouter } from 'utils/router';
 import { getCostDistribution, getCurrency } from 'utils/sessionStorage';
 
+import { CostDetails } from './costDetails';
 import { CostOverview } from './costOverview';
 import { HistoricalData } from './historicalData';
 import { Optimizations } from './optimizations';
@@ -118,6 +119,14 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
       groupBy === 'cluster' ? (
         <ProviderBreakdownModal clusterId={groupByValue} isOverallStatus providerType={ProviderType.ocp} />
       ) : undefined,
+    costDetailsComponent: (
+      <CostDetails
+        costDistribution={costDistribution}
+        currency={currency}
+        report={report}
+        reportFetchStatus={reportFetchStatus}
+      />
+    ),
     costDistribution,
     costOverviewComponent: (
       <CostOverview
