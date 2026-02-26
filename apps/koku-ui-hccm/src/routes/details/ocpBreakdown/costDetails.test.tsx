@@ -22,7 +22,8 @@ const MOCK_REPORT_DISTRIBUTED = {
     count: 1,
     total: {
       cost: {
-        total: { value: 500, units: 'USD' },
+        total: { value: 265, units: 'USD' },
+        distributed: { value: 500, units: 'USD' },
         raw: { value: 150, units: 'USD' },
         markup: { value: 15, units: 'USD' },
         usage: {
@@ -60,7 +61,7 @@ const MOCK_REPORT_NO_BREAKDOWN = {
     count: 1,
     total: {
       cost: {
-        total: { value: 200, units: 'USD' },
+        total: { value: 155, units: 'USD' },
         raw: { value: 50, units: 'USD' },
         markup: { value: 5, units: 'USD' },
         usage: { value: 100, units: 'USD' },
@@ -80,7 +81,7 @@ const MOCK_REPORT_WITH_CREDIT = {
     count: 1,
     total: {
       cost: {
-        total: { value: 190, units: 'USD' },
+        total: { value: 135, units: 'USD' },
         raw: { value: 50, units: 'USD' },
         markup: { value: 5, units: 'USD' },
         usage: { value: 100, units: 'USD' },
@@ -119,10 +120,11 @@ describe('CostDetails', () => {
     });
   });
 
-  describe('tree structure', () => {
+  describe('distributed tree structure', () => {
     test('renders table when data is loaded', () => {
       render(
         <CostDetails
+          costDistribution="distributed"
           report={MOCK_REPORT_DISTRIBUTED as any}
           reportFetchStatus={FetchStatus.complete}
           intl={mockIntl}
@@ -131,9 +133,10 @@ describe('CostDetails', () => {
       expect(screen.getByRole('treegrid')).toBeInTheDocument();
     });
 
-    test('renders Total cost root node', () => {
+    test('renders Total cost root node with computed sum', () => {
       render(
         <CostDetails
+          costDistribution="distributed"
           report={MOCK_REPORT_DISTRIBUTED as any}
           reportFetchStatus={FetchStatus.complete}
           intl={mockIntl}
@@ -145,6 +148,7 @@ describe('CostDetails', () => {
     test('renders workload and overhead grouping nodes', () => {
       render(
         <CostDetails
+          costDistribution="distributed"
           report={MOCK_REPORT_DISTRIBUTED as any}
           reportFetchStatus={FetchStatus.complete}
           intl={mockIntl}
@@ -157,6 +161,7 @@ describe('CostDetails', () => {
     test('renders cost category nodes', () => {
       render(
         <CostDetails
+          costDistribution="distributed"
           report={MOCK_REPORT_DISTRIBUTED as any}
           reportFetchStatus={FetchStatus.complete}
           intl={mockIntl}
@@ -175,6 +180,7 @@ describe('CostDetails', () => {
     test('renders per-rate breakdown entries', () => {
       render(
         <CostDetails
+          costDistribution="distributed"
           report={MOCK_REPORT_DISTRIBUTED as any}
           reportFetchStatus={FetchStatus.complete}
           intl={mockIntl}
@@ -190,6 +196,7 @@ describe('CostDetails', () => {
     test('renders Credit node when credit is present', () => {
       render(
         <CostDetails
+          costDistribution="distributed"
           report={MOCK_REPORT_WITH_CREDIT as any}
           reportFetchStatus={FetchStatus.complete}
           intl={mockIntl}
@@ -201,6 +208,7 @@ describe('CostDetails', () => {
     test('does not render Credit node when credit is absent', () => {
       render(
         <CostDetails
+          costDistribution="distributed"
           report={MOCK_REPORT_NO_BREAKDOWN as any}
           reportFetchStatus={FetchStatus.complete}
           intl={mockIntl}
@@ -208,12 +216,81 @@ describe('CostDetails', () => {
       );
       expect(screen.queryByText('Credit')).not.toBeInTheDocument();
     });
+
+    test('total equals workload + overhead (not cost.total.value)', () => {
+      render(
+        <CostDetails
+          costDistribution="distributed"
+          report={MOCK_REPORT_DISTRIBUTED as any}
+          reportFetchStatus={FetchStatus.complete}
+          intl={mockIntl}
+        />
+      );
+      expect(screen.getByText('100.00%')).toBeInTheDocument();
+    });
+  });
+
+  describe('non-distributed tree structure', () => {
+    test('renders flat tree without workload/overhead grouping', () => {
+      render(
+        <CostDetails
+          report={MOCK_REPORT_NO_BREAKDOWN as any}
+          reportFetchStatus={FetchStatus.complete}
+          intl={mockIntl}
+        />
+      );
+      expect(screen.getByText('Total cost')).toBeInTheDocument();
+      expect(screen.getByText('Raw cost')).toBeInTheDocument();
+      expect(screen.getByText('Markup')).toBeInTheDocument();
+      expect(screen.getByText('Usage cost')).toBeInTheDocument();
+      expect(screen.queryByText('Project (All other costs)')).not.toBeInTheDocument();
+      expect(screen.queryByText('Overhead cost')).not.toBeInTheDocument();
+    });
+
+    test('does not show overhead categories when not distributed', () => {
+      render(
+        <CostDetails
+          report={MOCK_REPORT_NO_BREAKDOWN as any}
+          reportFetchStatus={FetchStatus.complete}
+          intl={mockIntl}
+        />
+      );
+      expect(screen.queryByText('GPU unallocated')).not.toBeInTheDocument();
+      expect(screen.queryByText('Platform distributed')).not.toBeInTheDocument();
+      expect(screen.queryByText('Worker unallocated')).not.toBeInTheDocument();
+      expect(screen.queryByText('Storage unattributed')).not.toBeInTheDocument();
+      expect(screen.queryByText('Network unattributed')).not.toBeInTheDocument();
+    });
+
+    test('total equals workload sum only (ignores overhead fields)', () => {
+      render(
+        <CostDetails
+          report={MOCK_REPORT_NO_BREAKDOWN as any}
+          reportFetchStatus={FetchStatus.complete}
+          intl={mockIntl}
+        />
+      );
+      expect(screen.getByText('100.00%')).toBeInTheDocument();
+    });
+
+    test('renders Credit in flat tree when present', () => {
+      render(
+        <CostDetails
+          report={MOCK_REPORT_WITH_CREDIT as any}
+          reportFetchStatus={FetchStatus.complete}
+          intl={mockIntl}
+        />
+      );
+      expect(screen.getByText('Credit')).toBeInTheDocument();
+      expect(screen.queryByText('Project (All other costs)')).not.toBeInTheDocument();
+    });
   });
 
   describe('zero-value rows', () => {
-    test('renders rows with zero values', () => {
+    test('renders distributed rows with zero values', () => {
       render(
         <CostDetails
+          costDistribution="distributed"
           report={MOCK_REPORT_NO_BREAKDOWN as any}
           reportFetchStatus={FetchStatus.complete}
           intl={mockIntl}
@@ -229,6 +306,7 @@ describe('CostDetails', () => {
     test('displays 100.00% for total cost row', () => {
       render(
         <CostDetails
+          costDistribution="distributed"
           report={MOCK_REPORT_DISTRIBUTED as any}
           reportFetchStatus={FetchStatus.complete}
           intl={mockIntl}
@@ -269,6 +347,7 @@ describe('CostDetails', () => {
     test('all parent nodes are expanded by default', () => {
       render(
         <CostDetails
+          costDistribution="distributed"
           report={MOCK_REPORT_DISTRIBUTED as any}
           reportFetchStatus={FetchStatus.complete}
           intl={mockIntl}
@@ -282,6 +361,7 @@ describe('CostDetails', () => {
     test('collapsing a parent hides its children', () => {
       render(
         <CostDetails
+          costDistribution="distributed"
           report={MOCK_REPORT_DISTRIBUTED as any}
           reportFetchStatus={FetchStatus.complete}
           intl={mockIntl}
@@ -297,6 +377,7 @@ describe('CostDetails', () => {
     test('re-expanding a collapsed parent shows its children', () => {
       render(
         <CostDetails
+          costDistribution="distributed"
           report={MOCK_REPORT_DISTRIBUTED as any}
           reportFetchStatus={FetchStatus.complete}
           intl={mockIntl}
@@ -316,6 +397,7 @@ describe('CostDetails', () => {
     test('renders without breakdown leaf nodes when no breakdown data', () => {
       render(
         <CostDetails
+          costDistribution="distributed"
           report={MOCK_REPORT_NO_BREAKDOWN as any}
           reportFetchStatus={FetchStatus.complete}
           intl={mockIntl}
@@ -334,7 +416,7 @@ describe('CostDetails', () => {
           count: 1,
           total: {
             cost: {
-              total: { value: 300, units: 'USD' },
+              total: { value: 100, units: 'USD' },
               raw: { value: 0, units: 'USD' },
               markup: { value: 0, units: 'USD' },
               usage: {
@@ -361,7 +443,12 @@ describe('CostDetails', () => {
         data: [],
       };
       render(
-        <CostDetails report={report as any} reportFetchStatus={FetchStatus.complete} intl={mockIntl} />
+        <CostDetails
+          costDistribution="distributed"
+          report={report as any}
+          reportFetchStatus={FetchStatus.complete}
+          intl={mockIntl}
+        />
       );
       const nodeMonthlyElements = screen.getAllByText('Node monthly');
       expect(nodeMonthlyElements).toHaveLength(3);

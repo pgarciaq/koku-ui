@@ -17,6 +17,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { skeletonWidth } from 'routes/utils/skeleton';
 import { FetchStatus } from 'store/common';
 import { formatCurrency } from 'utils/format';
@@ -56,8 +57,11 @@ const CostDetailsBase: React.FC<CostDetailsProps> = ({ costDistribution, currenc
   const [initialized, setInitialized] = React.useState(false);
 
   const cost = report?.meta?.total?.cost;
-  const units = cost?.total?.units || currency || 'USD';
-  const totalValue = cost?.total?.value ?? 0;
+  const isDistributed = costDistribution === ComputedReportItemValueType.distributed;
+  const hasCredit = cost?.credit !== undefined;
+
+  const reportItemValue = costDistribution ? costDistribution : 'total';
+  const units = cost?.[reportItemValue]?.units || currency || 'USD';
 
   const getVal = (rv: ReportValue | undefined): number => rv?.value ?? 0;
 
@@ -73,22 +77,26 @@ const CostDetailsBase: React.FC<CostDetailsProps> = ({ costDistribution, currenc
     }));
   };
 
+  const rawValue = getVal(cost?.raw);
+  const markupValue = getVal(cost?.markup);
+  const usageValue = getVal(cost?.usage);
+  const creditValue = hasCredit ? getVal(cost?.credit) : 0;
+  const gpuValue = isDistributed ? getVal(cost?.gpu_unallocated_distributed) : 0;
+  const networkValue = isDistributed ? getVal(cost?.network_unattributed_distributed) : 0;
+  const platformValue = isDistributed ? getVal(cost?.platform_distributed) : 0;
+  const storageValue = isDistributed ? getVal(cost?.storage_unattributed_distributed) : 0;
+  const workerValue = isDistributed ? getVal(cost?.worker_unallocated_distributed) : 0;
+
+  const workloadValue = rawValue + markupValue + usageValue + creditValue;
+  const overheadValue = gpuValue + networkValue + platformValue + storageValue + workerValue;
+  const totalValue = workloadValue + overheadValue;
+
   const tree = React.useMemo<TreeNode[]>(() => {
     if (!cost) {
       return [];
     }
 
-    const rawValue = getVal(cost.raw);
-    const markupValue = getVal(cost.markup);
-    const usageValue = getVal(cost.usage);
-    const creditValue = cost.credit ? getVal(cost.credit) : 0;
-    const gpuValue = getVal(cost.gpu_unallocated_distributed);
-    const networkValue = getVal(cost.network_unattributed_distributed);
-    const platformValue = getVal(cost.platform_distributed);
-    const storageValue = getVal(cost.storage_unattributed_distributed);
-    const workerValue = getVal(cost.worker_unallocated_distributed);
-
-    const workloadChildren: TreeNode[] = [
+    const leafCategories: TreeNode[] = [
       {
         id: 'raw',
         name: intl.formatMessage(messages.rawCostTitle),
@@ -108,11 +116,11 @@ const CostDetailsBase: React.FC<CostDetailsProps> = ({ costDistribution, currenc
         name: intl.formatMessage(messages.usageCostTitle),
         value: usageValue,
         icon: <TachometerAltIcon />,
-        children: buildBreakdownChildren('usage', cost.usage),
+        children: isDistributed ? buildBreakdownChildren('usage', cost.usage) : [],
       },
     ];
-    if (cost.credit) {
-      workloadChildren.push({
+    if (hasCredit) {
+      leafCategories.push({
         id: 'credit',
         name: intl.formatMessage(messages.credit),
         value: creditValue,
@@ -120,59 +128,55 @@ const CostDetailsBase: React.FC<CostDetailsProps> = ({ costDistribution, currenc
         children: [],
       });
     }
-    const workloadValue = rawValue + markupValue + usageValue + creditValue;
 
-    const overheadChildren: TreeNode[] = [
-      {
-        id: 'gpu-unallocated',
-        name: intl.formatMessage(messages.gpuUnallocated),
-        value: gpuValue,
-        icon: <MicrochipIcon />,
-        children: buildBreakdownChildren('gpu-unallocated', cost.gpu_unallocated_distributed),
-      },
-      {
-        id: 'network-unattributed',
-        name: intl.formatMessage(messages.networkUnattributedDistributed),
-        value: networkValue,
-        icon: <NetworkIcon />,
-        children: buildBreakdownChildren('network-unattributed', cost.network_unattributed_distributed),
-      },
-      {
-        id: 'platform-distributed',
-        name: intl.formatMessage(messages.platformDistributed),
-        value: platformValue,
-        icon: <ClusterIcon />,
-        children: buildBreakdownChildren('platform-distributed', cost.platform_distributed),
-      },
-      {
-        id: 'storage-unattributed',
-        name: intl.formatMessage(messages.storageUnattributedDistributed),
-        value: storageValue,
-        icon: <StorageDomainIcon />,
-        children: buildBreakdownChildren('storage-unattributed', cost.storage_unattributed_distributed),
-      },
-      {
-        id: 'worker-unallocated',
-        name: intl.formatMessage(messages.workerUnallocated),
-        value: workerValue,
-        icon: <ServerIcon />,
-        children: buildBreakdownChildren('worker-unallocated', cost.worker_unallocated_distributed),
-      },
-    ];
-    const overheadValue = gpuValue + networkValue + platformValue + storageValue + workerValue;
+    let rootChildren: TreeNode[];
 
-    const root: TreeNode = {
-      id: 'total',
-      name: intl.formatMessage(messages.totalCost),
-      value: totalValue,
-      icon: <MoneyBillIcon />,
-      children: [
+    if (isDistributed) {
+      const overheadChildren: TreeNode[] = [
+        {
+          id: 'gpu-unallocated',
+          name: intl.formatMessage(messages.gpuUnallocated),
+          value: gpuValue,
+          icon: <MicrochipIcon />,
+          children: buildBreakdownChildren('gpu-unallocated', cost.gpu_unallocated_distributed),
+        },
+        {
+          id: 'network-unattributed',
+          name: intl.formatMessage(messages.networkUnattributedDistributed),
+          value: networkValue,
+          icon: <NetworkIcon />,
+          children: buildBreakdownChildren('network-unattributed', cost.network_unattributed_distributed),
+        },
+        {
+          id: 'platform-distributed',
+          name: intl.formatMessage(messages.platformDistributed),
+          value: platformValue,
+          icon: <ClusterIcon />,
+          children: buildBreakdownChildren('platform-distributed', cost.platform_distributed),
+        },
+        {
+          id: 'storage-unattributed',
+          name: intl.formatMessage(messages.storageUnattributedDistributed),
+          value: storageValue,
+          icon: <StorageDomainIcon />,
+          children: buildBreakdownChildren('storage-unattributed', cost.storage_unattributed_distributed),
+        },
+        {
+          id: 'worker-unallocated',
+          name: intl.formatMessage(messages.workerUnallocated),
+          value: workerValue,
+          icon: <ServerIcon />,
+          children: buildBreakdownChildren('worker-unallocated', cost.worker_unallocated_distributed),
+        },
+      ];
+
+      rootChildren = [
         {
           id: 'workload',
           name: intl.formatMessage(messages.allOtherProjectCosts),
           value: workloadValue,
           icon: <OpenshiftIcon />,
-          children: workloadChildren,
+          children: leafCategories,
         },
         {
           id: 'overhead',
@@ -181,7 +185,17 @@ const CostDetailsBase: React.FC<CostDetailsProps> = ({ costDistribution, currenc
           icon: <InfrastructureIcon />,
           children: overheadChildren,
         },
-      ],
+      ];
+    } else {
+      rootChildren = leafCategories;
+    }
+
+    const root: TreeNode = {
+      id: 'total',
+      name: intl.formatMessage(messages.totalCost),
+      value: totalValue,
+      icon: <MoneyBillIcon />,
+      children: rootChildren,
     };
 
     return [root];
