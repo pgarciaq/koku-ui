@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
@@ -29,35 +29,32 @@ describe('RosCustomTimeframes Settings', () => {
     expect(screen.queryByLabelText(/start time/i)).not.toBeInTheDocument();
   });
 
-  it('shows business hours fields when toggle is on', async () => {
+  it('shows business hours fields when toggle is on', () => {
     render(<RosCustomTimeframes />);
     const toggle = screen.getByRole('checkbox', { name: /restrict analysis to business hours/i });
-    await userEvent.click(toggle);
+    fireEvent.click(toggle);
     expect(screen.getByLabelText(/start time/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/end time/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/timezone/i)).toBeInTheDocument();
   });
 
-  it('shows validation error when terms are not in ascending order', async () => {
+  it('shows validation error when terms are not in ascending order', () => {
     render(<RosCustomTimeframes />);
     const term1 = screen.getByLabelText(/term 1/i);
     const term2 = screen.getByLabelText(/term 2/i);
-    await userEvent.clear(term1);
-    await userEvent.type(term1, '30');
-    await userEvent.clear(term2);
-    await userEvent.type(term2, '10');
+    fireEvent.change(term1, { target: { value: '30' } });
+    fireEvent.change(term2, { target: { value: '10' } });
     const saveButton = screen.getByRole('button', { name: /save/i });
-    await userEvent.click(saveButton);
+    fireEvent.click(saveButton);
     expect(screen.getByText(/must be ordered/i)).toBeInTheDocument();
   });
 
-  it('resets all fields to defaults when Reset button is clicked', async () => {
+  it('resets all fields to defaults when Reset button is clicked', () => {
     render(<RosCustomTimeframes />);
     const term1 = screen.getByLabelText(/term 1/i);
-    await userEvent.clear(term1);
-    await userEvent.type(term1, '42');
+    fireEvent.change(term1, { target: { value: '42' } });
     const resetButton = screen.getByRole('button', { name: /reset to defaults/i });
-    await userEvent.click(resetButton);
+    fireEvent.click(resetButton);
     expect(term1).toHaveValue(1);
   });
 });
