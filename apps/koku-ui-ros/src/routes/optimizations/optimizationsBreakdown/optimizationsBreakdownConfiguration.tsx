@@ -96,7 +96,7 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
   const getCurrentConfig = (isFormatted = true) => {
     const values = recommendations?.current;
 
-    return getConfiguration(values, isFormatted, false);
+    return getConfiguration(values, isFormatted, true);
   };
 
   const getCurrentYaml = () => {
