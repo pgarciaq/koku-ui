@@ -1,4 +1,12 @@
+const ONPREM_ENABLED_FLAGS = new Set([
+  'cost-management.koku-ui-hccm.efficiency',
+  'cost-management.koku-ui-hccm.exact-filter',
+  'cost-management.koku-ui-hccm.gpu',
+  'cost-management.koku-ui-hccm.mig',
+  'cost-management.koku-ui-hccm.price-list',
+  'cost-management.koku-ui-hccm.wasted-cost',
+]);
+
 export const useUnleashClient = () => ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  isEnabled: (feature: string) => false,
+  isEnabled: (feature: string) => ONPREM_ENABLED_FLAGS.has(feature),
 });
