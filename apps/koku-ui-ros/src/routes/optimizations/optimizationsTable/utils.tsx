@@ -16,7 +16,7 @@ const formatValue = (value, units, isFormatted = true, isK8Units = false) => {
     return '';
   }
 
-  if (units === 'percent') {
+  if (units === 'percent' || units === 'percentage') {
     const percentage = value ? value : 0;
 
     return isFormatted
@@ -49,23 +49,58 @@ const hasValues = (values: any, key: string) => {
   return result;
 };
 
+// Normalize a native engine list item into the flat shape getConfiguration expects.
+// Native format: item.recommendations.current.requests.cpu.{amount,format}
+// Legacy format: item.cpu_request_current.{value,format}
+const normalizeNativeItem = (item: any) => {
+  const current = item?.recommendations?.current;
+  if (!current) {
+    return null;
+  }
+
+  const variation = item?.recommendations?.recommendation_terms?.short_term?.recommendation_engines?.cost?.variation;
+
+  const result: any = {};
+
+  if (current?.requests?.cpu) {
+    result.cpu_request_current = { value: current.requests.cpu.amount, format: current.requests.cpu.format };
+  }
+  if (current?.requests?.memory) {
+    result.memory_request_current = { value: current.requests.memory.amount, format: current.requests.memory.format };
+  }
+  if (variation?.requests?.cpu) {
+    result.cpu_variation = { value: variation.requests.cpu.amount, format: variation.requests.cpu.format };
+  }
+  if (variation?.requests?.memory) {
+    result.memory_variation = { value: variation.requests.memory.amount, format: variation.requests.memory.format };
+  }
+
+  return result;
+};
+
 export const getConfiguration = (values: any, isFormatted: boolean, isK8Units: boolean) => {
   if (!values) {
     return undefined;
   }
 
-  const hasCpuRequestCurrent = hasValues(values, 'cpu_request_current');
-  const hasMemoryRequestCurrent = hasValues(values, 'memory_request_current');
+  // Detect native format and normalize
+  const normalized = values?.recommendations?.current ? normalizeNativeItem(values) : values;
+  if (!normalized) {
+    return undefined;
+  }
 
-  const cpuRequestCurrentValue = hasCpuRequestCurrent ? values.cpu_request_current.value : undefined;
-  const cpuRequestCurrentUnits = hasCpuRequestCurrent ? values.cpu_request_current.format : undefined;
-  const cpuVariationValue = hasCpuRequestCurrent ? values.cpu_variation.value : undefined;
-  const cpuVariationUnits = hasCpuRequestCurrent ? values.cpu_variation.format : undefined;
+  const hasCpuRequestCurrent = hasValues(normalized, 'cpu_request_current');
+  const hasMemoryRequestCurrent = hasValues(normalized, 'memory_request_current');
 
-  const memoryRequestCurrentValue = hasMemoryRequestCurrent ? values.memory_request_current.value : undefined;
-  const memoryRequestCurrentUnits = hasMemoryRequestCurrent ? values.memory_request_current.format : undefined;
-  const memoryVariationValue = hasMemoryRequestCurrent ? values.memory_variation.value : undefined;
-  const memoryVariationUnits = hasMemoryRequestCurrent ? values.memory_variation.format : undefined;
+  const cpuRequestCurrentValue = hasCpuRequestCurrent ? normalized.cpu_request_current.value : undefined;
+  const cpuRequestCurrentUnits = hasCpuRequestCurrent ? normalized.cpu_request_current.format : undefined;
+  const cpuVariationValue = hasCpuRequestCurrent ? normalized.cpu_variation?.value : undefined;
+  const cpuVariationUnits = hasCpuRequestCurrent ? normalized.cpu_variation?.format : undefined;
+
+  const memoryRequestCurrentValue = hasMemoryRequestCurrent ? normalized.memory_request_current.value : undefined;
+  const memoryRequestCurrentUnits = hasMemoryRequestCurrent ? normalized.memory_request_current.format : undefined;
+  const memoryVariationValue = hasMemoryRequestCurrent ? normalized.memory_variation?.value : undefined;
+  const memoryVariationUnits = hasMemoryRequestCurrent ? normalized.memory_variation?.format : undefined;
 
   return {
     cpu_request_current: formatValue(cpuRequestCurrentValue, cpuRequestCurrentUnits, isFormatted, isK8Units),
