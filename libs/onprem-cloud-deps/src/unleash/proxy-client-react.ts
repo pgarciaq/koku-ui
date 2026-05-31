@@ -5,6 +5,7 @@ const ONPREM_ENABLED_FLAGS = new Set([
   'cost-management.koku-ui-hccm.mig',
   'cost-management.koku-ui-hccm.price-list',
   'cost-management.koku-ui-hccm.wasted-cost',
+  'cost-management.koku-ui-ros.namespace',
 ]);
 
 export const useUnleashClient = () => ({
