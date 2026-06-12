@@ -1,28 +1,23 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
-import { getQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
 import type { RosReport } from 'api/ros/ros';
-import { RosPathsType } from 'api/ros/ros';
-import { RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import type { AnyAction } from 'redux';
-import type { ThunkDispatch } from 'redux-thunk';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
-import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import * as queryUtils from 'routes/utils/query';
 import { getQueryState } from 'routes/utils/queryState';
-import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
-import { rosActions, rosSelectors } from 'store/ros';
 
+import {
+  optimizationsNamespacesBaseQuery,
+  useOptimizationsNamespacesReport,
+} from '../useOptimizationsNamespacesReport';
 import { getLinkState } from '../utils';
 import { OptimizationsProjectsDataTable } from './optimizationsProjectsDataTable';
 import { OptimizationsProjectsToolbar } from './optimizationsProjectsToolbar';
@@ -36,35 +31,17 @@ interface OptimizationsProjectsTableOwnProps {
   isToolbarHidden?: boolean;
   linkPath?: string; // Optimizations breakdown link path
   linkState?: any; // Optimizations breakdown link state
-  project?: string | string[];
-  queryStateName: string; // Name used to store query state
-}
-
-export interface OptimizationsProjectsTableStateProps {
-  report: RosReport;
-  reportError: AxiosError;
-  reportFetchStatus: FetchStatus;
-  reportQueryString: string;
-}
-
-export interface OptimizationsProjectsTableMapProps {
-  cluster?: string | string[];
+  onQueryChange?: (query: RosQuery) => void;
   project?: string | string[];
   query?: RosQuery;
+  queryStateName: string; // Name used to store query state
+  report?: RosReport;
+  reportError?: AxiosError;
+  reportFetchStatus?: FetchStatus;
+  reportQueryString?: string;
 }
 
 type OptimizationsProjectsTableProps = OptimizationsProjectsTableOwnProps;
-
-const baseQuery: RosQuery = {
-  limit: 10,
-  offset: 0,
-  order_by: {
-    last_reported: 'desc',
-  },
-};
-
-const reportPathsType = RosPathsType.namespaces;
-const reportType = RosType.ros as any;
 
 const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
   breadcrumbLabel,
@@ -75,20 +52,34 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
   isToolbarHidden,
   linkPath,
   linkState,
+  onQueryChange,
   project,
+  query: sharedQuery,
   queryStateName,
+  report: sharedReport,
+  reportError: sharedReportError,
+  reportFetchStatus: sharedReportFetchStatus,
+  reportQueryString: sharedReportQueryString,
 }) => {
   const intl = useIntl();
   const location = useLocation();
 
   const [newLinkState, setNewLinkState] = useState();
   const queryState = getQueryState(location, queryStateName);
-  const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
-  const { report, reportError, reportFetchStatus, reportQueryString } = useMapToProps({
+  const [localQuery, setLocalQuery] = useState({ ...optimizationsNamespacesBaseQuery, ...(queryState && queryState) });
+  const usesSharedReport = onQueryChange !== undefined;
+  const query = sharedQuery ?? localQuery;
+  const setQuery = onQueryChange ?? setLocalQuery;
+  const fetchedReport = useOptimizationsNamespacesReport({
     cluster,
     project,
     query,
+    skipFetch: usesSharedReport,
   });
+  const report = usesSharedReport ? sharedReport : fetchedReport.report;
+  const reportError = usesSharedReport ? sharedReportError : fetchedReport.reportError;
+  const reportFetchStatus = usesSharedReport ? sharedReportFetchStatus : fetchedReport.reportFetchStatus;
+  const reportQueryString = usesSharedReport ? sharedReportQueryString : fetchedReport.reportQueryString;
 
   // This table component is used in multiple pages; Optimizations and OCP breakdown. Each table instance has
   // a unique state for when users return to the OCP breakdown and then back to the Optimizations page.
@@ -112,8 +103,8 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report?.meta ? report.meta.count : 0;
-    const limit = report?.meta ? report.meta.limit : baseQuery.limit;
-    const offset = report?.meta ? report.meta.offset : baseQuery.offset;
+    const limit = report?.meta ? report.meta.limit : optimizationsNamespacesBaseQuery.limit;
+    const offset = report?.meta ? report.meta.offset : optimizationsNamespacesBaseQuery.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -224,49 +215,6 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
       )}
     </>
   );
-};
-
-const useMapToProps = ({
-  cluster,
-  project,
-  query,
-}: OptimizationsProjectsTableMapProps): OptimizationsProjectsTableStateProps => {
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
-  const order_by = getOrderById(query) || getOrderById(baseQuery);
-  const order_how = getOrderByValue(query) || getOrderByValue(baseQuery);
-
-  const reportQuery = {
-    ...(cluster && { cluster }), // Flattened cluster filter
-    ...(project && { project }), // Flattened project filter
-    ...query.filter_by, // Flattened filter by
-    limit: query.limit,
-    offset: query.offset,
-    order_by, // Flattened order by
-    order_how, // Flattened order how
-  };
-  const reportQueryString = getQuery(reportQuery);
-  const report = useSelector((state: RootState) =>
-    rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString)
-  );
-  const reportFetchStatus = useSelector((state: RootState) =>
-    rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString)
-  );
-  const reportError = useSelector((state: RootState) =>
-    rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString)
-  );
-
-  useEffect(() => {
-    if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
-      dispatch(rosActions.fetchRosReport(reportPathsType, reportType, reportQueryString));
-    }
-  }, [query]);
-
-  return {
-    report,
-    reportError,
-    reportFetchStatus,
-    reportQueryString,
-  };
 };
 
 export default OptimizationsProjectsTable;

@@ -2,7 +2,13 @@ import { Card, CardBody, Divider } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useLocation } from 'react-router-dom';
 import { OptimizationsContainersTable, OptimizationsProjectsTable } from 'routes/optimizations/optimizationsTable';
+import {
+  optimizationsNamespacesBaseQuery,
+  useOptimizationsNamespacesReport,
+} from 'routes/optimizations/optimizationsTable/useOptimizationsNamespacesReport';
+import { getQueryState } from 'routes/utils/queryState';
 import { Interval, OptimizationType } from 'utils/commonTypes';
 
 import { styles } from './optimizationsOcpBreakdown.styles';
@@ -32,8 +38,25 @@ const OptimizationsOcpBreakdown: React.FC<OptimizationsOcpBreakdownProps> = ({
   queryStateName,
 }) => {
   const intl = useIntl();
+  const location = useLocation();
   const [currentInterval, setCurrentInterval] = useState(Interval.short_term);
   const [optimizationType, setOptimizationType] = useState(OptimizationType.performance);
+  const queryState = getQueryState(location, queryStateName);
+  const [query, setQuery] = useState({ ...optimizationsNamespacesBaseQuery, ...(queryState && queryState) });
+  const { report, reportError, reportFetchStatus, reportQueryString } = useOptimizationsNamespacesReport({
+    cluster,
+    project,
+    query,
+  });
+
+  const sharedTableProps = {
+    onQueryChange: setQuery,
+    query,
+    report,
+    reportError,
+    reportFetchStatus,
+    reportQueryString,
+  };
 
   const handleOnIntervalSelect = (value: Interval) => {
     setCurrentInterval(value);
@@ -66,6 +89,7 @@ const OptimizationsOcpBreakdown: React.FC<OptimizationsOcpBreakdownProps> = ({
             linkState={linkState}
             project={project}
             queryStateName={queryStateName}
+            {...sharedTableProps}
           />
         </CardBody>
       </Card>
@@ -83,6 +107,7 @@ const OptimizationsOcpBreakdown: React.FC<OptimizationsOcpBreakdownProps> = ({
             linkState={linkState}
             project={project}
             queryStateName={queryStateName}
+            {...sharedTableProps}
           />
         </CardBody>
       </Card>
