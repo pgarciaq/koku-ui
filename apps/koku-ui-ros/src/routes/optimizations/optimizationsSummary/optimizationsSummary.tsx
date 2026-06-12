@@ -110,8 +110,9 @@ const OptimizationsSummary: React.FC<OptimizationsSummaryProps> = ({
 const useMapToProps = (): OptimizationsSummaryStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
+  // Only meta.count is used; limit=1 avoids materializing up to 100 full recommendation objects
   const reportQuery: any = {
-    // TBD...
+    limit: 1,
   };
   const reportQueryString = getQuery(reportQuery);
   const report: any = useSelector((state: RootState) =>

@@ -42,8 +42,9 @@ const OptimizationsBadge: React.FC<OptimizationsBadgeProps> = ({ cluster, projec
 const useMapToProps = ({ cluster, project }: OptimizationsBadgeOwnProps): OptimizationsBadgeStateProps => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
 
-  // Don't need pagination here
+  // Only meta.count is used; limit=1 avoids materializing up to 100 full recommendation objects
   const reportQuery: any = {
+    limit: 1,
     ...(cluster && { cluster }), // Flattened cluster filter
     ...(project && { project }), // Flattened project filter
   };
