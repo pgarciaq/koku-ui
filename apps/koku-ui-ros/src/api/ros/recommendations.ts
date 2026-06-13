@@ -35,10 +35,9 @@ export interface RecommendationEngine {
 }
 
 export interface UsageValue {
-  min?: number;
-  q1?: number;
-  median?: number;
-  q3?: number;
+  p50?: number;
+  p95?: number;
+  p99?: number;
   max?: number;
   format?: string;
 }

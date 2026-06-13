@@ -37,11 +37,29 @@ export default defineMessages({
     id: 'chartOthers',
   },
   chartUsageTooltip: {
-    defaultMessage:
-      'Min: {min} {units}, Max: {max} {units}{br}Median: {median} {units}{br}Q1: {q1} {units}, Q3: {q3} {units}',
-    description:
-      'Min: {min} {units}, Max: {max} {units}{br}Median: {median} {units}{br}Q1: {q1} {units}, Q3: {q3} {units}',
+    defaultMessage: 'P50: {p50} {units}{br}P95: {p95} {units}{br}P99: {p99} {units}{br}Max: {max} {units}',
+    description: 'P50: {p50} {units}, P95: {p95} {units}, P99: {p99} {units}, Max: {max} {units}',
     id: 'chartUsageTooltip',
+  },
+  chartUsageMaxLegend: {
+    defaultMessage: 'Daily max',
+    description: 'Daily max',
+    id: 'chartUsageMaxLegend',
+  },
+  chartUsageMedianLegend: {
+    defaultMessage: 'Median (P50)',
+    description: 'Median (P50)',
+    id: 'chartUsageMedianLegend',
+  },
+  chartUsageP50P95Legend: {
+    defaultMessage: 'P50-P95 (normal range)',
+    description: 'P50-P95 (normal range)',
+    id: 'chartUsageP50P95Legend',
+  },
+  chartUsageP95P99Legend: {
+    defaultMessage: 'P95-P99 (peak range)',
+    description: 'P95-P99 (peak range)',
+    id: 'chartUsageP95P99Legend',
   },
   chooseValuePlaceholder: {
     defaultMessage: 'Choose value',

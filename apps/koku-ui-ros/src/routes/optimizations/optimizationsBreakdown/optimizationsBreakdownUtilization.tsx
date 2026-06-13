@@ -76,7 +76,11 @@ const OptimizationsBreakdownUtilization: React.FC<OptimizationsBreakdownUtilizat
         name: usageType,
         units: data?.format,
         x: xVal,
-        y: data ? [data.min, data.median, data.max, data.q1, data.q3] : [null],
+        p50: data?.p50,
+        p95: data?.p95,
+        p99: data?.p99,
+        max: data?.max,
+        y: data?.p50 ?? null,
       });
     }
     // Pad dates if plots_data is missing
@@ -89,7 +93,7 @@ const OptimizationsBreakdownUtilization: React.FC<OptimizationsBreakdownUtilizat
             key: today.toDateString(),
             name: usageType,
             x: format(today, 'kk:mm'),
-            y: [null],
+            y: null,
           });
         }
       } else {
@@ -100,7 +104,7 @@ const OptimizationsBreakdownUtilization: React.FC<OptimizationsBreakdownUtilizat
             key: today.toDateString(),
             name: usageType,
             x: format(today, 'MMM d'),
-            y: [null],
+            y: null,
           });
         }
       }
