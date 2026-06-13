@@ -29,6 +29,7 @@ export interface Query {
   key_only?: boolean;
   limit?: number;
   offset?: number;
+  after?: string;
   isOptimizationsDetails?: any;
   optimizationsTab?: any;
   order_by?: any;

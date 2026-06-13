@@ -1,4 +1,5 @@
 import type { RosReport } from 'api/ros/ros';
+import { getRosCountCacheKeyFromFetchId } from 'api/ros/rosListParams';
 import type { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';
@@ -13,12 +14,14 @@ export interface CachedRos extends RosReport {
 
 export type RosState = Readonly<{
   byId: Map<string, CachedRos>;
+  counts: Map<string, number>;
   fetchStatus: Map<string, FetchStatus>;
   errors: Map<string, AxiosError>;
 }>;
 
 const defaultState: RosState = {
   byId: new Map(),
+  counts: new Map(),
   fetchStatus: new Map(),
   errors: new Map(),
 };
@@ -39,7 +42,11 @@ export function rosReducer(state = defaultState, action: RosAction): RosState {
         fetchStatus: new Map(state.fetchStatus).set(action.payload.fetchId, FetchStatus.inProgress),
       };
 
-    case getType(fetchRosSuccess):
+    case getType(fetchRosSuccess): {
+      const counts = new Map(state.counts);
+      if (action.payload?.meta?.count !== undefined) {
+        counts.set(getRosCountCacheKeyFromFetchId(action.meta.fetchId), action.payload.meta.count);
+      }
       return {
         ...state,
         fetchStatus: new Map(state.fetchStatus).set(action.meta.fetchId, FetchStatus.complete),
@@ -47,8 +54,10 @@ export function rosReducer(state = defaultState, action: RosAction): RosState {
           ...action.payload,
           timeRequested: Date.now(),
         }),
+        counts,
         errors: new Map(state.errors).set(action.meta.fetchId, null),
       };
+    }
 
     case getType(fetchRosFailure):
       return {

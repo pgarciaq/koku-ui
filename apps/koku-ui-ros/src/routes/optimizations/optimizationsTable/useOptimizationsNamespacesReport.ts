@@ -2,6 +2,7 @@ import { getQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
 import type { RosReport } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
+import { withRosListProjection } from 'api/ros/rosListParams';
 import type { AxiosError } from 'axios';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,15 +45,15 @@ export const useOptimizationsNamespacesReport = ({
   const order_by = getOrderById(query) || getOrderById(optimizationsNamespacesBaseQuery);
   const order_how = getOrderByValue(query) || getOrderByValue(optimizationsNamespacesBaseQuery);
 
-  const reportQuery = {
+  const reportQuery = withRosListProjection({
     ...(cluster && { cluster }),
     ...(project && { project }),
     ...query.filter_by,
     limit: query.limit,
-    offset: query.offset,
+    ...(query.after ? { after: query.after } : { offset: query.offset }),
     order_by,
     order_how,
-  };
+  });
   const reportQueryString = getQuery(reportQuery);
 
   const reportPathsType = RosPathsType.namespaces;

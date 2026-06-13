@@ -15,7 +15,10 @@ export interface RosData {
 
 export interface RosMeta extends PagedMetaData {
   count: number;
+  currency?: string;
+  has_next?: boolean;
   limit?: number;
+  next_cursor?: string;
   offset?: number;
 }
 

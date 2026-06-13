@@ -22,6 +22,9 @@ export const initQuery = (query: Query, reset: boolean = false, props = {}) => {
     if (newQuery.offset !== undefined) {
       newQuery.offset = 0;
     }
+    if (newQuery.after !== undefined) {
+      newQuery.after = undefined;
+    }
   }
   return newQuery;
 };
@@ -61,6 +64,7 @@ export const handleOnPerPageSelect = (query: Query, perPage: number, isLimit = f
       ? {
           limit: perPage,
           offset: 0,
+          after: undefined,
         }
       : {
           filter: {
@@ -68,6 +72,7 @@ export const handleOnPerPageSelect = (query: Query, perPage: number, isLimit = f
             limit: perPage,
             offset: 0,
           },
+          after: undefined,
         }),
   });
 };
@@ -81,6 +86,48 @@ export const handleOnSetPage = (query: Query, report, pageNumber, isLimit = fals
       limit = report.meta.filter.limit;
     }
   }
+
+  const currentOffset = isLimit ? query.offset ?? 0 : query.filter?.offset ?? 0;
+  const currentPage = Math.trunc(currentOffset / limit + 1);
+
+  if (pageNumber === 1) {
+    return initQuery(query, false, {
+      ...(isLimit
+        ? {
+            limit,
+            offset: 0,
+            after: undefined,
+          }
+        : {
+            filter: {
+              ...query.filter,
+              limit,
+              offset: 0,
+            },
+            after: undefined,
+          }),
+    });
+  }
+
+  if (pageNumber > currentPage && report?.meta?.has_next && report?.meta?.next_cursor) {
+    return initQuery(query, false, {
+      ...(isLimit
+        ? {
+            limit,
+            after: report.meta.next_cursor,
+            offset: undefined,
+          }
+        : {
+            filter: {
+              ...query.filter,
+              limit,
+            },
+            after: report.meta.next_cursor,
+            offset: undefined,
+          }),
+    });
+  }
+
   const offset = pageNumber * limit - limit;
 
   return initQuery(query, false, {
@@ -88,6 +135,7 @@ export const handleOnSetPage = (query: Query, report, pageNumber, isLimit = fals
       ? {
           limit,
           offset,
+          after: undefined,
         }
       : {
           filter: {
@@ -95,6 +143,7 @@ export const handleOnSetPage = (query: Query, report, pageNumber, isLimit = fals
             limit,
             offset,
           },
+          after: undefined,
         }),
   });
 };

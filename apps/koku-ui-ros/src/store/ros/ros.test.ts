@@ -8,6 +8,7 @@ import { FetchStatus } from 'store/common';
 import { createMockStoreCreator } from 'store/mockStore';
 
 import * as actions from './rosActions';
+import { fetchRosSuccess } from './rosActions';
 import { rosStateKey } from './rosCommon';
 import { rosReducer } from './rosReducer';
 import * as selectors from './rosSelectors';
@@ -34,6 +35,25 @@ runRosMock.mockResolvedValue({ data: mockRos });
 global.Date.now = jest.fn(() => 12345);
 
 // Avoid spying on ESM exports; assert state transitions directly
+
+test('fetch ros success updates shared count cache', async () => {
+  const store = createRossStore();
+  const countQuery = 'engine=cost&term=short_term';
+  const tableQuery = `${countQuery}&limit=10&offset=0`;
+  const fetchId = `recommendations--${rosType}--${tableQuery}`;
+
+  store.dispatch(
+    fetchRosSuccess(
+      {
+        ...mockRos,
+        meta: { count: 42 },
+      } as RosReport,
+      { fetchId }
+    )
+  );
+
+  expect(selectors.selectRosCount(store.getState(), rosPathsType, rosType, countQuery)).toBe(42);
+});
 
 test('default state', () => {
   const store = createRossStore();

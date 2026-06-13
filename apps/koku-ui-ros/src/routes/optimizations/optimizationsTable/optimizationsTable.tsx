@@ -3,6 +3,7 @@ import { getQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
 import type { RosReport } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
+import { withRosListProjection } from 'api/ros/rosListParams';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
@@ -230,15 +231,15 @@ const useMapToProps = ({ cluster, project, query }: OptimizationsTableMapProps):
   const order_by = getOrderById(query) || getOrderById(baseQuery);
   const order_how = getOrderByValue(query) || getOrderByValue(baseQuery);
 
-  const reportQuery = {
+  const reportQuery = withRosListProjection({
     ...(cluster && { cluster }), // Flattened cluster filter
     ...(project && { project }), // Flattened project filter
     ...query.filter_by, // Flattened filter by
     limit: query.limit,
-    offset: query.offset,
+    ...(query.after ? { after: query.after } : { offset: query.offset }),
     order_by, // Flattened order by
     order_how, // Flattened order how
-  };
+  });
   const reportQueryString = getQuery(reportQuery);
   const report = useSelector((state: RootState) =>
     rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString)
