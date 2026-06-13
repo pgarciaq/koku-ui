@@ -72,6 +72,9 @@ export interface RecommendationTerms {
 export interface Recommendations {
   current?: RecommendationValues;
   monitoring_end_time?: string;
+  /** List rows only — deduplicated codes for badge rendering */
+  notification_codes?: number[];
+  /** @deprecated Detail no longer aggregates at recommendations level; read engine notifications */
   notifications?: {
     [key: string]: Notification;
   };
