@@ -12,7 +12,7 @@ import {
   getInteractiveLegendEvents,
 } from '@patternfly/react-charts/victory';
 import messages from 'locales/messages';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { getDateRangeString } from 'routes/components/charts/common';
 import type { ChartSeries } from 'routes/components/charts/common/chartUtils';
@@ -459,7 +459,7 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
     setHiddenSeries(new Set());
   };
 
-  useMemo(() => {
+  useEffect(() => {
     initDatum();
   }, [limitData, requestData, usageData]);
 
