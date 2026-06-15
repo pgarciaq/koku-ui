@@ -150,7 +150,14 @@ const remoteLoadingFallback = (
 const AppLayout = () => {
   const location = useLocation();
   const iamBasename = isOnpremIamBasename();
-  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(() => {
+    const stored = localStorage.getItem('kd-sidebar-open');
+    return stored === null ? false : stored === '1';
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem('kd-sidebar-open', isSidebarOpen ? '1' : '0');
+  }, [isSidebarOpen]);
   const onIamSection = isIamRoute(location.pathname, iamBasename);
   const remoteKey = onIamSection ? 'iam' : 'cost';
 
