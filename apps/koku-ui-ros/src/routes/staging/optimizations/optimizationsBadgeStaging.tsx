@@ -15,7 +15,7 @@ const OptimizationsBadgeStaging: React.FC<OptimizationsBadgeStagingProps> = () =
 
   return (
     <PageSection>
-      <OptimizationsBadge cluster={clusterFilter} project={projectFilter} />
+      <OptimizationsBadge cluster={clusterFilter} project={projectFilter} count={0} />
     </PageSection>
   );
 };

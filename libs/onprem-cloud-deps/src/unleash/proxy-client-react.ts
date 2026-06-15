@@ -3,9 +3,8 @@ const ONPREM_ENABLED_FLAGS = new Set([
   'cost-management.koku-ui-hccm.exact-filter',
   'cost-management.koku-ui-hccm.gpu',
   'cost-management.koku-ui-hccm.mig',
-  'cost-management.koku-ui-hccm.price-list',
   'cost-management.koku-ui-hccm.wasted-cost',
-  'cost-management.koku-ui-ros.namespace',
+  'cost-management.koku-ui-ros.box-plot',
 ]);
 
 export const useUnleashClient = () => ({

@@ -13,7 +13,7 @@ type OptimizationsSummaryStagingProps = OptimizationsSummaryStagingOwnProps;
 const OptimizationsSummaryStaging: React.FC<OptimizationsSummaryStagingProps> = () => {
   return (
     <PageSection>
-      <OptimizationsSummary linkPath={formatPath(routes.optimizationsDetails.path)} />
+      <OptimizationsSummary linkPath={formatPath(routes.optimizationsDetails.path)} count={0} />
     </PageSection>
   );
 };

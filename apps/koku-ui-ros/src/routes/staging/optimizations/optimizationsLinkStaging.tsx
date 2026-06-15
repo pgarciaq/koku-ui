@@ -31,7 +31,7 @@ const OptimizationsLinkStaging: React.FC<OptimizationsLinkStagingProps> = () => 
 
   return (
     <PageSection>
-      <OptimizationsLink cluster={clusterFilter} project={projectFilter} linkPath={linkPath} linkState={state} />
+      <OptimizationsLink cluster={clusterFilter} project={projectFilter} linkPath={linkPath} linkState={state} count={0} />
     </PageSection>
   );
 };

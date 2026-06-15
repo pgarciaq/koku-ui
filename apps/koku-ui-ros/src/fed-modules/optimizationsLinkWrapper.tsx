@@ -20,7 +20,7 @@ const OptimizationsLinkWrapper: React.FC<OptimizationsLinkProps> = ({
 }: OptimizationsLinkOwnProps) => {
   return (
     <OptimizationsWrapper>
-      <OptimizationsLink cluster={cluster} project={project} linkState={linkState} linkPath={linkPath} />
+      <OptimizationsLink cluster={cluster} project={project} linkState={linkState} linkPath={linkPath} count={0} />
     </OptimizationsWrapper>
   );
 };

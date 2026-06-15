@@ -133,8 +133,7 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
       const optimizationsBreakdownPath = getOptimizationsBreakdownPath({
         basePath: linkPath,
         breadcrumbLabel,
-        // id: item.id, Todo: for testing
-        id: '91b2a9dc-9143-4f67-9d2a-8fc3bd998183',
+        id: item.id,
         title: container,
       });
 
