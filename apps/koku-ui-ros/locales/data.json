@@ -70,7 +70,8 @@
     ],
     "chartOthers": [
       {
-        "offset": 0,
+        "type": 6,
+        "value": "count",
         "options": {
           "one": {
             "value": [
@@ -97,19 +98,42 @@
             ]
           }
         },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
+        "offset": 0,
+        "pluralType": "cardinal"
+      }
+    ],
+    "chartUsageMaxLegend": [
+      {
+        "type": 0,
+        "value": "Daily max"
+      }
+    ],
+    "chartUsageMedianLegend": [
+      {
+        "type": 0,
+        "value": "Median (P50)"
+      }
+    ],
+    "chartUsageP50P95Legend": [
+      {
+        "type": 0,
+        "value": "P50-P95 (normal range)"
+      }
+    ],
+    "chartUsageP95P99Legend": [
+      {
+        "type": 0,
+        "value": "P95-P99 (peak range)"
       }
     ],
     "chartUsageTooltip": [
       {
         "type": 0,
-        "value": "Min: "
+        "value": "P50: "
       },
       {
         "type": 1,
-        "value": "min"
+        "value": "p50"
       },
       {
         "type": 0,
@@ -120,68 +144,56 @@
         "value": "units"
       },
       {
+        "type": 1,
+        "value": "br"
+      },
+      {
         "type": 0,
-        "value": ", Max: "
+        "value": "P95: "
+      },
+      {
+        "type": 1,
+        "value": "p95"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 1,
+        "value": "br"
+      },
+      {
+        "type": 0,
+        "value": "P99: "
+      },
+      {
+        "type": 1,
+        "value": "p99"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "units"
+      },
+      {
+        "type": 1,
+        "value": "br"
+      },
+      {
+        "type": 0,
+        "value": "Max: "
       },
       {
         "type": 1,
         "value": "max"
-      },
-      {
-        "type": 0,
-        "value": " "
-      },
-      {
-        "type": 1,
-        "value": "units"
-      },
-      {
-        "type": 1,
-        "value": "br"
-      },
-      {
-        "type": 0,
-        "value": "Median: "
-      },
-      {
-        "type": 1,
-        "value": "median"
-      },
-      {
-        "type": 0,
-        "value": " "
-      },
-      {
-        "type": 1,
-        "value": "units"
-      },
-      {
-        "type": 1,
-        "value": "br"
-      },
-      {
-        "type": 0,
-        "value": "Q1: "
-      },
-      {
-        "type": 1,
-        "value": "q1"
-      },
-      {
-        "type": 0,
-        "value": " "
-      },
-      {
-        "type": 1,
-        "value": "units"
-      },
-      {
-        "type": 0,
-        "value": ", Q3: "
-      },
-      {
-        "type": 1,
-        "value": "q3"
       },
       {
         "type": 0,
@@ -236,6 +248,8 @@
     ],
     "currencyAbbreviations": [
       {
+        "type": 5,
+        "value": "symbol",
         "options": {
           "billion": {
             "value": [
@@ -260,9 +274,6 @@
                 "value": " M"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "quadrillion": {
             "value": [
@@ -299,10 +310,11 @@
                 "value": " t"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "symbol"
+        }
       }
     ],
     "currentConfiguration": [
@@ -377,6 +389,8 @@
     ],
     "excludeValues": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "excludes": {
             "value": [
@@ -397,13 +411,13 @@
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "filterByInputAriaLabel": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "account": {
             "value": [
@@ -461,9 +475,6 @@
               }
             ]
           },
-          "other": {
-            "value": []
-          },
           "payer_tenant_id": {
             "value": [
               {
@@ -520,19 +531,19 @@
               }
             ]
           },
-          "status": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Input for status value"
-              }
-            ]
-          },
           "subscription_guid": {
             "value": [
               {
                 "type": 0,
                 "value": "Input for account name"
+              }
+            ]
+          },
+          "status": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Input for status value"
               }
             ]
           },
@@ -543,14 +554,17 @@
                 "value": "Input for tag name"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "filterByPlaceholder": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "account": {
             "value": [
@@ -631,9 +645,6 @@
                 "value": "Filter by organizational unit"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
@@ -731,14 +742,6 @@
               }
             ]
           },
-          "tag": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Filter by tag"
-              }
-            ]
-          },
           "workload": {
             "value": [
               {
@@ -754,14 +757,25 @@
                 "value": "Filter by workload type"
               }
             ]
+          },
+          "tag": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by tag"
+              }
+            ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "filterByValues": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "account": {
             "value": [
@@ -834,9 +848,6 @@
                 "value": "Organizational unit"
               }
             ]
-          },
-          "other": {
-            "value": []
           },
           "payer_tenant_id": {
             "value": [
@@ -957,10 +968,11 @@
                 "value": "Workload type"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "filterByValuesAriaLabel": [
@@ -1027,7 +1039,8 @@
     ],
     "names": [
       {
-        "offset": 0,
+        "type": 6,
+        "value": "count",
         "options": {
           "one": {
             "value": [
@@ -1046,9 +1059,8 @@
             ]
           }
         },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
+        "offset": 0,
+        "pluralType": "cardinal"
       }
     ],
     "noDataForDate": [
@@ -1159,7 +1171,8 @@
     ],
     "optimizationsDetails": [
       {
-        "offset": 0,
+        "type": 6,
+        "value": "count",
         "options": {
           "=0": {
             "value": [
@@ -1194,9 +1207,8 @@
             ]
           }
         },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
+        "offset": 0,
+        "pluralType": "cardinal"
       }
     ],
     "optimizationsInfoArialLabel": [
@@ -1253,20 +1265,22 @@
     ],
     "optimizationsNames": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
-          "change": {
-            "value": [
-              {
-                "type": 0,
-                "value": "Change"
-              }
-            ]
-          },
           "cluster": {
             "value": [
               {
                 "type": 0,
                 "value": "Cluster names"
+              }
+            ]
+          },
+          "change": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Change"
               }
             ]
           },
@@ -1310,9 +1324,6 @@
               }
             ]
           },
-          "other": {
-            "value": []
-          },
           "project": {
             "value": [
               {
@@ -1344,10 +1355,11 @@
                 "value": "Workload types"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "optimizationsPerformance": [
@@ -1376,7 +1388,8 @@
     ],
     "optimizationsValue": [
       {
-        "offset": 0,
+        "type": 6,
+        "value": "count",
         "options": {
           "=1": {
             "value": [
@@ -1407,13 +1420,14 @@
             ]
           }
         },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
+        "offset": 0,
+        "pluralType": "cardinal"
       }
     ],
     "optimizationsValues": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "cluster": {
             "value": [
@@ -1439,9 +1453,6 @@
               }
             ]
           },
-          "other": {
-            "value": []
-          },
           "project": {
             "value": [
               {
@@ -1465,10 +1476,11 @@
                 "value": "Workload type"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "optimizationsViewAll": [
@@ -1515,7 +1527,21 @@
     ],
     "paginationTitle": [
       {
+        "type": 5,
+        "value": "placement",
         "options": {
+          "top": {
+            "value": [
+              {
+                "type": 1,
+                "value": "title"
+              },
+              {
+                "type": 0,
+                "value": " top pagination"
+              }
+            ]
+          },
           "bottom": {
             "value": [
               {
@@ -1539,27 +1565,14 @@
                 "value": " pagination"
               }
             ]
-          },
-          "top": {
-            "value": [
-              {
-                "type": 1,
-                "value": "title"
-              },
-              {
-                "type": 0,
-                "value": " top pagination"
-              }
-            ]
           }
-        },
-        "type": 5,
-        "value": "placement"
+        }
       }
     ],
     "percentPlus": [
       {
-        "offset": 0,
+        "type": 6,
+        "value": "count",
         "options": {
           "one": {
             "value": [
@@ -1590,9 +1603,8 @@
             ]
           }
         },
-        "pluralType": "cardinal",
-        "type": 6,
-        "value": "count"
+        "offset": 0,
+        "pluralType": "cardinal"
       }
     ],
     "performance": [
@@ -1609,6 +1621,8 @@
     ],
     "perspectiveValues": [
       {
+        "type": 5,
+        "value": "value",
         "options": {
           "aws": {
             "value": [
@@ -1698,9 +1712,6 @@
               }
             ]
           },
-          "other": {
-            "value": []
-          },
           "rhel": {
             "value": [
               {
@@ -1708,10 +1719,11 @@
                 "value": "All RHEL"
               }
             ]
+          },
+          "other": {
+            "value": []
           }
-        },
-        "type": 5,
-        "value": "value"
+        }
       }
     ],
     "recommendedConfiguration": [
@@ -1816,6 +1828,8 @@
     ],
     "unitTooltips": [
       {
+        "type": 5,
+        "value": "units",
         "options": {
           "byte_ms": {
             "value": [
@@ -1937,14 +1951,6 @@
               }
             ]
           },
-          "other": {
-            "value": [
-              {
-                "type": 1,
-                "value": "value"
-              }
-            ]
-          },
           "vm_hours": {
             "value": [
               {
@@ -1956,14 +1962,22 @@
                 "value": " VM-hours"
               }
             ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "value"
+              }
+            ]
           }
-        },
-        "type": 5,
-        "value": "units"
+        }
       }
     ],
     "units": [
       {
+        "type": 5,
+        "value": "units",
         "options": {
           "bytes": {
             "value": [
@@ -2029,14 +2043,6 @@
               }
             ]
           },
-          "m": {
-            "value": [
-              {
-                "type": 0,
-                "value": "m"
-              }
-            ]
-          },
           "mi": {
             "value": [
               {
@@ -2053,6 +2059,14 @@
               }
             ]
           },
+          "m": {
+            "value": [
+              {
+                "type": 0,
+                "value": "m"
+              }
+            ]
+          },
           "millicores": {
             "value": [
               {
@@ -2064,13 +2078,13 @@
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "units"
+        }
       }
     ],
     "unitsK8": [
       {
+        "type": 5,
+        "value": "units",
         "options": {
           "bytes": {
             "value": [
@@ -2131,14 +2145,6 @@
               }
             ]
           },
-          "m": {
-            "value": [
-              {
-                "type": 0,
-                "value": "m"
-              }
-            ]
-          },
           "mi": {
             "value": [
               {
@@ -2155,6 +2161,14 @@
               }
             ]
           },
+          "m": {
+            "value": [
+              {
+                "type": 0,
+                "value": "m"
+              }
+            ]
+          },
           "millicores": {
             "value": [
               {
@@ -2166,9 +2180,7 @@
           "other": {
             "value": []
           }
-        },
-        "type": 5,
-        "value": "units"
+        }
       }
     ],
     "usage": [
