@@ -177,7 +177,7 @@ export const OptimizationsBreakdownExplanation: React.FC<OptimizationsBreakdownE
       <Content component="small">
         {intl.formatMessage(messages.explanationDataDays)}: {explanation.data_days ?? '—'}
       </Content>
-      <DescriptionList isHorizontal isCompact>
+      <DescriptionList isHorizontal isCompact horizontalTermWidthModifier={{ default: '14ch', sm: '18ch', md: '22ch' }}>
         {items.map((item, index) => (
           <DescriptionListGroup key={index}>
             <DescriptionListTerm>{item.label}</DescriptionListTerm>
