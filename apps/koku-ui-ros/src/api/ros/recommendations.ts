@@ -27,6 +27,7 @@ export interface RecommendationValues {
 
 export interface RecommendationEngine {
   config: RecommendationValues;
+  explanation?: RecommendationExplanation;
   notifications?: {
     [key: string]: Notification;
   };
@@ -81,6 +82,30 @@ export interface Recommendations {
   recommendation_terms?: RecommendationTerms;
 }
 
+export interface RecommendationExplanation {
+  confidence_level?: number;
+  data_days?: number;
+  decay_half_life_hours?: number;
+  cpu_cost_percentile_millicores?: number;
+  cpu_perf_percentile_millicores?: number;
+  cpu_usage_p95_millicores?: number;
+  cpu_usage_p50_millicores?: number;
+  cpu_usage_mean_millicores?: number;
+  cpu_adaptive_margin_basis_points?: number;
+  cpu_trend_slope?: number;
+  mem_cost_percentile_kib?: number;
+  mem_perf_percentile_kib?: number;
+  mem_usage_p95_kib?: number;
+  mem_usage_p50_kib?: number;
+  mem_usage_mean_kib?: number;
+  mem_adaptive_margin_basis_points?: number;
+  mem_trend_slope?: number;
+  oom_count_sum?: number;
+  oom_bump_applied?: boolean;
+  cpu_floor_applied?: boolean;
+  is_idle?: boolean;
+}
+
 export interface RecommendationReportData extends RosData {
   recommendations?: Recommendations;
 }
@@ -97,7 +122,7 @@ export const RosTypePaths: Partial<Record<RosType, string>> = {
 // This fetches a recommendation by ID
 export function runRosReport(reportType: RosType, query: string) {
   const path = RosTypePaths[reportType];
-  const queryString = query ? `/${query}` : '';
+  const queryString = query ? `/${query}?include=explanation` : '';
   return axiosInstance.get<RecommendationReport>(`${path}${queryString}`);
 }
 

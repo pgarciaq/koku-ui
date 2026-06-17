@@ -414,6 +414,120 @@
         }
       }
     ],
+    "explanationCpuFloor": [
+      {
+        "type": 0,
+        "value": "CPU floor applied"
+      }
+    ],
+    "explanationCpuMargin": [
+      {
+        "type": 0,
+        "value": "CPU adaptive margin"
+      }
+    ],
+    "explanationCpuMean": [
+      {
+        "type": 0,
+        "value": "CPU usage mean"
+      }
+    ],
+    "explanationCpuP50": [
+      {
+        "type": 0,
+        "value": "CPU usage P50"
+      }
+    ],
+    "explanationCpuP95": [
+      {
+        "type": 0,
+        "value": "CPU usage P95"
+      }
+    ],
+    "explanationCpuTrend": [
+      {
+        "type": 0,
+        "value": "CPU trend slope"
+      }
+    ],
+    "explanationDataDays": [
+      {
+        "type": 0,
+        "value": "Data days analyzed"
+      }
+    ],
+    "explanationIdle": [
+      {
+        "type": 0,
+        "value": "Idle workload detected"
+      }
+    ],
+    "explanationMemMargin": [
+      {
+        "type": 0,
+        "value": "Memory adaptive margin"
+      }
+    ],
+    "explanationMemMean": [
+      {
+        "type": 0,
+        "value": "Memory usage mean"
+      }
+    ],
+    "explanationMemP50": [
+      {
+        "type": 0,
+        "value": "Memory usage P50"
+      }
+    ],
+    "explanationMemP95": [
+      {
+        "type": 0,
+        "value": "Memory usage P95"
+      }
+    ],
+    "explanationMemTrend": [
+      {
+        "type": 0,
+        "value": "Memory trend slope"
+      }
+    ],
+    "explanationNo": [
+      {
+        "type": 0,
+        "value": "No"
+      }
+    ],
+    "explanationNotAvailable": [
+      {
+        "type": 0,
+        "value": "Explanation data will be available after the next data ingestion."
+      }
+    ],
+    "explanationOomBump": [
+      {
+        "type": 0,
+        "value": "OOM bump applied"
+      }
+    ],
+    "explanationOomCount": [
+      {
+        "type": 0,
+        "value": "OOM kill count"
+      }
+    ],
+    "explanationTitle": [
+      {
+        "type": 0,
+        "value": "Why this recommendation?"
+      }
+    ],
+    "explanationYes": [
+      {
+        "type": 0,
+        "value": "Yes"
+      }
+    ],
     "filterByInputAriaLabel": [
       {
         "type": 5,

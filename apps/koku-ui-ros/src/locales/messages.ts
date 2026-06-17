@@ -700,6 +700,101 @@ export default defineMessages({
     description: '{value} {units}',
     id: 'valueUnits',
   },
+  explanationTitle: {
+    defaultMessage: 'Why this recommendation?',
+    description: 'Expandable section title for recommendation explanation factors',
+    id: 'explanationTitle',
+  },
+  explanationDataDays: {
+    defaultMessage: 'Data days analyzed',
+    description: 'Label for number of days of data used',
+    id: 'explanationDataDays',
+  },
+  explanationCpuP95: {
+    defaultMessage: 'CPU usage P95',
+    description: 'Label for 95th percentile CPU usage',
+    id: 'explanationCpuP95',
+  },
+  explanationCpuP50: {
+    defaultMessage: 'CPU usage P50',
+    description: 'Label for 50th percentile CPU usage',
+    id: 'explanationCpuP50',
+  },
+  explanationCpuMean: {
+    defaultMessage: 'CPU usage mean',
+    description: 'Label for mean CPU usage',
+    id: 'explanationCpuMean',
+  },
+  explanationCpuMargin: {
+    defaultMessage: 'CPU adaptive margin',
+    description: 'Label for CPU adaptive margin in basis points',
+    id: 'explanationCpuMargin',
+  },
+  explanationCpuTrend: {
+    defaultMessage: 'CPU trend slope',
+    description: 'Label for CPU usage trend slope',
+    id: 'explanationCpuTrend',
+  },
+  explanationMemP95: {
+    defaultMessage: 'Memory usage P95',
+    description: 'Label for 95th percentile memory usage',
+    id: 'explanationMemP95',
+  },
+  explanationMemP50: {
+    defaultMessage: 'Memory usage P50',
+    description: 'Label for 50th percentile memory usage',
+    id: 'explanationMemP50',
+  },
+  explanationMemMean: {
+    defaultMessage: 'Memory usage mean',
+    description: 'Label for mean memory usage',
+    id: 'explanationMemMean',
+  },
+  explanationMemMargin: {
+    defaultMessage: 'Memory adaptive margin',
+    description: 'Label for memory adaptive margin in basis points',
+    id: 'explanationMemMargin',
+  },
+  explanationMemTrend: {
+    defaultMessage: 'Memory trend slope',
+    description: 'Label for memory usage trend slope',
+    id: 'explanationMemTrend',
+  },
+  explanationOomBump: {
+    defaultMessage: 'OOM bump applied',
+    description: 'Label indicating OOM kill buffer was applied',
+    id: 'explanationOomBump',
+  },
+  explanationOomCount: {
+    defaultMessage: 'OOM kill count',
+    description: 'Label for total OOM kill events observed',
+    id: 'explanationOomCount',
+  },
+  explanationCpuFloor: {
+    defaultMessage: 'CPU floor applied',
+    description: 'Label indicating minimum CPU floor was applied',
+    id: 'explanationCpuFloor',
+  },
+  explanationIdle: {
+    defaultMessage: 'Idle workload detected',
+    description: 'Label indicating the workload was classified as idle',
+    id: 'explanationIdle',
+  },
+  explanationNotAvailable: {
+    defaultMessage: 'Explanation data will be available after the next data ingestion.',
+    description: 'Message shown when explanation factors are not yet populated',
+    id: 'explanationNotAvailable',
+  },
+  explanationYes: {
+    defaultMessage: 'Yes',
+    description: 'Boolean true value for explanation factors',
+    id: 'explanationYes',
+  },
+  explanationNo: {
+    defaultMessage: 'No',
+    description: 'Boolean false value for explanation factors',
+    id: 'explanationNo',
+  },
   welcomeInfo: {
     defaultMessage: 'For more information visit {url}',
     description: 'more information url',

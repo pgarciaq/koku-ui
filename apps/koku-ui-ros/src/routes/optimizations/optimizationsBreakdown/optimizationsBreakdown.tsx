@@ -27,6 +27,7 @@ import { getRecommendationTerm } from 'utils/recomendations';
 
 import { styles } from './optimizationsBreakdown.styles';
 import { OptimizationsBreakdownConfiguration } from './optimizationsBreakdownConfiguration';
+import { OptimizationsBreakdownExplanation } from './optimizationsBreakdownExplanation';
 import { OptimizationsBreakdownHeader } from './optimizationsBreakdownHeader';
 import { OptimizationsBreakdownUtilization } from './optimizationsBreakdownUtilization';
 
@@ -176,6 +177,8 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
       const term = getRecommendationTerm(report?.recommendations, currentInterval);
       const plotsData = term?.plots?.plots_data;
 
+      const engine = term?.recommendation_engines?.[tab];
+
       return (
         <>
           <OptimizationsBreakdownConfiguration
@@ -192,6 +195,7 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
               />
             </div>
           )}
+          <OptimizationsBreakdownExplanation explanation={engine?.explanation} />
         </>
       );
     } else {
