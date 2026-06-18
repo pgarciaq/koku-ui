@@ -1615,6 +1615,14 @@
               }
             ]
           },
+          "tags": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Tags"
+              }
+            ]
+          },
           "workload": {
             "value": [
               {
@@ -2045,6 +2053,12 @@
       {
         "type": 0,
         "value": "Replicas"
+      }
+    ],
+    "replicaNoDataTooltip": [
+      {
+        "type": 0,
+        "value": "Not reported by the metrics operator. This value may be managed by an HPA or not available for this workload."
       }
     ],
     "replicaValues": [

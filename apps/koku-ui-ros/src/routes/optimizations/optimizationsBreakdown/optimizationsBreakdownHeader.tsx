@@ -1,4 +1,4 @@
-import { Content, ContentVariants, Icon, Title, TitleSizes } from '@patternfly/react-core';
+import { Content, ContentVariants, Icon, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { RecommendationReportData } from 'api/ros/recommendations';
 import messages from 'locales/messages';
@@ -67,6 +67,17 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
     const replicas = report?.recommendations?.replicas;
     const monitoringEndTime = report?.recommendations?.monitoring_end_time;
 
+    const replicaValue = (val: number | null | undefined) => {
+      if (val != null) {
+        return val;
+      }
+      return (
+        <Tooltip content={intl.formatMessage(messages.replicaNoDataTooltip)}>
+          <span tabIndex={0} style={{ cursor: 'default', borderBottom: '1px dotted' }}>—</span>
+        </Tooltip>
+      );
+    };
+
     return (
       <Content>
         <Content component={ContentVariants.dl}>
@@ -108,9 +119,9 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
               </Content>
               <Content component={ContentVariants.dd}>
                 {intl.formatMessage(messages.replicaValues, {
-                  min: replicas.min ?? '—',
-                  max: replicas.max ?? '—',
-                  desired: replicas.desired ?? '—',
+                  min: replicaValue(replicas.min),
+                  max: replicaValue(replicas.max),
+                  desired: replicaValue(replicas.desired),
                 })}
               </Content>
             </>

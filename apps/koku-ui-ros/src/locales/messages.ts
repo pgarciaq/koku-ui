@@ -853,6 +853,11 @@ export default defineMessages({
     description: 'Replica min/max/desired values',
     id: 'replicaValues',
   },
+  replicaNoDataTooltip: {
+    defaultMessage: 'Not reported by the metrics operator. This value may be managed by an HPA or not available for this workload.',
+    description: 'Tooltip shown when a replica value is null',
+    id: 'replicaNoDataTooltip',
+  },
   dataThrough: {
     defaultMessage: 'Data through',
     description: 'Label for monitoring end time date',
