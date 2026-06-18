@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **ROS:** Fixed hardcoded test UUID in `OptimizationsProjectsDataTable` that prevented recommendation details from loading when the `namespace` feature flag was enabled — replaced with `item.id`.
+- **ROS:** Fixed `formatBasisPoints()` applied to `confidence_level` in the explanation panel — `confidence_level` is a 0–1 ratio, not basis points; dividing by 100 produced `0.0%` for all recommendations. Now correctly displays e.g. `100.0%` for full-confidence recommendations.
+- **On-prem:** Removed `cost-management.koku-ui-ros.namespace` and `cost-management.koku-ui-hccm.price-list` from `ONPREM_ENABLED_FLAGS` — these were proactively enabled by a previous commit but the features are not ready for on-prem use.
+
 ### Changed
 
 - **ROS:** Read container notifications from engine level on detail (`recommendation_engines.<engine>.notifications`); list rows use `recommendations.notification_codes` for warning badges (ADR-0293 / performance audit A-2).

@@ -58,7 +58,7 @@ export const OptimizationsBreakdownExplanation: React.FC<OptimizationsBreakdownE
   if (explanation.confidence_level != null) {
     items.push({
       label: intl.formatMessage(messages.explanationConfidenceLevel),
-      value: formatBasisPoints(explanation.confidence_level),
+      value: `${(explanation.confidence_level * 100).toFixed(1)}%`,
     });
   }
 
