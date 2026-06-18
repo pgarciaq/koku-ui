@@ -444,6 +444,7 @@ export default defineMessages({
       'project_type {Project types} ' +
       'potential_savings {Potential savings} ' +
       'state {State} ' +
+      'tags {Tags} ' +
       'workload {Workload names} ' +
       'workload_type {Workload types} ' +
       'other {}}',

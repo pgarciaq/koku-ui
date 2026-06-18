@@ -1,6 +1,6 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { Icon, Label, Tooltip } from '@patternfly/react-core';
+import { Icon, Label, LabelGroup, Tooltip } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { RecommendationReport } from 'api/ros/recommendations';
 import messages from 'locales/messages';
@@ -58,7 +58,7 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
 
     const newNestedColumns = [
       {
-        colSpan: 3 + (isClusterHidden ? 0 : 1) + (isProjectHidden ? 0 : 1),
+        colSpan: 4 + (isClusterHidden ? 0 : 1) + (isProjectHidden ? 0 : 1),
         hasRightBorder: true,
       },
       {
@@ -123,6 +123,11 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
         name: intl.formatMessage(messages.optimizationsNames, { value: 'cluster' }),
         orderBy: 'cluster',
         ...(hasData && { isSortable: true }),
+      },
+      {
+        isSubheader: true,
+        hasRightBorder: true,
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'tags' }),
       },
       {
         isSubheader: true,
@@ -241,6 +246,24 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
               </>
             ),
             hidden: isClusterHidden,
+          },
+          {
+            value: (() => {
+              const tags = (item as any).tags as Record<string, string> | undefined;
+              if (!tags || Object.keys(tags).length === 0) {
+                return '—';
+              }
+              const entries = Object.entries(tags);
+              return (
+                <LabelGroup numLabels={3} isCompact>
+                  {entries.map(([key, val]) => (
+                    <Label key={key} isCompact color="blue">
+                      {key}={val}
+                    </Label>
+                  ))}
+                </LabelGroup>
+              );
+            })(),
           },
           { value: requestProps?.memoryRequestCurrent },
           { value: requestProps?.memoryVariation },

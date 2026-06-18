@@ -22,6 +22,7 @@ export interface RosData {
   project?: string;
   recommendations?: any;
   source_id?: string;
+  tags?: Record<string, string>;
   workload?: string;
   workload_type?: string;
 }
