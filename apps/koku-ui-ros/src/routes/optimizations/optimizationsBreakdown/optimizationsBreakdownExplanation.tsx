@@ -55,10 +55,38 @@ export const OptimizationsBreakdownExplanation: React.FC<OptimizationsBreakdownE
 
   const items: { label: string; value: string }[] = [];
 
+  if (explanation.confidence_level != null) {
+    items.push({
+      label: intl.formatMessage(messages.explanationConfidenceLevel),
+      value: formatBasisPoints(explanation.confidence_level),
+    });
+  }
+
+  if (explanation.decay_half_life_hours != null) {
+    items.push({
+      label: intl.formatMessage(messages.explanationDecayHalfLife),
+      value: `${explanation.decay_half_life_hours}h`,
+    });
+  }
+
   if (explanation.data_days != null) {
     items.push({
       label: intl.formatMessage(messages.explanationDataDays),
       value: `${explanation.data_days}`,
+    });
+  }
+
+  if (explanation.cpu_cost_percentile_millicores != null) {
+    items.push({
+      label: intl.formatMessage(messages.explanationCostPercentileCpu),
+      value: formatMillicores(explanation.cpu_cost_percentile_millicores),
+    });
+  }
+
+  if (explanation.cpu_perf_percentile_millicores != null) {
+    items.push({
+      label: intl.formatMessage(messages.explanationPerfPercentileCpu),
+      value: formatMillicores(explanation.cpu_perf_percentile_millicores),
     });
   }
 
@@ -94,6 +122,20 @@ export const OptimizationsBreakdownExplanation: React.FC<OptimizationsBreakdownE
     items.push({
       label: intl.formatMessage(messages.explanationCpuTrend),
       value: explanation.cpu_trend_slope.toFixed(4),
+    });
+  }
+
+  if (explanation.mem_cost_percentile_kib != null) {
+    items.push({
+      label: intl.formatMessage(messages.explanationCostPercentileMem),
+      value: formatKiB(explanation.mem_cost_percentile_kib),
+    });
+  }
+
+  if (explanation.mem_perf_percentile_kib != null) {
+    items.push({
+      label: intl.formatMessage(messages.explanationPerfPercentileMem),
+      value: formatKiB(explanation.mem_perf_percentile_kib),
     });
   }
 

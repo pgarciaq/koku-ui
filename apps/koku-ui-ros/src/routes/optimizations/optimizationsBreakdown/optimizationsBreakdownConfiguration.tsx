@@ -336,9 +336,39 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
 
   const isOptimized = isIntervalOptimized(recommendations, currentInterval, optimizationType);
 
+  const getBusinessHoursCard = () => {
+    const term = getRecommendationTerm();
+    const engine = term?.recommendation_engines?.[optimizationType];
+    const bh = engine?.business_hours;
+    if (!bh) {
+      return null;
+    }
+    const bhConfig = getConfiguration(bh, true, true);
+    const bhYaml = bhConfig ? YAML.stringify(bhConfig).replace(/"/g, '') : undefined;
+    return (
+      <GridItem xl={4}>
+        <Card>
+          <CardTitle>
+            <Title headingLevel="h2" size={TitleSizes.lg}>
+              {intl.formatMessage(messages.peakHoursSizing)}
+            </Title>
+          </CardTitle>
+          <CardBody>
+            <CodeBlock actions={getEmptyActions()}>
+              <CodeBlockCode>{bhYaml}</CodeBlockCode>
+            </CodeBlock>
+          </CardBody>
+        </Card>
+      </GridItem>
+    );
+  };
+
+  const businessHoursCard = getBusinessHoursCard();
+  const gridSpan = businessHoursCard ? 4 : 6;
+
   return (
     <Grid hasGutter>
-      <GridItem xl={6}>
+      <GridItem xl={gridSpan as any}>
         <Card>
           <CardTitle>
             <Title headingLevel="h2" size={TitleSizes.lg}>
@@ -348,7 +378,7 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
           <CardBody>{getCurrentConfigCodeBlock()}</CardBody>
         </Card>
       </GridItem>
-      <GridItem xl={6}>
+      <GridItem xl={gridSpan as any}>
         <Card>
           {isOptimized ? (
             <CardBody style={styles.optimizedState}>
@@ -366,6 +396,7 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
           )}
         </Card>
       </GridItem>
+      {businessHoursCard}
     </Grid>
   );
 };

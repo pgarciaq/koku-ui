@@ -3,6 +3,11 @@ import { axiosInstance } from 'api';
 import type { RosData, RosMeta, RosReport } from './ros';
 import { RosType } from './ros';
 
+export interface MoneyAmount {
+  value?: string;
+  units?: string;
+}
+
 export interface Notification {
   code?: number;
   message?: string;
@@ -26,6 +31,7 @@ export interface RecommendationValues {
 }
 
 export interface RecommendationEngine {
+  business_hours?: RecommendationValues;
   config: RecommendationValues;
   explanation?: RecommendationExplanation;
   notifications?: {
@@ -72,6 +78,7 @@ export interface RecommendationTerms {
 
 export interface Recommendations {
   current?: RecommendationValues;
+  estimated_monthly_savings?: MoneyAmount;
   monitoring_end_time?: string;
   /** List rows only — deduplicated codes for badge rendering */
   notification_codes?: number[];
@@ -80,6 +87,12 @@ export interface Recommendations {
     [key: string]: Notification;
   };
   recommendation_terms?: RecommendationTerms;
+  replicas?: {
+    min?: number;
+    max?: number;
+    desired?: number;
+    available?: number;
+  };
 }
 
 export interface RecommendationExplanation {

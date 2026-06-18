@@ -59,6 +59,14 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
     const workload = report?.workload ? report.workload : undefined;
     const workloadType = report?.workload_type ? report.workload_type : '';
 
+    const savings = report?.recommendations?.estimated_monthly_savings;
+    const savingsDisplay = savings?.value != null
+      ? `$${Number(savings.value).toFixed(2)} ${savings.units ?? 'USD'}`
+      : intl.formatMessage(messages.savingsNotAvailable);
+
+    const replicas = report?.recommendations?.replicas;
+    const monitoringEndTime = report?.recommendations?.monitoring_end_time;
+
     return (
       <Content>
         <Content component={ContentVariants.dl}>
@@ -89,6 +97,34 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
             {intl.formatMessage(messages.optimizationsValues, { value: 'workload' })}
           </Content>
           <Content component={ContentVariants.dd}>{workload}</Content>
+          <Content component={ContentVariants.dt}>
+            {intl.formatMessage(messages.savingsEstimatedMonthly)}
+          </Content>
+          <Content component={ContentVariants.dd}>{savingsDisplay}</Content>
+          {replicas && (
+            <>
+              <Content component={ContentVariants.dt}>
+                {intl.formatMessage(messages.replicaCount)}
+              </Content>
+              <Content component={ContentVariants.dd}>
+                {intl.formatMessage(messages.replicaValues, {
+                  min: replicas.min ?? '—',
+                  max: replicas.max ?? '—',
+                  desired: replicas.desired ?? '—',
+                })}
+              </Content>
+            </>
+          )}
+          {monitoringEndTime && (
+            <>
+              <Content component={ContentVariants.dt}>
+                {intl.formatMessage(messages.dataThrough)}
+              </Content>
+              <Content component={ContentVariants.dd}>
+                {intl.formatDate(new Date(monitoringEndTime), { year: 'numeric', month: 'short', day: 'numeric' })}
+              </Content>
+            </>
+          )}
         </Content>
       </Content>
     );

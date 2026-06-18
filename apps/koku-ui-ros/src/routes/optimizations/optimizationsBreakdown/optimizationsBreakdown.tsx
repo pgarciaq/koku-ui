@@ -117,6 +117,57 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
 
   const [currentInterval, setCurrentInterval] = useState(getDefaultInterval());
 
+  const getIdleCallout = () => {
+    const idleState = (report as any)?.idle_state;
+    if (!idleState || idleState === 'active') {
+      return null;
+    }
+    const idleRec = (report as any)?.idle_recommendation;
+    return (
+      <div style={styles.alertContainer}>
+        <Alert
+          isInline
+          variant={idleState === 'zombie' ? 'danger' : 'warning'}
+          title={intl.formatMessage(messages.idleCalloutTitle)}
+        >
+          <List>
+            {idleRec?.action && (
+              <ListItem>{intl.formatMessage(messages.idleCalloutAction, { action: idleRec.action })}</ListItem>
+            )}
+            {idleRec?.confidence && (
+              <ListItem>{intl.formatMessage(messages.idleCalloutConfidence, { confidence: idleRec.confidence })}</ListItem>
+            )}
+            {idleRec?.reason && (
+              <ListItem>{intl.formatMessage(messages.idleCalloutReason, { reason: idleRec.reason })}</ListItem>
+            )}
+          </List>
+        </Alert>
+      </div>
+    );
+  };
+
+  const getDataQualityAlert = () => {
+    const analyticsIncomplete = (report as any)?.analytics_incomplete;
+    const ingestHooksFailed = (report as any)?.ingest_hooks_failed;
+    if (!analyticsIncomplete && !ingestHooksFailed) {
+      return null;
+    }
+    return (
+      <div style={styles.alertContainer}>
+        <Alert isInline variant="warning" title={intl.formatMessage(messages.dataQualityIncomplete)}>
+          <List>
+            {analyticsIncomplete && (
+              <ListItem>{intl.formatMessage(messages.dataQualityIncomplete)}</ListItem>
+            )}
+            {ingestHooksFailed && (
+              <ListItem>{intl.formatMessage(messages.dataQualityIngestFailed)}</ListItem>
+            )}
+          </List>
+        </Alert>
+      </div>
+    );
+  };
+
   const getAlert = () => {
     const notifications = getNotifications(report?.recommendations, currentInterval, getOptimizationType());
 
@@ -269,6 +320,8 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
           />
         ) : (
           <div>
+            {getIdleCallout()}
+            {getDataQualityAlert()}
             {getAlert()}
             {getTabContent(availableTabs)}
           </div>

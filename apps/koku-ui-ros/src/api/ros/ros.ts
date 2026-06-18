@@ -1,10 +1,23 @@
 import type { PagedMetaData, PagedResponse } from 'api/api';
 
+export interface RosIdleRecommendation {
+  action?: string;
+  confidence?: string;
+  reason?: string;
+}
+
 export interface RosData {
+  analytics_incomplete?: boolean;
   cluster_uuid?: string;
   cluster_alias?: string;
   container?: string;
+  estimated_monthly_waste?: { value?: string; units?: string };
   id?: number;
+  idle_duration_days?: number;
+  idle_recommendation?: RosIdleRecommendation;
+  idle_since?: string;
+  idle_state?: string;
+  ingest_hooks_failed?: boolean;
   last_reported?: string;
   project?: string;
   recommendations?: any;

@@ -421,13 +421,13 @@ export default defineMessages({
     id: 'optimizationsLoadingStateTitle',
   },
   optimizationsLongTerm: {
-    defaultMessage: 'Last 15 days',
-    description: 'Last 15 days',
+    defaultMessage: 'Last 15 days (360h)',
+    description: 'Last 15 days (360h)',
     id: 'optimizationsLongTerm',
   },
   optimizationsMediumTerm: {
-    defaultMessage: 'Last 7 days',
-    description: 'Last 7 days',
+    defaultMessage: 'Last 7 days (168h)',
+    description: 'Last 7 days (168h)',
     id: 'optimizationsMediumTerm',
   },
   optimizationsNames: {
@@ -442,6 +442,8 @@ export default defineMessages({
       'memory  {Memory requests} ' +
       'project {Project names} ' +
       'project_type {Project types} ' +
+      'potential_savings {Potential savings} ' +
+      'state {State} ' +
       'workload {Workload names} ' +
       'workload_type {Workload types} ' +
       'other {}}',
@@ -454,8 +456,8 @@ export default defineMessages({
     id: 'optimizationsPerformance',
   },
   optimizationsShortTerm: {
-    defaultMessage: 'Last 24 hrs',
-    description: 'Last 24 hrs',
+    defaultMessage: 'Last 24 hrs (24h)',
+    description: 'Last 24 hrs (24h)',
     id: 'optimizationsShortTerm',
   },
   optimizationsProject: {
@@ -700,6 +702,36 @@ export default defineMessages({
     description: '{value} {units}',
     id: 'valueUnits',
   },
+  explanationConfidenceLevel: {
+    defaultMessage: 'Confidence level',
+    description: 'Label for recommendation confidence level',
+    id: 'explanationConfidenceLevel',
+  },
+  explanationCostPercentileCpu: {
+    defaultMessage: 'CPU cost percentile',
+    description: 'Label for CPU cost percentile in millicores',
+    id: 'explanationCostPercentileCpu',
+  },
+  explanationCostPercentileMem: {
+    defaultMessage: 'Memory cost percentile',
+    description: 'Label for memory cost percentile in KiB',
+    id: 'explanationCostPercentileMem',
+  },
+  explanationDecayHalfLife: {
+    defaultMessage: 'Decay half-life',
+    description: 'Label for exponential decay half-life in hours',
+    id: 'explanationDecayHalfLife',
+  },
+  explanationPerfPercentileCpu: {
+    defaultMessage: 'CPU performance percentile',
+    description: 'Label for CPU performance percentile in millicores',
+    id: 'explanationPerfPercentileCpu',
+  },
+  explanationPerfPercentileMem: {
+    defaultMessage: 'Memory performance percentile',
+    description: 'Label for memory performance percentile in KiB',
+    id: 'explanationPerfPercentileMem',
+  },
   explanationTitle: {
     defaultMessage: 'Why this recommendation?',
     description: 'Expandable section title for recommendation explanation factors',
@@ -794,6 +826,86 @@ export default defineMessages({
     defaultMessage: 'No',
     description: 'Boolean false value for explanation factors',
     id: 'explanationNo',
+  },
+  savingsEstimatedMonthly: {
+    defaultMessage: 'Estimated monthly savings',
+    description: 'Label for estimated monthly savings',
+    id: 'savingsEstimatedMonthly',
+  },
+  savingsNotAvailable: {
+    defaultMessage: '—',
+    description: 'Dash shown when savings data is not available',
+    id: 'savingsNotAvailable',
+  },
+  savingsNoDataTooltip: {
+    defaultMessage: 'No cost data available',
+    description: 'Tooltip shown when savings dash is hovered',
+    id: 'savingsNoDataTooltip',
+  },
+  replicaCount: {
+    defaultMessage: 'Replicas',
+    description: 'Label for replica count in detail header',
+    id: 'replicaCount',
+  },
+  replicaValues: {
+    defaultMessage: 'min {min} / max {max} / desired {desired}',
+    description: 'Replica min/max/desired values',
+    id: 'replicaValues',
+  },
+  dataThrough: {
+    defaultMessage: 'Data through',
+    description: 'Label for monitoring end time date',
+    id: 'dataThrough',
+  },
+  durationHours: {
+    defaultMessage: '{value}h',
+    description: 'Duration in hours suffix',
+    id: 'durationHours',
+  },
+  idleStateBadge: {
+    defaultMessage: '{state} {days, plural, =0 {} one {{days}d} other {{days}d}}',
+    description: 'Idle/zombie badge text with optional duration',
+    id: 'idleStateBadge',
+  },
+  wasteEstimatedMonthly: {
+    defaultMessage: 'Estimated monthly waste',
+    description: 'Label for estimated monthly waste column',
+    id: 'wasteEstimatedMonthly',
+  },
+  idleCalloutTitle: {
+    defaultMessage: 'Idle container detected',
+    description: 'Alert title for idle container callout in detail view',
+    id: 'idleCalloutTitle',
+  },
+  idleCalloutAction: {
+    defaultMessage: 'Recommended action: {action}',
+    description: 'Recommended action for idle container',
+    id: 'idleCalloutAction',
+  },
+  idleCalloutConfidence: {
+    defaultMessage: 'Confidence: {confidence}',
+    description: 'Confidence level for idle recommendation',
+    id: 'idleCalloutConfidence',
+  },
+  idleCalloutReason: {
+    defaultMessage: 'Reason: {reason}',
+    description: 'Reason for idle recommendation',
+    id: 'idleCalloutReason',
+  },
+  dataQualityIncomplete: {
+    defaultMessage: 'Analytics incomplete',
+    description: 'Warning badge for incomplete analytics data',
+    id: 'dataQualityIncomplete',
+  },
+  dataQualityIngestFailed: {
+    defaultMessage: 'Ingest hooks failed',
+    description: 'Warning badge for failed ingest hooks',
+    id: 'dataQualityIngestFailed',
+  },
+  peakHoursSizing: {
+    defaultMessage: 'Peak hours sizing',
+    description: 'Card title for peak hours sizing recommendations',
+    id: 'peakHoursSizing',
   },
   welcomeInfo: {
     defaultMessage: 'For more information visit {url}',

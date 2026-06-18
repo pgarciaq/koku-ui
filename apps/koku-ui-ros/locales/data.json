@@ -323,10 +323,28 @@
         "value": "Current configuration"
       }
     ],
+    "dataQualityIncomplete": [
+      {
+        "type": 0,
+        "value": "Analytics incomplete"
+      }
+    ],
+    "dataQualityIngestFailed": [
+      {
+        "type": 0,
+        "value": "Ingest hooks failed"
+      }
+    ],
     "dataTableAriaLabel": [
       {
         "type": 0,
         "value": "Details table"
+      }
+    ],
+    "dataThrough": [
+      {
+        "type": 0,
+        "value": "Data through"
       }
     ],
     "detailsEmptyState": [
@@ -339,6 +357,16 @@
       {
         "type": 0,
         "value": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/getting_started_with_resource_optimization_for_openshift/optimizations-ros"
+      }
+    ],
+    "durationHours": [
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": "h"
       }
     ],
     "emptyFilterStateSubtitle": [
@@ -414,6 +442,24 @@
         }
       }
     ],
+    "explanationConfidenceLevel": [
+      {
+        "type": 0,
+        "value": "Confidence level"
+      }
+    ],
+    "explanationCostPercentileCpu": [
+      {
+        "type": 0,
+        "value": "CPU cost percentile"
+      }
+    ],
+    "explanationCostPercentileMem": [
+      {
+        "type": 0,
+        "value": "Memory cost percentile"
+      }
+    ],
     "explanationCpuFloor": [
       {
         "type": 0,
@@ -454,6 +500,12 @@
       {
         "type": 0,
         "value": "Data days analyzed"
+      }
+    ],
+    "explanationDecayHalfLife": [
+      {
+        "type": 0,
+        "value": "Decay half-life"
       }
     ],
     "explanationIdle": [
@@ -514,6 +566,18 @@
       {
         "type": 0,
         "value": "OOM kill count"
+      }
+    ],
+    "explanationPerfPercentileCpu": [
+      {
+        "type": 0,
+        "value": "CPU performance percentile"
+      }
+    ],
+    "explanationPerfPercentileMem": [
+      {
+        "type": 0,
+        "value": "Memory performance percentile"
       }
     ],
     "explanationTitle": [
@@ -1109,6 +1173,87 @@
         "value": "dateRange"
       }
     ],
+    "idleCalloutAction": [
+      {
+        "type": 0,
+        "value": "Recommended action: "
+      },
+      {
+        "type": 1,
+        "value": "action"
+      }
+    ],
+    "idleCalloutConfidence": [
+      {
+        "type": 0,
+        "value": "Confidence: "
+      },
+      {
+        "type": 1,
+        "value": "confidence"
+      }
+    ],
+    "idleCalloutReason": [
+      {
+        "type": 0,
+        "value": "Reason: "
+      },
+      {
+        "type": 1,
+        "value": "reason"
+      }
+    ],
+    "idleCalloutTitle": [
+      {
+        "type": 0,
+        "value": "Idle container detected"
+      }
+    ],
+    "idleStateBadge": [
+      {
+        "type": 1,
+        "value": "state"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 6,
+        "value": "days",
+        "options": {
+          "=0": {
+            "value": []
+          },
+          "one": {
+            "value": [
+              {
+                "type": 1,
+                "value": "days"
+              },
+              {
+                "type": 0,
+                "value": "d"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "days"
+              },
+              {
+                "type": 0,
+                "value": "d"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
+      }
+    ],
     "kokuAppUrl": [
       {
         "type": 0,
@@ -1368,13 +1513,13 @@
     "optimizationsLongTerm": [
       {
         "type": 0,
-        "value": "Last 15 days"
+        "value": "Last 15 days (360h)"
       }
     ],
     "optimizationsMediumTerm": [
       {
         "type": 0,
-        "value": "Last 7 days"
+        "value": "Last 7 days (168h)"
       }
     ],
     "optimizationsNames": [
@@ -1454,6 +1599,22 @@
               }
             ]
           },
+          "potential_savings": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Potential savings"
+              }
+            ]
+          },
+          "state": {
+            "value": [
+              {
+                "type": 0,
+                "value": "State"
+              }
+            ]
+          },
           "workload": {
             "value": [
               {
@@ -1491,7 +1652,7 @@
     "optimizationsShortTerm": [
       {
         "type": 0,
-        "value": "Last 24 hrs"
+        "value": "Last 24 hrs (24h)"
       }
     ],
     "optimizationsType": [
@@ -1681,6 +1842,12 @@
             ]
           }
         }
+      }
+    ],
+    "peakHoursSizing": [
+      {
+        "type": 0,
+        "value": "Peak hours sizing"
       }
     ],
     "percentPlus": [
@@ -1874,10 +2041,60 @@
         "value": ")"
       }
     ],
+    "replicaCount": [
+      {
+        "type": 0,
+        "value": "Replicas"
+      }
+    ],
+    "replicaValues": [
+      {
+        "type": 0,
+        "value": "min "
+      },
+      {
+        "type": 1,
+        "value": "min"
+      },
+      {
+        "type": 0,
+        "value": " / max "
+      },
+      {
+        "type": 1,
+        "value": "max"
+      },
+      {
+        "type": 0,
+        "value": " / desired "
+      },
+      {
+        "type": 1,
+        "value": "desired"
+      }
+    ],
     "request": [
       {
         "type": 0,
         "value": "Request"
+      }
+    ],
+    "savingsEstimatedMonthly": [
+      {
+        "type": 0,
+        "value": "Estimated monthly savings"
+      }
+    ],
+    "savingsNoDataTooltip": [
+      {
+        "type": 0,
+        "value": "No cost data available"
+      }
+    ],
+    "savingsNotAvailable": [
+      {
+        "type": 0,
+        "value": "—"
       }
     ],
     "selectableTableAriaLabel": [
@@ -2315,6 +2532,12 @@
       {
         "type": 1,
         "value": "units"
+      }
+    ],
+    "wasteEstimatedMonthly": [
+      {
+        "type": 0,
+        "value": "Estimated monthly waste"
       }
     ],
     "welcomeInfo": [
