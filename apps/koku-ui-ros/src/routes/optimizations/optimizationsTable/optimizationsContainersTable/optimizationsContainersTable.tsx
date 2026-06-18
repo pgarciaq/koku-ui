@@ -100,9 +100,9 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   }, [query]);
 
   const getPagination = (isDisabled = false, isBottom = false) => {
-    const count = report?.meta ? report.meta.count : 0;
-    const limit = report?.meta ? report.meta.limit : optimizationsNamespacesBaseQuery.limit;
-    const offset = report?.meta ? report.meta.offset : optimizationsNamespacesBaseQuery.offset;
+    const count = report?.meta?.count ?? 0;
+    const limit = report?.meta?.limit ?? query.limit ?? optimizationsNamespacesBaseQuery.limit;
+    const offset = report?.meta?.offset ?? query.offset ?? optimizationsNamespacesBaseQuery.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -145,8 +145,8 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   };
 
   const getToolbar = () => {
-    const itemsPerPage = report?.meta ? report.meta.limit : 0;
-    const itemsTotal = report?.meta ? report.meta.count : 0;
+    const itemsPerPage = report?.meta?.limit ?? query.limit ?? optimizationsNamespacesBaseQuery.limit;
+    const itemsTotal = report?.meta?.count ?? 0;
     const isDisabled = itemsTotal === 0;
 
     return (

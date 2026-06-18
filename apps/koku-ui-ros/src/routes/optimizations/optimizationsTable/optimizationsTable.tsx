@@ -109,9 +109,9 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
   }, [query]);
 
   const getPagination = (isDisabled = false, isBottom = false) => {
-    const count = report?.meta ? report.meta.count : 0;
-    const limit = report?.meta ? report.meta.limit : baseQuery.limit;
-    const offset = report?.meta ? report.meta.offset : baseQuery.offset;
+    const count = report?.meta?.count ?? 0;
+    const limit = report?.meta?.limit ?? query.limit ?? baseQuery.limit;
+    const offset = report?.meta?.offset ?? query.offset ?? baseQuery.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -154,8 +154,8 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
   };
 
   const getToolbar = () => {
-    const itemsPerPage = report?.meta ? report.meta.limit : 0;
-    const itemsTotal = report?.meta ? report.meta.count : 0;
+    const itemsPerPage = report?.meta?.limit ?? query.limit ?? baseQuery.limit;
+    const itemsTotal = report?.meta?.count ?? 0;
     const isDisabled = itemsTotal === 0;
 
     return (
