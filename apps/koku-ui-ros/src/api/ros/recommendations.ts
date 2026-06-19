@@ -92,6 +92,8 @@ export interface Recommendations {
     max?: number;
     desired?: number;
     available?: number;
+    avg?: number;
+    source?: string;
   };
 }
 

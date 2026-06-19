@@ -12,7 +12,7 @@ export interface RosData {
   cluster_alias?: string;
   container?: string;
   estimated_monthly_waste?: { value?: string; units?: string };
-  id?: number;
+  id?: string;
   idle_duration_days?: number;
   idle_recommendation?: RosIdleRecommendation;
   idle_since?: string;
