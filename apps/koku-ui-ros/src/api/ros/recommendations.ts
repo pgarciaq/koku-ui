@@ -79,6 +79,8 @@ export interface RecommendationTerms {
 export interface Recommendations {
   current?: RecommendationValues;
   estimated_monthly_savings?: MoneyAmount;
+  cpu_savings?: MoneyAmount;
+  memory_savings?: MoneyAmount;
   monitoring_end_time?: string;
   /** List rows only — deduplicated codes for badge rendering */
   notification_codes?: number[];
