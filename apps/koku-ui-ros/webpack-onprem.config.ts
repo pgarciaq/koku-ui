@@ -14,11 +14,14 @@ const distDir = path.resolve(__dirname, './dist');
 
 const exposedModules = {
   './OptimizationsBadge': './src/fed-modules/optimizationsBadgeWrapper.tsx',
+  './NamespaceBreakdown': './src/fed-modules/namespaceBreakdownWrapper.tsx',
   './OptimizationsBreakdown': './src/fed-modules/optimizationsBreakdownWrapper.tsx',
   './OptimizationsContainersTable': './src/fed-modules/optimizationsContainersTableWrapper.tsx',
   './OptimizationsDetails': './src/fed-modules/optimizationsDetailsWrapper.tsx',
   './OptimizationsDetailsTitle': './src/fed-modules/optimizationsDetailsTitleWrapper.tsx',
   './OptimizationsLink': './src/fed-modules/optimizationsLinkWrapper.tsx',
+  './OptimizationsNamespacesBadge': './src/fed-modules/optimizationsNamespacesBadgeWrapper.tsx',
+  './OptimizationsNamespacesTable': './src/fed-modules/optimizationsNamespacesTableWrapper.tsx',
   './OptimizationsOcpBreakdown': './src/fed-modules/optimizationsOcpBreakdownWrapper.tsx',
   './OptimizationsProjectsTable': './src/fed-modules/optimizationsProjectsTableWrapper.tsx',
   './OptimizationsSummary': './src/fed-modules/optimizationsSummaryWrapper.tsx',

@@ -449,6 +449,11 @@ export default defineMessages({
     description: 'Clusters',
     id: 'clusters',
   },
+  container: {
+    defaultMessage: 'Container',
+    description: 'Container',
+    id: 'container',
+  },
   continue: {
     defaultMessage: 'Continue',
     description: 'Continue',
@@ -2920,6 +2925,16 @@ export default defineMessages({
     defaultMessage: '{count, plural, one {Name} other {Names}}',
     description: 'Name plural or singular',
     id: 'names',
+  },
+  namespace: {
+    defaultMessage: 'Namespace',
+    description: 'Namespace',
+    id: 'namespace',
+  },
+  namespaceRecommendations: {
+    defaultMessage: 'Namespace recommendations',
+    description: 'Namespace recommendations',
+    id: 'namespaceRecommendations',
   },
   networkUnattributedDistributed: {
     defaultMessage: 'Network unattributed',

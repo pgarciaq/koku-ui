@@ -149,3 +149,17 @@ export function runRosReports(reportType: RosType, query: string) {
   const queryString = query ? `?${query}` : '';
   return axiosInstance.get<RecommendationReport>(`${path}${queryString}`);
 }
+
+// Namespace recommendation by ID
+export function runNamespaceRosReport(reportType: RosType, query: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = query ? `/namespaces/${query}?include=explanation` : '';
+  return axiosInstance.get<RecommendationReport>(`${path}${queryString}`);
+}
+
+// Namespace recommendations list
+export function runNamespaceRosReports(reportType: RosType, query: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = query ? `?${query}` : '';
+  return axiosInstance.get<RecommendationReport>(`${path}/namespaces${queryString}`);
+}

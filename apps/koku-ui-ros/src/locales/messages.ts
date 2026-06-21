@@ -221,6 +221,7 @@ export default defineMessages({
       'workload {Filter by workload name} ' +
       'workload_type {Filter by workload type} ' +
       'tag {Filter by tag} ' +
+      'tag_key_value {Filter by tag (key=value)} ' +
       'other {}}',
     description: 'Filter by "value"',
     id: 'filterByPlaceholder',
@@ -234,6 +235,7 @@ export default defineMessages({
       'container {Container} ' +
       'gcp_project {GCP project} ' +
       'group {Group} ' +
+      'idle_state {Idle state} ' +
       'name {Name} ' +
       'node {Node} ' +
       'org_unit_id {Organizational unit} ' +
@@ -440,6 +442,7 @@ export default defineMessages({
       'current  {Current} ' +
       'last_reported {Last reported} ' +
       'memory  {Memory requests} ' +
+      'namespace {Namespace} ' +
       'project {Project names} ' +
       'project_type {Project types} ' +
       'potential_savings {Potential savings} ' +
@@ -868,10 +871,25 @@ export default defineMessages({
     description: 'Duration in hours suffix',
     id: 'durationHours',
   },
+  idleStateActive: {
+    defaultMessage: 'Active',
+    description: 'Active idle state filter label',
+    id: 'idleStateActive',
+  },
   idleStateBadge: {
     defaultMessage: '{state} {days, plural, =0 {} one {{days}d} other {{days}d}}',
     description: 'Idle/zombie badge text with optional duration',
     id: 'idleStateBadge',
+  },
+  idleStateIdle: {
+    defaultMessage: 'Idle',
+    description: 'Idle state filter label',
+    id: 'idleStateIdle',
+  },
+  idleStateZombie: {
+    defaultMessage: 'Zombie',
+    description: 'Zombie idle state filter label',
+    id: 'idleStateZombie',
   },
   wasteEstimatedMonthly: {
     defaultMessage: 'Estimated monthly waste',

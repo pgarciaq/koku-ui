@@ -48,8 +48,8 @@ export const enum RosType {
 }
 
 export const enum RosPathsType {
-  namespaces = 'recommendations', // Todo: Replace API when available
+  namespaceRecommendation = 'namespaceRecommendation',
+  namespaceRecommendations = 'namespaceRecommendations',
   recommendation = 'recommendation',
-  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   recommendations = 'recommendations',
 }

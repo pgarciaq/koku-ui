@@ -1,7 +1,4 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
-import type { RosQuery } from 'api/queries/rosQuery';
-import type { RosReport } from 'api/ros/ros';
-import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -15,80 +12,47 @@ import { useUrlState } from 'routes/utils/useUrlState';
 import { FetchStatus } from 'store/common';
 
 import {
-  optimizationsNamespacesBaseQuery,
-  useOptimizationsNamespacesReport,
-} from '../useOptimizationsNamespacesReport';
+  namespaceRecommendationsBaseQuery,
+  useNamespaceRecommendationsReport,
+} from '../useNamespaceRecommendationsReport';
 import { getLinkState } from '../utils';
-import { OptimizationsContainersDataTable } from './optimizationsContainersDataTable';
-import { OptimizationsContainersToolbar } from './optimizationsContainersToolbar';
+import { OptimizationsNamespacesDataTable } from './optimizationsNamespacesDataTable';
+import { OptimizationsNamespacesToolbar } from './optimizationsNamespacesToolbar';
 
-interface OptimizationsContainersTableOwnProps {
-  breadcrumbLabel?: string; // Breadcrumb label displayed in the page defined by linkPath
-  breadcrumbPath?: string; // Breadcrumb path used in the page defined by linkPath
-  cluster?: string | string[]; // Cluster name to filter by
-  isClusterHidden?: boolean; // Hides cluster filter and column
-  isProjectHidden?: boolean; // Hides project filter and column
-  linkPath?: string; // Path used by the link displayed in each table row
-  linkState?: any; // Link state used by the link displayed in each table row
-  onQueryChange?: (query: RosQuery) => void;
-  project?: string | string[]; // Project name to filter by
-  query?: RosQuery;
-  queryStateName: string; // Name used to store query state
-  report?: RosReport;
-  reportError?: AxiosError;
-  reportFetchStatus?: FetchStatus;
-  reportQueryString?: string;
+interface OptimizationsNamespacesTableOwnProps {
+  breadcrumbLabel?: string;
+  breadcrumbPath?: string;
+  cluster?: string | string[];
+  isClusterHidden?: boolean;
+  linkPath?: string;
+  linkState?: any;
+  queryStateName: string;
 }
 
-type OptimizationsContainersTableProps = OptimizationsContainersTableOwnProps;
+type OptimizationsNamespacesTableProps = OptimizationsNamespacesTableOwnProps;
 
-const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> = ({
+const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
   cluster,
   isClusterHidden,
-  isProjectHidden,
   linkPath,
   linkState,
-  onQueryChange,
-  project,
-  query: sharedQuery,
   queryStateName,
-  report: sharedReport,
-  reportError: sharedReportError,
-  reportFetchStatus: sharedReportFetchStatus,
-  reportQueryString: sharedReportQueryString,
 }) => {
   const intl = useIntl();
   const location = useLocation();
 
   const [newLinkState, setNewLinkState] = useState();
-  const { query: urlQuery, setQuery: setUrlQuery } = useUrlState({
-    baseQuery: optimizationsNamespacesBaseQuery,
-    prefix: 'ctr_',
+  const { query, setQuery } = useUrlState({
+    baseQuery: namespaceRecommendationsBaseQuery,
+    prefix: 'ns_',
   });
-  const usesSharedReport = onQueryChange !== undefined;
-  const query = sharedQuery ?? urlQuery;
-  const setQuery = onQueryChange ?? setUrlQuery;
-  const fetchedReport = useOptimizationsNamespacesReport({
+  const { report, reportError, reportFetchStatus, reportQueryString } = useNamespaceRecommendationsReport({
     cluster,
-    project,
     query,
-    skipFetch: usesSharedReport,
   });
-  const report = usesSharedReport ? sharedReport : fetchedReport.report;
-  const reportError = usesSharedReport ? sharedReportError : fetchedReport.reportError;
-  const reportFetchStatus = usesSharedReport ? sharedReportFetchStatus : fetchedReport.reportFetchStatus;
-  const reportQueryString = usesSharedReport ? sharedReportQueryString : fetchedReport.reportQueryString;
 
-  // This table component is used in multiple pages; Optimizations and OCP breakdown. Each table instance has
-  // a unique state for when users return to the OCP breakdown and then back to the Optimizations page.
-  //
-  // Path 1: From OCP details, user navigates to the OCP breakdown (i.e., the "optimizations tab").
-  // Within the Optimizations tab, users may navigate to the Optimizations breakdown.
-  //
-  // Path 2: From Optimizations, user navigates to the Optimizations breakdown and chooses the "project" link.
-  // The project link navigates to the OCP breakdown, where users may navigate to the Optimizations breakdown.
   useEffect(() => {
     setNewLinkState(
       getLinkState({
@@ -103,8 +67,8 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report?.meta?.count ?? 0;
-    const limit = report?.meta?.limit ?? query.limit ?? optimizationsNamespacesBaseQuery.limit;
-    const offset = report?.meta?.offset ?? query.offset ?? optimizationsNamespacesBaseQuery.offset;
+    const limit = report?.meta?.limit ?? query.limit ?? namespaceRecommendationsBaseQuery.limit;
+    const offset = report?.meta?.offset ?? query.offset ?? namespaceRecommendationsBaseQuery.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -123,21 +87,21 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
           }),
         }}
         variant={isBottom ? PaginationVariant.bottom : PaginationVariant.top}
-        widgetId={`exports-pagination${isBottom ? '-bottom' : ''}`}
+        widgetId={`namespace-pagination${isBottom ? '-bottom' : ''}`}
       />
     );
   };
 
   const getTable = () => {
     return (
-      <OptimizationsContainersDataTable
+      <OptimizationsNamespacesDataTable
         breadcrumbLabel={breadcrumbLabel}
         filterBy={query.filter_by}
         isClusterHidden={isClusterHidden}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        isProjectHidden={isProjectHidden}
         linkPath={linkPath}
         linkState={newLinkState}
+        onFilterAdded={filter => handleOnFilterAdded(filter)}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         report={report}
@@ -147,15 +111,14 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   };
 
   const getToolbar = () => {
-    const itemsPerPage = report?.meta?.limit ?? query.limit ?? optimizationsNamespacesBaseQuery.limit;
+    const itemsPerPage = report?.meta?.limit ?? query.limit ?? namespaceRecommendationsBaseQuery.limit;
     const itemsTotal = report?.meta?.count ?? 0;
     const isDisabled = itemsTotal === 0;
 
     return (
-      <OptimizationsContainersToolbar
+      <OptimizationsNamespacesToolbar
         isClusterHidden={isClusterHidden}
         isDisabled={isDisabled}
-        isProjectHidden={isProjectHidden}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
@@ -225,4 +188,4 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   );
 };
 
-export default OptimizationsContainersTable;
+export default OptimizationsNamespacesTable;

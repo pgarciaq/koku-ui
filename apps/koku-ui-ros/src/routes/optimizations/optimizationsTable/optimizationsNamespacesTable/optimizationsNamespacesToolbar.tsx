@@ -7,10 +7,9 @@ import { injectIntl } from 'react-intl';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { Filter } from 'routes/utils/filter';
 
-interface OptimizationsContainersToolbarOwnProps {
+interface OptimizationsNamespacesToolbarOwnProps {
   isClusterHidden?: boolean;
   isDisabled?: boolean;
-  isProjectHidden?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   onFilterAdded(filter: Filter);
@@ -19,18 +18,18 @@ interface OptimizationsContainersToolbarOwnProps {
   query?: RosQuery;
 }
 
-interface OptimizationsContainersToolbarState {
+interface OptimizationsNamespacesToolbarState {
   categoryOptions?: ToolbarLabelGroup[];
 }
 
-type OptimizationsContainersToolbarProps = OptimizationsContainersToolbarOwnProps & WrappedComponentProps;
+type OptimizationsNamespacesToolbarProps = OptimizationsNamespacesToolbarOwnProps & WrappedComponentProps;
 
-class OptimizationsContainersToolbarBase extends React.Component<
-  OptimizationsContainersToolbarProps,
-  OptimizationsContainersToolbarState
+class OptimizationsNamespacesToolbarBase extends React.Component<
+  OptimizationsNamespacesToolbarProps,
+  OptimizationsNamespacesToolbarState
 > {
-  protected defaultState: OptimizationsContainersToolbarState = {};
-  public state: OptimizationsContainersToolbarState = { ...this.defaultState };
+  protected defaultState: OptimizationsNamespacesToolbarState = {};
+  public state: OptimizationsNamespacesToolbarState = { ...this.defaultState };
 
   public componentDidMount() {
     this.setState({
@@ -39,26 +38,11 @@ class OptimizationsContainersToolbarBase extends React.Component<
   }
 
   private getCategoryOptions = (): ToolbarLabelGroup[] => {
-    const { intl, isClusterHidden, isProjectHidden } = this.props;
+    const { intl, isClusterHidden } = this.props;
 
     const options = [
-      { name: intl.formatMessage(messages.filterByValues, { value: 'container' }), key: 'container' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'project' }), key: 'project' },
-      { name: intl.formatMessage(messages.filterByValues, { value: 'workload' }), key: 'workload' },
-      {
-        name: intl.formatMessage(messages.filterByValues, { value: 'workload_type' }),
-        key: 'workload_type',
-        selectClassName: 'selectOverride',
-        selectOptions: [
-          { name: 'daemonset', key: 'daemonset' },
-          { name: 'deployment', key: 'deployment' },
-          { name: 'deploymentconfig', key: 'deploymentconfig' },
-          { name: 'replicaset', key: 'replicaset' },
-          { name: 'replicationcontroller', key: 'replicationcontroller' },
-          { name: 'statefulset', key: 'statefulset' },
-        ],
-      },
       {
         name: intl.formatMessage(messages.filterByValues, { value: 'idle_state' }),
         key: 'idle_state',
@@ -75,8 +59,7 @@ class OptimizationsContainersToolbarBase extends React.Component<
         placeholderKey: 'tag_key_value',
       },
     ];
-    const filteredOptions = isClusterHidden ? options.filter(option => option.key !== 'cluster') : options;
-    return isProjectHidden ? filteredOptions.filter(option => option.key !== 'project') : filteredOptions;
+    return isClusterHidden ? options.filter(option => option.key !== 'cluster') : options;
   };
 
   public render() {
@@ -100,6 +83,6 @@ class OptimizationsContainersToolbarBase extends React.Component<
   }
 }
 
-const OptimizationsContainersToolbar = injectIntl(OptimizationsContainersToolbarBase);
+const OptimizationsNamespacesToolbar = injectIntl(OptimizationsNamespacesToolbarBase);
 
-export { OptimizationsContainersToolbar };
+export { OptimizationsNamespacesToolbar };

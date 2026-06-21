@@ -1,0 +1,371 @@
+import '../optimizationsBreakdown.scss';
+
+import { Alert, List, ListItem, PageSection, Tab, TabContent, Tabs, TabTitleText } from '@patternfly/react-core';
+import type { Query } from 'api/queries/query';
+import { parseQuery } from 'api/queries/query';
+import type { RecommendationReportData } from 'api/ros/recommendations';
+import { RosPathsType, RosType } from 'api/ros/ros';
+import type { AxiosError } from 'axios';
+import { useIsBoxPlotToggleEnabled } from 'components/featureToggle';
+import messages from 'locales/messages';
+import type { RefObject } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import type { AnyAction } from 'redux';
+import type { ThunkDispatch } from 'redux-thunk';
+import { LoadingState } from 'routes/components/state/loadingState';
+import type { RootState } from 'store';
+import { FetchStatus } from 'store/common';
+import { rosActions, rosSelectors } from 'store/ros';
+import { Interval, OptimizationType } from 'utils/commonTypes';
+import { getNotifications, hasNotifications } from 'utils/notifications';
+import { breadcrumbLabelKey } from 'utils/props';
+import { hasRecommendation } from 'utils/recomendations';
+import { getRecommendationTerm } from 'utils/recomendations';
+
+import { styles } from '../optimizationsBreakdown.styles';
+import { OptimizationsBreakdownConfiguration } from '../optimizationsBreakdownConfiguration';
+import { OptimizationsBreakdownExplanation } from '../optimizationsBreakdownExplanation';
+import { OptimizationsBreakdownUtilization } from '../optimizationsBreakdownUtilization';
+import { NamespaceBreakdownHeader } from './namespaceBreakdownHeader';
+
+export const getIdKeyForTab = (tab: OptimizationType) => {
+  switch (tab) {
+    case OptimizationType.cost:
+      return 'cost';
+    case OptimizationType.performance:
+      return 'performance';
+  }
+};
+
+interface AvailableTab {
+  contentRef: RefObject<any>;
+  tab: OptimizationType;
+}
+
+interface NamespaceBreakdownOwnProps {
+  linkState?: any;
+  projectPath?: string;
+  queryStateName: string;
+}
+
+interface NamespaceBreakdownMapProps {
+  queryStateName: string;
+}
+
+interface NamespaceBreakdownStateProps {
+  breadcrumbLabel?: string;
+  breadcrumbPath?: string;
+  isBoxPlotToggleEnabled?: boolean;
+  report?: RecommendationReportData;
+  reportError?: AxiosError;
+  reportFetchStatus?: FetchStatus;
+  reportQueryString?: string;
+}
+
+type NamespaceBreakdownProps = NamespaceBreakdownOwnProps & NamespaceBreakdownStateProps;
+
+const reportType = RosType.ros as any;
+const reportPathsType = RosPathsType.namespaceRecommendation as any;
+
+const NamespaceBreakdown: React.FC<NamespaceBreakdownProps> = ({ linkState, projectPath, queryStateName }) => {
+  const { breadcrumbLabel, breadcrumbPath, isBoxPlotToggleEnabled, report, reportFetchStatus } = useMapToProps({
+    queryStateName,
+  });
+  const [activeTabKey, setActiveTabKey] = useState(0);
+  const intl = useIntl();
+
+  const getOptimizationType = () => {
+    switch (activeTabKey) {
+      case 1:
+        return OptimizationType.performance;
+      case 0:
+      default:
+        return OptimizationType.cost;
+    }
+  };
+
+  const getDefaultInterval = () => {
+    let result = Interval.short_term;
+    const terms = report?.recommendations?.recommendation_terms;
+    const optimizationType = getOptimizationType();
+
+    if (!terms) {
+      return result;
+    }
+
+    if (
+      hasRecommendation(terms?.short_term?.recommendation_engines?.[optimizationType]?.config) ||
+      hasNotifications(report?.recommendations, Interval.short_term, optimizationType)
+    ) {
+      result = Interval.short_term;
+    } else if (
+      hasRecommendation(terms?.medium_term?.recommendation_engines?.[optimizationType]?.config) ||
+      hasNotifications(report?.recommendations, Interval.medium_term, optimizationType)
+    ) {
+      result = Interval.medium_term;
+    } else if (
+      hasRecommendation(terms?.long_term?.recommendation_engines?.[optimizationType]?.config) ||
+      hasNotifications(report?.recommendations, Interval.long_term, optimizationType)
+    ) {
+      result = Interval.long_term;
+    }
+    return result as Interval;
+  };
+
+  const [currentInterval, setCurrentInterval] = useState(getDefaultInterval());
+
+  const getIdleCallout = () => {
+    const idleState = (report as any)?.idle_state;
+    if (!idleState || idleState === 'active') {
+      return null;
+    }
+    const idleRec = (report as any)?.idle_recommendation;
+    return (
+      <div style={styles.alertContainer}>
+        <Alert
+          isInline
+          variant={idleState === 'zombie' ? 'danger' : 'warning'}
+          title={intl.formatMessage(messages.idleCalloutTitle)}
+        >
+          <List>
+            {idleRec?.action && (
+              <ListItem>{intl.formatMessage(messages.idleCalloutAction, { action: idleRec.action })}</ListItem>
+            )}
+            {idleRec?.confidence && (
+              <ListItem>{intl.formatMessage(messages.idleCalloutConfidence, { confidence: idleRec.confidence })}</ListItem>
+            )}
+            {idleRec?.reason && (
+              <ListItem>{intl.formatMessage(messages.idleCalloutReason, { reason: idleRec.reason })}</ListItem>
+            )}
+          </List>
+        </Alert>
+      </div>
+    );
+  };
+
+  const getDataQualityAlert = () => {
+    const analyticsIncomplete = (report as any)?.analytics_incomplete;
+    const ingestHooksFailed = (report as any)?.ingest_hooks_failed;
+    if (!analyticsIncomplete && !ingestHooksFailed) {
+      return null;
+    }
+    return (
+      <div style={styles.alertContainer}>
+        <Alert isInline variant="warning" title={intl.formatMessage(messages.dataQualityIncomplete)}>
+          <List>
+            {analyticsIncomplete && (
+              <ListItem>{intl.formatMessage(messages.dataQualityIncomplete)}</ListItem>
+            )}
+            {ingestHooksFailed && (
+              <ListItem>{intl.formatMessage(messages.dataQualityIngestFailed)}</ListItem>
+            )}
+          </List>
+        </Alert>
+      </div>
+    );
+  };
+
+  const getAlert = () => {
+    const notifications = getNotifications(report?.recommendations, currentInterval, getOptimizationType());
+
+    if (notifications.length === 0) {
+      return null;
+    }
+    return (
+      <div style={styles.alertContainer}>
+        <Alert isInline variant="warning" title={intl.formatMessage(messages.notificationsAlertTitle)}>
+          <List>
+            {notifications?.map((notification, index) => (
+              <ListItem key={index}>{notification.message}</ListItem>
+            ))}
+          </List>
+        </Alert>
+      </div>
+    );
+  };
+
+  const getAvailableTabs = () => {
+    const availableTabs: AvailableTab[] = [
+      {
+        contentRef: React.createRef(),
+        tab: OptimizationType.cost,
+      },
+      {
+        contentRef: React.createRef(),
+        tab: OptimizationType.performance,
+      },
+    ];
+    return availableTabs;
+  };
+
+  const getTabContent = (availableTabs: AvailableTab[]) => {
+    return availableTabs.map((val, index) => {
+      return (
+        <TabContent
+          eventKey={index}
+          key={`${getIdKeyForTab(val.tab)}-tabContent`}
+          id={`tab-${index}`}
+          ref={val.contentRef as any}
+        >
+          {getTabItem(val.tab, index)}
+        </TabContent>
+      );
+    });
+  };
+
+  const getTabItem = (tab: OptimizationType, index: number) => {
+    const emptyTab = <></>;
+
+    if (activeTabKey !== index) {
+      return emptyTab;
+    }
+
+    const currentTab = getIdKeyForTab(tab);
+    if (currentTab === OptimizationType.cost || currentTab === OptimizationType.performance) {
+      const term = getRecommendationTerm(report?.recommendations, currentInterval);
+      const plotsData = term?.plots?.plots_data;
+
+      const engine = term?.recommendation_engines?.[tab];
+
+      return (
+        <>
+          <OptimizationsBreakdownConfiguration
+            currentInterval={currentInterval}
+            optimizationType={tab}
+            recommendations={report?.recommendations}
+          />
+          {plotsData && isBoxPlotToggleEnabled && (
+            <div style={styles.utilizationContainer}>
+              <OptimizationsBreakdownUtilization
+                currentInterval={currentInterval}
+                optimizationType={tab}
+                recommendations={report?.recommendations}
+              />
+            </div>
+          )}
+          <OptimizationsBreakdownExplanation explanation={engine?.explanation} />
+        </>
+      );
+    } else {
+      return emptyTab;
+    }
+  };
+
+  const getTab = (tab: OptimizationType, contentRef, index: number) => {
+    return (
+      <Tab
+        eventKey={index}
+        key={`${getIdKeyForTab(tab)}-tab`}
+        tabContentId={`tab-${index}`}
+        tabContentRef={contentRef}
+        title={<TabTitleText>{getTabTitle(tab)}</TabTitleText>}
+      />
+    );
+  };
+
+  const getTabs = (availableTabs: AvailableTab[]) => {
+    return (
+      <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
+        {availableTabs.map((val, index) => getTab(val.tab, val.contentRef, index))}
+      </Tabs>
+    );
+  };
+
+  const getTabTitle = (tab: OptimizationType) => {
+    if (tab === OptimizationType.cost) {
+      return intl.formatMessage(messages.optimizationsCost);
+    } else if (tab === OptimizationType.performance) {
+      return intl.formatMessage(messages.optimizationsPerformance);
+    }
+  };
+
+  const handleOnSelect = (value: Interval) => {
+    setCurrentInterval(value);
+  };
+
+  const handleTabClick = (event, tabIndex) => {
+    if (activeTabKey !== tabIndex) {
+      setActiveTabKey(tabIndex);
+    }
+  };
+
+  const isLoading = reportFetchStatus === FetchStatus.inProgress;
+  // eslint-disable-next-line
+  const [availableTabs] = useState(getAvailableTabs());
+
+  return (
+    <>
+      <PageSection style={styles.headerContainer}>
+        <NamespaceBreakdownHeader
+          breadcrumbLabel={breadcrumbLabel}
+          breadcrumbPath={breadcrumbPath}
+          currentInterval={currentInterval}
+          isDisabled={isLoading}
+          linkState={linkState}
+          onSelect={handleOnSelect}
+          optimizationType={getOptimizationType()}
+          report={report}
+        />
+      </PageSection>
+      <PageSection>{getTabs(availableTabs)}</PageSection>
+      <PageSection>
+        {isLoading ? (
+          <LoadingState
+            body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
+            heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}
+          />
+        ) : (
+          <div>
+            {getIdleCallout()}
+            {getDataQualityAlert()}
+            {getAlert()}
+            {getTabContent(availableTabs)}
+          </div>
+        )}
+      </PageSection>
+    </>
+  );
+};
+
+const useQueryFromRoute = () => {
+  const location = useLocation();
+  return parseQuery<Query>(location.search);
+};
+
+const useMapToProps = ({ queryStateName }: NamespaceBreakdownMapProps): NamespaceBreakdownStateProps => {
+  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const queryFromRoute = useQueryFromRoute();
+  const location = useLocation();
+
+  const reportQueryString = queryFromRoute ? queryFromRoute.id : '';
+  const report: any = useSelector((state: RootState) =>
+    rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString)
+  );
+  const reportFetchStatus = useSelector((state: RootState) =>
+    rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString)
+  );
+  const reportError = useSelector((state: RootState) =>
+    rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString)
+  );
+
+  useEffect(() => {
+    if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
+      dispatch(rosActions.fetchRosReport(reportPathsType, reportType, reportQueryString));
+    }
+  }, [reportQueryString]);
+
+  return {
+    breadcrumbLabel: queryFromRoute[breadcrumbLabelKey],
+    breadcrumbPath: location?.state?.[queryStateName]?.breadcrumbPath,
+    isBoxPlotToggleEnabled: useIsBoxPlotToggleEnabled(),
+    report,
+    reportError,
+    reportFetchStatus,
+    reportQueryString,
+  };
+};
+
+export default NamespaceBreakdown;

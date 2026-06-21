@@ -14,43 +14,43 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 
-export const optimizationsNamespacesBaseQuery: RosQuery = {
+// Default sort: cpu_variation_short_cost DESC surfaces the biggest resource changes.
+// When the backend adds estimated_monthly_savings support for namespaces, the UI
+// should attempt that sort first and fall back to variation when all savings are null.
+export const namespaceRecommendationsBaseQuery: RosQuery = {
   limit: 10,
   offset: 0,
   order_by: {
-    last_reported: 'desc',
+    cpu_variation_short_cost: 'desc',
   },
 };
 
-export interface OptimizationsNamespacesReportState {
+export interface NamespaceRecommendationsReportState {
   report: RosReport;
   reportError: AxiosError;
   reportFetchStatus: FetchStatus;
   reportQueryString: string;
 }
 
-export interface UseOptimizationsNamespacesReportProps {
+export interface UseNamespaceRecommendationsReportProps {
   cluster?: string | string[];
-  project?: string | string[];
   query: RosQuery;
   skipFetch?: boolean;
 }
 
-export const useOptimizationsNamespacesReport = ({
+export const useNamespaceRecommendationsReport = ({
   cluster,
-  project,
   query,
   skipFetch = false,
-}: UseOptimizationsNamespacesReportProps): OptimizationsNamespacesReportState => {
+}: UseNamespaceRecommendationsReportProps): NamespaceRecommendationsReportState => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
-  const order_by = getOrderById(query) || getOrderById(optimizationsNamespacesBaseQuery);
-  const order_how = getOrderByValue(query) || getOrderByValue(optimizationsNamespacesBaseQuery);
+  const order_by = getOrderById(query) || getOrderById(namespaceRecommendationsBaseQuery);
+  const order_how = getOrderByValue(query) || getOrderByValue(namespaceRecommendationsBaseQuery);
 
   const filterBy = expandTagFilters(query.filter_by);
 
   const reportQuery = withRosListProjection({
     ...(cluster && { cluster }),
-    ...(project && { project }),
     ...filterBy,
     limit: query.limit,
     ...(query.after ? { after: query.after } : { offset: query.offset }),
@@ -59,7 +59,7 @@ export const useOptimizationsNamespacesReport = ({
   });
   const reportQueryString = getQuery(reportQuery);
 
-  const reportPathsType = RosPathsType.recommendations;
+  const reportPathsType = RosPathsType.namespaceRecommendations;
   const reportType = RosType.ros as any;
 
   const report = useSelector((state: RootState) =>

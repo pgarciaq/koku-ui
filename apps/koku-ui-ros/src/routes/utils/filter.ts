@@ -73,6 +73,43 @@ export const removeFilterFromQuery = (query: Query, filter: Filter) => {
   }
 };
 
+/**
+ * Converts toolbar "tag" filter entries (key=value format) into the
+ * tag:<key>=<value> query parameter format expected by the ROS API.
+ *
+ * Input:  { cluster: 'foo', tag: ['environment=production', 'app=web'] }
+ * Output: { cluster: 'foo', 'tag:environment': 'production', 'tag:app': 'web' }
+ */
+export const expandTagFilters = (filterBy: Record<string, any> | undefined): Record<string, any> => {
+  if (!filterBy) {
+    return {};
+  }
+  const result: Record<string, any> = {};
+  for (const [key, val] of Object.entries(filterBy)) {
+    if (key !== 'tag') {
+      result[key] = val;
+      continue;
+    }
+    const values = Array.isArray(val) ? val : [val];
+    for (const entry of values) {
+      const eqIdx = String(entry).indexOf('=');
+      if (eqIdx > 0) {
+        const tagKey = String(entry).substring(0, eqIdx);
+        const tagVal = String(entry).substring(eqIdx + 1);
+        const paramKey = `tag:${tagKey}`;
+        if (result[paramKey]) {
+          result[paramKey] = Array.isArray(result[paramKey])
+            ? [...result[paramKey], tagVal]
+            : [result[paramKey], tagVal];
+        } else {
+          result[paramKey] = tagVal;
+        }
+      }
+    }
+  }
+  return result;
+};
+
 export const removeQueryFilter = (query: Query, filterType: string, filterValue: string, type: QueryFilterType) => {
   const newQuery = { ...JSON.parse(JSON.stringify(query)) };
   if (!newQuery[type]) {

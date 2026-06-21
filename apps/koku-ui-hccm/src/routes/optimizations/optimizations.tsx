@@ -11,6 +11,7 @@ import { withChrome } from 'utils/chrome';
 import { formatPath } from 'utils/paths';
 
 import { Efficiency } from './efficiency';
+import { NamespaceDetails } from './namespaceDetails';
 import { styles } from './optimizations.styles';
 import { OptimizationsDetails } from './optimizationsDetails';
 
@@ -69,7 +70,24 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
           <div style={styles.tabs}>
             <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
               <Tab eventKey={0} title={<TabTitleText>{intl.formatMessage(messages.efficiency)}</TabTitleText>} />
-              <Tab eventKey={1} title={<TabTitleText>{intl.formatMessage(messages.optimizations)}</TabTitleText>} />
+              <Tab
+                eventKey={1}
+                title={
+                  <TabTitleText>
+                    {intl.formatMessage(messages.container)}{' '}
+                    <AsyncComponent scope="costManagementRos" module="./OptimizationsBadge" />
+                  </TabTitleText>
+                }
+              />
+              <Tab
+                eventKey={2}
+                title={
+                  <TabTitleText>
+                    {intl.formatMessage(messages.namespace)}{' '}
+                    <AsyncComponent scope="costManagementRos" module="./OptimizationsNamespacesBadge" />
+                  </TabTitleText>
+                }
+              />
             </Tabs>
           </div>
         </header>
@@ -77,6 +95,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
       <PageSection>
         {activeTabKey === 0 && <Efficiency />}
         {activeTabKey === 1 && <OptimizationsDetails activeTabKey={1} isHeaderHidden={true} />}
+        {activeTabKey === 2 && <NamespaceDetails activeTabKey={2} />}
       </PageSection>
     </>
   );
