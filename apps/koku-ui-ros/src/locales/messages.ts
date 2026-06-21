@@ -442,7 +442,13 @@ export default defineMessages({
       'current  {Current} ' +
       'last_reported {Last reported} ' +
       'memory  {Memory requests} ' +
+      'instance_type {Instance type} ' +
       'namespace {Namespace} ' +
+      'node {Node} ' +
+      'node_classification {Classification} ' +
+      'node_cpu_util {CPU util P95} ' +
+      'node_mem_util {Mem util P95} ' +
+      'node_pod_count {Pod count} ' +
       'project {Project names} ' +
       'project_type {Project types} ' +
       'potential_savings {Potential savings} ' +
@@ -925,6 +931,31 @@ export default defineMessages({
     defaultMessage: 'Ingest hooks failed',
     description: 'Warning badge for failed ingest hooks',
     id: 'dataQualityIngestFailed',
+  },
+  nodeClassificationUnderutilized: {
+    defaultMessage: 'Underutilized',
+    description: 'Node classification badge for underutilized nodes',
+    id: 'nodeClassificationUnderutilized',
+  },
+  nodeClassificationOvercommitted: {
+    defaultMessage: 'Overcommitted',
+    description: 'Node classification badge for overcommitted nodes',
+    id: 'nodeClassificationOvercommitted',
+  },
+  nodeClassificationStrandedResource: {
+    defaultMessage: 'Stranded {resource}',
+    description: 'Node classification badge for stranded resource',
+    id: 'nodeClassificationStrandedResource',
+  },
+  nodeClassificationWellUtilized: {
+    defaultMessage: 'Well utilized',
+    description: 'Node classification badge for well-utilized nodes',
+    id: 'nodeClassificationWellUtilized',
+  },
+  nodes: {
+    defaultMessage: 'Nodes',
+    description: 'Node tab toggle label',
+    id: 'nodes',
   },
   peakHoursSizing: {
     defaultMessage: 'Peak hours sizing',

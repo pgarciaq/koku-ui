@@ -83,6 +83,12 @@ const OptimizationsDetailsToolbar: React.FC<OptimizationsDetailsToolbarProps> = 
             isSelected={namespace === RosNamespace.containers}
             onChange={event => handleOnNamespaceSelect(event)}
           />
+          <ToggleGroupItem
+            text="Nodes"
+            buttonId="nodes"
+            isSelected={namespace === RosNamespace.nodes}
+            onChange={event => handleOnNamespaceSelect(event)}
+          />
         </ToggleGroup>
       </FlexItem>
       <FlexItem>

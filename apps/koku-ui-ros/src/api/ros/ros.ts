@@ -37,8 +37,9 @@ export interface RosMeta extends PagedMetaData {
 }
 
 export const enum RosNamespace {
-  projects = 'projects',
   containers = 'containers',
+  nodes = 'nodes',
+  projects = 'projects',
 }
 
 export type RosReport = PagedResponse<RosData, RosMeta>;
@@ -50,6 +51,7 @@ export const enum RosType {
 export const enum RosPathsType {
   namespaceRecommendation = 'namespaceRecommendation',
   namespaceRecommendations = 'namespaceRecommendations',
+  nodeRecommendations = 'nodeRecommendations',
   recommendation = 'recommendation',
   recommendations = 'recommendations',
 }

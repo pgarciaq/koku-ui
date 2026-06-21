@@ -163,3 +163,78 @@ export function runNamespaceRosReports(reportType: RosType, query: string) {
   const queryString = query ? `?${query}` : '';
   return axiosInstance.get<RecommendationReport>(`${path}/namespaces${queryString}`);
 }
+
+// --- Node recommendation types ---
+
+export interface NodeClassification {
+  is_underutilized?: boolean;
+  is_overcommitted?: boolean;
+  idle_state?: string;
+  stranded_resource?: string;
+}
+
+export interface NodeMetrics {
+  cpu_util_p50?: number;
+  cpu_util_p95?: number;
+  mem_util_p50?: number;
+  mem_util_p95?: number;
+}
+
+export interface NodeEngineRecommendation {
+  recommended_cpu_cores?: number;
+  recommended_memory_gib?: number;
+  node_count_reduction?: number;
+  estimated_monthly_savings?: MoneyAmount;
+  notifications?: Record<string, Notification>;
+  updated_at?: string;
+}
+
+export interface NodeRecommendationTerm {
+  confidence_level?: number;
+  data_days?: number;
+  recommendation_engines?: {
+    cost?: NodeEngineRecommendation;
+    performance?: NodeEngineRecommendation;
+  };
+}
+
+export interface NodeRecommendationData {
+  node?: string;
+  cluster_uuid?: string;
+  instance_type?: string;
+  machineset_name?: string;
+  suggested_instance_type?: string;
+  instance_type_reason?: string;
+  recommendation_type?: string;
+  classification?: NodeClassification;
+  metrics?: NodeMetrics;
+  pod_count?: number;
+  pod_capacity?: number;
+  pod_scheduling_headroom?: number;
+  cpu_overcommit_ratio?: number;
+  trend_slope?: number;
+  recommendation_terms?: {
+    short_term?: NodeRecommendationTerm;
+    medium_term?: NodeRecommendationTerm;
+    long_term?: NodeRecommendationTerm;
+  };
+}
+
+export interface NodeRecommendationReport {
+  meta: {
+    count: number;
+    limit: number;
+    offset: number;
+    currency?: string;
+  };
+  data: NodeRecommendationData[];
+  links?: Record<string, string>;
+  warnings?: string[];
+}
+
+// Node recommendations list
+export function runNodeRosReports(reportType: RosType, query: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = query ? `?${query}` : '';
+  return axiosInstance.get<NodeRecommendationReport>(`${path}/nodes${queryString}`);
+}
