@@ -1,6 +1,6 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { Icon, Label, LabelGroup, Tooltip, type TooltipProps } from '@patternfly/react-core';
+import { Icon, Label, LabelGroup, Tooltip } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { RecommendationReport } from 'api/ros/recommendations';
 import messages from 'locales/messages';
@@ -141,7 +141,7 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
       },
     ];
 
-    report?.data.map(item => {
+    report?.data?.map(item => {
       const cluster = item.cluster_alias ?? item.cluster_uuid ?? '';
       const namespace = item.project ?? '';
       const lastReported = getTimeFromNow(item.last_reported);
@@ -156,9 +156,9 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
 
       const requestProps = getRequestProps(item);
       const savings = item.recommendations?.estimated_monthly_savings;
-      const waste = (item as any).estimated_monthly_waste;
-      const idleState = (item as any).idle_state;
-      const idleDays = (item as any).idle_duration_days;
+      const waste = item.estimated_monthly_waste;
+      const idleState = item.idle_state;
+      const idleDays = item.idle_duration_days;
 
       const isIdleOrZombie = idleState === 'idle' || idleState === 'zombie';
       const potentialSavingsSource = isIdleOrZombie ? waste : savings;
@@ -173,6 +173,9 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
         );
       })();
 
+      const analyticsIncomplete = item.analytics_incomplete;
+      const ingestHooksFailed = item.ingest_hooks_failed;
+
       const stateBadge = (() => {
         if (idleState === 'idle' || idleState === 'zombie') {
           return (
@@ -186,6 +189,21 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
         }
         return null;
       })();
+
+      const dataQualityBadges = (
+        <>
+          {analyticsIncomplete && (
+            <Label color="yellow" isCompact style={stateBadge ? { marginLeft: 4 } : undefined}>
+              {intl.formatMessage(messages.dataQualityIncomplete)}
+            </Label>
+          )}
+          {ingestHooksFailed && (
+            <Label color="yellow" isCompact style={{ marginLeft: 4 }}>
+              {intl.formatMessage(messages.dataQualityIngestFailed)}
+            </Label>
+          )}
+        </>
+      );
 
       newRows.push({
         cells: [
@@ -225,7 +243,7 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
           },
           {
             value: (() => {
-              const tags = (item as any).tags as Record<string, string> | undefined;
+              const tags = item.tags;
               if (!tags || Object.keys(tags).length === 0) {
                 return '—';
               }
@@ -246,7 +264,12 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
           { value: requestProps?.cpuRequestCurrent },
           { value: requestProps?.cpuVariation },
           {
-            value: stateBadge,
+            value: (
+              <>
+                {stateBadge}
+                {dataQualityBadges}
+              </>
+            ),
           },
           {
             value: potentialSavingsCell,

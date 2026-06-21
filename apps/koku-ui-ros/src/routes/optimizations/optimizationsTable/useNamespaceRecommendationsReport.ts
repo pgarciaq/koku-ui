@@ -14,14 +14,11 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 
-// Default sort: cpu_variation_short_cost DESC surfaces the biggest resource changes.
-// When the backend adds estimated_monthly_savings support for namespaces, the UI
-// should attempt that sort first and fall back to variation when all savings are null.
 export const namespaceRecommendationsBaseQuery: RosQuery = {
   limit: 10,
   offset: 0,
   order_by: {
-    cpu_variation_short_cost: 'desc',
+    estimated_monthly_savings: 'desc',
   },
 };
 

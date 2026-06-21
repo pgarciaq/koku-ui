@@ -852,8 +852,8 @@ export default defineMessages({
     id: 'replicaCount',
   },
   replicaValues: {
-    defaultMessage: 'min {min} / max {max} / desired {desired}',
-    description: 'Replica min/max/desired values',
+    defaultMessage: 'available {available} / min {min} / max {max} / desired {desired}',
+    description: 'Replica available/min/max/desired values',
     id: 'replicaValues',
   },
   replicaNoDataTooltip: {
@@ -897,8 +897,8 @@ export default defineMessages({
     id: 'wasteEstimatedMonthly',
   },
   idleCalloutTitle: {
-    defaultMessage: 'Idle container detected',
-    description: 'Alert title for idle container callout in detail view',
+    defaultMessage: 'Idle workload detected',
+    description: 'Alert title for idle workload callout in detail view',
     id: 'idleCalloutTitle',
   },
   idleCalloutAction: {

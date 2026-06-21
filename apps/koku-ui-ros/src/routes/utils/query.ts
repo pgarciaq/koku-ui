@@ -87,9 +87,6 @@ export const handleOnSetPage = (query: Query, report, pageNumber, isLimit = fals
     }
   }
 
-  const currentOffset = isLimit ? query.offset ?? 0 : query.filter?.offset ?? 0;
-  const currentPage = Math.trunc(currentOffset / limit + 1);
-
   if (pageNumber === 1) {
     return initQuery(query, false, {
       ...(isLimit
@@ -109,7 +106,8 @@ export const handleOnSetPage = (query: Query, report, pageNumber, isLimit = fals
     });
   }
 
-  if (pageNumber > currentPage && report?.meta?.has_next && report?.meta?.next_cursor) {
+  // Use cursor-based pagination when the API provides a next_cursor
+  if (report?.meta?.has_next && report?.meta?.next_cursor) {
     return initQuery(query, false, {
       ...(isLimit
         ? {

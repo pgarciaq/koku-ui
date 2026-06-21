@@ -1,4 +1,4 @@
-import { Content, ContentVariants, Icon, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
+import { Content, ContentVariants, Icon, Title, TitleSizes } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { RecommendationReportData } from 'api/ros/recommendations';
 import messages from 'locales/messages';
@@ -74,7 +74,18 @@ const NamespaceBreakdownHeader: React.FC<NamespaceBreakdownHeaderProps> = ({
           <Content component={ContentVariants.dt}>
             {intl.formatMessage(messages.savingsEstimatedMonthly)}
           </Content>
-          <Content component={ContentVariants.dd}>{savingsDisplay}</Content>
+          <Content component={ContentVariants.dd}>
+            {savingsDisplay}
+            {(() => {
+              const cpuSavings = report?.recommendations?.cpu_savings;
+              const memorySavings = report?.recommendations?.memory_savings;
+              if (cpuSavings?.value == null && memorySavings?.value == null) return null;
+              const parts = [];
+              if (cpuSavings?.value != null) parts.push(`CPU: $${Number(cpuSavings.value).toFixed(2)}`);
+              if (memorySavings?.value != null) parts.push(`Memory: $${Number(memorySavings.value).toFixed(2)}`);
+              return <div style={{ fontSize: 'var(--pf-t--global--font--size--xs)', color: 'var(--pf-t--global--text--color--subtle)' }}>{parts.join(' | ')}</div>;
+            })()}
+          </Content>
           {monitoringEndTime && (
             <>
               <Content component={ContentVariants.dt}>

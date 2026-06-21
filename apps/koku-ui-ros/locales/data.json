@@ -944,6 +944,14 @@
               }
             ]
           },
+          "tag_key_value": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Filter by tag (key=value)"
+              }
+            ]
+          },
           "other": {
             "value": []
           }
@@ -1000,6 +1008,14 @@
               {
                 "type": 0,
                 "value": "Group"
+              }
+            ]
+          },
+          "idle_state": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Idle state"
               }
             ]
           },
@@ -1206,7 +1222,13 @@
     "idleCalloutTitle": [
       {
         "type": 0,
-        "value": "Idle container detected"
+        "value": "Idle workload detected"
+      }
+    ],
+    "idleStateActive": [
+      {
+        "type": 0,
+        "value": "Active"
       }
     ],
     "idleStateBadge": [
@@ -1252,6 +1274,18 @@
         },
         "offset": 0,
         "pluralType": "cardinal"
+      }
+    ],
+    "idleStateIdle": [
+      {
+        "type": 0,
+        "value": "Idle"
+      }
+    ],
+    "idleStateZombie": [
+      {
+        "type": 0,
+        "value": "Zombie"
       }
     ],
     "kokuAppUrl": [
@@ -1580,6 +1614,14 @@
               {
                 "type": 0,
                 "value": "Memory requests"
+              }
+            ]
+          },
+          "namespace": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Namespace"
               }
             ]
           },
@@ -2064,7 +2106,15 @@
     "replicaValues": [
       {
         "type": 0,
-        "value": "min "
+        "value": "available "
+      },
+      {
+        "type": 1,
+        "value": "available"
+      },
+      {
+        "type": 0,
+        "value": " / min "
       },
       {
         "type": 1,

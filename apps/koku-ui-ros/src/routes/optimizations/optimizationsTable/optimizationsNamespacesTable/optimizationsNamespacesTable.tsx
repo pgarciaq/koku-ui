@@ -44,6 +44,7 @@ const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> 
   const location = useLocation();
 
   const [newLinkState, setNewLinkState] = useState();
+  const [cursorPage, setCursorPage] = useState(1);
   const { query, setQuery } = useUrlState({
     baseQuery: namespaceRecommendationsBaseQuery,
     prefix: 'ns_',
@@ -69,7 +70,7 @@ const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> 
     const count = report?.meta?.count ?? 0;
     const limit = report?.meta?.limit ?? query.limit ?? namespaceRecommendationsBaseQuery.limit;
     const offset = report?.meta?.offset ?? query.offset ?? namespaceRecommendationsBaseQuery.offset;
-    const page = Math.trunc(offset / limit + 1);
+    const page = query.after ? cursorPage : Math.trunc(offset / limit + 1);
 
     return (
       <Pagination
@@ -130,26 +131,31 @@ const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> 
   };
 
   const handleOnFilterAdded = filter => {
+    setCursorPage(1);
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
     setQuery(newQuery);
   };
 
   const handleOnFilterRemoved = filter => {
+    setCursorPage(1);
     const newQuery = queryUtils.handleOnFilterRemoved(query, filter);
     setQuery(newQuery);
   };
 
   const handleOnPerPageSelect = perPage => {
+    setCursorPage(1);
     const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
     setQuery(newQuery);
   };
 
   const handleOnSetPage = pageNumber => {
+    setCursorPage(pageNumber);
     const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
     setQuery(newQuery);
   };
 
   const handleOnSort = (sortType, isSortAscending) => {
+    setCursorPage(1);
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery(newQuery);
   };
@@ -173,7 +179,7 @@ const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> 
   return (
     <>
       {getToolbar()}
-      {reportFetchStatus === FetchStatus.inProgress ? (
+      {reportFetchStatus !== FetchStatus.complete ? (
         <LoadingState
           body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
           heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}

@@ -123,7 +123,7 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
         ...(hasData && { isSortable: true }),
       },
     ];
-    report?.data.map(item => {
+    report?.data?.map(item => {
       const cluster = item.cluster_alias ?? item.cluster_uuid ?? '';
       const container = item.container ?? '';
       const lastReported = getTimeFromNow(item.last_reported);

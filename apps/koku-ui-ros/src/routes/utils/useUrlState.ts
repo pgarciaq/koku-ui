@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
  * Serializes a RosQuery into URLSearchParams, encoding filter_by, order_by,
  * limit, offset, and after into the URL for deep-linkable state.
  */
-function serializeQuery(query: RosQuery, prefix: string): URLSearchParams {
+export function serializeQuery(query: RosQuery, prefix: string): URLSearchParams {
   const params = new URLSearchParams();
 
   if (query.limit != null) {
@@ -27,9 +27,14 @@ function serializeQuery(query: RosQuery, prefix: string): URLSearchParams {
 
   if (query.filter_by) {
     for (const [key, val] of Object.entries(query.filter_by)) {
+      if (val == null) {
+        continue;
+      }
       const values = Array.isArray(val) ? val : [val];
       for (const v of values) {
-        params.append(`${prefix}filter_by[${key}]`, String(v));
+        if (v != null) {
+          params.append(`${prefix}filter_by[${key}]`, String(v));
+        }
       }
     }
   }
@@ -41,7 +46,7 @@ function serializeQuery(query: RosQuery, prefix: string): URLSearchParams {
  * Parses URLSearchParams back into a partial RosQuery, extracting filter_by,
  * order_by, limit, offset, and after fields.
  */
-function deserializeQuery(params: URLSearchParams, prefix: string): Partial<RosQuery> {
+export function deserializeQuery(params: URLSearchParams, prefix: string): Partial<RosQuery> {
   const query: Partial<RosQuery> = {};
 
   const limit = params.get(`${prefix}limit`);

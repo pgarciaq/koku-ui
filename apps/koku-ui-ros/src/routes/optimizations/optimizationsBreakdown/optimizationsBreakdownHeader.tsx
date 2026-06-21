@@ -111,7 +111,18 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
           <Content component={ContentVariants.dt}>
             {intl.formatMessage(messages.savingsEstimatedMonthly)}
           </Content>
-          <Content component={ContentVariants.dd}>{savingsDisplay}</Content>
+          <Content component={ContentVariants.dd}>
+            {savingsDisplay}
+            {(() => {
+              const cpuSavings = report?.recommendations?.cpu_savings;
+              const memorySavings = report?.recommendations?.memory_savings;
+              if (cpuSavings?.value == null && memorySavings?.value == null) return null;
+              const parts = [];
+              if (cpuSavings?.value != null) parts.push(`CPU: $${Number(cpuSavings.value).toFixed(2)}`);
+              if (memorySavings?.value != null) parts.push(`Memory: $${Number(memorySavings.value).toFixed(2)}`);
+              return <div style={{ fontSize: 'var(--pf-t--global--font--size--xs)', color: 'var(--pf-t--global--text--color--subtle)' }}>{parts.join(' | ')}</div>;
+            })()}
+          </Content>
           {replicas && (
             <>
               <Content component={ContentVariants.dt}>
@@ -119,6 +130,7 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
               </Content>
               <Content component={ContentVariants.dd}>
                 {intl.formatMessage(messages.replicaValues, {
+                  available: replicaValue(replicas.available),
                   min: replicaValue(replicas.min),
                   max: replicaValue(replicas.max),
                   desired: replicaValue(replicas.desired),
