@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **ROS:** Added Namespace tab to the Optimizations page (Phase 1 of the multi-tab architecture). The new tab displays namespace-level recommendations with columns for Namespace, Cluster, Memory/CPU current and change, State, and Last Reported. Includes filtering by cluster and project, sorting on all columns, and pagination with cursor-based navigation.
+
+### Changed
+
+- **ROS:** Renamed "Optimizations" tab to "Container" in the Efficiency/Optimizations tabbed view to better reflect that this tab shows container-level recommendations (first step of the multi-tab architecture: Efficiency, Container, Namespace, GPU, Storage, Node, Quota, VM).
+
 ### Fixed
 
 - **ROS:** Fixed hardcoded test UUID in `OptimizationsProjectsDataTable` that prevented recommendation details from loading when the `namespace` feature flag was enabled — replaced with `item.id`.
