@@ -48,6 +48,12 @@
         "value": ")"
       }
     ],
+    "change": [
+      {
+        "type": 0,
+        "value": "Change"
+      }
+    ],
     "chartCostForecastConeTooltip": [
       {
         "type": 1,
@@ -315,6 +321,12 @@
             "value": []
           }
         }
+      }
+    ],
+    "current": [
+      {
+        "type": 0,
+        "value": "Current"
       }
     ],
     "currentConfiguration": [

@@ -3,7 +3,7 @@ import type { RosQuery } from 'api/queries/rosQuery';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { NodeRecommendationReport } from 'api/ros/recommendations';
 import type { AxiosError } from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
@@ -70,7 +70,7 @@ export const useNodeRecommendationsReport = ({
     ...(query.filter_by?.node && { node: query.filter_by.node }),
     ...classificationParams,
     limit: query.limit,
-    ...(query.after ? { after: query.after } : { offset: query.offset ?? 0 }),
+    offset: query.offset ?? 0,
     order_by,
     order_how,
   };
@@ -89,9 +89,17 @@ export const useNodeRecommendationsReport = ({
     rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString)
   );
 
+  const lastFailedQuery = useRef<string>(null);
+
   useEffect(() => {
-    if (skipFetch || reportError || reportFetchStatus === FetchStatus.inProgress) {
+    if (skipFetch || reportFetchStatus === FetchStatus.inProgress) {
       return;
+    }
+    if (reportError && lastFailedQuery.current === reportQueryString) {
+      return;
+    }
+    if (reportError) {
+      lastFailedQuery.current = reportQueryString;
     }
     dispatch(rosActions.fetchRosReport(reportPathsType, reportType, reportQueryString));
   }, [dispatch, reportError, reportFetchStatus, reportQueryString, skipFetch]);

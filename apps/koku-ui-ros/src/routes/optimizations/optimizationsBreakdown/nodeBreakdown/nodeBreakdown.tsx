@@ -255,93 +255,87 @@ const NodeEngineDetails: React.FC<{ engine: any; intl: any; tab: OptimizationTyp
     return `${value.toFixed(2)} ${unit}`;
   };
 
+  const explanation = engine.explanation;
+  const currentCpuCores =
+    explanation?.current_cpu_millicores != null ? explanation.current_cpu_millicores / 1000 : undefined;
+  const currentMemGiB =
+    explanation?.current_mem_kib != null ? explanation.current_mem_kib / (1024 * 1024) : undefined;
+  const hasCurrentValues = currentCpuCores != null || currentMemGiB != null;
+
   const savings = engine.estimated_monthly_savings;
   const savingsDisplay =
     savings?.value != null ? `$${Number(savings.value).toFixed(2)} ${savings.units ?? 'USD'}` : '—';
+
+  const cellStyle = {
+    padding: '8px',
+    borderBottom: '1px solid var(--pf-t--global--border--color--default)',
+  };
+  const headerStyle = {
+    ...cellStyle,
+    borderBottom: '2px solid var(--pf-t--global--border--color--default)',
+  };
 
   return (
     <div>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
-            <th
-              style={{
-                textAlign: 'left',
-                padding: '8px',
-                borderBottom: '2px solid var(--pf-t--global--border--color--default)',
-              }}
-            >
-              {intl.formatMessage(messages.metric)}
-            </th>
-            <th
-              style={{
-                textAlign: 'right',
-                padding: '8px',
-                borderBottom: '2px solid var(--pf-t--global--border--color--default)',
-              }}
-            >
-              {intl.formatMessage(messages.recommended)}
-            </th>
+            <th style={{ ...headerStyle, textAlign: 'left' }}>{intl.formatMessage(messages.metric)}</th>
+            {hasCurrentValues && (
+              <th style={{ ...headerStyle, textAlign: 'right' }}>{intl.formatMessage(messages.current)}</th>
+            )}
+            <th style={{ ...headerStyle, textAlign: 'right' }}>{intl.formatMessage(messages.recommended)}</th>
+            {hasCurrentValues && (
+              <th style={{ ...headerStyle, textAlign: 'right' }}>{intl.formatMessage(messages.change)}</th>
+            )}
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td style={{ padding: '8px', borderBottom: '1px solid var(--pf-t--global--border--color--default)' }}>
-              CPU Cores
-            </td>
-            <td
-              style={{
-                textAlign: 'right',
-                padding: '8px',
-                borderBottom: '1px solid var(--pf-t--global--border--color--default)',
-              }}
-            >
+            <td style={cellStyle}>CPU Cores</td>
+            {hasCurrentValues && (
+              <td style={{ ...cellStyle, textAlign: 'right' }}>{formatValue(currentCpuCores, 'cores')}</td>
+            )}
+            <td style={{ ...cellStyle, textAlign: 'right' }}>
               {formatValue(engine.recommended_cpu_cores, 'cores')}
             </td>
+            {hasCurrentValues && (
+              <td style={{ ...cellStyle, textAlign: 'right' }}>
+                {currentCpuCores != null && engine.recommended_cpu_cores != null
+                  ? formatValue(engine.recommended_cpu_cores - currentCpuCores, 'cores')
+                  : '—'}
+              </td>
+            )}
           </tr>
           <tr>
-            <td style={{ padding: '8px', borderBottom: '1px solid var(--pf-t--global--border--color--default)' }}>
-              Memory
-            </td>
-            <td
-              style={{
-                textAlign: 'right',
-                padding: '8px',
-                borderBottom: '1px solid var(--pf-t--global--border--color--default)',
-              }}
-            >
+            <td style={cellStyle}>Memory</td>
+            {hasCurrentValues && (
+              <td style={{ ...cellStyle, textAlign: 'right' }}>{formatValue(currentMemGiB, 'GiB')}</td>
+            )}
+            <td style={{ ...cellStyle, textAlign: 'right' }}>
               {formatValue(engine.recommended_memory_gib, 'GiB')}
             </td>
+            {hasCurrentValues && (
+              <td style={{ ...cellStyle, textAlign: 'right' }}>
+                {currentMemGiB != null && engine.recommended_memory_gib != null
+                  ? formatValue(engine.recommended_memory_gib - currentMemGiB, 'GiB')
+                  : '—'}
+              </td>
+            )}
           </tr>
           {engine.node_count_reduction > 0 && (
             <tr>
-              <td style={{ padding: '8px', borderBottom: '1px solid var(--pf-t--global--border--color--default)' }}>
-                {intl.formatMessage(messages.nodeCountReduction)}
-              </td>
-              <td
-                style={{
-                  textAlign: 'right',
-                  padding: '8px',
-                  borderBottom: '1px solid var(--pf-t--global--border--color--default)',
-                }}
-              >
-                {engine.node_count_reduction}
-              </td>
+              <td style={cellStyle}>{intl.formatMessage(messages.nodeCountReduction)}</td>
+              {hasCurrentValues && <td style={{ ...cellStyle, textAlign: 'right' }}>—</td>}
+              <td style={{ ...cellStyle, textAlign: 'right' }}>{engine.node_count_reduction}</td>
+              {hasCurrentValues && <td style={{ ...cellStyle, textAlign: 'right' }}>—</td>}
             </tr>
           )}
           <tr>
-            <td style={{ padding: '8px', borderBottom: '1px solid var(--pf-t--global--border--color--default)' }}>
-              {intl.formatMessage(messages.savingsEstimatedMonthly)}
-            </td>
-            <td
-              style={{
-                textAlign: 'right',
-                padding: '8px',
-                borderBottom: '1px solid var(--pf-t--global--border--color--default)',
-              }}
-            >
-              {savingsDisplay}
-            </td>
+            <td style={cellStyle}>{intl.formatMessage(messages.savingsEstimatedMonthly)}</td>
+            {hasCurrentValues && <td style={{ ...cellStyle, textAlign: 'right' }}>—</td>}
+            <td style={{ ...cellStyle, textAlign: 'right' }}>{savingsDisplay}</td>
+            {hasCurrentValues && <td style={{ ...cellStyle, textAlign: 'right' }}>—</td>}
           </tr>
         </tbody>
       </table>

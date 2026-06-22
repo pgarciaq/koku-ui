@@ -40,6 +40,7 @@ export function rosReducer(state = defaultState, action: RosAction): RosState {
       return {
         ...state,
         fetchStatus: new Map(state.fetchStatus).set(action.payload.fetchId, FetchStatus.inProgress),
+        errors: new Map(state.errors).set(action.payload.fetchId, null),
       };
 
     case getType(fetchRosSuccess): {

@@ -1,6 +1,6 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import messages from 'locales/messages';
-import React, { useState } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
@@ -32,7 +32,6 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
   queryStateName,
 }) => {
   const intl = useIntl();
-  const [cursorPage, setCursorPage] = useState(1);
 
   const { query, setQuery } = useUrlState({
     baseQuery: nodeRecommendationsBaseQuery,
@@ -46,7 +45,7 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
     const count = report?.meta?.count ?? 0;
     const limit = report?.meta?.limit ?? query.limit ?? nodeRecommendationsBaseQuery.limit;
     const offset = report?.meta?.offset ?? query.offset ?? nodeRecommendationsBaseQuery.offset;
-    const page = query.after ? cursorPage : Math.trunc(offset / limit + 1);
+    const page = Math.trunc(offset / limit + 1);
 
     return (
       <Pagination
@@ -105,46 +104,28 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
   };
 
   const handleOnFilterAdded = filter => {
-    setCursorPage(1);
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
-    setQuery(newQuery);
+    setQuery({ ...newQuery, offset: 0, after: undefined });
   };
 
   const handleOnFilterRemoved = filter => {
-    setCursorPage(1);
     const newQuery = queryUtils.handleOnFilterRemoved(query, filter);
-    setQuery(newQuery);
+    setQuery({ ...newQuery, offset: 0, after: undefined });
   };
 
   const handleOnPerPageSelect = perPage => {
-    setCursorPage(1);
-    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
-    setQuery(newQuery);
+    setQuery({ ...query, limit: perPage, offset: 0, after: undefined });
   };
 
   const handleOnSetPage = pageNumber => {
-    const isNextPage = pageNumber === cursorPage + 1;
-    if (isNextPage && report?.meta?.has_next && report?.meta?.next_cursor) {
-      setCursorPage(pageNumber);
-      const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
-      setQuery(newQuery);
-    } else {
-      setCursorPage(pageNumber);
-      const limit = report?.meta?.limit ?? query.limit ?? nodeRecommendationsBaseQuery.limit;
-      const offset = (pageNumber - 1) * limit;
-      setQuery({
-        ...query,
-        after: undefined,
-        offset: pageNumber === 1 ? 0 : offset,
-        limit,
-      });
-    }
+    const limit = report?.meta?.limit ?? query.limit ?? nodeRecommendationsBaseQuery.limit;
+    const offset = (pageNumber - 1) * limit;
+    setQuery({ ...query, offset, after: undefined, limit });
   };
 
   const handleOnSort = (sortType, isSortAscending) => {
-    setCursorPage(1);
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
-    setQuery(newQuery);
+    setQuery({ ...newQuery, offset: 0, after: undefined });
   };
 
   const itemsTotal = report?.meta ? report.meta.count : 0;

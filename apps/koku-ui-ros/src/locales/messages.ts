@@ -108,6 +108,16 @@ export default defineMessages({
     description: 'str.match(/([\\D]*)([\\d.,]+)([\\D]*)/)',
     id: 'currencyAbbreviations',
   },
+  change: {
+    defaultMessage: 'Change',
+    description: 'Column header for difference between current and recommended values',
+    id: 'change',
+  },
+  current: {
+    defaultMessage: 'Current',
+    description: 'Column header for current values',
+    id: 'current',
+  },
   currentConfiguration: {
     defaultMessage: 'Current configuration',
     description: 'Current configuration',
