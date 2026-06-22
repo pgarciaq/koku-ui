@@ -61,11 +61,10 @@ const getClassificationBadges = (item: NodeRecommendationData, intl: any) => {
   }
 
   if (c.stranded_resource) {
+    const resource = c.stranded_resource.charAt(0).toUpperCase() + c.stranded_resource.slice(1);
     badges.push(
       <Label key="stranded" color="blue" isCompact style={badges.length > 0 ? { marginLeft: 4 } : undefined}>
-        {intl.formatMessage(messages.nodeClassificationStrandedResource, {
-          resource: c.stranded_resource.toUpperCase(),
-        })}
+        {intl.formatMessage(messages.nodeClassificationStrandedResource, { resource })}
       </Label>
     );
   }

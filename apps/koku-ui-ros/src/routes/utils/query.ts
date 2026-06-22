@@ -126,6 +126,7 @@ export const handleOnSetPage = (query: Query, report, pageNumber, isLimit = fals
     });
   }
 
+  // For non-sequential jumps (backward, skip pages, last page), use offset
   const offset = pageNumber * limit - limit;
 
   return initQuery(query, false, {

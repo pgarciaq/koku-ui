@@ -123,9 +123,22 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
   };
 
   const handleOnSetPage = pageNumber => {
-    setCursorPage(pageNumber);
-    const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
-    setQuery(newQuery);
+    const isNextPage = pageNumber === cursorPage + 1;
+    if (isNextPage && report?.meta?.has_next && report?.meta?.next_cursor) {
+      setCursorPage(pageNumber);
+      const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
+      setQuery(newQuery);
+    } else {
+      setCursorPage(pageNumber);
+      const limit = report?.meta?.limit ?? query.limit ?? nodeRecommendationsBaseQuery.limit;
+      const offset = (pageNumber - 1) * limit;
+      setQuery({
+        ...query,
+        after: undefined,
+        offset: pageNumber === 1 ? 0 : offset,
+        limit,
+      });
+    }
   };
 
   const handleOnSort = (sortType, isSortAscending) => {

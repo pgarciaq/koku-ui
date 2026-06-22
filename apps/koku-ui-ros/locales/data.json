@@ -1398,10 +1398,28 @@
         "value": "No results found"
       }
     ],
+    "nodeClassificationIdle": [
+      {
+        "type": 0,
+        "value": "Idle"
+      }
+    ],
     "nodeClassificationOvercommitted": [
       {
         "type": 0,
         "value": "Overcommitted"
+      }
+    ],
+    "nodeClassificationStrandedCpu": [
+      {
+        "type": 0,
+        "value": "Stranded CPU"
+      }
+    ],
+    "nodeClassificationStrandedMemory": [
+      {
+        "type": 0,
+        "value": "Stranded memory"
       }
     ],
     "nodeClassificationStrandedResource": [

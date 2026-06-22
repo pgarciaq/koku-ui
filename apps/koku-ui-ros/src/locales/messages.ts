@@ -948,20 +948,35 @@ export default defineMessages({
     description: 'Warning badge for failed ingest hooks',
     id: 'dataQualityIngestFailed',
   },
-  nodeClassificationUnderutilized: {
-    defaultMessage: 'Underutilized',
-    description: 'Node classification badge for underutilized nodes',
-    id: 'nodeClassificationUnderutilized',
+  nodeClassificationIdle: {
+    defaultMessage: 'Idle',
+    description: 'Node classification filter option for idle nodes',
+    id: 'nodeClassificationIdle',
   },
   nodeClassificationOvercommitted: {
     defaultMessage: 'Overcommitted',
     description: 'Node classification badge for overcommitted nodes',
     id: 'nodeClassificationOvercommitted',
   },
+  nodeClassificationStrandedCpu: {
+    defaultMessage: 'Stranded CPU',
+    description: 'Node classification filter option for stranded CPU',
+    id: 'nodeClassificationStrandedCpu',
+  },
+  nodeClassificationStrandedMemory: {
+    defaultMessage: 'Stranded memory',
+    description: 'Node classification filter option for stranded memory',
+    id: 'nodeClassificationStrandedMemory',
+  },
   nodeClassificationStrandedResource: {
     defaultMessage: 'Stranded {resource}',
     description: 'Node classification badge for stranded resource',
     id: 'nodeClassificationStrandedResource',
+  },
+  nodeClassificationUnderutilized: {
+    defaultMessage: 'Underutilized',
+    description: 'Node classification badge for underutilized nodes',
+    id: 'nodeClassificationUnderutilized',
   },
   nodeClassificationWellUtilized: {
     defaultMessage: 'Well utilized',

@@ -44,11 +44,15 @@ class OptimizationsNodesToolbarBase extends React.Component<
       { name: intl.formatMessage(messages.filterByValues, { value: 'node' }), key: 'node' },
       {
         name: intl.formatMessage(messages.filterByValues, { value: 'classification' }),
-        key: 'is_underutilized',
+        key: 'classification',
         selectClassName: 'selectOverride',
         selectOptions: [
-          { name: intl.formatMessage(messages.nodeClassificationUnderutilized), key: 'true' },
-          { name: intl.formatMessage(messages.nodeClassificationWellUtilized), key: 'false' },
+          { name: intl.formatMessage(messages.nodeClassificationUnderutilized), key: 'underutilized' },
+          { name: intl.formatMessage(messages.nodeClassificationOvercommitted), key: 'overcommitted' },
+          { name: intl.formatMessage(messages.nodeClassificationIdle), key: 'idle' },
+          { name: intl.formatMessage(messages.nodeClassificationStrandedCpu), key: 'stranded_cpu' },
+          { name: intl.formatMessage(messages.nodeClassificationStrandedMemory), key: 'stranded_memory' },
+          { name: intl.formatMessage(messages.nodeClassificationWellUtilized), key: 'well_utilized' },
         ],
       },
     ];

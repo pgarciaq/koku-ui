@@ -139,9 +139,12 @@ export function useUrlState({ baseQuery, prefix = '' }: UseUrlStateOptions): Use
         currentParams.append(key, val);
       }
 
-      navigate(`${location.pathname}?${currentParams.toString()}`, { replace: true });
+      navigate(`${location.pathname}?${currentParams.toString()}`, {
+        replace: true,
+        state: location.state,
+      });
     },
-    [location.pathname, location.search, navigate, prefix]
+    [location.pathname, location.search, location.state, navigate, prefix]
   );
 
   return { query, setQuery };
