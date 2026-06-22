@@ -66,7 +66,15 @@ export const useNodeRecommendationsReport = ({
     }
   }
 
-  const tagFilters = expandTagFilters({ tag: query.filter_by?.tag });
+  const tagFilterEntries: Record<string, any> = {};
+  if (query.filter_by) {
+    for (const [key, val] of Object.entries(query.filter_by)) {
+      if (key === 'tag' || key.startsWith('tag:')) {
+        tagFilterEntries[key] = val;
+      }
+    }
+  }
+  const tagFilters = expandTagFilters(tagFilterEntries);
 
   const reportQuery: Record<string, any> = {
     ...(query.filter_by?.cluster && { cluster_uuid: query.filter_by.cluster }),

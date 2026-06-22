@@ -13,39 +13,71 @@ describe('expandTagFilters', () => {
     expect(expandTagFilters({ cluster: 'foo' })).toEqual({ cluster: 'foo' });
   });
 
-  it('expands a single string tag', () => {
-    expect(expandTagFilters({ tag: 'key=value' })).toEqual({ 'tag:key': 'value' });
+  it('expands a single legacy tag string', () => {
+    expect(expandTagFilters({ tag: 'key=value' })).toEqual({ 'filter[tag:key]': 'value' });
   });
 
-  it('expands an array of different tags', () => {
+  it('expands an array of different legacy tags', () => {
     expect(expandTagFilters({ tag: ['env=prod', 'app=web'] })).toEqual({
-      'tag:env': 'prod',
-      'tag:app': 'web',
+      'filter[tag:env]': 'prod',
+      'filter[tag:app]': 'web',
     });
   });
 
-  it('groups multiple values for the same tag key into an array', () => {
+  it('groups multiple values for the same legacy tag key into an array', () => {
     expect(expandTagFilters({ tag: ['env=prod', 'env=stage'] })).toEqual({
-      'tag:env': ['prod', 'stage'],
+      'filter[tag:env]': ['prod', 'stage'],
     });
   });
 
-  it('skips entries without an = sign', () => {
+  it('skips legacy entries without an = sign', () => {
     expect(expandTagFilters({ tag: 'invalidtag' })).toEqual({});
   });
 
-  it('preserves non-tag filters alongside expanded tags', () => {
+  it('preserves non-tag filters alongside expanded legacy tags', () => {
     expect(expandTagFilters({ cluster: 'c1', tag: 'env=prod' })).toEqual({
       cluster: 'c1',
-      'tag:env': 'prod',
+      'filter[tag:env]': 'prod',
     });
   });
 
   it('keeps an empty string value after =', () => {
-    expect(expandTagFilters({ tag: 'key=' })).toEqual({ 'tag:key': '' });
+    expect(expandTagFilters({ tag: 'key=' })).toEqual({ 'filter[tag:key]': '' });
   });
 
   it('skips entries where = is at position 0', () => {
     expect(expandTagFilters({ tag: '=value' })).toEqual({});
+  });
+
+  // New dropdown-selected format tests
+  it('handles dropdown-selected tag:key format', () => {
+    expect(expandTagFilters({ 'tag:env': 'prod' })).toEqual({ 'filter[tag:env]': 'prod' });
+  });
+
+  it('handles dropdown-selected tag:key with array values', () => {
+    expect(expandTagFilters({ 'tag:env': ['prod', 'stage'] })).toEqual({
+      'filter[tag:env]': ['prod', 'stage'],
+    });
+  });
+
+  it('handles multiple dropdown-selected tag keys', () => {
+    expect(expandTagFilters({ 'tag:env': 'prod', 'tag:app': 'web' })).toEqual({
+      'filter[tag:env]': 'prod',
+      'filter[tag:app]': 'web',
+    });
+  });
+
+  it('handles mixed non-tag, legacy tag, and dropdown tag formats', () => {
+    expect(
+      expandTagFilters({
+        cluster: 'c1',
+        tag: 'region=us-east',
+        'tag:env': 'prod',
+      })
+    ).toEqual({
+      cluster: 'c1',
+      'filter[tag:region]': 'us-east',
+      'filter[tag:env]': 'prod',
+    });
   });
 });

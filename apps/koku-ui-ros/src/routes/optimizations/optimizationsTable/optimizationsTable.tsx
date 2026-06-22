@@ -16,6 +16,7 @@ import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
+import { expandTagFilters } from 'routes/utils/filter';
 import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import * as queryUtils from 'routes/utils/query';
 import { getQueryState } from 'routes/utils/queryState';
@@ -231,10 +232,12 @@ const useMapToProps = ({ cluster, project, query }: OptimizationsTableMapProps):
   const order_by = getOrderById(query) || getOrderById(baseQuery);
   const order_how = getOrderByValue(query) || getOrderByValue(baseQuery);
 
+  const filterBy = expandTagFilters(query.filter_by);
+
   const reportQuery = withRosListProjection({
-    ...(cluster && { cluster }), // Flattened cluster filter
-    ...(project && { project }), // Flattened project filter
-    ...query.filter_by, // Flattened filter by
+    ...(cluster && { cluster }),
+    ...(project && { project }),
+    ...filterBy,
     limit: query.limit,
     ...(query.after ? { after: query.after } : { offset: query.offset }),
     order_by, // Flattened order by

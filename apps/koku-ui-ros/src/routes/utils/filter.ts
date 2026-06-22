@@ -74,11 +74,14 @@ export const removeFilterFromQuery = (query: Query, filter: Filter) => {
 };
 
 /**
- * Converts toolbar "tag" filter entries (key=value format) into the
- * filter[tag:key]=value query parameter format expected by the ROS API.
+ * Converts toolbar tag filter entries into the filter[tag:key]=value query
+ * parameter format expected by the ROS API.
  *
- * Input:  { cluster: 'foo', tag: ['environment=production', 'app=web'] }
- * Output: { cluster: 'foo', 'filter[tag:environment]': 'production', 'filter[tag:app]': 'web' }
+ * Handles two formats:
+ * 1. Legacy free-text: filter_by.tag = "key=value" or ["key=value", ...]
+ * 2. Dropdown-selected: filter_by["tag:keyName"] = "value" or ["value", ...]
+ *
+ * Both are normalized to: { "filter[tag:key]": "value" }
  */
 export const expandTagFilters = (filterBy: Record<string, any> | undefined): Record<string, any> => {
   if (!filterBy) {
@@ -86,25 +89,36 @@ export const expandTagFilters = (filterBy: Record<string, any> | undefined): Rec
   }
   const result: Record<string, any> = {};
   for (const [key, val] of Object.entries(filterBy)) {
-    if (key !== 'tag') {
-      result[key] = val;
-      continue;
-    }
-    const values = Array.isArray(val) ? val : [val];
-    for (const entry of values) {
-      const eqIdx = String(entry).indexOf('=');
-      if (eqIdx > 0) {
-        const tagKey = String(entry).substring(0, eqIdx);
-        const tagVal = String(entry).substring(eqIdx + 1);
-        const paramKey = `filter[tag:${tagKey}]`;
-        if (result[paramKey]) {
-          result[paramKey] = Array.isArray(result[paramKey])
-            ? [...result[paramKey], tagVal]
-            : [result[paramKey], tagVal];
-        } else {
-          result[paramKey] = tagVal;
+    if (key === 'tag') {
+      // Legacy free-text format: tag = "key=value"
+      const values = Array.isArray(val) ? val : [val];
+      for (const entry of values) {
+        const eqIdx = String(entry).indexOf('=');
+        if (eqIdx > 0) {
+          const tagKey = String(entry).substring(0, eqIdx);
+          const tagVal = String(entry).substring(eqIdx + 1);
+          const paramKey = `filter[tag:${tagKey}]`;
+          if (result[paramKey]) {
+            result[paramKey] = Array.isArray(result[paramKey])
+              ? [...result[paramKey], tagVal]
+              : [result[paramKey], tagVal];
+          } else {
+            result[paramKey] = tagVal;
+          }
         }
       }
+    } else if (key.startsWith('tag:')) {
+      // Dropdown-selected format: "tag:keyName" = "value"
+      const paramKey = `filter[${key}]`;
+      if (result[paramKey]) {
+        const existing = Array.isArray(result[paramKey]) ? result[paramKey] : [result[paramKey]];
+        const newValues = Array.isArray(val) ? val : [val];
+        result[paramKey] = [...existing, ...newValues];
+      } else {
+        result[paramKey] = val;
+      }
+    } else {
+      result[key] = val;
     }
   }
   return result;
