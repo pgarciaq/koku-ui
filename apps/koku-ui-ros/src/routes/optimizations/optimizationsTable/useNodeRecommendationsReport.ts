@@ -44,8 +44,10 @@ export const useNodeRecommendationsReport = ({
     ...(query.filter_by?.cluster && { cluster_uuid: query.filter_by.cluster }),
     ...(query.filter_by?.node && { node: query.filter_by.node }),
     ...(query.filter_by?.idle_state && { 'filter[idle_state]': query.filter_by.idle_state }),
+    ...(query.filter_by?.is_underutilized && { 'filter[is_underutilized]': query.filter_by.is_underutilized }),
+    ...(query.filter_by?.is_overcommitted && { 'filter[is_overcommitted]': query.filter_by.is_overcommitted }),
     limit: query.limit,
-    offset: query.offset ?? 0,
+    ...(query.after ? { after: query.after } : { offset: query.offset ?? 0 }),
     order_by,
     order_how,
   };

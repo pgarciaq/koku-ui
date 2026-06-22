@@ -5,13 +5,18 @@ import type { NodeRecommendationData, NodeRecommendationReport } from 'api/ros/r
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { Link } from 'react-router-dom';
 import { DataTable } from 'routes/components/dataTable';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
+import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { formatPercentage } from 'utils/format';
 
 interface OptimizationsNodesDataTableOwnProps {
+  breadcrumbLabel?: string;
   filterBy?: any;
   isLoading?: boolean;
+  linkPath?: string;
+  linkState?: any;
   onFilterAdded?(filter: { key: string; value: string });
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
@@ -92,8 +97,11 @@ const getSavingsCell = (item: NodeRecommendationData, intl: any) => {
 };
 
 const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = ({
+  breadcrumbLabel,
   filterBy,
   isLoading,
+  linkPath,
+  linkState,
   onFilterAdded,
   onSort,
   orderBy,
@@ -127,12 +135,18 @@ const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = 
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'node_cpu_util' }),
+        orderBy: 'cpu_util_p95',
+        ...(hasData && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'node_mem_util' }),
+        orderBy: 'mem_util_p95',
+        ...(hasData && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'node_pod_count' }),
+        orderBy: 'pod_count',
+        ...(hasData && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'potential_savings' }),
@@ -147,7 +161,23 @@ const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = 
 
       newRows.push({
         cells: [
-          { value: item.node ?? '' },
+          {
+            value: linkPath ? (
+              <Link
+                to={getOptimizationsBreakdownPath({
+                  basePath: linkPath,
+                  breadcrumbLabel,
+                  id: item.node,
+                  title: item.node,
+                })}
+                state={linkState}
+              >
+                {item.node ?? ''}
+              </Link>
+            ) : (
+              item.node ?? ''
+            ),
+          },
           {
             value: onFilterAdded ? (
               <a
@@ -191,7 +221,7 @@ const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = 
 
   useEffect(() => {
     initDatum();
-  }, [report]);
+  }, [linkState, report]);
 
   return (
     <DataTable

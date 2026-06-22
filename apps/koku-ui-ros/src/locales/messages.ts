@@ -231,6 +231,7 @@ export default defineMessages({
       '{value, select, ' +
       'account {Account} ' +
       'aws_category {Cost category} ' +
+      'classification {Classification} ' +
       'cluster {Cluster} ' +
       'container {Container} ' +
       'gcp_project {GCP project} ' +
@@ -302,6 +303,11 @@ export default defineMessages({
     defaultMessage: 'Memory utilization',
     description: 'Memory utilization',
     id: 'memoryUtilization',
+  },
+  metric: {
+    defaultMessage: 'Metric',
+    description: 'Column header for metric name',
+    id: 'metric',
   },
   names: {
     defaultMessage: '{count, plural, one {Name} other {Names}}',
@@ -459,6 +465,11 @@ export default defineMessages({
       'other {}}',
     description: 'Optimization table column names',
     id: 'optimizationsNames',
+  },
+  optimizationsNoRecommendations: {
+    defaultMessage: 'No recommendations available for this term.',
+    description: 'Message when no recommendation data is available for the selected term',
+    id: 'optimizationsNoRecommendations',
   },
   optimizationsPerformance: {
     defaultMessage: 'Performance optimizations',
@@ -837,6 +848,11 @@ export default defineMessages({
     description: 'Boolean false value for explanation factors',
     id: 'explanationNo',
   },
+  recommended: {
+    defaultMessage: 'Recommended',
+    description: 'Column header for recommended values',
+    id: 'recommended',
+  },
   savingsEstimatedMonthly: {
     defaultMessage: 'Estimated monthly savings',
     description: 'Label for estimated monthly savings',
@@ -951,6 +967,11 @@ export default defineMessages({
     defaultMessage: 'Well utilized',
     description: 'Node classification badge for well-utilized nodes',
     id: 'nodeClassificationWellUtilized',
+  },
+  nodeCountReduction: {
+    defaultMessage: 'Node count reduction',
+    description: 'Label for node count reduction in recommendations',
+    id: 'nodeCountReduction',
   },
   nodes: {
     defaultMessage: 'Nodes',

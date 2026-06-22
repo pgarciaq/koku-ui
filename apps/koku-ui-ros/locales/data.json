@@ -979,6 +979,14 @@
               }
             ]
           },
+          "classification": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Classification"
+              }
+            ]
+          },
           "cluster": {
             "value": [
               {
@@ -1330,6 +1338,12 @@
         "value": "Memory utilization"
       }
     ],
+    "metric": [
+      {
+        "type": 0,
+        "value": "Metric"
+      }
+    ],
     "names": [
       {
         "type": 6,
@@ -1382,6 +1396,46 @@
       {
         "type": 0,
         "value": "No results found"
+      }
+    ],
+    "nodeClassificationOvercommitted": [
+      {
+        "type": 0,
+        "value": "Overcommitted"
+      }
+    ],
+    "nodeClassificationStrandedResource": [
+      {
+        "type": 0,
+        "value": "Stranded "
+      },
+      {
+        "type": 1,
+        "value": "resource"
+      }
+    ],
+    "nodeClassificationUnderutilized": [
+      {
+        "type": 0,
+        "value": "Underutilized"
+      }
+    ],
+    "nodeClassificationWellUtilized": [
+      {
+        "type": 0,
+        "value": "Well utilized"
+      }
+    ],
+    "nodeCountReduction": [
+      {
+        "type": 0,
+        "value": "Node count reduction"
+      }
+    ],
+    "nodes": [
+      {
+        "type": 0,
+        "value": "Nodes"
       }
     ],
     "notConfiguredChanges": [
@@ -1617,11 +1671,59 @@
               }
             ]
           },
+          "instance_type": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Instance type"
+              }
+            ]
+          },
           "namespace": {
             "value": [
               {
                 "type": 0,
                 "value": "Namespace"
+              }
+            ]
+          },
+          "node": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Node"
+              }
+            ]
+          },
+          "node_classification": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Classification"
+              }
+            ]
+          },
+          "node_cpu_util": {
+            "value": [
+              {
+                "type": 0,
+                "value": "CPU util P95"
+              }
+            ]
+          },
+          "node_mem_util": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Mem util P95"
+              }
+            ]
+          },
+          "node_pod_count": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Pod count"
               }
             ]
           },
@@ -1685,6 +1787,12 @@
             "value": []
           }
         }
+      }
+    ],
+    "optimizationsNoRecommendations": [
+      {
+        "type": 0,
+        "value": "No recommendations available for this term."
       }
     ],
     "optimizationsPerformance": [
@@ -2055,6 +2163,12 @@
             "value": []
           }
         }
+      }
+    ],
+    "recommended": [
+      {
+        "type": 0,
+        "value": "Recommended"
       }
     ],
     "recommendedConfiguration": [
