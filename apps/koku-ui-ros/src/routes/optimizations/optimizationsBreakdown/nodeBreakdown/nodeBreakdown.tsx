@@ -22,7 +22,9 @@ import { breadcrumbLabelKey } from 'utils/props';
 
 import { styles } from '../optimizationsBreakdown.styles';
 import { useBreakdownProjection } from '../useBreakdownProjection';
+import { NodeBreakdownExplanation } from './nodeBreakdownExplanation';
 import { NodeBreakdownHeader } from './nodeBreakdownHeader';
+import { NodeBreakdownUtilization } from './nodeBreakdownUtilization';
 
 interface NodeBreakdownOwnProps {
   linkState?: any;
@@ -73,6 +75,19 @@ const NodeBreakdown: React.FC<NodeBreakdownProps> = ({ linkState, queryStateName
     );
   };
 
+  const getClassificationRationale = () => {
+    if (!report?.instance_type_reason) {
+      return null;
+    }
+    return (
+      <div style={styles.alertContainer}>
+        <Alert isInline variant="info" title={intl.formatMessage(messages.nodeClassificationRationaleTitle)}>
+          {report.instance_type_reason}
+        </Alert>
+      </div>
+    );
+  };
+
   const getBreakdownContent = () => {
     const termData = report?.recommendation_terms?.[term];
     const recommendationEngine = termData?.recommendation_engines?.[engine];
@@ -87,7 +102,13 @@ const NodeBreakdown: React.FC<NodeBreakdownProps> = ({ linkState, queryStateName
 
     return (
       <div style={{ padding: '16px 0' }}>
+        <div style={{ marginBottom: 24 }}>
+          <NodeBreakdownUtilization metrics={report?.metrics} />
+        </div>
         <NodeEngineDetails engine={recommendationEngine} intl={intl} />
+        <div style={{ marginTop: 16 }}>
+          <NodeBreakdownExplanation explanation={recommendationEngine.explanation} />
+        </div>
       </div>
     );
   };
@@ -115,6 +136,7 @@ const NodeBreakdown: React.FC<NodeBreakdownProps> = ({ linkState, queryStateName
         ) : (
           <div>
             {getNotificationAlert()}
+            {getClassificationRationale()}
             {getBreakdownContent()}
           </div>
         )}
@@ -197,7 +219,7 @@ const NodeEngineDetails: React.FC<{ engine: any; intl: any }> = ({ engine, intl 
               </td>
             )}
           </tr>
-          {engine.node_count_reduction > 0 && (
+          {engine.node_count_reduction != null && engine.node_count_reduction > 0 && (
             <tr>
               <td style={cellStyle}>{intl.formatMessage(messages.nodeCountReduction)}</td>
               {hasCurrentValues && <td style={{ ...cellStyle, textAlign: 'right' }}>—</td>}

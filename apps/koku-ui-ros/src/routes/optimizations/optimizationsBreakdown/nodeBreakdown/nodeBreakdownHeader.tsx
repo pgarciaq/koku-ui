@@ -6,8 +6,9 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import type { OptimizationType } from 'utils/commonTypes';
-import { formatPercentage } from 'utils/format';
+import { getTimeFromNow } from 'utils/dates';
 
+import { formatUtilPercentRange } from '../../optimizationsTable/nodeTableUtils';
 import { styles } from '../optimizationsBreakdownHeader.styles';
 
 interface NodeBreakdownHeaderOwnProps {
@@ -71,10 +72,11 @@ const NodeBreakdownHeader: React.FC<NodeBreakdownHeaderProps> = ({
     const clusterUuid = report?.cluster_uuid ?? '';
     const instanceType = report?.instance_type;
     const suggestedInstanceType = report?.suggested_instance_type;
+    const machinesetName = report?.machineset_name;
     const podCount = report?.pod_count;
     const podCapacity = report?.pod_capacity;
-    const cpuP95 = report?.metrics?.cpu_util_p95;
-    const memP95 = report?.metrics?.mem_util_p95;
+    const cpuUtil = formatUtilPercentRange(report?.metrics?.cpu_util_p50, report?.metrics?.cpu_util_p95);
+    const memUtil = formatUtilPercentRange(report?.metrics?.mem_util_p50, report?.metrics?.mem_util_p95);
 
     const selectedEngine = report?.recommendation_terms?.[term]?.recommendation_engines?.[engine];
     const savings = selectedEngine?.estimated_monthly_savings;
@@ -82,6 +84,11 @@ const NodeBreakdownHeader: React.FC<NodeBreakdownHeaderProps> = ({
       savings?.value != null
         ? `$${Number(savings.value).toFixed(2)} ${savings.units ?? 'USD'}`
         : intl.formatMessage(messages.savingsNotAvailable);
+    const lastReported = selectedEngine?.updated_at ? getTimeFromNow(selectedEngine.updated_at) : '—';
+    const fleetReduction =
+      selectedEngine?.node_count_reduction != null && selectedEngine.node_count_reduction > 0
+        ? selectedEngine.node_count_reduction
+        : '—';
 
     return (
       <Content>
@@ -90,6 +97,15 @@ const NodeBreakdownHeader: React.FC<NodeBreakdownHeaderProps> = ({
             {intl.formatMessage(messages.optimizationsValues, { value: 'cluster' })}
           </Content>
           <Content component={ContentVariants.dd}>{clusterUuid}</Content>
+
+          {machinesetName && (
+            <>
+              <Content component={ContentVariants.dt}>
+                {intl.formatMessage(messages.optimizationsNames, { value: 'machineset_name' })}
+              </Content>
+              <Content component={ContentVariants.dd}>{machinesetName}</Content>
+            </>
+          )}
 
           {instanceType && (
             <>
@@ -118,19 +134,25 @@ const NodeBreakdownHeader: React.FC<NodeBreakdownHeaderProps> = ({
           <Content component={ContentVariants.dt}>
             {intl.formatMessage(messages.optimizationsNames, { value: 'node_cpu_util' })}
           </Content>
-          <Content component={ContentVariants.dd}>
-            {cpuP95 != null ? formatPercentage(cpuP95 * 100) + '%' : '—'}
-          </Content>
+          <Content component={ContentVariants.dd}>{cpuUtil}</Content>
 
           <Content component={ContentVariants.dt}>
             {intl.formatMessage(messages.optimizationsNames, { value: 'node_mem_util' })}
           </Content>
-          <Content component={ContentVariants.dd}>
-            {memP95 != null ? formatPercentage(memP95 * 100) + '%' : '—'}
+          <Content component={ContentVariants.dd}>{memUtil}</Content>
+
+          <Content component={ContentVariants.dt}>
+            {intl.formatMessage(messages.optimizationsNames, { value: 'node_fleet_reduction' })}
           </Content>
+          <Content component={ContentVariants.dd}>{fleetReduction}</Content>
 
           <Content component={ContentVariants.dt}>{intl.formatMessage(messages.savingsEstimatedMonthly)}</Content>
           <Content component={ContentVariants.dd}>{savingsDisplay}</Content>
+
+          <Content component={ContentVariants.dt}>
+            {intl.formatMessage(messages.optimizationsValues, { value: 'last_reported' })}
+          </Content>
+          <Content component={ContentVariants.dd}>{lastReported}</Content>
         </Content>
       </Content>
     );

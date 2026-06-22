@@ -482,8 +482,10 @@ export default defineMessages({
       'namespace {Namespace} ' +
       'node {Node} ' +
       'node_classification {Classification} ' +
-      'node_cpu_util {CPU util P95} ' +
-      'node_mem_util {Mem util P95} ' +
+      'node_cpu_util {CPU util P50/P95} ' +
+      'node_mem_util {Mem util P50/P95} ' +
+      'node_fleet_reduction {Fleet reduction} ' +
+      'machineset_name {Machine set} ' +
       'node_pod_count {Pod count} ' +
       'project {Project names} ' +
       'project_type {Project types} ' +
@@ -1022,6 +1024,71 @@ export default defineMessages({
     defaultMessage: 'Node count reduction',
     description: 'Label for node count reduction in recommendations',
     id: 'nodeCountReduction',
+  },
+  nodeClassificationRationaleTitle: {
+    defaultMessage: 'Classification rationale',
+    description: 'Alert title for node instance type classification rationale',
+    id: 'nodeClassificationRationaleTitle',
+  },
+  nodeUtilizationTitle: {
+    defaultMessage: 'Utilization percentiles',
+    description: 'Card title for node CPU and memory utilization percentiles',
+    id: 'nodeUtilizationTitle',
+  },
+  nodeUtilizationP50Label: {
+    defaultMessage: '{resource} P50',
+    description: 'Progress bar label for node utilization P50 percentile',
+    id: 'nodeUtilizationP50Label',
+  },
+  nodeUtilizationP95Label: {
+    defaultMessage: '{resource} P95',
+    description: 'Progress bar label for node utilization P95 percentile',
+    id: 'nodeUtilizationP95Label',
+  },
+  nodeExplanationTargetUtilization: {
+    defaultMessage: 'Target utilization',
+    description: 'Node explanation factor for target utilization basis points',
+    id: 'nodeExplanationTargetUtilization',
+  },
+  nodeExplanationCurrentCpu: {
+    defaultMessage: 'Current CPU capacity',
+    description: 'Node explanation factor for current CPU millicores',
+    id: 'nodeExplanationCurrentCpu',
+  },
+  nodeExplanationMaxCpuP95: {
+    defaultMessage: 'Max CPU usage P95',
+    description: 'Node explanation factor for max CPU usage P95 millicores',
+    id: 'nodeExplanationMaxCpuP95',
+  },
+  nodeExplanationCurrentMemory: {
+    defaultMessage: 'Current memory capacity',
+    description: 'Node explanation factor for current memory KiB',
+    id: 'nodeExplanationCurrentMemory',
+  },
+  nodeExplanationMaxMemP95: {
+    defaultMessage: 'Max memory usage P95',
+    description: 'Node explanation factor for max memory usage P95 KiB',
+    id: 'nodeExplanationMaxMemP95',
+  },
+  nodeExplanationPodHeadroom: {
+    defaultMessage: 'Pod scheduling headroom',
+    description: 'Node explanation factor for pod scheduling headroom basis points',
+    id: 'nodeExplanationPodHeadroom',
+  },
+  nodeExplanationEmaImbalance: {
+    defaultMessage: 'EMA imbalance',
+    description: 'Node explanation factor for EMA imbalance basis points',
+    id: 'nodeExplanationEmaImbalance',
+  },
+  nodeExplanationConsolidationApplied: {
+    defaultMessage: 'Consolidation applied',
+    description: 'Node explanation factor for fleet consolidation flag',
+    id: 'nodeExplanationConsolidationApplied',
+  },
+  nodeExplanationSizingFormula: {
+    defaultMessage: 'Sizing formula',
+    description: 'Node explanation factor for sizing formula identifier',
+    id: 'nodeExplanationSizingFormula',
   },
   nodes: {
     defaultMessage: 'Nodes',

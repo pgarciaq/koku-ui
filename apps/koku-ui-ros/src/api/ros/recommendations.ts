@@ -191,6 +191,20 @@ export interface NodeMetrics {
   mem_util_p95?: number;
 }
 
+export interface NodeExplanation {
+  confidence_level?: number;
+  consolidation_applied?: boolean;
+  current_cpu_millicores?: number;
+  current_mem_kib?: number;
+  data_days?: number;
+  ema_imbalance_basis_points?: number;
+  max_cpu_usage_p95_millicores?: number;
+  max_mem_usage_p95_kib?: number;
+  pod_scheduling_headroom_basis_points?: number;
+  sizing_formula?: string;
+  target_utilization_basis_points?: number;
+}
+
 export interface NodeEngineRecommendation {
   recommended_cpu_cores?: number;
   recommended_memory_gib?: number;
@@ -198,6 +212,7 @@ export interface NodeEngineRecommendation {
   estimated_monthly_savings?: MoneyAmount;
   notifications?: Record<string, Notification>;
   updated_at?: string;
+  explanation?: NodeExplanation;
 }
 
 export interface NodeRecommendationTerm {

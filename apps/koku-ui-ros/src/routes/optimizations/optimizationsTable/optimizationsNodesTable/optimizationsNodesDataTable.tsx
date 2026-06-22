@@ -10,7 +10,14 @@ import { Link } from 'react-router-dom';
 import { DataTable } from 'routes/components/dataTable';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
 import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
-import { formatPercentage } from 'utils/format';
+import { getTimeFromNow } from 'utils/dates';
+
+import {
+  formatUtilPercentRange,
+  getNodeEngineRec,
+  getNodeFleetReduction,
+  getNodeLastReported,
+} from '../nodeTableUtils';
 
 interface OptimizationsNodesDataTableOwnProps {
   breadcrumbLabel?: string;
@@ -84,9 +91,7 @@ const getClassificationBadges = (item: NodeRecommendationData, intl: any) => {
 };
 
 const getSavingsCell = (item: NodeRecommendationData, intl: any, term: string, engine: string) => {
-  const terms = item.recommendation_terms;
-  const selectedEngine = terms?.[term]?.recommendation_engines?.[engine];
-  const savings = selectedEngine?.estimated_monthly_savings;
+  const savings = getNodeEngineRec(item, term, engine)?.estimated_monthly_savings;
 
   if (savings?.value != null) {
     return `$${Number(savings.value).toFixed(2)} ${savings.units ?? 'USD'}`;
@@ -96,6 +101,11 @@ const getSavingsCell = (item: NodeRecommendationData, intl: any, term: string, e
       <span>—</span>
     </Tooltip>
   );
+};
+
+const getFleetReductionCell = (item: NodeRecommendationData, term: string, engine: string) => {
+  const reduction = getNodeFleetReduction(item, term, engine);
+  return reduction != null ? reduction : '—';
 };
 
 const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = ({
@@ -129,13 +139,6 @@ const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = 
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'cluster' }),
-        orderBy: 'cluster',
-      },
-      {
-        name: intl.formatMessage(messages.optimizationsNames, { value: 'instance_type' }),
-      },
-      {
-        name: intl.formatMessage(messages.optimizationsNames, { value: 'node_classification' }),
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'node_cpu_util' }),
@@ -148,20 +151,26 @@ const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = 
         ...(hasData && { isSortable: true }),
       },
       {
-        name: intl.formatMessage(messages.optimizationsNames, { value: 'node_pod_count' }),
-        orderBy: 'pod_count',
-        ...(hasData && { isSortable: true }),
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'node_classification' }),
+      },
+      {
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'node_fleet_reduction' }),
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'potential_savings' }),
         orderBy: 'estimated_monthly_savings',
         ...(hasData && { isSortable: true }),
       },
+      {
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'last_reported' }),
+      },
     ];
 
     const newRows = [];
     report?.data?.map(item => {
       const clusterLabel = item.cluster_uuid ?? '';
+      const lastReportedRaw = getNodeLastReported(item, term, engine);
+      const lastReported = lastReportedRaw ? getTimeFromNow(lastReportedRaw) : '—';
 
       newRows.push({
         cells: [
@@ -197,18 +206,16 @@ const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = 
               clusterLabel
             ),
           },
-          { value: item.instance_type ?? '—' },
+          {
+            value: formatUtilPercentRange(item.metrics?.cpu_util_p50, item.metrics?.cpu_util_p95),
+          },
+          {
+            value: formatUtilPercentRange(item.metrics?.mem_util_p50, item.metrics?.mem_util_p95),
+          },
           { value: getClassificationBadges(item, intl) },
-          {
-            value:
-              item.metrics?.cpu_util_p95 != null ? formatPercentage(item.metrics.cpu_util_p95 * 100) + '%' : '—',
-          },
-          {
-            value:
-              item.metrics?.mem_util_p95 != null ? formatPercentage(item.metrics.mem_util_p95 * 100) + '%' : '—',
-          },
-          { value: item.pod_count ?? '—' },
+          { value: getFleetReductionCell(item, term, engine) },
           { value: getSavingsCell(item, intl, term, engine) },
+          { value: lastReported },
         ],
       });
     });
