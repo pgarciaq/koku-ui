@@ -61,6 +61,11 @@ export default defineMessages({
     description: 'P95-P99 (peak range)',
     id: 'chartUsageP95P99Legend',
   },
+  chooseKeyPlaceholder: {
+    defaultMessage: 'Choose key',
+    description: 'Choose key',
+    id: 'chooseKeyPlaceholder',
+  },
   chooseValuePlaceholder: {
     defaultMessage: 'Choose value',
     description: 'Choose value',
@@ -268,6 +273,21 @@ export default defineMessages({
       'other {}}',
     description: 'Filter by values',
     id: 'filterByValues',
+  },
+  filterByTagKeyAriaLabel: {
+    defaultMessage: 'Tag keys',
+    description: 'Tag keys',
+    id: 'filterByTagKeyAriaLabel',
+  },
+  filterByTagValueAriaLabel: {
+    defaultMessage: 'Tag values',
+    description: 'Tag values',
+    id: 'filterByTagValueAriaLabel',
+  },
+  filterByValuePlaceholder: {
+    defaultMessage: 'Filter by value',
+    description: 'Filter by value',
+    id: 'filterByValuePlaceholder',
   },
   filterByValuesAriaLabel: {
     defaultMessage: 'Values',
@@ -616,6 +636,11 @@ export default defineMessages({
     defaultMessage: 'Request',
     description: 'Request',
     id: 'request',
+  },
+  selectClearAriaLabel: {
+    defaultMessage: 'Clear input value',
+    description: 'Clear input value',
+    id: 'selectClearAriaLabel',
   },
   selectableTableAriaLabel: {
     defaultMessage: 'Selectable table',

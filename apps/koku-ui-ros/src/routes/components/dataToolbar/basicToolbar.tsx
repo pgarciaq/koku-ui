@@ -1,9 +1,11 @@
 import './dataToolbar.scss';
 
+import type { ToolbarLabelGroup } from '@patternfly/react-core';
 import { Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem, ToolbarToggleGroup } from '@patternfly/react-core';
 import { FilterIcon } from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import type { Query } from 'api/queries/query';
 import type { Resource, ResourcePathsType } from 'api/resources/resource';
+import type { Tag, TagPathsType } from 'api/tags/tag';
 import { cloneDeep } from 'lodash';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
@@ -24,6 +26,13 @@ import {
 import type { Filters, ToolbarChipGroupExt } from './utils/common';
 import { cleanInput, defaultFilters, getActiveFilters, getDefaultCategory, onDelete } from './utils/common';
 import { getCustomSelect, onCustomSelect } from './utils/custom';
+import {
+  getTagKeyOptions,
+  getTagKeySelect,
+  getTagValueSelect,
+  onTagValueInput,
+  onTagValueSelect,
+} from './utils/tags';
 
 interface BasicToolbarOwnProps {
   actions?: React.ReactNode;
@@ -46,14 +55,18 @@ interface BasicToolbarOwnProps {
   selectedItems?: any[];
   showFilter?: boolean; // Show export icon
   style?: React.CSSProperties;
+  tagPathsType?: TagPathsType;
+  tagReport?: Tag;
   useActiveFilters?: boolean;
 }
 
 interface BasicToolbarState {
   categoryInput?: string;
   currentCategory?: string;
+  currentTagKey?: string;
   filters?: Filters;
   isBulkSelectOpen?: boolean;
+  tagKeyValueInput?: string;
 }
 
 interface BasicToolbarStateProps {
@@ -148,7 +161,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
     const { isDisabled, resourcePathsType } = this.props;
     const { categoryInput, currentCategory, filters } = this.state;
 
-    if (categoryOption.selectOptions) {
+    if (categoryOption.selectOptions || categoryOption.key === 'tag') {
       return null;
     }
     return getCategoryInput({
@@ -271,9 +284,124 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
     );
   };
 
+  // Tag key select
+
+  public getTagKeySelectComponent() {
+    const { isDisabled, tagReport } = this.props;
+    const { currentCategory, currentTagKey, filters } = this.state;
+
+    return getTagKeySelect({
+      currentCategory,
+      currentTagKey,
+      filters,
+      isDisabled,
+      onTagKeyClear: this.handleOnTagKeyClear,
+      onTagKeySelect: this.handleOnTagKeySelect,
+      tagReport,
+    });
+  }
+
+  private handleOnTagKeyClear = () => {
+    this.setState({
+      currentTagKey: undefined,
+      tagKeyValueInput: '',
+    });
+  };
+
+  private handleOnTagKeySelect = (_evt, selection: SelectWrapperOption) => {
+    this.setState({
+      currentTagKey: selection.value,
+      tagKeyValueInput: '',
+    });
+  };
+
+  // Tag value select
+
+  public getTagValueSelectComponent = (tagKeyOption: ToolbarLabelGroup) => {
+    const { isDisabled, tagPathsType } = this.props;
+    const { currentCategory, currentTagKey, filters, tagKeyValueInput } = this.state;
+
+    return getTagValueSelect({
+      currentCategory,
+      currentTagKey,
+      filters,
+      isDisabled,
+      onDelete: this.handleOnDelete,
+      onTagValueSelect: this.handleOnTagValueSelect,
+      onTagValueInput: this.handleOnTagValueInput,
+      onTagValueInputChange: this.handleOnTagValueInputChange,
+      tagKeyValueInput,
+      tagKeyOption,
+      tagPathsType,
+    });
+  };
+
+  private handleOnTagValueSelect = (event, selection) => {
+    const { onFilterAdded, onFilterRemoved } = this.props;
+    const { currentTagKey, filters: currentFilters } = this.state;
+
+    const checked = event.target.checked;
+    const { filter, filters } = onTagValueSelect({
+      currentFilters,
+      currentTagKey,
+      event,
+      selection,
+    });
+
+    this.setState(
+      {
+        filters,
+      },
+      () => {
+        if (checked) {
+          if (onFilterAdded) {
+            onFilterAdded(filter);
+          }
+        } else {
+          if (onFilterRemoved) {
+            onFilterRemoved(filter);
+          }
+        }
+      }
+    );
+  };
+
+  private handleOnTagValueInput = event => {
+    const { onFilterAdded } = this.props;
+    const { currentTagKey, filters: currentFilters, tagKeyValueInput } = this.state;
+
+    const { filter, filters } = onTagValueInput({
+      currentFilters,
+      currentTagKey,
+      event,
+      tagKeyValueInput,
+    });
+
+    if (filter && filters) {
+      this.setState(
+        {
+          filters,
+          tagKeyValueInput: '',
+        },
+        () => {
+          if (onFilterAdded) {
+            onFilterAdded(filter);
+          }
+        }
+      );
+    }
+  };
+
+  private handleOnTagValueInputChange = (value: string) => {
+    this.setState({ tagKeyValueInput: value });
+  };
+
   public render() {
-    const { actions, categoryOptions, pagination, showFilter, style } = this.props;
+    const { actions, categoryOptions, pagination, showFilter, style, tagReport } = this.props;
+    const { filters } = this.state;
     const options = categoryOptions ? categoryOptions : getDefaultCategoryOptions();
+
+    const tagKeyOptions = getTagKeyOptions(tagReport, filters) as ToolbarLabelGroup[];
 
     // Todo: clearAllFilters workaround https://github.com/patternfly/patternfly-react/issues/4222
     return (
@@ -290,6 +418,9 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
                   {this.getCategorySelectComponent()}
                   {options && options.map(option => this.getCategoryInputComponent(option))}
                   {options && options.map(option => this.getCustomSelectComponent(option))}
+                  {this.getTagKeySelectComponent()}
+                  {tagKeyOptions &&
+                    tagKeyOptions.map(option => this.getTagValueSelectComponent(option))}
                 </ToolbarGroup>
               </ToolbarToggleGroup>
             )}{' '}
