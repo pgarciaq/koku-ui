@@ -1,11 +1,18 @@
 import type { ToolbarLabelGroup } from '@patternfly/react-core';
+import { getQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
+import type { Tag } from 'api/tags/tag';
+import { TagPathsType, TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { Filter } from 'routes/utils/filter';
+import { createMapStateToProps } from 'store/common';
+import type { RootState } from 'store/rootReducer';
+import { tagActions, tagSelectors } from 'store/tags';
 
 interface OptimizationsContainersToolbarOwnProps {
   isClusterHidden?: boolean;
@@ -19,11 +26,25 @@ interface OptimizationsContainersToolbarOwnProps {
   query?: RosQuery;
 }
 
+interface OptimizationsContainersToolbarStateProps {
+  tagReport?: Tag;
+}
+
+interface OptimizationsContainersToolbarDispatchProps {
+  fetchTag?: typeof tagActions.fetchTag;
+}
+
 interface OptimizationsContainersToolbarState {
   categoryOptions?: ToolbarLabelGroup[];
 }
 
-type OptimizationsContainersToolbarProps = OptimizationsContainersToolbarOwnProps & WrappedComponentProps;
+type OptimizationsContainersToolbarProps = OptimizationsContainersToolbarOwnProps &
+  OptimizationsContainersToolbarStateProps &
+  OptimizationsContainersToolbarDispatchProps &
+  WrappedComponentProps;
+
+const tagPathsType = TagPathsType.ocp;
+const tagType = TagType.tag;
 
 class OptimizationsContainersToolbarBase extends React.Component<
   OptimizationsContainersToolbarProps,
@@ -36,7 +57,14 @@ class OptimizationsContainersToolbarBase extends React.Component<
     this.setState({
       categoryOptions: this.getCategoryOptions(),
     });
+    this.updateReport();
   }
+
+  private updateReport = () => {
+    const { fetchTag } = this.props;
+    const tagQueryString = getQuery({ filter: { time_scope_value: -1 }, key_only: true, limit: 1000 });
+    fetchTag(tagPathsType, tagType, tagQueryString);
+  };
 
   private getCategoryOptions = (): ToolbarLabelGroup[] => {
     const { intl, isClusterHidden, isProjectHidden } = this.props;
@@ -72,7 +100,6 @@ class OptimizationsContainersToolbarBase extends React.Component<
       {
         name: intl.formatMessage(messages.filterByValues, { value: 'tag' }),
         key: 'tag',
-        placeholderKey: 'tag_key_value',
       },
     ];
     const filteredOptions = isClusterHidden ? options.filter(option => option.key !== 'cluster') : options;
@@ -80,7 +107,8 @@ class OptimizationsContainersToolbarBase extends React.Component<
   };
 
   public render() {
-    const { isDisabled, itemsPerPage, itemsTotal, onFilterAdded, onFilterRemoved, pagination, query } = this.props;
+    const { isDisabled, itemsPerPage, itemsTotal, onFilterAdded, onFilterRemoved, pagination, query, tagReport } =
+      this.props;
     const { categoryOptions } = this.state;
 
     return (
@@ -94,12 +122,31 @@ class OptimizationsContainersToolbarBase extends React.Component<
         pagination={pagination}
         query={query}
         showFilter
+        tagPathsType={tagPathsType}
+        tagReport={tagReport}
         useActiveFilters
       />
     );
   }
 }
 
-const OptimizationsContainersToolbar = injectIntl(OptimizationsContainersToolbarBase);
+const mapStateToProps = createMapStateToProps<OptimizationsContainersToolbarOwnProps, OptimizationsContainersToolbarStateProps>(
+  (state: RootState) => {
+    const tagQueryString = getQuery({ filter: { time_scope_value: -1 }, key_only: true, limit: 1000 });
+    const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
+
+    return {
+      tagReport,
+    };
+  }
+);
+
+const mapDispatchToProps: OptimizationsContainersToolbarDispatchProps = {
+  fetchTag: tagActions.fetchTag,
+};
+
+const OptimizationsContainersToolbar = injectIntl(
+  connect(mapStateToProps, mapDispatchToProps)(OptimizationsContainersToolbarBase)
+);
 
 export { OptimizationsContainersToolbar };

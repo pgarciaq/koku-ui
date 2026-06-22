@@ -1,11 +1,18 @@
 import type { ToolbarLabelGroup } from '@patternfly/react-core';
+import { getQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
+import type { Tag } from 'api/tags/tag';
+import { TagPathsType, TagType } from 'api/tags/tag';
 import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { Filter } from 'routes/utils/filter';
+import { createMapStateToProps } from 'store/common';
+import type { RootState } from 'store/rootReducer';
+import { tagActions, tagSelectors } from 'store/tags';
 
 interface OptimizationsNamespacesToolbarOwnProps {
   isClusterHidden?: boolean;
@@ -18,11 +25,25 @@ interface OptimizationsNamespacesToolbarOwnProps {
   query?: RosQuery;
 }
 
+interface OptimizationsNamespacesToolbarStateProps {
+  tagReport?: Tag;
+}
+
+interface OptimizationsNamespacesToolbarDispatchProps {
+  fetchTag?: typeof tagActions.fetchTag;
+}
+
 interface OptimizationsNamespacesToolbarState {
   categoryOptions?: ToolbarLabelGroup[];
 }
 
-type OptimizationsNamespacesToolbarProps = OptimizationsNamespacesToolbarOwnProps & WrappedComponentProps;
+type OptimizationsNamespacesToolbarProps = OptimizationsNamespacesToolbarOwnProps &
+  OptimizationsNamespacesToolbarStateProps &
+  OptimizationsNamespacesToolbarDispatchProps &
+  WrappedComponentProps;
+
+const tagPathsType = TagPathsType.ocp;
+const tagType = TagType.tag;
 
 class OptimizationsNamespacesToolbarBase extends React.Component<
   OptimizationsNamespacesToolbarProps,
@@ -35,7 +56,14 @@ class OptimizationsNamespacesToolbarBase extends React.Component<
     this.setState({
       categoryOptions: this.getCategoryOptions(),
     });
+    this.updateReport();
   }
+
+  private updateReport = () => {
+    const { fetchTag } = this.props;
+    const tagQueryString = getQuery({ filter: { time_scope_value: -1 }, key_only: true, limit: 1000 });
+    fetchTag(tagPathsType, tagType, tagQueryString);
+  };
 
   private getCategoryOptions = (): ToolbarLabelGroup[] => {
     const { intl, isClusterHidden } = this.props;
@@ -56,14 +84,14 @@ class OptimizationsNamespacesToolbarBase extends React.Component<
       {
         name: intl.formatMessage(messages.filterByValues, { value: 'tag' }),
         key: 'tag',
-        placeholderKey: 'tag_key_value',
       },
     ];
     return isClusterHidden ? options.filter(option => option.key !== 'cluster') : options;
   };
 
   public render() {
-    const { isDisabled, itemsPerPage, itemsTotal, onFilterAdded, onFilterRemoved, pagination, query } = this.props;
+    const { isDisabled, itemsPerPage, itemsTotal, onFilterAdded, onFilterRemoved, pagination, query, tagReport } =
+      this.props;
     const { categoryOptions } = this.state;
 
     return (
@@ -77,12 +105,31 @@ class OptimizationsNamespacesToolbarBase extends React.Component<
         pagination={pagination}
         query={query}
         showFilter
+        tagPathsType={tagPathsType}
+        tagReport={tagReport}
         useActiveFilters
       />
     );
   }
 }
 
-const OptimizationsNamespacesToolbar = injectIntl(OptimizationsNamespacesToolbarBase);
+const mapStateToProps = createMapStateToProps<OptimizationsNamespacesToolbarOwnProps, OptimizationsNamespacesToolbarStateProps>(
+  (state: RootState) => {
+    const tagQueryString = getQuery({ filter: { time_scope_value: -1 }, key_only: true, limit: 1000 });
+    const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
+
+    return {
+      tagReport,
+    };
+  }
+);
+
+const mapDispatchToProps: OptimizationsNamespacesToolbarDispatchProps = {
+  fetchTag: tagActions.fetchTag,
+};
+
+const OptimizationsNamespacesToolbar = injectIntl(
+  connect(mapStateToProps, mapDispatchToProps)(OptimizationsNamespacesToolbarBase)
+);
 
 export { OptimizationsNamespacesToolbar };
