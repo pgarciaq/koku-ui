@@ -1,7 +1,8 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import messages from 'locales/messages';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useLocation } from 'react-router-dom';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
 import { LoadingState } from 'routes/components/state/loadingState';
@@ -11,6 +12,7 @@ import { useUrlState } from 'routes/utils/useUrlState';
 import { FetchStatus } from 'store/common';
 
 import { nodeRecommendationsBaseQuery, useNodeRecommendationsReport } from '../useNodeRecommendationsReport';
+import { getLinkState } from '../utils';
 import { OptimizationsNodesDataTable } from './optimizationsNodesDataTable';
 import { OptimizationsNodesToolbar } from './optimizationsNodesToolbar';
 
@@ -32,7 +34,9 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
   queryStateName,
 }) => {
   const intl = useIntl();
+  const location = useLocation();
   const [cursorPage, setCursorPage] = useState(1);
+  const [newLinkState, setNewLinkState] = useState();
 
   const { query, setQuery } = useUrlState({
     baseQuery: nodeRecommendationsBaseQuery,
@@ -41,6 +45,18 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
   const { report, reportError, reportFetchStatus, reportQueryString } = useNodeRecommendationsReport({
     query,
   });
+
+  useEffect(() => {
+    setNewLinkState(
+      getLinkState({
+        breadcrumbPath,
+        linkState,
+        location,
+        query,
+        queryStateName,
+      })
+    );
+  }, [query]);
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report?.meta?.count ?? 0;
@@ -73,15 +89,17 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
     return (
       <OptimizationsNodesDataTable
         breadcrumbLabel={breadcrumbLabel}
+        engine={query.engine}
         filterBy={query.filter_by}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         linkPath={linkPath}
-        linkState={linkState}
+        linkState={newLinkState}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         report={report}
         reportQueryString={reportQueryString}
+        term={query.term}
       />
     );
   };
@@ -96,8 +114,10 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
+        onEngineSelect={handleOnEngineSelect}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
+        onTermSelect={handleOnTermSelect}
         pagination={getPagination(isDisabled)}
         query={query}
       />
@@ -145,6 +165,16 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
     setCursorPage(1);
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery({ ...newQuery, offset: 0, after: undefined });
+  };
+
+  const handleOnTermSelect = (term: string) => {
+    setCursorPage(1);
+    setQuery({ ...query, term, offset: 0, after: undefined });
+  };
+
+  const handleOnEngineSelect = (engine: string) => {
+    setCursorPage(1);
+    setQuery({ ...query, engine, offset: 0, after: undefined });
   };
 
   const itemsTotal = report?.meta ? report.meta.count : 0;

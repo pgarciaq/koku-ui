@@ -132,6 +132,7 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
     return (
       <OptimizationsContainersDataTable
         breadcrumbLabel={breadcrumbLabel}
+        engine={query.engine}
         filterBy={query.filter_by}
         isClusterHidden={isClusterHidden}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
@@ -142,6 +143,7 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
         orderBy={query.order_by}
         report={report}
         reportQueryString={reportQueryString}
+        term={query.term}
       />
     );
   };
@@ -158,8 +160,10 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
         isProjectHidden={isProjectHidden}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
+        onEngineSelect={handleOnEngineSelect}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
+        onTermSelect={handleOnTermSelect}
         pagination={getPagination(isDisabled)}
         query={query}
       />
@@ -189,6 +193,14 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   const handleOnSort = (sortType, isSortAscending) => {
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery(newQuery);
+  };
+
+  const handleOnTermSelect = (term: string) => {
+    setQuery({ ...query, term, offset: 0, after: undefined });
+  };
+
+  const handleOnEngineSelect = (engine: string) => {
+    setQuery({ ...query, engine, offset: 0, after: undefined });
   };
 
   const itemsTotal = report?.meta ? report.meta.count : 0;

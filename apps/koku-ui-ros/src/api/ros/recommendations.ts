@@ -136,10 +136,21 @@ export const RosTypePaths: Partial<Record<RosType, string>> = {
   [RosType.ros]: 'recommendations/openshift',
 };
 
+function getDetailQueryParams(term?: string, engine?: string): string {
+  const params = new URLSearchParams({ include: 'explanation' });
+  if (term) {
+    params.set('filter[term]', term);
+  }
+  if (engine) {
+    params.set('filter[engine]', engine);
+  }
+  return params.toString();
+}
+
 // This fetches a recommendation by ID
-export function runRosReport(reportType: RosType, query: string) {
+export function runRosReport(reportType: RosType, id: string, term?: string, engine?: string) {
   const path = RosTypePaths[reportType];
-  const queryString = query ? `/${query}?include=explanation` : '';
+  const queryString = id ? `/${id}?${getDetailQueryParams(term, engine)}` : '';
   return axiosInstance.get<RecommendationReport>(`${path}${queryString}`);
 }
 
@@ -151,9 +162,9 @@ export function runRosReports(reportType: RosType, query: string) {
 }
 
 // Namespace recommendation by ID
-export function runNamespaceRosReport(reportType: RosType, query: string) {
+export function runNamespaceRosReport(reportType: RosType, id: string, term?: string, engine?: string) {
   const path = RosTypePaths[reportType];
-  const queryString = query ? `/namespaces/${query}?include=explanation` : '';
+  const queryString = id ? `/namespaces/${id}?${getDetailQueryParams(term, engine)}` : '';
   return axiosInstance.get<RecommendationReport>(`${path}${queryString}`);
 }
 
@@ -242,8 +253,8 @@ export function runNodeRosReports(reportType: RosType, query: string) {
 }
 
 // Node recommendation detail by node name
-export function runNodeRosReport(reportType: RosType, query: string) {
+export function runNodeRosReport(reportType: RosType, id: string, term?: string, engine?: string) {
   const path = RosTypePaths[reportType];
-  const queryString = query ? `/nodes/${query}?include=explanation` : '';
+  const queryString = id ? `/nodes/${id}?${getDetailQueryParams(term, engine)}` : '';
   return axiosInstance.get<any>(`${path}${queryString}`);
 }

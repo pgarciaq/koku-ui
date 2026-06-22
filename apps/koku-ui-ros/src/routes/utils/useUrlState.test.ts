@@ -35,6 +35,12 @@ describe('serializeQuery', () => {
     expect(params.getAll('ns_filter_by[cluster]')).toEqual(['c1', 'c2']);
   });
 
+  it('serializes term and engine', () => {
+    const params = serializeQuery({ term: 'short_term', engine: 'cost' } as RosQuery, prefix);
+    expect(params.get('ns_term')).toBe('short_term');
+    expect(params.get('ns_engine')).toBe('cost');
+  });
+
   it('omits keys with null or undefined values', () => {
     const params = serializeQuery({} as RosQuery, prefix);
     expect(Array.from(params.keys())).toHaveLength(0);
@@ -82,6 +88,14 @@ describe('deserializeQuery', () => {
     });
   });
 
+  it('deserializes term and engine', () => {
+    const params = new URLSearchParams('ns_term=medium_term&ns_engine=performance');
+    expect(deserializeQuery(params, prefix)).toMatchObject({
+      term: 'medium_term',
+      engine: 'performance',
+    });
+  });
+
   it('ignores params without the prefix', () => {
     const params = new URLSearchParams('other_limit=99&ns_limit=10');
     const result = deserializeQuery(params, prefix);
@@ -120,6 +134,21 @@ describe('serialize/deserialize roundtrip', () => {
     expect(restored).toMatchObject({
       limit: 10,
       order_by: { project: 'asc' },
+    });
+  });
+
+  it('roundtrips term and engine', () => {
+    const original: RosQuery = {
+      term: 'long_term',
+      engine: 'performance',
+      limit: 25,
+    };
+    const params = serializeQuery(original, prefix);
+    const restored = deserializeQuery(params, prefix);
+    expect(restored).toMatchObject({
+      term: 'long_term',
+      engine: 'performance',
+      limit: 25,
     });
   });
 });

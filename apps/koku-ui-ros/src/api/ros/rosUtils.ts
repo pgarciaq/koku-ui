@@ -6,27 +6,34 @@ import {
   runRosReport as runRecommendation,
   runRosReports as runRecommendations,
 } from './recommendations';
+import { decodeRosDetailFetchQuery } from './rosListParams';
 import type { RosType } from './ros';
 import { RosPathsType } from './ros';
 
 export function runRosReport(rosPathsType: RosPathsType, rosType: RosType, query: string) {
   let result;
   switch (rosPathsType) {
-    case RosPathsType.namespaceRecommendation:
-      result = runNamespaceRecommendation(rosType, query);
+    case RosPathsType.namespaceRecommendation: {
+      const { id, term, engine } = decodeRosDetailFetchQuery(query);
+      result = runNamespaceRecommendation(rosType, id, term, engine);
       break;
+    }
     case RosPathsType.namespaceRecommendations:
       result = runNamespaceRecommendations(rosType, query);
       break;
-    case RosPathsType.nodeRecommendation:
-      result = runNodeRecommendation(rosType, query);
+    case RosPathsType.nodeRecommendation: {
+      const { id, term, engine } = decodeRosDetailFetchQuery(query);
+      result = runNodeRecommendation(rosType, id, term, engine);
       break;
+    }
     case RosPathsType.nodeRecommendations:
       result = runNodeRecommendations(rosType, query);
       break;
-    case RosPathsType.recommendation:
-      result = runRecommendation(rosType, query);
+    case RosPathsType.recommendation: {
+      const { id, term, engine } = decodeRosDetailFetchQuery(query);
+      result = runRecommendation(rosType, id, term, engine);
       break;
+    }
     case RosPathsType.recommendations:
       result = runRecommendations(rosType, query);
       break;

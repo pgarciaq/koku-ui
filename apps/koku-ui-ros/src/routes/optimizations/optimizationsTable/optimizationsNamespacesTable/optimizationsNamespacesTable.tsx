@@ -97,6 +97,7 @@ const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> 
     return (
       <OptimizationsNamespacesDataTable
         breadcrumbLabel={breadcrumbLabel}
+        engine={query.engine}
         filterBy={query.filter_by}
         isClusterHidden={isClusterHidden}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
@@ -107,6 +108,7 @@ const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> 
         orderBy={query.order_by}
         report={report}
         reportQueryString={reportQueryString}
+        term={query.term}
       />
     );
   };
@@ -122,8 +124,10 @@ const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> 
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
+        onEngineSelect={handleOnEngineSelect}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
+        onTermSelect={handleOnTermSelect}
         pagination={getPagination(isDisabled)}
         query={query}
       />
@@ -171,6 +175,16 @@ const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> 
     setCursorPage(1);
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery({ ...newQuery, offset: 0, after: undefined });
+  };
+
+  const handleOnTermSelect = (term: string) => {
+    setCursorPage(1);
+    setQuery({ ...query, term, offset: 0, after: undefined });
+  };
+
+  const handleOnEngineSelect = (engine: string) => {
+    setCursorPage(1);
+    setQuery({ ...query, engine, offset: 0, after: undefined });
   };
 
   const itemsTotal = report?.meta ? report.meta.count : 0;

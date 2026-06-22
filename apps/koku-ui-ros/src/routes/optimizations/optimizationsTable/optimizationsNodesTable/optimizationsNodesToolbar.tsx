@@ -14,12 +14,16 @@ import { createMapStateToProps } from 'store/common';
 import type { RootState } from 'store/rootReducer';
 import { tagActions, tagSelectors } from 'store/tags';
 
+import { OptimizationsProjectionToolbar } from '../optimizationsProjectionToolbar';
+
 interface OptimizationsNodesToolbarOwnProps {
   isDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
+  onEngineSelect?: (value: string) => void;
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
+  onTermSelect?: (value: string) => void;
   pagination?: React.ReactNode;
   query?: RosQuery;
 }
@@ -91,12 +95,31 @@ class OptimizationsNodesToolbarBase extends React.Component<
   };
 
   public render() {
-    const { isDisabled, itemsPerPage, itemsTotal, onFilterAdded, onFilterRemoved, pagination, query, tagReport } =
-      this.props;
+    const {
+      isDisabled,
+      itemsPerPage,
+      itemsTotal,
+      onEngineSelect,
+      onFilterAdded,
+      onFilterRemoved,
+      onTermSelect,
+      pagination,
+      query,
+      tagReport,
+    } = this.props;
     const { categoryOptions } = this.state;
 
     return (
       <BasicToolbar
+        actions={
+          <OptimizationsProjectionToolbar
+            engine={query?.engine}
+            isDisabled={isDisabled}
+            onEngineSelect={onEngineSelect}
+            onTermSelect={onTermSelect}
+            term={query?.term}
+          />
+        }
         categoryOptions={categoryOptions}
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}

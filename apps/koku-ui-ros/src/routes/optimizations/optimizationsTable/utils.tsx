@@ -7,6 +7,7 @@ import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import type { Location } from 'react-router-dom';
+import { ROS_LIST_ENGINE, ROS_LIST_TERM } from 'api/ros/rosListParams';
 import { formatOptimization, formatPercentage, unitsLookupKey } from 'utils/format';
 
 import { styles } from './optimizationsTable.styles';
@@ -52,13 +53,13 @@ const hasValues = (values: any, key: string) => {
 // Normalize a native engine list item into the flat shape getConfiguration expects.
 // Native format: item.recommendations.current.requests.cpu.{amount,format}
 // Legacy format: item.cpu_request_current.{value,format}
-const normalizeNativeItem = (item: any) => {
+const normalizeNativeItem = (item: any, term: string = ROS_LIST_TERM, engine: string = ROS_LIST_ENGINE) => {
   const current = item?.recommendations?.current;
   if (!current) {
     return null;
   }
 
-  const variation = item?.recommendations?.recommendation_terms?.short_term?.recommendation_engines?.cost?.variation;
+  const variation = item?.recommendations?.recommendation_terms?.[term]?.recommendation_engines?.[engine]?.variation;
 
   const result: any = {};
 
@@ -78,13 +79,19 @@ const normalizeNativeItem = (item: any) => {
   return result;
 };
 
-export const getConfiguration = (values: any, isFormatted: boolean, isK8Units: boolean) => {
+export const getConfiguration = (
+  values: any,
+  isFormatted: boolean,
+  isK8Units: boolean,
+  term: string = ROS_LIST_TERM,
+  engine: string = ROS_LIST_ENGINE
+) => {
   if (!values) {
     return undefined;
   }
 
   // Detect native format and normalize
-  const normalized = values?.recommendations?.current ? normalizeNativeItem(values) : values;
+  const normalized = values?.recommendations?.current ? normalizeNativeItem(values, term, engine) : values;
   if (!normalized) {
     return undefined;
   }
@@ -137,9 +144,9 @@ export const getLinkState = ({
   };
 };
 
-export const getRequestProps = (values: any) => {
-  const configFormatted = getConfiguration(values, true, false);
-  const configRaw = getConfiguration(values, false, false);
+export const getRequestProps = (values: any, term?: string, engine?: string) => {
+  const configFormatted = getConfiguration(values, true, false, term, engine);
+  const configRaw = getConfiguration(values, false, false, term, engine);
 
   const getTrend = value => {
     return value > 0 ? (

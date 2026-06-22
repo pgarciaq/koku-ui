@@ -2,6 +2,7 @@ import 'routes/components/dataTable/dataTable.scss';
 
 import { Label, Tooltip } from '@patternfly/react-core';
 import type { NodeRecommendationData, NodeRecommendationReport } from 'api/ros/recommendations';
+import { ROS_LIST_ENGINE, ROS_LIST_TERM } from 'api/ros/rosListParams';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -13,6 +14,7 @@ import { formatPercentage } from 'utils/format';
 
 interface OptimizationsNodesDataTableOwnProps {
   breadcrumbLabel?: string;
+  engine?: string;
   filterBy?: any;
   isLoading?: boolean;
   linkPath?: string;
@@ -22,6 +24,7 @@ interface OptimizationsNodesDataTableOwnProps {
   orderBy?: any;
   report: NodeRecommendationReport;
   reportQueryString: string;
+  term?: string;
 }
 
 type OptimizationsNodesDataTableProps = OptimizationsNodesDataTableOwnProps;
@@ -80,10 +83,10 @@ const getClassificationBadges = (item: NodeRecommendationData, intl: any) => {
   return <>{badges}</>;
 };
 
-const getSavingsCell = (item: NodeRecommendationData, intl: any) => {
+const getSavingsCell = (item: NodeRecommendationData, intl: any, term: string, engine: string) => {
   const terms = item.recommendation_terms;
-  const costEngine = terms?.medium_term?.recommendation_engines?.cost ?? terms?.short_term?.recommendation_engines?.cost;
-  const savings = costEngine?.estimated_monthly_savings;
+  const selectedEngine = terms?.[term]?.recommendation_engines?.[engine];
+  const savings = selectedEngine?.estimated_monthly_savings;
 
   if (savings?.value != null) {
     return `$${Number(savings.value).toFixed(2)} ${savings.units ?? 'USD'}`;
@@ -97,6 +100,7 @@ const getSavingsCell = (item: NodeRecommendationData, intl: any) => {
 
 const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = ({
   breadcrumbLabel,
+  engine = ROS_LIST_ENGINE,
   filterBy,
   isLoading,
   linkPath,
@@ -105,6 +109,7 @@ const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = 
   onSort,
   orderBy,
   report,
+  term = ROS_LIST_TERM,
 }) => {
   const intl = useIntl();
   const [columns, setColumns] = useState([]);
@@ -203,7 +208,7 @@ const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = 
               item.metrics?.mem_util_p95 != null ? formatPercentage(item.metrics.mem_util_p95 * 100) + '%' : '—',
           },
           { value: item.pod_count ?? '—' },
-          { value: getSavingsCell(item, intl) },
+          { value: getSavingsCell(item, intl, term, engine) },
         ],
       });
     });
@@ -220,7 +225,7 @@ const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = 
 
   useEffect(() => {
     initDatum();
-  }, [linkState, report]);
+  }, [engine, linkState, report, term]);
 
   return (
     <DataTable

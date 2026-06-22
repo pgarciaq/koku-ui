@@ -18,6 +18,7 @@ import { getRequestProps } from '../utils';
 
 interface OptimizationsNamespacesDataTableOwnProps {
   breadcrumbLabel?: string;
+  engine?: string;
   filterBy?: any;
   isClusterHidden?: boolean;
   isLoading?: boolean;
@@ -28,12 +29,14 @@ interface OptimizationsNamespacesDataTableOwnProps {
   orderBy?: any;
   report: RecommendationReport;
   reportQueryString: string;
+  term?: string;
 }
 
 type OptimizationsNamespacesDataTableProps = OptimizationsNamespacesDataTableOwnProps;
 
 const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTableProps> = ({
   breadcrumbLabel,
+  engine,
   filterBy,
   isClusterHidden,
   isLoading,
@@ -43,6 +46,7 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
   onSort,
   orderBy,
   report,
+  term,
 }) => {
   const intl = useIntl();
 
@@ -154,7 +158,7 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
         title: namespace,
       });
 
-      const requestProps = getRequestProps(item);
+      const requestProps = getRequestProps(item, term, engine);
       const savings = item.recommendations?.estimated_monthly_savings;
       const waste = item.estimated_monthly_waste;
       const idleState = item.idle_state;
@@ -303,7 +307,7 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
 
   useEffect(() => {
     initDatum();
-  }, [linkState, report]);
+  }, [engine, linkState, report, term]);
 
   return (
     <DataTable

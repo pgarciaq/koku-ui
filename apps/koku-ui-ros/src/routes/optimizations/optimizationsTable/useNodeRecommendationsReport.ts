@@ -1,6 +1,7 @@
 import { getQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
 import { RosPathsType, RosType } from 'api/ros/ros';
+import { withRosListProjection } from 'api/ros/rosListParams';
 import type { NodeRecommendationReport } from 'api/ros/recommendations';
 import type { AxiosError } from 'axios';
 import { useEffect, useRef } from 'react';
@@ -12,10 +13,13 @@ import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
+import { Interval, OptimizationType } from 'utils/commonTypes';
 
 export const nodeRecommendationsBaseQuery: RosQuery = {
   limit: 10,
   offset: 0,
+  term: Interval.short_term,
+  engine: OptimizationType.cost,
   order_by: {
     estimated_monthly_savings: 'desc',
   },
@@ -76,7 +80,7 @@ export const useNodeRecommendationsReport = ({
   }
   const tagFilters = expandTagFilters(tagFilterEntries);
 
-  const reportQuery: Record<string, any> = {
+  const reportQuery = withRosListProjection({
     ...(query.filter_by?.cluster && { cluster_uuid: query.filter_by.cluster }),
     ...(query.filter_by?.node && { node: query.filter_by.node }),
     ...classificationParams,
@@ -85,7 +89,9 @@ export const useNodeRecommendationsReport = ({
     ...(query.after ? { after: query.after } : { offset: query.offset ?? 0 }),
     order_by,
     order_how,
-  };
+    term: query.term,
+    engine: query.engine,
+  });
   const reportQueryString = getQuery(reportQuery);
 
   const reportPathsType = RosPathsType.nodeRecommendations;

@@ -5,21 +5,15 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import type { OptimizationType } from 'utils/commonTypes';
 import { getTimeFromNow } from 'utils/dates';
 import { hasNotificationsWarning } from 'utils/notifications';
 
 import { styles } from '../optimizationsBreakdownHeader.styles';
-import { OptimizationsBreakdownToolbar } from '../optimizationsBreakdownToolbar';
 
 interface NamespaceBreakdownHeaderOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
-  currentInterval?: string;
-  isDisabled?: boolean;
   linkState?: any;
-  onSelect?: (value: string) => void;
-  optimizationType?: OptimizationType;
   report?: RecommendationReportData;
 }
 
@@ -28,11 +22,7 @@ type NamespaceBreakdownHeaderProps = NamespaceBreakdownHeaderOwnProps;
 const NamespaceBreakdownHeader: React.FC<NamespaceBreakdownHeaderProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
-  currentInterval,
-  isDisabled,
   linkState,
-  onSelect,
-  optimizationType,
   report,
 }) => {
   const intl = useIntl();
@@ -117,15 +107,6 @@ const NamespaceBreakdownHeader: React.FC<NamespaceBreakdownHeaderProps> = ({
         )}
       </div>
       <div style={styles.description}>{getDescription()}</div>
-      <div style={styles.toolbar}>
-        <OptimizationsBreakdownToolbar
-          currentInterval={currentInterval}
-          isDisabled={isDisabled}
-          onSelect={onSelect}
-          optimizationType={optimizationType}
-          recommendations={report?.recommendations}
-        />
-      </div>
     </header>
   );
 };

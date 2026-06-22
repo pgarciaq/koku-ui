@@ -1,5 +1,6 @@
 import { Content, ContentVariants, Label, Title, TitleSizes } from '@patternfly/react-core';
 import type { NodeRecommendationData } from 'api/ros/recommendations';
+import { ROS_LIST_ENGINE, ROS_LIST_TERM } from 'api/ros/rosListParams';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -8,17 +9,14 @@ import type { OptimizationType } from 'utils/commonTypes';
 import { formatPercentage } from 'utils/format';
 
 import { styles } from '../optimizationsBreakdownHeader.styles';
-import { OptimizationsBreakdownToolbar } from '../optimizationsBreakdownToolbar';
 
 interface NodeBreakdownHeaderOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
-  currentInterval?: string;
-  isDisabled?: boolean;
+  engine?: OptimizationType;
   linkState?: any;
-  onSelect?: (value: string) => void;
-  optimizationType?: OptimizationType;
   report?: NodeRecommendationData;
+  term?: string;
 }
 
 type NodeBreakdownHeaderProps = NodeBreakdownHeaderOwnProps;
@@ -26,12 +24,10 @@ type NodeBreakdownHeaderProps = NodeBreakdownHeaderOwnProps;
 const NodeBreakdownHeader: React.FC<NodeBreakdownHeaderProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
-  currentInterval,
-  isDisabled,
+  engine = ROS_LIST_ENGINE,
   linkState,
-  onSelect,
-  optimizationType,
   report,
+  term = ROS_LIST_TERM,
 }) => {
   const intl = useIntl();
 
@@ -80,10 +76,8 @@ const NodeBreakdownHeader: React.FC<NodeBreakdownHeaderProps> = ({
     const cpuP95 = report?.metrics?.cpu_util_p95;
     const memP95 = report?.metrics?.mem_util_p95;
 
-    const terms = report?.recommendation_terms;
-    const costEngine =
-      terms?.medium_term?.recommendation_engines?.cost ?? terms?.short_term?.recommendation_engines?.cost;
-    const savings = costEngine?.estimated_monthly_savings;
+    const selectedEngine = report?.recommendation_terms?.[term]?.recommendation_engines?.[engine];
+    const savings = selectedEngine?.estimated_monthly_savings;
     const savingsDisplay =
       savings?.value != null
         ? `$${Number(savings.value).toFixed(2)} ${savings.units ?? 'USD'}`
@@ -152,15 +146,6 @@ const NodeBreakdownHeader: React.FC<NodeBreakdownHeaderProps> = ({
         {getClassificationBadge()}
       </div>
       <div style={styles.description}>{getDescription()}</div>
-      <div style={styles.toolbar}>
-        <OptimizationsBreakdownToolbar
-          currentInterval={currentInterval}
-          isDisabled={isDisabled}
-          onSelect={onSelect}
-          optimizationType={optimizationType}
-          recommendations={{ recommendation_terms: report?.recommendation_terms } as any}
-        />
-      </div>
     </header>
   );
 };

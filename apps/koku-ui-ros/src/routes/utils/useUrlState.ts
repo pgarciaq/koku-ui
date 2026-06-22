@@ -1,10 +1,11 @@
 import type { RosQuery } from 'api/queries/rosQuery';
+import { ROS_LIST_ENGINE, ROS_LIST_TERM } from 'api/ros/rosListParams';
 import { useCallback, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 /**
  * Serializes a RosQuery into URLSearchParams, encoding filter_by, order_by,
- * limit, offset, and after into the URL for deep-linkable state.
+ * limit, offset, after, term, engine, and after into the URL for deep-linkable state.
  */
 export function serializeQuery(query: RosQuery, prefix: string): URLSearchParams {
   const params = new URLSearchParams();
@@ -17,6 +18,12 @@ export function serializeQuery(query: RosQuery, prefix: string): URLSearchParams
   }
   if (query.after != null) {
     params.set(`${prefix}after`, query.after);
+  }
+  if (query.term != null) {
+    params.set(`${prefix}term`, query.term);
+  }
+  if (query.engine != null) {
+    params.set(`${prefix}engine`, query.engine);
   }
 
   if (query.order_by) {
@@ -44,7 +51,7 @@ export function serializeQuery(query: RosQuery, prefix: string): URLSearchParams
 
 /**
  * Parses URLSearchParams back into a partial RosQuery, extracting filter_by,
- * order_by, limit, offset, and after fields.
+ * order_by, limit, offset, after, term, and engine fields.
  */
 export function deserializeQuery(params: URLSearchParams, prefix: string): Partial<RosQuery> {
   const query: Partial<RosQuery> = {};
@@ -62,6 +69,16 @@ export function deserializeQuery(params: URLSearchParams, prefix: string): Parti
   const after = params.get(`${prefix}after`);
   if (after != null) {
     query.after = after;
+  }
+
+  const term = params.get(`${prefix}term`);
+  if (term != null) {
+    query.term = term;
+  }
+
+  const engine = params.get(`${prefix}engine`);
+  if (engine != null) {
+    query.engine = engine;
   }
 
   const orderBy = params.get(`${prefix}order_by`);
@@ -116,8 +133,13 @@ export function useUrlState({ baseQuery, prefix = '' }: UseUrlStateOptions): Use
   const query = useMemo<RosQuery>(() => {
     const params = new URLSearchParams(location.search);
     const fromUrl = deserializeQuery(params, prefix);
-    return { ...baseQuery, ...fromUrl };
-  }, [location.search, prefix]);
+    return {
+      ...baseQuery,
+      term: baseQuery.term ?? ROS_LIST_TERM,
+      engine: baseQuery.engine ?? ROS_LIST_ENGINE,
+      ...fromUrl,
+    };
+  }, [baseQuery, location.search, prefix]);
 
   const setQuery = useCallback(
     (newQuery: RosQuery) => {

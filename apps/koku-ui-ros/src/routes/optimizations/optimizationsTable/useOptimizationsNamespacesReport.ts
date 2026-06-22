@@ -13,10 +13,13 @@ import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
+import { Interval, OptimizationType } from 'utils/commonTypes';
 
 export const optimizationsNamespacesBaseQuery: RosQuery = {
   limit: 10,
   offset: 0,
+  term: Interval.short_term,
+  engine: OptimizationType.cost,
   order_by: {
     last_reported: 'desc',
   },
@@ -56,6 +59,8 @@ export const useOptimizationsNamespacesReport = ({
     ...(query.after ? { after: query.after } : { offset: query.offset }),
     order_by,
     order_how,
+    term: query.term,
+    engine: query.engine,
   });
   const reportQueryString = getQuery(reportQuery);
 

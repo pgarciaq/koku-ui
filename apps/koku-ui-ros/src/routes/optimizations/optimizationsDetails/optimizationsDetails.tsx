@@ -3,7 +3,6 @@ import { RosNamespace } from 'api/ros/ros';
 import { useIsNamespaceToggleEnabled } from 'components/featureToggle';
 import React, { useState } from 'react';
 import { OptimizationsContainersTable, OptimizationsProjectsTable } from 'routes/optimizations/optimizationsTable';
-import { OptimizationsTable } from 'routes/optimizations/optimizationsTable';
 import { Interval, OptimizationType } from 'utils/commonTypes';
 
 import { OptimizationsDetailsHeader } from './optimizationsDetailsHeader';
@@ -36,7 +35,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
   const [namespace, setNamespace] = useState(
     isNamespaceToggleEnabled ? RosNamespace.projects : RosNamespace.containers
   );
-  const [optimizationType, setOptimizationType] = useState(OptimizationType.performance);
+  const [optimizationType, setOptimizationType] = useState(OptimizationType.cost);
 
   const handleOnIntervalSelect = (value: Interval) => {
     setCurrentInterval(value);
@@ -86,7 +85,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
                 />
               )
             ) : (
-              <OptimizationsTable
+              <OptimizationsContainersTable
                 breadcrumbLabel={breadcrumbLabel}
                 breadcrumbPath={breadcrumbPath}
                 linkPath={linkPath}

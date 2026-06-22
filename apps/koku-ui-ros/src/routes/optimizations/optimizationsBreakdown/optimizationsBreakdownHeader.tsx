@@ -5,22 +5,16 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import type { OptimizationType } from 'utils/commonTypes';
 import { getTimeFromNow } from 'utils/dates';
 import { hasNotificationsWarning } from 'utils/notifications';
 
 import { styles } from './optimizationsBreakdownHeader.styles';
 import { OptimizationsBreakdownProjectLink } from './optimizationsBreakdownProjectLink';
-import { OptimizationsBreakdownToolbar } from './optimizationsBreakdownToolbar';
 
 interface OptimizationsBreakdownHeaderOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
-  currentInterval?: string;
-  isDisabled?: boolean;
   linkState?: any;
-  onSelect?: (value: string) => void;
-  optimizationType?: OptimizationType;
   projectPath?: string;
   report?: RecommendationReportData;
 }
@@ -30,11 +24,7 @@ type OptimizationsBreakdownHeaderProps = OptimizationsBreakdownHeaderOwnProps;
 const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
-  currentInterval,
-  isDisabled,
   linkState,
-  onSelect,
-  optimizationType,
   projectPath,
   report,
 }) => {
@@ -169,15 +159,6 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
         )}
       </div>
       <div style={styles.description}>{getDescription()}</div>
-      <div style={styles.toolbar}>
-        <OptimizationsBreakdownToolbar
-          currentInterval={currentInterval}
-          isDisabled={isDisabled}
-          onSelect={onSelect}
-          optimizationType={optimizationType}
-          recommendations={report?.recommendations}
-        />
-      </div>
     </header>
   );
 };

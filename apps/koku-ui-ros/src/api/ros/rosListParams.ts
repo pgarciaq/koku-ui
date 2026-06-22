@@ -10,15 +10,45 @@ export const ROS_LIST_ENGINE = OptimizationType.cost;
 const COUNT_CACHE_EXCLUDED_KEYS = new Set(['limit', 'offset', 'after', 'order_by', 'order_how']);
 
 /** Merge explicit term/engine list projection into a ROS list query. */
-export function withRosListProjection<T extends RosQuery>(
-  query: T,
-  term: string = ROS_LIST_TERM,
-  engine: string = ROS_LIST_ENGINE
-): T & { term: string; engine: string } {
+export function withRosListProjection<T extends RosQuery>(query: T): T & { term: string; engine: string } {
   return {
     ...query,
-    term,
-    engine,
+    term: query.term ?? ROS_LIST_TERM,
+    engine: query.engine ?? ROS_LIST_ENGINE,
+  };
+}
+
+export interface RosDetailFetchQuery {
+  engine?: string;
+  id: string;
+  term?: string;
+}
+
+/** Encode a detail fetch cache key with optional projection filters. */
+export function encodeRosDetailFetchQuery({ id, term, engine }: RosDetailFetchQuery): string {
+  const params = new URLSearchParams();
+  if (term) {
+    params.set('filter[term]', term);
+  }
+  if (engine) {
+    params.set('filter[engine]', engine);
+  }
+  const suffix = params.toString();
+  return suffix ? `${id}?${suffix}` : id;
+}
+
+/** Decode a detail fetch cache key into id and projection filters. */
+export function decodeRosDetailFetchQuery(fetchQuery: string): RosDetailFetchQuery {
+  const qIdx = fetchQuery.indexOf('?');
+  if (qIdx === -1) {
+    return { id: fetchQuery };
+  }
+
+  const params = new URLSearchParams(fetchQuery.slice(qIdx + 1));
+  return {
+    id: fetchQuery.slice(0, qIdx),
+    term: params.get('filter[term]') ?? undefined,
+    engine: params.get('filter[engine]') ?? undefined,
   };
 }
 
