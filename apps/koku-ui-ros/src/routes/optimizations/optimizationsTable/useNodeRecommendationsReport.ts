@@ -7,6 +7,7 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
+import { expandTagFilters } from 'routes/utils/filter';
 import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
@@ -65,10 +66,13 @@ export const useNodeRecommendationsReport = ({
     }
   }
 
+  const tagFilters = expandTagFilters({ tag: query.filter_by?.tag });
+
   const reportQuery: Record<string, any> = {
     ...(query.filter_by?.cluster && { cluster_uuid: query.filter_by.cluster }),
     ...(query.filter_by?.node && { node: query.filter_by.node }),
     ...classificationParams,
+    ...tagFilters,
     limit: query.limit,
     ...(query.after ? { after: query.after } : { offset: query.offset ?? 0 }),
     order_by,

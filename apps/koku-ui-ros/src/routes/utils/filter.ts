@@ -75,10 +75,10 @@ export const removeFilterFromQuery = (query: Query, filter: Filter) => {
 
 /**
  * Converts toolbar "tag" filter entries (key=value format) into the
- * tag:<key>=<value> query parameter format expected by the ROS API.
+ * filter[tag:key]=value query parameter format expected by the ROS API.
  *
  * Input:  { cluster: 'foo', tag: ['environment=production', 'app=web'] }
- * Output: { cluster: 'foo', 'tag:environment': 'production', 'tag:app': 'web' }
+ * Output: { cluster: 'foo', 'filter[tag:environment]': 'production', 'filter[tag:app]': 'web' }
  */
 export const expandTagFilters = (filterBy: Record<string, any> | undefined): Record<string, any> => {
   if (!filterBy) {
@@ -96,7 +96,7 @@ export const expandTagFilters = (filterBy: Record<string, any> | undefined): Rec
       if (eqIdx > 0) {
         const tagKey = String(entry).substring(0, eqIdx);
         const tagVal = String(entry).substring(eqIdx + 1);
-        const paramKey = `tag:${tagKey}`;
+        const paramKey = `filter[tag:${tagKey}]`;
         if (result[paramKey]) {
           result[paramKey] = Array.isArray(result[paramKey])
             ? [...result[paramKey], tagVal]

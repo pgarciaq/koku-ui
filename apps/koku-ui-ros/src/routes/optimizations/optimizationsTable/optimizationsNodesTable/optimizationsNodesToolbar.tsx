@@ -55,6 +55,11 @@ class OptimizationsNodesToolbarBase extends React.Component<
           { name: intl.formatMessage(messages.nodeClassificationWellUtilized), key: 'well_utilized' },
         ],
       },
+      {
+        name: intl.formatMessage(messages.filterByValues, { value: 'tag' }),
+        key: 'tag',
+        placeholderKey: 'tag_key_value',
+      },
     ];
   };
 
