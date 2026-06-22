@@ -50,7 +50,7 @@ export const useNamespaceRecommendationsReport = ({
     ...(cluster && { cluster }),
     ...filterBy,
     limit: query.limit,
-    offset: query.offset ?? 0,
+    ...(query.after ? { after: query.after } : { offset: query.offset }),
     order_by,
     order_how,
   });

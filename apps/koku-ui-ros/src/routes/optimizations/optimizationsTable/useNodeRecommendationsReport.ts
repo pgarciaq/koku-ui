@@ -70,7 +70,7 @@ export const useNodeRecommendationsReport = ({
     ...(query.filter_by?.node && { node: query.filter_by.node }),
     ...classificationParams,
     limit: query.limit,
-    offset: query.offset ?? 0,
+    ...(query.after ? { after: query.after } : { offset: query.offset ?? 0 }),
     order_by,
     order_how,
   };
