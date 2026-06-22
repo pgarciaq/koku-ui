@@ -1,6 +1,6 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import messages from 'locales/messages';
-import React from 'react';
+import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
@@ -15,13 +15,24 @@ import { OptimizationsNodesDataTable } from './optimizationsNodesDataTable';
 import { OptimizationsNodesToolbar } from './optimizationsNodesToolbar';
 
 interface OptimizationsNodesTableOwnProps {
-  // No linkPath/linkState needed since node detail drill-down is deferred
+  breadcrumbLabel?: string;
+  breadcrumbPath?: string;
+  linkPath?: string;
+  linkState?: any;
+  queryStateName?: string;
 }
 
 type OptimizationsNodesTableProps = OptimizationsNodesTableOwnProps;
 
-const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = () => {
+const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
+  breadcrumbLabel,
+  breadcrumbPath,
+  linkPath,
+  linkState,
+  queryStateName,
+}) => {
   const intl = useIntl();
+  const [cursorPage, setCursorPage] = useState(1);
 
   const { query, setQuery } = useUrlState({
     baseQuery: nodeRecommendationsBaseQuery,
@@ -35,7 +46,7 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = () => {
     const count = report?.meta?.count ?? 0;
     const limit = report?.meta?.limit ?? query.limit ?? nodeRecommendationsBaseQuery.limit;
     const offset = report?.meta?.offset ?? query.offset ?? nodeRecommendationsBaseQuery.offset;
-    const page = Math.trunc(offset / limit + 1);
+    const page = query.after ? cursorPage : Math.trunc(offset / limit + 1);
 
     return (
       <Pagination
@@ -61,8 +72,11 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = () => {
   const getTable = () => {
     return (
       <OptimizationsNodesDataTable
+        breadcrumbLabel={breadcrumbLabel}
         filterBy={query.filter_by}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
+        linkPath={linkPath}
+        linkState={linkState}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
@@ -91,26 +105,31 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = () => {
   };
 
   const handleOnFilterAdded = filter => {
+    setCursorPage(1);
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
     setQuery(newQuery);
   };
 
   const handleOnFilterRemoved = filter => {
+    setCursorPage(1);
     const newQuery = queryUtils.handleOnFilterRemoved(query, filter);
     setQuery(newQuery);
   };
 
   const handleOnPerPageSelect = perPage => {
+    setCursorPage(1);
     const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
     setQuery(newQuery);
   };
 
   const handleOnSetPage = pageNumber => {
+    setCursorPage(pageNumber);
     const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
     setQuery(newQuery);
   };
 
   const handleOnSort = (sortType, isSortAscending) => {
+    setCursorPage(1);
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
     setQuery(newQuery);
   };

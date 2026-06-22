@@ -2,11 +2,7 @@ import { Card, CardBody, PageSection } from '@patternfly/react-core';
 import { RosNamespace } from 'api/ros/ros';
 import { useIsNamespaceToggleEnabled } from 'components/featureToggle';
 import React, { useState } from 'react';
-import {
-  OptimizationsContainersTable,
-  OptimizationsNodesTable,
-  OptimizationsProjectsTable,
-} from 'routes/optimizations/optimizationsTable';
+import { OptimizationsContainersTable, OptimizationsProjectsTable } from 'routes/optimizations/optimizationsTable';
 import { OptimizationsTable } from 'routes/optimizations/optimizationsTable';
 import { Interval, OptimizationType } from 'utils/commonTypes';
 
@@ -72,9 +68,7 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
         <Card>
           <CardBody>
             {isNamespaceToggleEnabled ? (
-              namespace === RosNamespace.nodes ? (
-                <OptimizationsNodesTable />
-              ) : namespace === RosNamespace.containers ? (
+              namespace === RosNamespace.containers ? (
                 <OptimizationsContainersTable
                   breadcrumbLabel={breadcrumbLabel}
                   breadcrumbPath={breadcrumbPath}

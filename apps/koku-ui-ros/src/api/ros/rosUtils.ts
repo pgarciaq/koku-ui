@@ -1,6 +1,7 @@
 import {
   runNamespaceRosReport as runNamespaceRecommendation,
   runNamespaceRosReports as runNamespaceRecommendations,
+  runNodeRosReport as runNodeRecommendation,
   runNodeRosReports as runNodeRecommendations,
   runRosReport as runRecommendation,
   runRosReports as runRecommendations,
@@ -16,6 +17,9 @@ export function runRosReport(rosPathsType: RosPathsType, rosType: RosType, query
       break;
     case RosPathsType.namespaceRecommendations:
       result = runNamespaceRecommendations(rosType, query);
+      break;
+    case RosPathsType.nodeRecommendation:
+      result = runNodeRecommendation(rosType, query);
       break;
     case RosPathsType.nodeRecommendations:
       result = runNodeRecommendations(rosType, query);

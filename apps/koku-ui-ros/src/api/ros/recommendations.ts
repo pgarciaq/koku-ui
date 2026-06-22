@@ -225,6 +225,8 @@ export interface NodeRecommendationReport {
     count: number;
     limit: number;
     offset: number;
+    has_next?: boolean;
+    next_cursor?: string;
     currency?: string;
   };
   data: NodeRecommendationData[];
@@ -237,4 +239,11 @@ export function runNodeRosReports(reportType: RosType, query: string) {
   const path = RosTypePaths[reportType];
   const queryString = query ? `?${query}` : '';
   return axiosInstance.get<NodeRecommendationReport>(`${path}/nodes${queryString}`);
+}
+
+// Node recommendation detail by node name
+export function runNodeRosReport(reportType: RosType, query: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = query ? `/nodes/${query}?include=explanation` : '';
+  return axiosInstance.get<any>(`${path}${queryString}`);
 }

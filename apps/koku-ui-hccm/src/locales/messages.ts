@@ -2985,6 +2985,11 @@ export default defineMessages({
     description: 'No',
     id: 'no',
   },
+  node: {
+    defaultMessage: 'Node',
+    description: 'Node',
+    id: 'node',
+  },
   noCurrentData: {
     defaultMessage: 'No data available for {dateRange}. You are viewing data for the previous month.',
     description: 'No data available for Jan 1-31. You are viewing data for the previous month.',

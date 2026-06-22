@@ -12,6 +12,7 @@ import { formatPath } from 'utils/paths';
 
 import { Efficiency } from './efficiency';
 import { NamespaceDetails } from './namespaceDetails';
+import { NodeDetails } from './nodeDetails';
 import { styles } from './optimizations.styles';
 import { OptimizationsDetails } from './optimizationsDetails';
 
@@ -88,6 +89,15 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
                   </TabTitleText>
                 }
               />
+              <Tab
+                eventKey={3}
+                title={
+                  <TabTitleText>
+                    {intl.formatMessage(messages.node)}{' '}
+                    <AsyncComponent scope="costManagementRos" module="./OptimizationsNodesBadge" />
+                  </TabTitleText>
+                }
+              />
             </Tabs>
           </div>
         </header>
@@ -96,6 +106,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
         {activeTabKey === 0 && <Efficiency />}
         {activeTabKey === 1 && <OptimizationsDetails activeTabKey={1} isHeaderHidden={true} />}
         {activeTabKey === 2 && <NamespaceDetails activeTabKey={2} />}
+        {activeTabKey === 3 && <NodeDetails activeTabKey={3} />}
       </PageSection>
     </>
   );
