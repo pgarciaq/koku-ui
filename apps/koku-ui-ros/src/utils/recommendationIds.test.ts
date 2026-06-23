@@ -16,6 +16,14 @@ describe('recommendationIds', () => {
     expect(getNamespaceRecommendationId('cluster-uuid-1', 'kube-system')).toBe('b18fbac7-cfe0-5724-a2be-62111c0bae32');
   });
 
+  it('matches ros-ocp-backend NativeNodeID', () => {
+    expect(getNodeRecommendationId('cluster-1', 'kube-system')).toBe('2197ba7c-d75a-5b5d-83d9-fc712236809c');
+  });
+
+  it('matches ros-ocp-backend NativePvcID', () => {
+    expect(getPvcRecommendationId('c1', 'apps', 'data')).toBe('7eda0e9b-46a3-50c6-aaab-dd7d2a844c01');
+  });
+
   it('produces distinct ids for node vs namespace on same cluster/name', () => {
     const nodeId = getNodeRecommendationId('cluster-1', 'kube-system');
     const namespaceId = getNamespaceRecommendationId('cluster-1', 'kube-system');

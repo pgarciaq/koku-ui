@@ -43,3 +43,8 @@ export function getClusterQuotaRecommendationId(clusterUuid: string, clusterQuot
 export function getSnapshotRecommendationId(clusterUuid: string, namespace: string, snapshotName: string): string {
   return nativeRecommendationId(`snapshot/${clusterUuid}/${namespace}/${snapshotName}`);
 }
+
+/** Deterministic VM recommendation id (type-prefixed). */
+export function getVmRecommendationId(clusterUuid: string, namespace: string, vmName: string): string {
+  return nativeRecommendationId(`vm/${clusterUuid}/${namespace}/${vmName}`);
+}
