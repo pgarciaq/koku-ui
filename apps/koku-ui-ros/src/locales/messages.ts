@@ -566,6 +566,11 @@ export default defineMessages({
     description: 'Label for the PVC breakdown term matching list projection',
     id: 'pvcActiveTerm',
   },
+  recommendationTermWindowDays: {
+    defaultMessage: 'Last {windowDays, number} {windowDays, plural, one {day} other {days}}',
+    description: 'Recommendation projection window label from settings API window_days',
+    id: 'recommendationTermWindowDays',
+  },
   pvcMountedBy: {
     defaultMessage: 'Mounted by',
     description: 'PVC breakdown mounted-by pod label',

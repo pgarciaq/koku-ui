@@ -47,6 +47,15 @@ ROS_LIST_TERM = Interval.short_term;
 ROS_LIST_ENGINE = OptimizationType.cost;
 ```
 
+### PVC / Storage term labels
+
+Container tabs use fixed Kruize-aligned labels (24h / 7d / 15d) from
+`messages.optimizations*Term`. **PVC list and breakdown must not reuse those.**
+Use `useRecommendationTermOptions('pvc')`, which loads
+`GET /recommendations/openshift/settings/terms?recommendation_type=pvc` and
+renders labels from each term's `window_days` (fallback: 7 / 30 / 90 days).
+Pass the resulting options to `OptimizationsProjectionToolbar` via `termOptions`.
+
 ### Container tab pitfall
 
 When the namespace feature flag is off, `optimizationsDetails.tsx` must render

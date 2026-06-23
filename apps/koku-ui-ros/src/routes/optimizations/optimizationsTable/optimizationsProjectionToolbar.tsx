@@ -1,11 +1,32 @@
 import { Flex, FlexItem } from '@patternfly/react-core';
 import { ROS_LIST_ENGINE, ROS_LIST_TERM } from 'api/ros/rosListParams';
 import messages from 'locales/messages';
-import React from 'react';
+import React, { useMemo } from 'react';
+import type { PerspectiveSelectOptionLabel } from 'routes/components/perspective/perspectiveSelect';
 import { PerspectiveSelect } from 'routes/components/perspective/perspectiveSelect';
 import { Interval, OptimizationType } from 'utils/commonTypes';
 
 import { styles } from '../optimizationsDetails/optimizationsDetailsToolbar.styles';
+
+export interface OptimizationsProjectionTermOption {
+  label: PerspectiveSelectOptionLabel;
+  value: string;
+}
+
+const CONTAINER_TERM_OPTIONS: OptimizationsProjectionTermOption[] = [
+  {
+    label: messages.optimizationsShortTerm,
+    value: Interval.short_term,
+  },
+  {
+    label: messages.optimizationsMediumTerm,
+    value: Interval.medium_term,
+  },
+  {
+    label: messages.optimizationsLongTerm,
+    value: Interval.long_term,
+  },
+];
 
 interface OptimizationsProjectionToolbarOwnProps {
   engine?: string;
@@ -14,6 +35,7 @@ interface OptimizationsProjectionToolbarOwnProps {
   onTermSelect?: (value: string) => void;
   showEngine?: boolean;
   term?: string;
+  termOptions?: OptimizationsProjectionTermOption[];
 }
 
 type OptimizationsProjectionToolbarProps = OptimizationsProjectionToolbarOwnProps;
@@ -25,21 +47,12 @@ const OptimizationsProjectionToolbar: React.FC<OptimizationsProjectionToolbarPro
   onTermSelect,
   showEngine = true,
   term,
+  termOptions: termOptionsProp,
 }) => {
-  const termOptions = [
-    {
-      label: messages.optimizationsShortTerm,
-      value: Interval.short_term,
-    },
-    {
-      label: messages.optimizationsMediumTerm,
-      value: Interval.medium_term,
-    },
-    {
-      label: messages.optimizationsLongTerm,
-      value: Interval.long_term,
-    },
-  ];
+  const termOptions = useMemo(
+    () => termOptionsProp ?? CONTAINER_TERM_OPTIONS,
+    [termOptionsProp]
+  );
 
   const engineOptions = [
     {

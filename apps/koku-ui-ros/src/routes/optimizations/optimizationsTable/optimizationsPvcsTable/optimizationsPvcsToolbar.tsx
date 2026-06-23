@@ -1,7 +1,8 @@
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
 import type { RosQuery } from 'api/queries/rosQuery';
+import { useRecommendationTermOptions } from 'hooks/useRecommendationTermOptions';
 import messages from 'locales/messages';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { Filter } from 'routes/utils/filter';
@@ -36,6 +37,11 @@ const OptimizationsPvcsToolbar: React.FC<OptimizationsPvcsToolbarProps> = ({
   query,
 }) => {
   const intl = useIntl();
+  const { isLoading: termOptionsLoading, termOptions } = useRecommendationTermOptions('pvc');
+  const projectionTermOptions = useMemo(
+    () => termOptions.map(option => ({ label: option.label, value: option.value })),
+    [termOptions]
+  );
 
   const categoryOptions: ToolbarChipGroupExt[] = [
     { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
@@ -72,10 +78,11 @@ const OptimizationsPvcsToolbar: React.FC<OptimizationsPvcsToolbarProps> = ({
             onGroupBySelect={onGroupBySelect}
           />
           <OptimizationsProjectionToolbar
-            isDisabled={isDisabled}
+            isDisabled={isDisabled || termOptionsLoading}
             onTermSelect={onTermSelect}
             showEngine={false}
             term={query?.term}
+            termOptions={projectionTermOptions}
           />
         </>
       }
