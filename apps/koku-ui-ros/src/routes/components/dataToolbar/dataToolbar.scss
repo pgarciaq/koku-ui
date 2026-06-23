@@ -12,6 +12,11 @@
   .pf-v6-c-button.pf-m-control::after {
     border-left: none;
   }
+
+  .pf-v6-c-toolbar__content {
+    align-items: center;
+  }
+
   // Alternative workaround to overriding table sticky style
   // --pf-v6-c-toolbar--ZIndex: auto; z-index: 301;
 }

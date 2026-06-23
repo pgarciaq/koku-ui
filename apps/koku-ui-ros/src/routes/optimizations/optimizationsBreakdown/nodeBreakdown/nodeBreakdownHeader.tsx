@@ -7,6 +7,9 @@ import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import type { OptimizationType } from 'utils/commonTypes';
 import { getTimeFromNow } from 'utils/dates';
+import { getNodeRecommendationId } from 'utils/recommendationIds';
+
+import { RecommendationIdMetadata } from '../RecommendationIdMetadata';
 
 import { formatUtilPercentRange } from '../../optimizationsTable/nodeTableUtils';
 import { styles } from '../optimizationsBreakdownHeader.styles';
@@ -90,9 +93,16 @@ const NodeBreakdownHeader: React.FC<NodeBreakdownHeaderProps> = ({
         ? selectedEngine.node_count_reduction
         : '—';
 
+    const recommendationId =
+      report?.id ??
+      (report?.cluster_uuid && report?.node
+        ? getNodeRecommendationId(report.cluster_uuid, report.node)
+        : undefined);
+
     return (
       <Content>
         <Content component={ContentVariants.dl}>
+          <RecommendationIdMetadata recommendationId={recommendationId} />
           <Content component={ContentVariants.dt}>
             {intl.formatMessage(messages.optimizationsValues, { value: 'cluster' })}
           </Content>

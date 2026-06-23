@@ -18,6 +18,9 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { formatMoneyCell, formatStorageBytes } from 'routes/optimizations/optimizationsTable/storageTableUtils';
 import { getTimeFromNow } from 'utils/dates';
+import { getSnapshotRecommendationId } from 'utils/recommendationIds';
+
+import { RecommendationIdMetadata } from '../../optimizationsBreakdown/RecommendationIdMetadata';
 
 interface SnapshotDetailModalOwnProps {
   isOpen: boolean;
@@ -40,6 +43,11 @@ const SnapshotDetailModal: React.FC<SnapshotDetailModalOwnProps> = ({
 
   const waste = formatMoneyCell(snapshot.estimated_monthly_cost);
   const notifications = snapshot.notifications ? Object.values(snapshot.notifications) : [];
+  const recommendationId =
+    snapshot.id ??
+    (snapshot.cluster_uuid && snapshot.namespace && snapshot.snapshot_name
+      ? getSnapshotRecommendationId(snapshot.cluster_uuid, snapshot.namespace, snapshot.snapshot_name)
+      : undefined);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} variant="medium">
@@ -54,6 +62,7 @@ const SnapshotDetailModal: React.FC<SnapshotDetailModalOwnProps> = ({
           />
         )}
         <DescriptionList isCompact>
+          <RecommendationIdMetadata recommendationId={recommendationId} variant="descriptionList" />
           <DescriptionListGroup>
             <DescriptionListTerm>{intl.formatMessage(messages.optimizationsValues, { value: 'project' })}</DescriptionListTerm>
             <DescriptionListDescription>{snapshot.namespace ?? '—'}</DescriptionListDescription>

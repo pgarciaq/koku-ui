@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { isEqual } from 'routes/utils/equal';
 import type { Filter } from 'routes/utils/filter';
+import { tagKey } from 'utils/props';
 import { createMapStateToProps } from 'store/common';
 
 import {
@@ -398,7 +399,7 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
 
   public render() {
     const { actions, categoryOptions, pagination, showFilter, style, tagReport } = this.props;
-    const { filters } = this.state;
+    const { currentCategory, currentTagKey, filters } = this.state;
     const options = categoryOptions ? categoryOptions : getDefaultCategoryOptions();
 
     const tagKeyOptions = getTagKeyOptions(tagReport, filters) as ToolbarLabelGroup[];
@@ -419,8 +420,11 @@ export class BasicToolbarBase extends React.Component<BasicToolbarProps, BasicTo
                   {options && options.map(option => this.getCategoryInputComponent(option))}
                   {options && options.map(option => this.getCustomSelectComponent(option))}
                   {this.getTagKeySelectComponent()}
-                  {tagKeyOptions &&
-                    tagKeyOptions.map(option => this.getTagValueSelectComponent(option))}
+                  {currentCategory === tagKey &&
+                    currentTagKey &&
+                    tagKeyOptions
+                      ?.filter(option => option.key === currentTagKey)
+                      .map(option => this.getTagValueSelectComponent(option))}
                 </ToolbarGroup>
               </ToolbarToggleGroup>
             )}{' '}

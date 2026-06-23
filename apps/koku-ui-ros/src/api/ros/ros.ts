@@ -58,4 +58,8 @@ export const enum RosPathsType {
   recommendation = 'recommendation',
   recommendations = 'recommendations',
   snapshotRecommendations = 'snapshotRecommendations',
+  quotaRecommendations = 'quotaRecommendations',
+  clusterQuotaRecommendations = 'clusterQuotaRecommendations',
+  quotaRecommendation = 'quotaRecommendation',
+  clusterQuotaRecommendation = 'clusterQuotaRecommendation',
 }

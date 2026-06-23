@@ -198,7 +198,7 @@ export const getTagValueSelect = ({
         onTagValueInput={onTagValueInput}
         onTagValueInputChange={onTagValueInputChange}
         selections={filters?.tag?.[tagKeyOption.key]?.map(filter => filter.value)}
-        tagKey={currentTagKey}
+        tagKey={tagKeyOption.key}
         tagKeyValue={tagKeyValueInput}
         tagPathsType={tagPathsType}
       />

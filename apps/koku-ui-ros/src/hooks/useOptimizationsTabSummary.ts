@@ -31,6 +31,10 @@ function getRosPathsType(plugin: TabSummaryPlugin): RosPathsType {
       return RosPathsType.pvcRecommendations;
     case 'snapshot':
       return RosPathsType.snapshotRecommendations;
+    case 'quota':
+      return RosPathsType.quotaRecommendations;
+    case 'cluster-quota':
+      return RosPathsType.clusterQuotaRecommendations;
   }
 }
 
@@ -52,7 +56,7 @@ export function useOptimizationsTabSummary({
   const [savingsUnits, setSavingsUnits] = useState<string | undefined>();
 
   useEffect(() => {
-    if (plugin === 'namespace') {
+    if (plugin === 'namespace' || plugin === 'quota' || plugin === 'cluster-quota') {
       setSummaryFetchStatus(FetchStatus.complete);
       setSavingsValue(undefined);
       setSavingsUnits(undefined);

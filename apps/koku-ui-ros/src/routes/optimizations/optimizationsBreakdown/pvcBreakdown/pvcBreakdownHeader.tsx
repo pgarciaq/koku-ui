@@ -6,6 +6,9 @@ import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { formatStorageBytes, formatUsageRatio } from 'routes/optimizations/optimizationsTable/storageTableUtils';
 import { getTimeFromNow } from 'utils/dates';
+import { getPvcRecommendationId } from 'utils/recommendationIds';
+
+import { RecommendationIdMetadata } from '../RecommendationIdMetadata';
 
 import { styles } from '../optimizationsBreakdownHeader.styles';
 
@@ -59,6 +62,12 @@ const PvcBreakdownHeader: React.FC<PvcBreakdownHeaderOwnProps> = ({
 }) => {
   const intl = useIntl();
 
+  const recommendationId =
+    detail?.id ??
+    (detail?.cluster_uuid && detail?.namespace && detail?.persistentvolumeclaim
+      ? getPvcRecommendationId(detail.cluster_uuid, detail.namespace, detail.persistentvolumeclaim)
+      : undefined);
+
   return (
     <header>
       <Link to={breadcrumbPath} state={{ ...linkState }}>
@@ -73,6 +82,7 @@ const PvcBreakdownHeader: React.FC<PvcBreakdownHeaderOwnProps> = ({
       <div style={styles.description}>
         <Content>
           <Content component={ContentVariants.dl}>
+            <RecommendationIdMetadata recommendationId={recommendationId} />
             <Content component={ContentVariants.dt}>
               {intl.formatMessage(messages.optimizationsValues, { value: 'project' })}
             </Content>

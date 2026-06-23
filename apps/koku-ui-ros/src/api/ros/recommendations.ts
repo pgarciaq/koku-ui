@@ -225,6 +225,7 @@ export interface NodeRecommendationTerm {
 }
 
 export interface NodeRecommendationData {
+  id?: string;
   node?: string;
   cluster_uuid?: string;
   instance_type?: string;
@@ -325,6 +326,7 @@ export interface PvcHistoricalUsagePoint {
 }
 
 export interface PvcRecommendationDetailResponse {
+  id?: string;
   capacity_bytes?: number;
   cluster_uuid: string;
   historical_usage?: PvcHistoricalUsagePoint[];
@@ -396,6 +398,7 @@ export function runPvcRosReport(reportType: RosType, fetchQuery: string) {
 // --- Snapshot recommendation types ---
 
 export interface SnapshotRecommendationData {
+  id?: string;
   age_days?: number;
   cluster_uuid?: string;
   creation_timestamp?: string;
@@ -431,4 +434,204 @@ export function runSnapshotRosReports(reportType: RosType, query: string) {
   const path = RosTypePaths[reportType];
   const queryString = query ? `?${query}` : '';
   return axiosInstance.get<SnapshotRecommendationReport>(`${path}/snapshots${queryString}`);
+}
+
+// --- Quota recommendation types ---
+
+export interface QuotaResourceValues {
+  cpu_limit_millicores?: number;
+  cpu_request_millicores?: number;
+  memory_limit_bytes?: number;
+  memory_request_bytes?: number;
+  pods?: number;
+  storage_request_bytes?: number;
+}
+
+export interface QuotaUtilizationPercents {
+  cpu_limit_percent?: number;
+  cpu_request_percent?: number;
+  memory_limit_percent?: number;
+  memory_request_percent?: number;
+  pods_percent?: number;
+  storage_request_percent?: number;
+}
+
+export interface QuotaCapacityFreed {
+  cpu_millicores?: number;
+  memory_bytes?: number;
+  pods_freed?: number;
+  storage_request_bytes?: number;
+}
+
+export interface QuotaRecommendationData {
+  id?: string;
+  capacity_freed?: QuotaCapacityFreed;
+  cluster_uuid?: string;
+  count?: number;
+  estimated_savings?: MoneyAmount;
+  last_observed_at?: string;
+  namespace?: string;
+  notifications?: Record<string, Notification>;
+  quota_hard?: QuotaResourceValues;
+  quota_name?: string;
+  quota_recommended?: QuotaResourceValues;
+  quota_used?: QuotaResourceValues;
+  recommendation_type?: string;
+  risk_level?: string;
+  utilization?: QuotaUtilizationPercents;
+}
+
+export interface QuotaRecommendationHistoryEntry {
+  current_hard?: number;
+  current_used?: number;
+  recommendation_type?: string;
+  recorded_at?: string;
+  recommended_hard?: number;
+  resource?: string;
+  risk_level?: string;
+  utilization_percent?: number;
+}
+
+export interface QuotaExplanationAPI {
+  container_cpu_sum_millicores?: number;
+  container_mem_sum_bytes?: number;
+  headroom_basis_points?: number;
+  max_utilization_basis_points?: number;
+  recommendation_reason?: string;
+  risk_level?: string;
+  signal_c_cpu_used_millicores?: number;
+}
+
+export interface ClusterQuotaExplanationAPI {
+  base_cpu_millicores?: number;
+  headroom_basis_points?: number;
+  max_utilization_basis_points?: number;
+  ns_quota_cpu_sum_millicores?: number;
+  ns_quota_mem_sum_bytes?: number;
+  recommendation_reason?: string;
+}
+
+export interface QuotaRecommendationDetailResponse extends QuotaRecommendationData {
+  explanation?: QuotaExplanationAPI;
+  headroom_basis_points?: number;
+  history?: QuotaRecommendationHistoryEntry[];
+}
+
+export interface QuotaRecommendationReport {
+  data: QuotaRecommendationData[];
+  meta: {
+    count: number;
+    currency?: string;
+    has_next?: boolean;
+    limit: number;
+    next_cursor?: string;
+    offset: number;
+  };
+}
+
+export interface ClusterQuotaRecommendationData {
+  id?: string;
+  capacity_freed?: QuotaCapacityFreed;
+  cluster_quota_name?: string;
+  cluster_uuid?: string;
+  count?: number;
+  estimated_savings?: MoneyAmount;
+  namespaces?: string[];
+  notifications?: Record<string, Notification>;
+  quota_hard?: QuotaResourceValues;
+  quota_recommended?: QuotaResourceValues;
+  quota_used?: QuotaResourceValues;
+  recommendation_type?: string;
+  risk_level?: string;
+  utilization?: QuotaUtilizationPercents;
+}
+
+export interface ClusterQuotaRecommendationDetailResponse extends ClusterQuotaRecommendationData {
+  explanation?: ClusterQuotaExplanationAPI;
+  history?: QuotaRecommendationHistoryEntry[];
+}
+
+export interface ClusterQuotaRecommendationReport {
+  data: ClusterQuotaRecommendationData[];
+  meta: {
+    count: number;
+    currency?: string;
+    has_next?: boolean;
+    limit: number;
+    next_cursor?: string;
+    offset: number;
+  };
+}
+
+export interface QuotaDetailFetchParams {
+  cluster_uuid: string;
+  engine?: string;
+  namespace: string;
+  quota_name?: string;
+  term?: string;
+}
+
+export interface ClusterQuotaDetailFetchParams {
+  cluster_quota_name: string;
+  cluster_uuid: string;
+  engine?: string;
+  term?: string;
+}
+
+export function encodeQuotaDetailFetchQuery(params: QuotaDetailFetchParams): string {
+  const search = new URLSearchParams({
+    cluster_uuid: params.cluster_uuid,
+    namespace: params.namespace,
+    include: 'explanation',
+  });
+  const quotaName = params.quota_name?.trim();
+  if (quotaName) {
+    search.set('quota_name', quotaName);
+  }
+  if (params.term) {
+    search.set('filter[term]', params.term);
+  }
+  if (params.engine) {
+    search.set('filter[engine]', params.engine);
+  }
+  return search.toString();
+}
+
+export function encodeClusterQuotaDetailFetchQuery(params: ClusterQuotaDetailFetchParams): string {
+  const search = new URLSearchParams({
+    cluster_uuid: params.cluster_uuid,
+    cluster_quota_name: params.cluster_quota_name,
+    include: 'explanation',
+  });
+  if (params.term) {
+    search.set('filter[term]', params.term);
+  }
+  if (params.engine) {
+    search.set('filter[engine]', params.engine);
+  }
+  return search.toString();
+}
+
+export function runQuotaRosReports(reportType: RosType, query: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = query ? `?${query}` : '';
+  return axiosInstance.get<QuotaRecommendationReport>(`${path}/quota${queryString}`);
+}
+
+export function runQuotaRosReport(reportType: RosType, fetchQuery: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = fetchQuery ? `?${fetchQuery}` : '';
+  return axiosInstance.get<QuotaRecommendationDetailResponse>(`${path}/quota/detail${queryString}`);
+}
+
+export function runClusterQuotaRosReports(reportType: RosType, query: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = query ? `?${query}` : '';
+  return axiosInstance.get<ClusterQuotaRecommendationReport>(`${path}/cluster-quota${queryString}`);
+}
+
+export function runClusterQuotaRosReport(reportType: RosType, fetchQuery: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = fetchQuery ? `?${fetchQuery}` : '';
+  return axiosInstance.get<ClusterQuotaRecommendationDetailResponse>(`${path}/cluster-quota/detail${queryString}`);
 }

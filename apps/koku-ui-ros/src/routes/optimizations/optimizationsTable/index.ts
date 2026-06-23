@@ -4,4 +4,6 @@ export * from './optimizationsNodesTable';
 export * from './optimizationsProjectsTable';
 export * from './optimizationsPvcsTable';
 export * from './optimizationsSnapshotsTable';
+export * from './optimizationsQuotasTable';
+export * from './optimizationsClusterQuotasTable';
 export { default as OptimizationsTable } from './optimizationsTable';

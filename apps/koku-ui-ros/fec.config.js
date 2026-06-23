@@ -89,6 +89,10 @@ module.exports = {
         __dirname,
         './src/fed-modules/optimizationsStorageDetailsWrapper.tsx'
       ),
+      './OptimizationsQuotaBadge': path.resolve(__dirname, './src/fed-modules/optimizationsQuotaBadgeWrapper.tsx'),
+      './OptimizationsQuotaDetails': path.resolve(__dirname, './src/fed-modules/optimizationsQuotaDetailsWrapper.tsx'),
+      './QuotaBreakdown': path.resolve(__dirname, './src/fed-modules/quotaBreakdownWrapper.tsx'),
+      './ClusterQuotaBreakdown': path.resolve(__dirname, './src/fed-modules/clusterQuotaBreakdownWrapper.tsx'),
       './OptimizationsTabSummaryBanner': path.resolve(
         __dirname,
         './src/fed-modules/optimizationsTabSummaryBannerWrapper.tsx'

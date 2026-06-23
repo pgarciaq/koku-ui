@@ -40,7 +40,7 @@ export function fetchFleetSavingsSummary(term?: string, engine?: string) {
   );
 }
 
-export type TabSummaryPlugin = 'container' | 'namespace' | 'node' | 'pvc' | 'snapshot';
+export type TabSummaryPlugin = 'container' | 'namespace' | 'node' | 'pvc' | 'snapshot' | 'quota' | 'cluster-quota';
 
 export function getPluginSavingsAmount(
   byPlugin: FleetSavingsByPlugin | undefined,

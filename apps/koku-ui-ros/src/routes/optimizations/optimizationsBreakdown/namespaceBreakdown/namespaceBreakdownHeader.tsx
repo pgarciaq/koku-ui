@@ -6,7 +6,10 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getTimeFromNow } from 'utils/dates';
+import { getNamespaceRecommendationId } from 'utils/recommendationIds';
 import { hasNotificationsWarning } from 'utils/notifications';
+
+import { RecommendationIdMetadata } from '../RecommendationIdMetadata';
 
 import { styles } from '../optimizationsBreakdownHeader.styles';
 
@@ -50,9 +53,16 @@ const NamespaceBreakdownHeader: React.FC<NamespaceBreakdownHeaderProps> = ({
 
     const monitoringEndTime = report?.recommendations?.monitoring_end_time;
 
+    const recommendationId =
+      report?.id ??
+      (report?.cluster_uuid && report?.project
+        ? getNamespaceRecommendationId(report.cluster_uuid, report.project)
+        : undefined);
+
     return (
       <Content>
         <Content component={ContentVariants.dl}>
+          <RecommendationIdMetadata recommendationId={recommendationId} />
           <Content component={ContentVariants.dt}>
             {intl.formatMessage(messages.optimizationsValues, { value: 'last_reported' })}
           </Content>

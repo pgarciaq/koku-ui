@@ -7,8 +7,6 @@ import type { PerspectiveSelectOptionLabel } from 'routes/components/perspective
 import { PerspectiveSelect } from 'routes/components/perspective/perspectiveSelect';
 import { Interval, OptimizationType } from 'utils/commonTypes';
 
-import { styles } from '../optimizationsDetails/optimizationsDetailsToolbar.styles';
-
 export interface OptimizationsProjectionTermOption {
   label: PerspectiveSelectOptionLabel;
   value: string;
@@ -78,7 +76,7 @@ const OptimizationsProjectionToolbar: React.FC<OptimizationsProjectionToolbarPro
   const termSelectDisabled = isDisabled || (!showEngine && !termOptionsProp && pvcTermsLoading);
 
   return (
-    <Flex style={styles.toolbarContainer}>
+    <Flex alignItems={{ default: 'alignItemsCenter' }} gap={{ default: 'gapMd' }}>
       <FlexItem>
         <PerspectiveSelect
           currentItem={term || ROS_LIST_TERM}

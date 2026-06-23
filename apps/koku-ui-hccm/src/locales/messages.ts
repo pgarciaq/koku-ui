@@ -4138,6 +4138,11 @@ export default defineMessages({
     description: 'Storage',
     id: 'storage',
   },
+  quota: {
+    defaultMessage: 'Quota',
+    description: 'Optimizations top-level Quota tab label',
+    id: 'quota',
+  },
   storageClass: {
     defaultMessage: 'StorageClass',
     description: 'StorageClass',

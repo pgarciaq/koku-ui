@@ -6,7 +6,10 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getTimeFromNow } from 'utils/dates';
+import { getContainerRecommendationId } from 'utils/recommendationIds';
 import { hasNotificationsWarning } from 'utils/notifications';
+
+import { RecommendationIdMetadata } from './RecommendationIdMetadata';
 
 import { styles } from './optimizationsBreakdownHeader.styles';
 import { OptimizationsBreakdownProjectLink } from './optimizationsBreakdownProjectLink';
@@ -68,9 +71,22 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
       );
     };
 
+    const recommendationId =
+      report?.id ??
+      (report?.cluster_uuid && report?.project && report?.workload && report?.workload_type && report?.container
+        ? getContainerRecommendationId(
+            report.cluster_uuid,
+            report.project,
+            report.workload,
+            report.workload_type,
+            report.container
+          )
+        : undefined);
+
     return (
       <Content>
         <Content component={ContentVariants.dl}>
+          <RecommendationIdMetadata recommendationId={recommendationId} />
           <Content component={ContentVariants.dt}>
             {intl.formatMessage(messages.optimizationsValues, { value: 'last_reported' })}
           </Content>

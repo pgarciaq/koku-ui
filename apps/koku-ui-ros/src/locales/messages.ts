@@ -451,6 +451,216 @@ export default defineMessages({
     description: 'Storage tab snapshot sub-view toggle label',
     id: 'storageSubSnapshot',
   },
+  quotaSubNamespace: {
+    defaultMessage: 'Namespace ResourceQuota',
+    description: 'Quota tab namespace ResourceQuota sub-view toggle label',
+    id: 'quotaSubNamespace',
+  },
+  quotaSubCluster: {
+    defaultMessage: 'ClusterResourceQuota',
+    description: 'Quota tab ClusterResourceQuota sub-view toggle label',
+    id: 'quotaSubCluster',
+  },
+  quotaName: {
+    defaultMessage: 'ResourceQuota',
+    description: 'Column header for Kubernetes ResourceQuota object name',
+    id: 'quotaName',
+  },
+  clusterQuotaName: {
+    defaultMessage: 'ClusterResourceQuota',
+    description: 'Column header for ClusterResourceQuota name',
+    id: 'clusterQuotaName',
+  },
+  quotaMaxUtilization: {
+    defaultMessage: 'Max utilization',
+    description: 'Highest quota utilization percent across resource dimensions',
+    id: 'quotaMaxUtilization',
+  },
+  quotaRiskLevel: {
+    defaultMessage: 'Risk level',
+    description: 'Quota recommendation risk level column and filter label',
+    id: 'quotaRiskLevel',
+  },
+  quotaRiskLevelHigh: {
+    defaultMessage: 'High',
+    description: 'Quota risk level high',
+    id: 'quotaRiskLevelHigh',
+  },
+  quotaRiskLevelMedium: {
+    defaultMessage: 'Medium',
+    description: 'Quota risk level medium',
+    id: 'quotaRiskLevelMedium',
+  },
+  quotaRiskLevelLow: {
+    defaultMessage: 'Low',
+    description: 'Quota risk level low',
+    id: 'quotaRiskLevelLow',
+  },
+  quotaRiskLevelNone: {
+    defaultMessage: 'None',
+    description: 'Quota risk level none',
+    id: 'quotaRiskLevelNone',
+  },
+  quotaRecommendationTypeTighten: {
+    defaultMessage: 'Tighten',
+    description: 'Quota recommendation type tighten — reduce over-provisioned quota',
+    id: 'quotaRecommendationTypeTighten',
+  },
+  quotaRecommendationTypeRaise: {
+    defaultMessage: 'Raise',
+    description: 'Quota recommendation type raise — usage approaching limits',
+    id: 'quotaRecommendationTypeRaise',
+  },
+  quotaRecommendationTypeOptimal: {
+    defaultMessage: 'Optimal',
+    description: 'Quota recommendation type optimal',
+    id: 'quotaRecommendationTypeOptimal',
+  },
+  quotaRecommendationTypeNone: {
+    defaultMessage: 'None',
+    description: 'Quota recommendation type none',
+    id: 'quotaRecommendationTypeNone',
+  },
+  quotaNamespaces: {
+    defaultMessage: 'Namespaces',
+    description: 'ClusterResourceQuota matched namespace list column',
+    id: 'quotaNamespaces',
+  },
+  quotaNamespaceCount: {
+    defaultMessage: '{count} namespaces',
+    description: 'Summary when CRQ matches more namespaces than shown inline',
+    id: 'quotaNamespaceCount',
+  },
+  quotaDetailTitle: {
+    defaultMessage: 'ResourceQuota recommendation',
+    description: 'Detail modal title fallback for namespace quota',
+    id: 'quotaDetailTitle',
+  },
+  clusterQuotaDetailTitle: {
+    defaultMessage: 'ClusterResourceQuota recommendation',
+    description: 'Detail modal title fallback for cluster quota',
+    id: 'clusterQuotaDetailTitle',
+  },
+  quotaDetailLoadError: {
+    defaultMessage: 'Unable to load quota recommendation details.',
+    description: 'Error when quota detail API fetch fails',
+    id: 'quotaDetailLoadError',
+  },
+  quotaResourceBreakdown: {
+    defaultMessage: 'Quota resources',
+    description: 'Section title for hard/used/recommended quota breakdown',
+    id: 'quotaResourceBreakdown',
+  },
+  quotaResourceDimension: {
+    defaultMessage: 'Resource',
+    description: 'Quota resource dimension column header',
+    id: 'quotaResourceDimension',
+  },
+  quotaHardLimit: {
+    defaultMessage: 'Hard limit',
+    description: 'Quota hard limit column',
+    id: 'quotaHardLimit',
+  },
+  quotaUsed: {
+    defaultMessage: 'Used',
+    description: 'Quota used column',
+    id: 'quotaUsed',
+  },
+  quotaRecommended: {
+    defaultMessage: 'Recommended',
+    description: 'Quota recommended hard limit column',
+    id: 'quotaRecommended',
+  },
+  quotaResourceCpuRequest: {
+    defaultMessage: 'CPU request',
+    description: 'Quota CPU request resource row',
+    id: 'quotaResourceCpuRequest',
+  },
+  quotaResourceMemoryRequest: {
+    defaultMessage: 'Memory request',
+    description: 'Quota memory request resource row',
+    id: 'quotaResourceMemoryRequest',
+  },
+  quotaResourceStorageRequest: {
+    defaultMessage: 'Storage request',
+    description: 'Quota storage request resource row',
+    id: 'quotaResourceStorageRequest',
+  },
+  quotaResourcePods: {
+    defaultMessage: 'Pods',
+    description: 'Quota pods resource row',
+    id: 'quotaResourcePods',
+  },
+  quotaHistorySectionTitle: {
+    defaultMessage: 'Historical trends',
+    description: 'Section title for quota recommendation history charts on breakdown page',
+    id: 'quotaHistorySectionTitle',
+  },
+  quotaHistoryUtilizationTitle: {
+    defaultMessage: 'Utilization over time',
+    description: 'Chart title for quota utilization percent history',
+    id: 'quotaHistoryUtilizationTitle',
+  },
+  quotaHistoryUtilization: {
+    defaultMessage: 'Utilization',
+    description: 'Legend label for quota utilization percent series',
+    id: 'quotaHistoryUtilization',
+  },
+  quotaHistoryEmpty: {
+    defaultMessage: 'No historical data is available yet for this quota recommendation.',
+    description: 'Empty state when quota breakdown has no history entries',
+    id: 'quotaHistoryEmpty',
+  },
+  quotaExplanationTitle: {
+    defaultMessage: 'Why this recommendation',
+    description: 'Title for quota recommendation explanation on breakdown page',
+    id: 'quotaExplanationTitle',
+  },
+  quotaExplanationTechnicalDetails: {
+    defaultMessage: 'Technical details',
+    description: 'Expandable section label for quota explanation metrics',
+    id: 'quotaExplanationTechnicalDetails',
+  },
+  quotaExplanationHeadroom: {
+    defaultMessage: 'Headroom',
+    description: 'Quota explanation field for configured headroom percentage',
+    id: 'quotaExplanationHeadroom',
+  },
+  quotaExplanationContainerCpuSum: {
+    defaultMessage: 'Container CPU sum',
+    description: 'Quota explanation field for summed container CPU recommendations',
+    id: 'quotaExplanationContainerCpuSum',
+  },
+  quotaExplanationContainerMemSum: {
+    defaultMessage: 'Container memory sum',
+    description: 'Quota explanation field for summed container memory recommendations',
+    id: 'quotaExplanationContainerMemSum',
+  },
+  quotaExplanationSignalCpu: {
+    defaultMessage: 'Signal C CPU used',
+    description: 'Quota explanation field for utilization signal CPU',
+    id: 'quotaExplanationSignalCpu',
+  },
+  quotaExplanationMaxUtilization: {
+    defaultMessage: 'Max utilization',
+    description: 'Quota explanation field for peak utilization across resources',
+    id: 'quotaExplanationMaxUtilization',
+  },
+  quotaExplanationNsQuotaCpuSum: {
+    defaultMessage: 'Namespace quota CPU sum',
+    description: 'Cluster quota explanation field for summed namespace quota CPU',
+    id: 'quotaExplanationNsQuotaCpuSum',
+  },
+  quotaExplanationNsQuotaMemSum: {
+    defaultMessage: 'Namespace quota memory sum',
+    description: 'Cluster quota explanation field for summed namespace quota memory',
+    id: 'quotaExplanationNsQuotaMemSum',
+  },
+  quotaExplanationBaseCpu: {
+    defaultMessage: 'Base CPU',
+    description: 'Cluster quota explanation field for base CPU before headroom',
+    id: 'quotaExplanationBaseCpu',
+  },
   storageGroupBy: {
     defaultMessage: 'Group by',
     description: 'Storage list group-by toolbar label',
@@ -776,6 +986,7 @@ export default defineMessages({
       'cluster {Cluster name} ' +
       'container {Container name} ' +
       'last_reported {Last reported} ' +
+      'recommendation_id {Recommendation id} ' +
       'project {Project name} ' +
       'workload {Workload name} ' +
       'workload_type {Workload type} ' +

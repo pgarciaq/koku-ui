@@ -9,8 +9,7 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { SelectCheckboxWrapper } from 'routes/components/selectWrapper';
-import type { FetchStatus } from 'store/common';
-import { createMapStateToProps } from 'store/common';
+import { FetchStatus, createMapStateToProps } from 'store/common';
 import { tagActions, tagSelectors } from 'store/tags';
 
 interface TagValueOwnProps extends WrappedComponentProps {
@@ -42,8 +41,6 @@ type TagValueProps = TagValueOwnProps & TagValueStateProps & TagValueDispatchPro
 
 const tagType = TagType.tag;
 
-const tagKeyValueLimit = 50;
-
 class TagValueBase extends React.Component<TagValueProps, TagValueState> {
   protected defaultState: TagValueState = {};
   public state: TagValueState = { ...this.defaultState };
@@ -53,9 +50,12 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
   }
 
   public componentDidUpdate(prevProps: TagValueProps) {
-    const { tagQueryString, tagPathsType } = this.props;
+    const { tagKey, tagQueryString, tagPathsType } = this.props;
 
-    if (prevProps.tagQueryString !== tagQueryString || prevProps.tagPathsType !== tagPathsType) {
+    if (
+      tagKey &&
+      (prevProps.tagKey !== tagKey || prevProps.tagQueryString !== tagQueryString || prevProps.tagPathsType !== tagPathsType)
+    ) {
       this.updateReport();
     }
   }
@@ -118,24 +118,37 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
   };
 
   private updateReport = () => {
-    const { fetchTag, tagQueryString, tagPathsType } = this.props;
+    const { fetchTag, tagKey, tagQueryString, tagPathsType } = this.props;
+    if (!tagKey || !tagQueryString) {
+      return;
+    }
     fetchTag(tagPathsType, tagType, tagQueryString);
   };
 
   public render() {
-    const { intl, isDisabled, onTagValueInput, onTagValueSelect, tagKeyValue } = this.props;
+    const { intl, isDisabled, onTagValueInput, onTagValueSelect, tagKey, tagKeyValue, tagReportFetchStatus } =
+      this.props;
+
+    if (!tagKey) {
+      return null;
+    }
 
     const selectOptions = this.getTagValueOptions();
+    const isLoading = tagReportFetchStatus === FetchStatus.inProgress && selectOptions.length === 0;
 
-    if (selectOptions.length > 0 && selectOptions.length < tagKeyValueLimit) {
+    if (selectOptions.length > 0 || isLoading) {
       return (
         <SelectCheckboxWrapper
           aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
           id="tag-value-select"
-          isDisabled={isDisabled}
+          isDisabled={isDisabled || isLoading}
           onSelect={onTagValueSelect}
           options={selectOptions}
-          placeholder={intl.formatMessage(messages.chooseValuePlaceholder)}
+          placeholder={
+            isLoading
+              ? intl.formatMessage(messages.loadingStateTitle)
+              : intl.formatMessage(messages.chooseValuePlaceholder)
+          }
           selections={this.getSelections()}
         />
       );
@@ -157,11 +170,20 @@ class TagValueBase extends React.Component<TagValueProps, TagValueState> {
 
 const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStateProps>(
   (state, { tagKey, tagPathsType }) => {
+    if (!tagKey) {
+      return {
+        tagQueryString: undefined,
+        tagReport: undefined,
+        tagReportFetchStatus: FetchStatus.none,
+      };
+    }
+
     const tagQueryString = getQuery({
       filter: {
         key: tagKey,
         time_scope_value: -1,
       },
+      limit: 1000,
     });
 
     const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);

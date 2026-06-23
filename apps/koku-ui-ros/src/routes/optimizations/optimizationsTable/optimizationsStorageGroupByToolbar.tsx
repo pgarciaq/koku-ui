@@ -1,21 +1,22 @@
-import { Flex, FlexItem } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import { PerspectiveSelect } from 'routes/components/perspective/perspectiveSelect';
 
 import type { StorageGroupBy } from './storageTableUtils';
-import { styles } from '../optimizationsDetails/optimizationsDetailsToolbar.styles';
 
 interface OptimizationsStorageGroupByToolbarProps {
   groupBy?: StorageGroupBy;
   isDisabled?: boolean;
   onGroupBySelect?: (value: StorageGroupBy) => void;
+  /** When true, hide the project group-by option (e.g. cluster-quota list). */
+  projectGroupByDisabled?: boolean;
 }
 
 const OptimizationsStorageGroupByToolbar: React.FC<OptimizationsStorageGroupByToolbarProps> = ({
   groupBy = '',
   isDisabled,
   onGroupBySelect,
+  projectGroupByDisabled = false,
 }) => {
   const options = [
     {
@@ -26,24 +27,24 @@ const OptimizationsStorageGroupByToolbar: React.FC<OptimizationsStorageGroupByTo
       label: messages.storageGroupByCluster,
       value: 'cluster',
     },
-    {
-      label: messages.storageGroupByProject,
-      value: 'project',
-    },
+    ...(projectGroupByDisabled
+      ? []
+      : [
+          {
+            label: messages.storageGroupByProject,
+            value: 'project',
+          },
+        ]),
   ];
 
   return (
-    <Flex style={styles.toolbarContainer}>
-      <FlexItem>
-        <PerspectiveSelect
-          currentItem={groupBy}
-          isDisabled={isDisabled}
-          onSelect={onGroupBySelect}
-          options={options}
-          title={messages.storageGroupBy}
-        />
-      </FlexItem>
-    </Flex>
+    <PerspectiveSelect
+      currentItem={groupBy}
+      isDisabled={isDisabled}
+      onSelect={onGroupBySelect}
+      options={options}
+      title={messages.storageGroupBy}
+    />
   );
 };
 
