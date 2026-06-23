@@ -14,6 +14,8 @@ import {
   formatUsageRatio,
 } from 'routes/optimizations/optimizationsTable/storageTableUtils';
 
+import { PvcTrendSummary } from './pvcTrendSummary';
+
 interface PvcBreakdownTermCardsOwnProps {
   activeTermKey: string;
   terms?: Record<string, PvcRecommendationData>;
@@ -23,7 +25,7 @@ const TERM_ORDER: RecommendationTermName[] = ['short', 'medium', 'long'];
 
 const PvcBreakdownTermCards: React.FC<PvcBreakdownTermCardsOwnProps> = ({ activeTermKey, terms }) => {
   const intl = useIntl();
-  const { termOptions } = useRecommendationTermOptions('pvc');
+  const { termOptions, termSettings } = useRecommendationTermOptions('pvc');
 
   if (!terms || Object.keys(terms).length === 0) {
     return null;
@@ -54,16 +56,7 @@ const PvcBreakdownTermCards: React.FC<PvcBreakdownTermCardsOwnProps> = ({ active
                     {intl.formatMessage(messages.recommended)}: {formatStorageBytes(rec.recommended_bytes)}
                   </div>
                 )}
-                {rec.days_to_full != null && (
-                  <div>
-                    {intl.formatMessage(messages.pvcDaysToFull)}: {rec.days_to_full}
-                  </div>
-                )}
-                {rec.growth_bytes_per_day != null && (
-                  <div>
-                    {intl.formatMessage(messages.pvcGrowthPerDay)}: {formatStorageBytes(rec.growth_bytes_per_day)}/day
-                  </div>
-                )}
+                <PvcTrendSummary rec={rec} termName={term} termSettings={termSettings} />
                 {savings && (
                   <div>
                     {intl.formatMessage(messages.savingsEstimatedMonthly)}: {savings}

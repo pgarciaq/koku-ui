@@ -3,6 +3,7 @@ import {
   defaultPvcTermSettings,
   formatRecommendationTermWindowLabel,
   getRecommendationTermLabel,
+  PVC_DEFAULT_TERM_MIN_DATA,
   PVC_DEFAULT_TERM_WINDOWS,
 } from './recommendationTermLabels';
 import { Interval } from 'utils/commonTypes';
@@ -40,10 +41,16 @@ describe('recommendationTermLabels', () => {
   });
 
   it('uses PVC plugin defaults when settings are unavailable', () => {
-    expect(defaultPvcTermSettings().map(term => term.window_days)).toEqual([
+    const defaults = defaultPvcTermSettings();
+    expect(defaults.map(term => term.window_days)).toEqual([
       PVC_DEFAULT_TERM_WINDOWS.short,
       PVC_DEFAULT_TERM_WINDOWS.medium,
       PVC_DEFAULT_TERM_WINDOWS.long,
+    ]);
+    expect(defaults.map(term => term.min_data_days)).toEqual([
+      PVC_DEFAULT_TERM_MIN_DATA.short,
+      PVC_DEFAULT_TERM_MIN_DATA.medium,
+      PVC_DEFAULT_TERM_MIN_DATA.long,
     ]);
   });
 

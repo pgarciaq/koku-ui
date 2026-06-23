@@ -56,6 +56,12 @@ Use `useRecommendationTermOptions('pvc')`, which loads
 renders labels from each term's `window_days` (fallback: 7 / 30 / 90 days).
 Pass the resulting options to `OptimizationsProjectionToolbar` via `termOptions`.
 
+**PVC trend display:** On breakdown term cards, use `getPvcTrendDisplayState()` /
+`PvcTrendSummary` — show **Trend unavailable** when `data_days` is below the term's
+growth threshold; show **No growth detected** when enough data exists but slope is
+non-positive; do not render `growth_bytes_per_day` = 0 as if it were a measured rate
+when projection was skipped.
+
 ### Container tab pitfall
 
 When the namespace feature flag is off, `optimizationsDetails.tsx` must render

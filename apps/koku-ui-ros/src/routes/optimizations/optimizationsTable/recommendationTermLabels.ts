@@ -26,6 +26,12 @@ export const PVC_DEFAULT_TERM_WINDOWS: Record<RecommendationTermName, number> = 
   long: 90,
 };
 
+export const PVC_DEFAULT_TERM_MIN_DATA: Record<RecommendationTermName, number> = {
+  short: 3,
+  medium: 14,
+  long: 30,
+};
+
 export interface RecommendationTermSelectOption {
   label: string;
   value: string;
@@ -38,6 +44,7 @@ export function formatRecommendationTermWindowLabel(intl: IntlShape, windowDays:
 export function defaultPvcTermSettings(): RecommendationTermSetting[] {
   return TERM_NAME_ORDER.map(name => ({
     name,
+    min_data_days: PVC_DEFAULT_TERM_MIN_DATA[name],
     window_days: PVC_DEFAULT_TERM_WINDOWS[name],
   }));
 }

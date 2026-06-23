@@ -591,6 +591,17 @@ export default defineMessages({
     description: 'PVC estimated daily growth rate',
     id: 'pvcGrowthPerDay',
   },
+  pvcTrendUnavailable: {
+    defaultMessage:
+      'Trend unavailable — need at least {requiredDays, number} days of usage data for this term ({dataDays, number} available)',
+    description: 'PVC growth projection withheld until min digest count is met',
+    id: 'pvcTrendUnavailable',
+  },
+  pvcTrendNoGrowth: {
+    defaultMessage: 'No growth detected',
+    description: 'PVC has enough history but WLS slope is flat or declining',
+    id: 'pvcTrendNoGrowth',
+  },
   pvcUsageMax: {
     defaultMessage: 'Peak usage',
     description: 'PVC historical usage chart peak series',

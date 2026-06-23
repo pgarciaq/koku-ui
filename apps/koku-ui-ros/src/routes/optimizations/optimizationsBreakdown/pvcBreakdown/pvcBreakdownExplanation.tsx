@@ -5,28 +5,42 @@ import {
   DescriptionListTerm,
   ExpandableSection,
 } from '@patternfly/react-core';
-import type { PvcExplanation } from 'api/ros/recommendations';
+import type { PvcRecommendationData } from 'api/ros/recommendations';
+import { useRecommendationTermOptions } from 'hooks/useRecommendationTermOptions';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
+import type { RecommendationTermName } from 'routes/optimizations/optimizationsTable/recommendationTermLabels';
 import { formatStorageBytes, formatUsageRatio } from 'routes/optimizations/optimizationsTable/storageTableUtils';
 
+import {
+  getPvcGrowthRequiredDataDays,
+  getPvcTrendDisplayState,
+} from './pvcTrendUtils';
+
 interface PvcBreakdownExplanationOwnProps {
-  explanation?: PvcExplanation;
+  termName: RecommendationTermName;
+  termRec?: PvcRecommendationData;
 }
 
-const hasExplanation = (explanation?: PvcExplanation): boolean => {
-  if (!explanation) {
+const hasExplanation = (termRec?: PvcRecommendationData): boolean => {
+  const explanation = termRec?.explanation;
+  if (!explanation && !termRec) {
     return false;
   }
-  return Object.values(explanation).some(value => value !== null && value !== undefined && value !== '');
+  if (explanation && Object.values(explanation).some(value => value !== null && value !== undefined && value !== '')) {
+    return true;
+  }
+  return termRec != null;
 };
 
-const PvcBreakdownExplanation: React.FC<PvcBreakdownExplanationOwnProps> = ({ explanation }) => {
+const PvcBreakdownExplanation: React.FC<PvcBreakdownExplanationOwnProps> = ({ termName, termRec }) => {
   const intl = useIntl();
   const [isExpanded, setIsExpanded] = useState(false);
+  const { termSettings } = useRecommendationTermOptions('pvc');
+  const explanation = termRec?.explanation;
 
-  if (!hasExplanation(explanation)) {
+  if (!hasExplanation(termRec)) {
     return null;
   }
 
@@ -56,11 +70,32 @@ const PvcBreakdownExplanation: React.FC<PvcBreakdownExplanationOwnProps> = ({ ex
       value: formatUsageRatio(explanation.usage_ratio),
     });
   }
-  if (explanation?.growth_bytes_per_day != null) {
-    items.push({
-      label: intl.formatMessage(messages.pvcGrowthPerDay),
-      value: `${formatStorageBytes(explanation.growth_bytes_per_day)}/day`,
-    });
+
+  if (termRec) {
+    const trendState = getPvcTrendDisplayState(termRec, termName, termSettings);
+    if (trendState === 'unavailable') {
+      const requiredDays = getPvcGrowthRequiredDataDays(termName, termSettings);
+      const dataDays = termRec.data_days ?? explanation?.data_days ?? 0;
+      items.push({
+        label: intl.formatMessage(messages.pvcGrowthPerDay),
+        value: intl.formatMessage(messages.pvcTrendUnavailable, { dataDays, requiredDays }),
+      });
+    } else if (trendState === 'flat') {
+      items.push({
+        label: intl.formatMessage(messages.pvcGrowthPerDay),
+        value: intl.formatMessage(messages.pvcTrendNoGrowth),
+      });
+    } else if (trendState === 'projected' && explanation?.growth_bytes_per_day != null) {
+      items.push({
+        label: intl.formatMessage(messages.pvcGrowthPerDay),
+        value: `${formatStorageBytes(explanation.growth_bytes_per_day)}/day`,
+      });
+    } else if (termRec.growth_bytes_per_day != null && termRec.growth_bytes_per_day > 0) {
+      items.push({
+        label: intl.formatMessage(messages.pvcGrowthPerDay),
+        value: `${formatStorageBytes(termRec.growth_bytes_per_day)}/day`,
+      });
+    }
   }
 
   return (

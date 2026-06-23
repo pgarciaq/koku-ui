@@ -15,6 +15,7 @@ import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { termToApiKey } from 'routes/optimizations/optimizationsTable/storageTableUtils';
+import type { RecommendationTermName } from 'routes/optimizations/optimizationsTable/recommendationTermLabels';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
@@ -108,7 +109,7 @@ const PvcBreakdown: React.FC<PvcBreakdownOwnProps> = ({ linkState, queryStateNam
         <div style={{ marginBottom: 24 }}>
           <PvcBreakdownUsageChart historicalUsage={detail.historical_usage} />
         </div>
-        <PvcBreakdownExplanation explanation={termRec?.explanation} />
+        <PvcBreakdownExplanation termName={activeTermKey as RecommendationTermName} termRec={termRec} />
       </PageSection>
     </>
   );

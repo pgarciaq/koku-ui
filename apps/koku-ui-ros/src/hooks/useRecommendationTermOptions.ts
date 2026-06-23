@@ -32,6 +32,8 @@ function loadTermSettings(recommendationType: RecommendationTermSettingsType): P
 export interface UseRecommendationTermOptionsResult {
   isLoading: boolean;
   termOptions: RecommendationTermSelectOption[];
+  /** Raw term settings from the API (includes min_data_days for trend gating). */
+  termSettings: RecommendationTermSetting[];
 }
 
 export function useRecommendationTermOptions(
@@ -58,9 +60,15 @@ export function useRecommendationTermOptions(
     return buildRecommendationTermSelectOptions(intl, source);
   }, [intl, recommendationType, terms]);
 
+  const termSettings = useMemo(
+    () => terms ?? (recommendationType === 'pvc' ? defaultPvcTermSettings() : []),
+    [recommendationType, terms]
+  );
+
   return {
     isLoading: terms === null,
     termOptions,
+    termSettings,
   };
 }
 
