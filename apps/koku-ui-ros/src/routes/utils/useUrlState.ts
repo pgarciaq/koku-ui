@@ -46,6 +46,14 @@ export function serializeQuery(query: RosQuery, prefix: string): URLSearchParams
     }
   }
 
+  if (query.group_by) {
+    for (const [key, val] of Object.entries(query.group_by)) {
+      if (val != null) {
+        params.set(`${prefix}group_by[${key}]`, String(val));
+      }
+    }
+  }
+
   return params;
 }
 
@@ -106,6 +114,17 @@ export function deserializeQuery(params: URLSearchParams, prefix: string): Parti
   }
   if (Object.keys(filterBy).length > 0) {
     query.filter_by = filterBy;
+  }
+
+  const groupBy: Record<string, string> = {};
+  for (const [rawKey, val] of params.entries()) {
+    const groupMatch = rawKey.match(new RegExp(`^${prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}group_by\\[(.+)]$`));
+    if (groupMatch) {
+      groupBy[groupMatch[1]] = val;
+    }
+  }
+  if (Object.keys(groupBy).length > 0) {
+    query.group_by = groupBy;
   }
 
   return query;

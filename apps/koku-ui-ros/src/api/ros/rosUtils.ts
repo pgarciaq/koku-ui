@@ -3,8 +3,11 @@ import {
   runNamespaceRosReports as runNamespaceRecommendations,
   runNodeRosReport as runNodeRecommendation,
   runNodeRosReports as runNodeRecommendations,
+  runPvcRosReport as runPvcRecommendation,
+  runPvcRosReports as runPvcRecommendations,
   runRosReport as runRecommendation,
   runRosReports as runRecommendations,
+  runSnapshotRosReports as runSnapshotRecommendations,
 } from './recommendations';
 import { decodeRosDetailFetchQuery } from './rosListParams';
 import type { RosType } from './ros';
@@ -28,6 +31,15 @@ export function runRosReport(rosPathsType: RosPathsType, rosType: RosType, query
     }
     case RosPathsType.nodeRecommendations:
       result = runNodeRecommendations(rosType, query);
+      break;
+    case RosPathsType.pvcRecommendation:
+      result = runPvcRecommendation(rosType, query);
+      break;
+    case RosPathsType.pvcRecommendations:
+      result = runPvcRecommendations(rosType, query);
+      break;
+    case RosPathsType.snapshotRecommendations:
+      result = runSnapshotRecommendations(rosType, query);
       break;
     case RosPathsType.recommendation: {
       const { id, term, engine } = decodeRosDetailFetchQuery(query);

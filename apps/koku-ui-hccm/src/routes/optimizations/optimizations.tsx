@@ -2,19 +2,18 @@ import { PageSection, Tab, Tabs, TabTitleText } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { useIsEfficiencyToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { routes } from 'routes';
 import type { ChromeComponentProps } from 'utils/chrome';
 import { withChrome } from 'utils/chrome';
-import { formatPath } from 'utils/paths';
 
 import { Efficiency } from './efficiency';
 import { NamespaceDetails } from './namespaceDetails';
 import { NodeDetails } from './nodeDetails';
-import { styles } from './optimizations.styles';
 import { OptimizationsDetails } from './optimizationsDetails';
+import { styles } from './optimizations.styles';
+import { StorageDetails } from './storageDetails';
+import { useOptimizationsTabUrl } from './useOptimizationsTabUrl';
 
 interface OptimizationsOwnProps extends ChromeComponentProps {
   // TBD...
@@ -24,38 +23,11 @@ type OptimizationsProps = OptimizationsOwnProps;
 
 const Optimizations: React.FC<OptimizationsProps> = () => {
   const intl = useIntl();
-  const location = useLocation();
-  const navigate = useNavigate();
   const isEfficiencyToggleEnabled = useIsEfficiencyToggleEnabled();
+  const { activeTabKey, setActiveTab } = useOptimizationsTabUrl();
 
-  // Initialize from location state if available (e.g. page reload or direct link)
-  const [activeTabKey, setActiveTabKey] = useState<number>(location?.state?.efficiencyState?.activeTabKey ?? 0);
-
-  // Sync activeTabKey whenever the location.key changes (i.e. any navigation —
-  // push or replace — including clicks on the CPU-table link). We only update
-  // when efficiencyState.activeTabKey is explicitly present so that internal
-  // navigations from the remote MFE component don't inadvertently reset the tab.
-  useEffect(() => {
-    const nextTabKey = location?.state?.efficiencyState?.activeTabKey;
-    if (nextTabKey !== undefined) {
-      setActiveTabKey(nextTabKey);
-    }
-  }, [location.key]);
-
-  const handleTabClick = (_event, tabIndex) => {
-    // Immediately update local state so the tab header responds without waiting
-    // for the navigation round-trip.
-    setActiveTabKey(tabIndex);
-    navigate(formatPath(routes.optimizations.path), {
-      replace: true,
-      state: {
-        ...(location?.state || {}),
-        efficiencyState: {
-          ...(location?.state?.efficiencyState || {}),
-          activeTabKey: tabIndex,
-        },
-      },
-    });
+  const handleTabClick = (_event, tabIndex: number) => {
+    setActiveTab(tabIndex);
   };
 
   if (!isEfficiencyToggleEnabled) {
@@ -98,6 +70,15 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
                   </TabTitleText>
                 }
               />
+              <Tab
+                eventKey={4}
+                title={
+                  <TabTitleText>
+                    {intl.formatMessage(messages.storage)}{' '}
+                    <AsyncComponent scope="costManagementRos" module="./OptimizationsStorageBadge" />
+                  </TabTitleText>
+                }
+              />
             </Tabs>
           </div>
         </header>
@@ -107,6 +88,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
         {activeTabKey === 1 && <OptimizationsDetails activeTabKey={1} isHeaderHidden={true} />}
         {activeTabKey === 2 && <NamespaceDetails activeTabKey={2} />}
         {activeTabKey === 3 && <NodeDetails activeTabKey={3} />}
+        {activeTabKey === 4 && <StorageDetails activeTabKey={4} />}
       </PageSection>
     </>
   );

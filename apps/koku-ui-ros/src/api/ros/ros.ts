@@ -53,6 +53,9 @@ export const enum RosPathsType {
   namespaceRecommendations = 'namespaceRecommendations',
   nodeRecommendation = 'nodeRecommendation',
   nodeRecommendations = 'nodeRecommendations',
+  pvcRecommendation = 'pvcRecommendation',
+  pvcRecommendations = 'pvcRecommendations',
   recommendation = 'recommendation',
   recommendations = 'recommendations',
+  snapshotRecommendations = 'snapshotRecommendations',
 }

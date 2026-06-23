@@ -273,3 +273,162 @@ export function runNodeRosReport(reportType: RosType, id: string, term?: string,
   const queryString = id ? `/nodes/${id}?${getDetailQueryParams(term, engine)}` : '';
   return axiosInstance.get<any>(`${path}${queryString}`);
 }
+
+// --- PVC recommendation types ---
+
+export interface PvcRecommendationData {
+  capacity_bytes?: number;
+  cluster_uuid?: string;
+  confidence_level?: number;
+  data_days?: number;
+  days_to_full?: number;
+  estimated_monthly_savings?: MoneyAmount;
+  explanation?: PvcExplanation;
+  growth_bytes_per_day?: number;
+  idle_duration_days?: number;
+  idle_since?: string;
+  last_reported?: string;
+  mounted_by?: string;
+  namespace?: string;
+  notifications?: Record<string, Notification>;
+  persistentvolume?: string;
+  persistentvolumeclaim?: string;
+  recommendation_type?: string;
+  recommended_bytes?: number;
+  resize_note?: string;
+  storageclass?: string;
+  term?: string;
+  usage_bytes_max?: number;
+  usage_ratio?: number;
+  vm_name?: string;
+  count?: number;
+}
+
+export interface PvcExplanation {
+  classification_reason?: string;
+  confidence_level?: number;
+  data_days?: number;
+  growth_bytes_per_day?: number;
+  min_recommended_gib?: number;
+  near_full_threshold_basis_points?: number;
+  oversized_threshold_basis_points?: number;
+  recommended_size_multiplier?: number;
+  usage_ratio?: number;
+}
+
+export interface PvcHistoricalUsagePoint {
+  capacity_bytes?: number;
+  date: string;
+  usage_bytes_avg?: number;
+  usage_bytes_max?: number;
+  usage_bytes_min?: number;
+}
+
+export interface PvcRecommendationDetailResponse {
+  capacity_bytes?: number;
+  cluster_uuid: string;
+  historical_usage?: PvcHistoricalUsagePoint[];
+  mounted_by?: string;
+  namespace: string;
+  persistentvolume?: string;
+  persistentvolumeclaim: string;
+  storageclass?: string;
+  terms: Record<string, PvcRecommendationData>;
+  vm_name?: string;
+}
+
+export interface PvcRecommendationReport {
+  data: PvcRecommendationData[];
+  links?: Record<string, string>;
+  meta: {
+    count: number;
+    currency?: string;
+    has_next?: boolean;
+    limit: number;
+    next_cursor?: string;
+    offset: number;
+  };
+  warnings?: string[];
+}
+
+export interface PvcDetailFetchParams {
+  cluster_uuid: string;
+  namespace: string;
+  persistentvolumeclaim: string;
+  term?: string;
+}
+
+export function encodePvcDetailFetchQuery(params: PvcDetailFetchParams): string {
+  const search = new URLSearchParams({
+    cluster_uuid: params.cluster_uuid,
+    namespace: params.namespace,
+    persistentvolumeclaim: params.persistentvolumeclaim,
+    include: 'explanation',
+  });
+  if (params.term) {
+    search.set('filter[term]', params.term.replace(/_term$/, ''));
+  }
+  return search.toString();
+}
+
+export function decodePvcDetailFetchQuery(fetchQuery: string): PvcDetailFetchParams {
+  const params = new URLSearchParams(fetchQuery);
+  return {
+    cluster_uuid: params.get('cluster_uuid') ?? '',
+    namespace: params.get('namespace') ?? '',
+    persistentvolumeclaim: params.get('persistentvolumeclaim') ?? '',
+    term: params.get('filter[term]') ?? undefined,
+  };
+}
+
+export function runPvcRosReports(reportType: RosType, query: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = query ? `?${query}` : '';
+  return axiosInstance.get<PvcRecommendationReport>(`${path}/pvcs${queryString}`);
+}
+
+export function runPvcRosReport(reportType: RosType, fetchQuery: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = fetchQuery ? `?${fetchQuery}` : '';
+  return axiosInstance.get<PvcRecommendationDetailResponse>(`${path}/pvcs/detail${queryString}`);
+}
+
+// --- Snapshot recommendation types ---
+
+export interface SnapshotRecommendationData {
+  age_days?: number;
+  cluster_uuid?: string;
+  creation_timestamp?: string;
+  estimated_monthly_cost?: MoneyAmount;
+  last_reported?: string;
+  managed_by?: string;
+  namespace?: string;
+  notifications?: Record<string, Notification>;
+  recommendation_type?: string;
+  restore_size_bytes?: number;
+  restored_pvc_count?: number;
+  snapshot_name?: string;
+  source_pvc_exists?: boolean;
+  source_pvc_name?: string;
+  storageclass?: string;
+  volume_snapshot_class?: string;
+  count?: number;
+}
+
+export interface SnapshotRecommendationReport {
+  data: SnapshotRecommendationData[];
+  meta: {
+    count: number;
+    currency?: string;
+    has_next?: boolean;
+    limit: number;
+    next_cursor?: string;
+    offset: number;
+  };
+}
+
+export function runSnapshotRosReports(reportType: RosType, query: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = query ? `?${query}` : '';
+  return axiosInstance.get<SnapshotRecommendationReport>(`${path}/snapshots${queryString}`);
+}

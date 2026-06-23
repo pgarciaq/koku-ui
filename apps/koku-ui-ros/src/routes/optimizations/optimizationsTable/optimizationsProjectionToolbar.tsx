@@ -12,6 +12,7 @@ interface OptimizationsProjectionToolbarOwnProps {
   isDisabled?: boolean;
   onEngineSelect?: (value: string) => void;
   onTermSelect?: (value: string) => void;
+  showEngine?: boolean;
   term?: string;
 }
 
@@ -22,6 +23,7 @@ const OptimizationsProjectionToolbar: React.FC<OptimizationsProjectionToolbarPro
   isDisabled,
   onEngineSelect,
   onTermSelect,
+  showEngine = true,
   term,
 }) => {
   const termOptions = [
@@ -61,15 +63,17 @@ const OptimizationsProjectionToolbar: React.FC<OptimizationsProjectionToolbarPro
           title={messages.optimizationsType}
         />
       </FlexItem>
-      <FlexItem>
-        <PerspectiveSelect
-          currentItem={engine || ROS_LIST_ENGINE}
-          isDisabled={isDisabled}
-          onSelect={onEngineSelect}
-          options={engineOptions}
-          title={messages.optimizeFor}
-        />
-      </FlexItem>
+      {showEngine && (
+        <FlexItem>
+          <PerspectiveSelect
+            currentItem={engine || ROS_LIST_ENGINE}
+            isDisabled={isDisabled}
+            onSelect={onEngineSelect}
+            options={engineOptions}
+            title={messages.optimizeFor}
+          />
+        </FlexItem>
+      )}
     </Flex>
   );
 };

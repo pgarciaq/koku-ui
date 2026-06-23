@@ -1,6 +1,6 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import messages from 'locales/messages';
-import React, { useEffect, useState, } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { NotAvailable } from 'routes/components/page/notAvailable';
@@ -12,48 +12,37 @@ import * as queryUtils from 'routes/utils/query';
 import { useUrlState } from 'routes/utils/useUrlState';
 import { FetchStatus } from 'store/common';
 
-import {
-  namespaceRecommendationsBaseQuery,
-  useNamespaceRecommendationsReport,
-} from '../useNamespaceRecommendationsReport';
+import { pvcRecommendationsBaseQuery, usePvcRecommendationsReport } from '../usePvcRecommendationsReport';
 import { getLinkState } from '../utils';
-import { OptimizationsNamespacesDataTable } from './optimizationsNamespacesDataTable';
-import { OptimizationsNamespacesToolbar } from './optimizationsNamespacesToolbar';
+import { getStorageGroupBy, type StorageGroupBy } from '../storageTableUtils';
+import { OptimizationsPvcsDataTable } from './optimizationsPvcsDataTable';
+import { OptimizationsPvcsToolbar } from './optimizationsPvcsToolbar';
 
-interface OptimizationsNamespacesTableOwnProps {
+interface OptimizationsPvcsTableOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
-  cluster?: string | string[];
-  isClusterHidden?: boolean;
   linkPath?: string;
   linkState?: any;
-  queryStateName: string;
+  queryStateName?: string;
 }
 
-type OptimizationsNamespacesTableProps = OptimizationsNamespacesTableOwnProps;
-
-const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> = ({
+const OptimizationsPvcsTable: React.FC<OptimizationsPvcsTableOwnProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
-  cluster,
-  isClusterHidden,
   linkPath,
   linkState,
   queryStateName,
 }) => {
   const intl = useIntl();
   const location = useLocation();
-
   const [cursorPage, setCursorPage] = useState(1);
   const [newLinkState, setNewLinkState] = useState();
+
   const { query, setQuery } = useUrlState({
-    baseQuery: namespaceRecommendationsBaseQuery,
-    prefix: 'ns_',
+    baseQuery: pvcRecommendationsBaseQuery,
+    prefix: 'pvc_',
   });
-  const { report, reportError, reportFetchStatus, reportQueryString } = useNamespaceRecommendationsReport({
-    cluster,
-    query,
-  });
+  const { report, reportError, reportFetchStatus } = usePvcRecommendationsReport({ query });
 
   useEffect(() => {
     setNewLinkState(
@@ -69,8 +58,8 @@ const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> 
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report?.meta?.count ?? 0;
-    const limit = report?.meta?.limit ?? query.limit ?? namespaceRecommendationsBaseQuery.limit;
-    const offset = report?.meta?.offset ?? query.offset ?? namespaceRecommendationsBaseQuery.offset;
+    const limit = report?.meta?.limit ?? query.limit ?? pvcRecommendationsBaseQuery.limit;
+    const offset = report?.meta?.offset ?? query.offset ?? pvcRecommendationsBaseQuery.offset;
     const page = query.after ? cursorPage : Math.trunc(offset / limit + 1);
 
     return (
@@ -78,8 +67,8 @@ const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> 
         isCompact={!isBottom}
         isDisabled={isDisabled}
         itemCount={count}
-        onPerPageSelect={(event, perPage) => handleOnPerPageSelect(perPage)}
-        onSetPage={(event, pageNumber) => handleOnSetPage(pageNumber)}
+        onPerPageSelect={(_event, perPage) => handleOnPerPageSelect(perPage)}
+        onSetPage={(_event, pageNumber) => handleOnSetPage(pageNumber)}
         page={page}
         perPage={limit}
         titles={{
@@ -89,79 +78,34 @@ const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> 
           }),
         }}
         variant={isBottom ? PaginationVariant.bottom : PaginationVariant.top}
-        widgetId={`namespace-pagination${isBottom ? '-bottom' : ''}`}
-      />
-    );
-  };
-
-  const getTable = () => {
-    return (
-      <OptimizationsNamespacesDataTable
-        breadcrumbLabel={breadcrumbLabel}
-        engine={query.engine}
-        filterBy={query.filter_by}
-        isClusterHidden={isClusterHidden}
-        isLoading={reportFetchStatus === FetchStatus.inProgress}
-        linkPath={linkPath}
-        linkState={newLinkState}
-        onFilterAdded={filter => handleOnFilterAdded(filter)}
-        onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
-        orderBy={query.order_by}
-        report={report}
-        reportQueryString={reportQueryString}
-        term={query.term}
-      />
-    );
-  };
-
-  const getToolbar = () => {
-    const itemsPerPage = report?.meta?.limit ?? query.limit ?? namespaceRecommendationsBaseQuery.limit;
-    const itemsTotal = report?.meta?.count ?? 0;
-    const isDisabled = itemsTotal === 0;
-
-    return (
-      <OptimizationsNamespacesToolbar
-        isClusterHidden={isClusterHidden}
-        isDisabled={isDisabled}
-        itemsPerPage={itemsPerPage}
-        itemsTotal={itemsTotal}
-        onEngineSelect={handleOnEngineSelect}
-        onFilterAdded={filter => handleOnFilterAdded(filter)}
-        onFilterRemoved={filter => handleOnFilterRemoved(filter)}
-        onTermSelect={handleOnTermSelect}
-        pagination={getPagination(isDisabled)}
-        query={query}
+        widgetId={`pvc-pagination${isBottom ? '-bottom' : ''}`}
       />
     );
   };
 
   const handleOnFilterAdded = filter => {
     setCursorPage(1);
-    const newQuery = queryUtils.handleOnFilterAdded(query, filter);
-    setQuery(newQuery);
+    setQuery(queryUtils.handleOnFilterAdded(query, filter));
   };
 
   const handleOnFilterRemoved = filter => {
     setCursorPage(1);
-    const newQuery = queryUtils.handleOnFilterRemoved(query, filter);
-    setQuery(newQuery);
+    setQuery(queryUtils.handleOnFilterRemoved(query, filter));
   };
 
   const handleOnPerPageSelect = perPage => {
     setCursorPage(1);
-    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
-    setQuery(newQuery);
+    setQuery(queryUtils.handleOnPerPageSelect(query, perPage, true));
   };
 
   const handleOnSetPage = pageNumber => {
     const isNextPage = pageNumber === cursorPage + 1;
     if (isNextPage && report?.meta?.has_next && report?.meta?.next_cursor) {
       setCursorPage(pageNumber);
-      const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
-      setQuery(newQuery);
+      setQuery(queryUtils.handleOnSetPage(query, report, pageNumber, true));
     } else {
       setCursorPage(pageNumber);
-      const limit = report?.meta?.limit ?? query.limit ?? namespaceRecommendationsBaseQuery.limit;
+      const limit = report?.meta?.limit ?? query.limit ?? pvcRecommendationsBaseQuery.limit;
       const offset = (pageNumber - 1) * limit;
       setQuery({
         ...query,
@@ -183,15 +127,39 @@ const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> 
     setQuery({ ...query, term, offset: 0, after: undefined });
   };
 
-  const handleOnEngineSelect = (engine: string) => {
+  const handleOnGroupBySelect = (groupBy: StorageGroupBy) => {
     setCursorPage(1);
-    setQuery({ ...query, engine, offset: 0, after: undefined });
+    if (!groupBy) {
+      const { group_by: _removed, ...rest } = query;
+      setQuery({ ...rest, offset: 0, after: undefined });
+      return;
+    }
+    setQuery({
+      ...query,
+      group_by: { [groupBy]: '*' },
+      offset: 0,
+      after: undefined,
+    });
   };
 
-  const itemsTotal = report?.meta ? report.meta.count : 0;
-  const isDisabled = itemsTotal === 0;
-  const hasOptimizations = report?.meta && report.meta.count > 0;
+  const handleDrillDownFromGroup = (filter: { key: string; value: string }) => {
+    setCursorPage(1);
+    const { group_by: _removed, ...rest } = query;
+    setQuery({
+      ...rest,
+      filter_by: {
+        ...query.filter_by,
+        [filter.key]: filter.value,
+      },
+      offset: 0,
+      after: undefined,
+    });
+  };
 
+  const storageGroupBy = getStorageGroupBy(query);
+  const itemsTotal = report?.meta?.count ?? 0;
+  const isDisabled = itemsTotal === 0;
+  const hasOptimizations = itemsTotal > 0;
   const isNoDataResponse =
     reportError && (reportError.response?.status === 404 || reportError.response?.status === 501);
 
@@ -204,10 +172,22 @@ const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> 
   if (!query.filter_by && !hasOptimizations && reportFetchStatus === FetchStatus.complete) {
     return <NotConfigured />;
   }
+
   return (
     <>
-      <OptimizationsTabSummaryBanner engine={query.engine} plugin="namespace" term={query.term} />
-      {getToolbar()}
+      <OptimizationsTabSummaryBanner plugin="pvc" term={query.term} />
+      <OptimizationsPvcsToolbar
+        groupBy={storageGroupBy}
+        isDisabled={isDisabled}
+        itemsPerPage={report?.meta?.limit ?? query.limit ?? pvcRecommendationsBaseQuery.limit}
+        itemsTotal={itemsTotal}
+        onFilterAdded={handleOnFilterAdded}
+        onFilterRemoved={handleOnFilterRemoved}
+        onGroupBySelect={handleOnGroupBySelect}
+        onTermSelect={handleOnTermSelect}
+        pagination={getPagination(isDisabled)}
+        query={query}
+      />
       {reportFetchStatus !== FetchStatus.complete ? (
         <LoadingState
           body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
@@ -215,7 +195,20 @@ const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> 
         />
       ) : (
         <>
-          {getTable()}
+          <OptimizationsPvcsDataTable
+            breadcrumbLabel={breadcrumbLabel}
+            filterBy={query.filter_by}
+            groupBy={storageGroupBy}
+            isLoading={false}
+            linkPath={linkPath}
+            linkState={newLinkState}
+            onDrillDownFromGroup={handleDrillDownFromGroup}
+            onFilterAdded={handleOnFilterAdded}
+            onSort={handleOnSort}
+            orderBy={query.order_by}
+            report={report}
+            term={query.term}
+          />
           <div style={styles.paginationContainer}>{getPagination(isDisabled, true)}</div>
         </>
       )}
@@ -223,4 +216,4 @@ const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> 
   );
 };
 
-export default OptimizationsNamespacesTable;
+export default OptimizationsPvcsTable;

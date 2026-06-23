@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { OptimizationsTabSummaryBanner } from 'routes/optimizations/optimizationsTabSummary';
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
 import * as queryUtils from 'routes/utils/query';
 import { useUrlState } from 'routes/utils/useUrlState';
@@ -221,6 +222,7 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   }
   return (
     <>
+      <OptimizationsTabSummaryBanner engine={query.engine} plugin="container" term={query.term} />
       {getToolbar()}
       {reportFetchStatus === FetchStatus.inProgress ? (
         <LoadingState

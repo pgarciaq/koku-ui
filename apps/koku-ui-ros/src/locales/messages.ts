@@ -423,6 +423,229 @@ export default defineMessages({
     description: 'Optimization details',
     id: 'optimizationsDetails',
   },
+  optimizationsTabSummaryCount: {
+    defaultMessage:
+      '{count, plural, =0 {No recommendations} =1 {1 recommendation} other {{count} recommendations}}',
+    description: 'Summary banner when savings are unavailable',
+    id: 'optimizationsTabSummaryCount',
+  },
+  optimizationsTabSummarySavings: {
+    defaultMessage:
+      'Total potential savings: {amount}/month across {count, plural, =1 {1 recommendation} other {{count} recommendations}}',
+    description: 'Summary banner with savings total for an optimizations tab',
+    id: 'optimizationsTabSummarySavings',
+  },
+  optimizationsTabSummaryWaste: {
+    defaultMessage:
+      'Total monthly waste: {amount}/month across {count, plural, =1 {1 recommendation} other {{count} recommendations}}',
+    description: 'Summary banner with waste total for snapshot recommendations',
+    id: 'optimizationsTabSummaryWaste',
+  },
+  storageSubPvc: {
+    defaultMessage: 'PVC',
+    description: 'Storage tab PVC sub-view toggle label',
+    id: 'storageSubPvc',
+  },
+  storageSubSnapshot: {
+    defaultMessage: 'Snapshots',
+    description: 'Storage tab snapshot sub-view toggle label',
+    id: 'storageSubSnapshot',
+  },
+  storageGroupBy: {
+    defaultMessage: 'Group by',
+    description: 'Storage list group-by toolbar label',
+    id: 'storageGroupBy',
+  },
+  storageGroupByNone: {
+    defaultMessage: 'None',
+    description: 'Storage list group-by option for ungrouped rows',
+    id: 'storageGroupByNone',
+  },
+  storageGroupByCluster: {
+    defaultMessage: 'Cluster',
+    description: 'Storage list group-by cluster option',
+    id: 'storageGroupByCluster',
+  },
+  storageGroupByProject: {
+    defaultMessage: 'Project',
+    description: 'Storage list group-by namespace/project option',
+    id: 'storageGroupByProject',
+  },
+  storageRecommendationCount: {
+    defaultMessage: 'Recommendations',
+    description: 'Grouped storage table column for row count in a group',
+    id: 'storageRecommendationCount',
+  },
+  storageTotalCapacity: {
+    defaultMessage: 'Total capacity',
+    description: 'Grouped PVC table column for summed capacity',
+    id: 'storageTotalCapacity',
+  },
+  storageTotalRestoreSize: {
+    defaultMessage: 'Total restore size',
+    description: 'Grouped snapshot table column for summed restore size',
+    id: 'storageTotalRestoreSize',
+  },
+  pvcClassificationOversized: {
+    defaultMessage: 'Oversized',
+    description: 'PVC recommendation classification badge',
+    id: 'pvcClassificationOversized',
+  },
+  pvcClassificationNearFull: {
+    defaultMessage: 'Near full',
+    description: 'PVC recommendation classification badge',
+    id: 'pvcClassificationNearFull',
+  },
+  pvcClassificationOrphaned: {
+    defaultMessage: 'Orphaned',
+    description: 'PVC recommendation classification badge',
+    id: 'pvcClassificationOrphaned',
+  },
+  pvcClassificationHealthy: {
+    defaultMessage: 'Healthy',
+    description: 'PVC recommendation classification badge',
+    id: 'pvcClassificationHealthy',
+  },
+  snapshotClassificationOrphaned: {
+    defaultMessage: 'Orphaned',
+    description: 'Snapshot recommendation classification badge',
+    id: 'snapshotClassificationOrphaned',
+  },
+  snapshotClassificationStale: {
+    defaultMessage: 'Stale',
+    description: 'Snapshot recommendation classification badge',
+    id: 'snapshotClassificationStale',
+  },
+  snapshotClassificationNeverRestored: {
+    defaultMessage: 'Never restored',
+    description: 'Snapshot recommendation classification badge',
+    id: 'snapshotClassificationNeverRestored',
+  },
+  snapshotClassificationRedundant: {
+    defaultMessage: 'Redundant',
+    description: 'Snapshot recommendation classification badge',
+    id: 'snapshotClassificationRedundant',
+  },
+  snapshotClassificationManaged: {
+    defaultMessage: 'Managed',
+    description: 'Snapshot recommendation classification badge',
+    id: 'snapshotClassificationManaged',
+  },
+  snapshotClassificationActive: {
+    defaultMessage: 'Active',
+    description: 'Snapshot recommendation classification badge',
+    id: 'snapshotClassificationActive',
+  },
+  monthlyHoldingCost: {
+    defaultMessage: 'Monthly holding cost',
+    description: 'Snapshot monthly holding cost column header',
+    id: 'monthlyHoldingCost',
+  },
+  pvcCapacity: {
+    defaultMessage: 'Capacity',
+    description: 'PVC capacity column header',
+    id: 'pvcCapacity',
+  },
+  pvcUsagePercent: {
+    defaultMessage: 'Usage %',
+    description: 'PVC usage percentage column header',
+    id: 'pvcUsagePercent',
+  },
+  snapshotAgeDays: {
+    defaultMessage: 'Age (days)',
+    description: 'Snapshot age column header',
+    id: 'snapshotAgeDays',
+  },
+  sourcePvc: {
+    defaultMessage: 'Source PVC',
+    description: 'Snapshot source PVC column header',
+    id: 'sourcePvc',
+  },
+  pvcActiveTerm: {
+    defaultMessage: 'Selected',
+    description: 'Label for the PVC breakdown term matching list projection',
+    id: 'pvcActiveTerm',
+  },
+  pvcMountedBy: {
+    defaultMessage: 'Mounted by',
+    description: 'PVC breakdown mounted-by pod label',
+    id: 'pvcMountedBy',
+  },
+  pvcVmName: {
+    defaultMessage: 'VM name',
+    description: 'PVC breakdown KubeVirt VM label',
+    id: 'pvcVmName',
+  },
+  pvcDaysToFull: {
+    defaultMessage: 'Days to full',
+    description: 'PVC projected days until capacity is exhausted',
+    id: 'pvcDaysToFull',
+  },
+  pvcGrowthPerDay: {
+    defaultMessage: 'Growth',
+    description: 'PVC estimated daily growth rate',
+    id: 'pvcGrowthPerDay',
+  },
+  pvcUsageMax: {
+    defaultMessage: 'Peak usage',
+    description: 'PVC historical usage chart peak series',
+    id: 'pvcUsageMax',
+  },
+  pvcUsageAvg: {
+    defaultMessage: 'Average usage',
+    description: 'PVC historical usage chart average series',
+    id: 'pvcUsageAvg',
+  },
+  pvcUsageHistoryTitle: {
+    defaultMessage: 'Usage history',
+    description: 'PVC breakdown historical usage chart title',
+    id: 'pvcUsageHistoryTitle',
+  },
+  pvcUsageHistoryCaption: {
+    defaultMessage: 'Latest capacity: {capacity}',
+    description: 'PVC usage history chart caption',
+    id: 'pvcUsageHistoryCaption',
+  },
+  pvcClassificationReason: {
+    defaultMessage: 'Classification reason',
+    description: 'PVC explanation classification reason label',
+    id: 'pvcClassificationReason',
+  },
+  pvcExplanationTitle: {
+    defaultMessage: 'Recommendation explanation',
+    description: 'PVC breakdown expandable explanation section title',
+    id: 'pvcExplanationTitle',
+  },
+  pvcResizeNoteTitle: {
+    defaultMessage: 'Resize guidance',
+    description: 'PVC operational resize note alert title',
+    id: 'pvcResizeNoteTitle',
+  },
+  snapshotDetailTitle: {
+    defaultMessage: 'Snapshot details',
+    description: 'Snapshot detail modal title fallback',
+    id: 'snapshotDetailTitle',
+  },
+  snapshotSourcePvcMissing: {
+    defaultMessage: 'The source PVC no longer exists in this namespace.',
+    description: 'Snapshot detail warning when source PVC was deleted',
+    id: 'snapshotSourcePvcMissing',
+  },
+  snapshotManagedBy: {
+    defaultMessage: 'Managed by',
+    description: 'Snapshot backup tool label',
+    id: 'snapshotManagedBy',
+  },
+  snapshotViewSourcePvc: {
+    defaultMessage: 'View source PVC recommendations',
+    description: 'Navigate from snapshot detail to PVC list filtered by source PVC',
+    id: 'snapshotViewSourcePvc',
+  },
+  modalClose: {
+    defaultMessage: 'Close',
+    description: 'Generic modal close button',
+    id: 'modalClose',
+  },
   optimizationsDesc: {
     defaultMessage: 'Get detailed recommendations for how to optimize your Red Hat OpenShift cost and performance.',
     description: 'Get detailed recommendations for how to optimize your Red Hat OpenShift cost and performance.',
@@ -490,6 +713,9 @@ export default defineMessages({
       'project {Project names} ' +
       'project_type {Project types} ' +
       'potential_savings {Potential savings} ' +
+      'pvc_name {PVC name} ' +
+      'snapshot_name {Snapshot name} ' +
+      'classification {Classification} ' +
       'state {State} ' +
       'tags {Tags} ' +
       'workload {Workload names} ' +

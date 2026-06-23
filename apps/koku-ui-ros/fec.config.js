@@ -77,6 +77,23 @@ module.exports = {
         __dirname,
         './src/fed-modules/optimizationsNamespacesBadgeWrapper.tsx'
       ),
+      './OptimizationsNamespacesTable': path.resolve(
+        __dirname,
+        './src/fed-modules/optimizationsNamespacesTableWrapper.tsx'
+      ),
+      './OptimizationsNodesBadge': path.resolve(__dirname, './src/fed-modules/optimizationsNodesBadgeWrapper.tsx'),
+      './OptimizationsNodesTable': path.resolve(__dirname, './src/fed-modules/optimizationsNodesTableWrapper.tsx'),
+      './NodeBreakdown': path.resolve(__dirname, './src/fed-modules/nodeBreakdownWrapper.tsx'),
+      './OptimizationsStorageBadge': path.resolve(__dirname, './src/fed-modules/optimizationsStorageBadgeWrapper.tsx'),
+      './OptimizationsStorageDetails': path.resolve(
+        __dirname,
+        './src/fed-modules/optimizationsStorageDetailsWrapper.tsx'
+      ),
+      './OptimizationsTabSummaryBanner': path.resolve(
+        __dirname,
+        './src/fed-modules/optimizationsTabSummaryBannerWrapper.tsx'
+      ),
+      './PvcBreakdown': path.resolve(__dirname, './src/fed-modules/pvcBreakdownWrapper.tsx'),
       './OptimizationsOcpBreakdown': path.resolve(__dirname, './src/fed-modules/optimizationsOcpBreakdownWrapper.tsx'),
       './OptimizationsProjectsTable': path.resolve(
         __dirname,

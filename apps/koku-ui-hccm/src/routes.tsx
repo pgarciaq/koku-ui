@@ -39,6 +39,9 @@ const NamespaceBreakdown = lazy(
 const NodeBreakdown = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/nodeBreakdown')
 );
+const PvcBreakdown = lazy(
+  () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/pvcBreakdown')
+);
 const OptimizationsBreakdown = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/optimizationsBreakdown')
 );
@@ -117,6 +120,10 @@ export const routes = {
   optimizationsNodeBreakdown: {
     element: userAccess(NodeBreakdown),
     path: '/optimizations/node-breakdown',
+  },
+  optimizationsPvcBreakdown: {
+    element: userAccess(PvcBreakdown),
+    path: '/optimizations/pvc-breakdown',
   },
   optimizations: {
     element: userAccess(Optimizations),
