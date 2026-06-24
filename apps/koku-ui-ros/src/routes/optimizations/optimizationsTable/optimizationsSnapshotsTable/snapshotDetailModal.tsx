@@ -61,7 +61,11 @@ const SnapshotDetailModal: React.FC<SnapshotDetailModalOwnProps> = ({
             variant="warning"
           />
         )}
-        <DescriptionList isCompact>
+        <DescriptionList
+          isCompact
+          isHorizontal
+          horizontalTermWidthModifier={{ default: '16rem', sm: '16rem', md: '16rem' }}
+        >
           <RecommendationIdMetadata recommendationId={recommendationId} variant="descriptionList" />
           <DescriptionListGroup>
             <DescriptionListTerm>{intl.formatMessage(messages.optimizationsValues, { value: 'project' })}</DescriptionListTerm>

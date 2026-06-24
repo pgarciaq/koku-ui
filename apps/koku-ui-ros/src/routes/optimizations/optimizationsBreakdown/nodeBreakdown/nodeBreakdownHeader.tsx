@@ -101,12 +101,17 @@ const NodeBreakdownHeader: React.FC<NodeBreakdownHeaderProps> = ({
 
     return (
       <Content>
-        <Content component={ContentVariants.dl}>
+        <Content component={ContentVariants.dl} style={styles.metadataList}>
           <RecommendationIdMetadata recommendationId={recommendationId} />
           <Content component={ContentVariants.dt}>
             {intl.formatMessage(messages.optimizationsValues, { value: 'cluster' })}
           </Content>
           <Content component={ContentVariants.dd}>{clusterUuid}</Content>
+
+          <Content component={ContentVariants.dt}>
+            {intl.formatMessage(messages.optimizationsNames, { value: 'node' })}
+          </Content>
+          <Content component={ContentVariants.dd}>{report?.node ?? '—'}</Content>
 
           {machinesetName && (
             <>

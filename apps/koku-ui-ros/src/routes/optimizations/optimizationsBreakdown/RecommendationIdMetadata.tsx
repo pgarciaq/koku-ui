@@ -9,8 +9,6 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 
-const labelStyle: React.CSSProperties = { whiteSpace: 'nowrap' };
-
 interface RecommendationIdMetadataProps {
   recommendationId?: string;
   variant?: 'content' | 'descriptionList';
@@ -31,7 +29,7 @@ const RecommendationIdMetadata: React.FC<RecommendationIdMetadataProps> = ({
   if (variant === 'descriptionList') {
     return (
       <DescriptionListGroup>
-        <DescriptionListTerm style={labelStyle}>{label}</DescriptionListTerm>
+        <DescriptionListTerm>{label}</DescriptionListTerm>
         <DescriptionListDescription>{recommendationId}</DescriptionListDescription>
       </DescriptionListGroup>
     );
@@ -39,9 +37,7 @@ const RecommendationIdMetadata: React.FC<RecommendationIdMetadataProps> = ({
 
   return (
     <>
-      <Content component={ContentVariants.dt} style={labelStyle}>
-        {label}
-      </Content>
+      <Content component={ContentVariants.dt}>{label}</Content>
       <Content component={ContentVariants.dd}>{recommendationId}</Content>
     </>
   );

@@ -210,10 +210,28 @@
         "value": "units"
       }
     ],
+    "chooseKeyPlaceholder": [
+      {
+        "type": 0,
+        "value": "Choose key"
+      }
+    ],
     "chooseValuePlaceholder": [
       {
         "type": 0,
         "value": "Choose value"
+      }
+    ],
+    "clusterQuotaDetailTitle": [
+      {
+        "type": 0,
+        "value": "ClusterResourceQuota recommendation"
+      }
+    ],
+    "clusterQuotaName": [
+      {
+        "type": 0,
+        "value": "ClusterResourceQuota"
       }
     ],
     "copyToClipboard": [
@@ -970,6 +988,24 @@
         }
       }
     ],
+    "filterByTagKeyAriaLabel": [
+      {
+        "type": 0,
+        "value": "Tag keys"
+      }
+    ],
+    "filterByTagValueAriaLabel": [
+      {
+        "type": 0,
+        "value": "Tag values"
+      }
+    ],
+    "filterByValuePlaceholder": [
+      {
+        "type": 0,
+        "value": "Filter by value"
+      }
+    ],
     "filterByValues": [
       {
         "type": 5,
@@ -1356,6 +1392,18 @@
         "value": "Metric"
       }
     ],
+    "modalClose": [
+      {
+        "type": 0,
+        "value": "Close"
+      }
+    ],
+    "monthlyHoldingCost": [
+      {
+        "type": 0,
+        "value": "Monthly holding cost"
+      }
+    ],
     "names": [
       {
         "type": 6,
@@ -1422,6 +1470,12 @@
         "value": "Overcommitted"
       }
     ],
+    "nodeClassificationRationaleTitle": [
+      {
+        "type": 0,
+        "value": "Classification rationale"
+      }
+    ],
     "nodeClassificationStrandedCpu": [
       {
         "type": 0,
@@ -1460,6 +1514,86 @@
       {
         "type": 0,
         "value": "Node count reduction"
+      }
+    ],
+    "nodeExplanationConsolidationApplied": [
+      {
+        "type": 0,
+        "value": "Consolidation applied"
+      }
+    ],
+    "nodeExplanationCurrentCpu": [
+      {
+        "type": 0,
+        "value": "Current CPU capacity"
+      }
+    ],
+    "nodeExplanationCurrentMemory": [
+      {
+        "type": 0,
+        "value": "Current memory capacity"
+      }
+    ],
+    "nodeExplanationEmaImbalance": [
+      {
+        "type": 0,
+        "value": "EMA imbalance"
+      }
+    ],
+    "nodeExplanationMaxCpuP95": [
+      {
+        "type": 0,
+        "value": "Max CPU usage P95"
+      }
+    ],
+    "nodeExplanationMaxMemP95": [
+      {
+        "type": 0,
+        "value": "Max memory usage P95"
+      }
+    ],
+    "nodeExplanationPodHeadroom": [
+      {
+        "type": 0,
+        "value": "Pod scheduling headroom"
+      }
+    ],
+    "nodeExplanationSizingFormula": [
+      {
+        "type": 0,
+        "value": "Sizing formula"
+      }
+    ],
+    "nodeExplanationTargetUtilization": [
+      {
+        "type": 0,
+        "value": "Target utilization"
+      }
+    ],
+    "nodeUtilizationP50Label": [
+      {
+        "type": 1,
+        "value": "resource"
+      },
+      {
+        "type": 0,
+        "value": " P50"
+      }
+    ],
+    "nodeUtilizationP95Label": [
+      {
+        "type": 1,
+        "value": "resource"
+      },
+      {
+        "type": 0,
+        "value": " P95"
+      }
+    ],
+    "nodeUtilizationTitle": [
+      {
+        "type": 0,
+        "value": "Utilization percentiles"
       }
     ],
     "nodes": [
@@ -1737,7 +1871,7 @@
             "value": [
               {
                 "type": 0,
-                "value": "CPU util P95"
+                "value": "CPU util P50/P95"
               }
             ]
           },
@@ -1745,7 +1879,23 @@
             "value": [
               {
                 "type": 0,
-                "value": "Mem util P95"
+                "value": "Mem util P50/P95"
+              }
+            ]
+          },
+          "node_fleet_reduction": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Fleet reduction"
+              }
+            ]
+          },
+          "machineset_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Machine set"
               }
             ]
           },
@@ -1778,6 +1928,30 @@
               {
                 "type": 0,
                 "value": "Potential savings"
+              }
+            ]
+          },
+          "pvc_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "PVC name"
+              }
+            ]
+          },
+          "snapshot_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Snapshot name"
+              }
+            ]
+          },
+          "classification": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Classification"
               }
             ]
           },
@@ -1841,6 +2015,128 @@
       {
         "type": 0,
         "value": "Last 24 hrs (24h)"
+      }
+    ],
+    "optimizationsTabSummaryCount": [
+      {
+        "type": 6,
+        "value": "count",
+        "options": {
+          "=0": {
+            "value": [
+              {
+                "type": 0,
+                "value": "No recommendations"
+              }
+            ]
+          },
+          "=1": {
+            "value": [
+              {
+                "type": 0,
+                "value": "1 recommendation"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " recommendations"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
+      }
+    ],
+    "optimizationsTabSummarySavings": [
+      {
+        "type": 0,
+        "value": "Total potential savings: "
+      },
+      {
+        "type": 1,
+        "value": "amount"
+      },
+      {
+        "type": 0,
+        "value": "/month across "
+      },
+      {
+        "type": 6,
+        "value": "count",
+        "options": {
+          "=1": {
+            "value": [
+              {
+                "type": 0,
+                "value": "1 recommendation"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " recommendations"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
+      }
+    ],
+    "optimizationsTabSummaryWaste": [
+      {
+        "type": 0,
+        "value": "Total monthly waste: "
+      },
+      {
+        "type": 1,
+        "value": "amount"
+      },
+      {
+        "type": 0,
+        "value": "/month across "
+      },
+      {
+        "type": 6,
+        "value": "count",
+        "options": {
+          "=1": {
+            "value": [
+              {
+                "type": 0,
+                "value": "1 recommendation"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " recommendations"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
       }
     ],
     "optimizationsType": [
@@ -1913,6 +2209,14 @@
               {
                 "type": 0,
                 "value": "Last reported"
+              }
+            ]
+          },
+          "recommendation_id": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Recommendation id"
               }
             ]
           },
@@ -2195,6 +2499,431 @@
         }
       }
     ],
+    "pvcActiveTerm": [
+      {
+        "type": 0,
+        "value": "Selected"
+      }
+    ],
+    "pvcCapacity": [
+      {
+        "type": 0,
+        "value": "Capacity"
+      }
+    ],
+    "pvcClassificationHealthy": [
+      {
+        "type": 0,
+        "value": "Healthy"
+      }
+    ],
+    "pvcClassificationNearFull": [
+      {
+        "type": 0,
+        "value": "Near full"
+      }
+    ],
+    "pvcClassificationOrphaned": [
+      {
+        "type": 0,
+        "value": "Orphaned"
+      }
+    ],
+    "pvcClassificationOversized": [
+      {
+        "type": 0,
+        "value": "Oversized"
+      }
+    ],
+    "pvcClassificationReason": [
+      {
+        "type": 0,
+        "value": "Classification reason"
+      }
+    ],
+    "pvcDaysToFull": [
+      {
+        "type": 0,
+        "value": "Days to full"
+      }
+    ],
+    "pvcExplanationTitle": [
+      {
+        "type": 0,
+        "value": "Recommendation explanation"
+      }
+    ],
+    "pvcGrowthPerDay": [
+      {
+        "type": 0,
+        "value": "Growth"
+      }
+    ],
+    "pvcMountedBy": [
+      {
+        "type": 0,
+        "value": "Mounted by"
+      }
+    ],
+    "pvcResizeNoteTitle": [
+      {
+        "type": 0,
+        "value": "Resize guidance"
+      }
+    ],
+    "pvcTrendNoGrowth": [
+      {
+        "type": 0,
+        "value": "No growth detected"
+      }
+    ],
+    "pvcTrendUnavailable": [
+      {
+        "type": 0,
+        "value": "Trend unavailable — need at least "
+      },
+      {
+        "type": 2,
+        "value": "requiredDays",
+        "style": null
+      },
+      {
+        "type": 0,
+        "value": " days of usage data for this term ("
+      },
+      {
+        "type": 2,
+        "value": "dataDays",
+        "style": null
+      },
+      {
+        "type": 0,
+        "value": " available)"
+      }
+    ],
+    "pvcUsageAvg": [
+      {
+        "type": 0,
+        "value": "Average usage"
+      }
+    ],
+    "pvcUsageHistoryCaption": [
+      {
+        "type": 0,
+        "value": "Latest capacity: "
+      },
+      {
+        "type": 1,
+        "value": "capacity"
+      }
+    ],
+    "pvcUsageHistoryTitle": [
+      {
+        "type": 0,
+        "value": "Usage history"
+      }
+    ],
+    "pvcUsageMax": [
+      {
+        "type": 0,
+        "value": "Peak usage"
+      }
+    ],
+    "pvcUsagePercent": [
+      {
+        "type": 0,
+        "value": "Usage %"
+      }
+    ],
+    "pvcVmName": [
+      {
+        "type": 0,
+        "value": "VM name"
+      }
+    ],
+    "quotaDetailLoadError": [
+      {
+        "type": 0,
+        "value": "Unable to load quota recommendation details."
+      }
+    ],
+    "quotaDetailTitle": [
+      {
+        "type": 0,
+        "value": "ResourceQuota recommendation"
+      }
+    ],
+    "quotaExplanationBaseCpu": [
+      {
+        "type": 0,
+        "value": "Base CPU"
+      }
+    ],
+    "quotaExplanationContainerCpuSum": [
+      {
+        "type": 0,
+        "value": "Container CPU sum"
+      }
+    ],
+    "quotaExplanationContainerMemSum": [
+      {
+        "type": 0,
+        "value": "Container memory sum"
+      }
+    ],
+    "quotaExplanationHeadroom": [
+      {
+        "type": 0,
+        "value": "Headroom"
+      }
+    ],
+    "quotaExplanationMaxUtilization": [
+      {
+        "type": 0,
+        "value": "Max utilization"
+      }
+    ],
+    "quotaExplanationNsQuotaCpuSum": [
+      {
+        "type": 0,
+        "value": "Namespace quota CPU sum"
+      }
+    ],
+    "quotaExplanationNsQuotaMemSum": [
+      {
+        "type": 0,
+        "value": "Namespace quota memory sum"
+      }
+    ],
+    "quotaExplanationSignalCpu": [
+      {
+        "type": 0,
+        "value": "Signal C CPU used"
+      }
+    ],
+    "quotaExplanationTechnicalDetails": [
+      {
+        "type": 0,
+        "value": "Technical details"
+      }
+    ],
+    "quotaExplanationTitle": [
+      {
+        "type": 0,
+        "value": "Why this recommendation"
+      }
+    ],
+    "quotaHardLimit": [
+      {
+        "type": 0,
+        "value": "Hard limit"
+      }
+    ],
+    "quotaHistoryEmpty": [
+      {
+        "type": 0,
+        "value": "No historical data is available yet for this quota recommendation."
+      }
+    ],
+    "quotaHistorySectionTitle": [
+      {
+        "type": 0,
+        "value": "Historical trends"
+      }
+    ],
+    "quotaHistoryUtilization": [
+      {
+        "type": 0,
+        "value": "Utilization"
+      }
+    ],
+    "quotaHistoryUtilizationTitle": [
+      {
+        "type": 0,
+        "value": "Utilization over time"
+      }
+    ],
+    "quotaMaxUtilization": [
+      {
+        "type": 0,
+        "value": "Max utilization"
+      }
+    ],
+    "quotaName": [
+      {
+        "type": 0,
+        "value": "ResourceQuota"
+      }
+    ],
+    "quotaNamespaceCount": [
+      {
+        "type": 1,
+        "value": "count"
+      },
+      {
+        "type": 0,
+        "value": " namespaces"
+      }
+    ],
+    "quotaNamespaces": [
+      {
+        "type": 0,
+        "value": "Namespaces"
+      }
+    ],
+    "quotaRecommendationTypeNone": [
+      {
+        "type": 0,
+        "value": "None"
+      }
+    ],
+    "quotaRecommendationTypeOptimal": [
+      {
+        "type": 0,
+        "value": "Optimal"
+      }
+    ],
+    "quotaRecommendationTypeRaise": [
+      {
+        "type": 0,
+        "value": "Raise"
+      }
+    ],
+    "quotaRecommendationTypeTighten": [
+      {
+        "type": 0,
+        "value": "Tighten"
+      }
+    ],
+    "quotaRecommended": [
+      {
+        "type": 0,
+        "value": "Recommended"
+      }
+    ],
+    "quotaResourceBreakdown": [
+      {
+        "type": 0,
+        "value": "Quota resources"
+      }
+    ],
+    "quotaResourceCpuRequest": [
+      {
+        "type": 0,
+        "value": "CPU request"
+      }
+    ],
+    "quotaResourceDimension": [
+      {
+        "type": 0,
+        "value": "Resource"
+      }
+    ],
+    "quotaResourceMemoryRequest": [
+      {
+        "type": 0,
+        "value": "Memory request"
+      }
+    ],
+    "quotaResourcePods": [
+      {
+        "type": 0,
+        "value": "Pods"
+      }
+    ],
+    "quotaResourceStorageRequest": [
+      {
+        "type": 0,
+        "value": "Storage request"
+      }
+    ],
+    "quotaRiskLevel": [
+      {
+        "type": 0,
+        "value": "Risk level"
+      }
+    ],
+    "quotaRiskLevelHigh": [
+      {
+        "type": 0,
+        "value": "High"
+      }
+    ],
+    "quotaRiskLevelLow": [
+      {
+        "type": 0,
+        "value": "Low"
+      }
+    ],
+    "quotaRiskLevelMedium": [
+      {
+        "type": 0,
+        "value": "Medium"
+      }
+    ],
+    "quotaRiskLevelNone": [
+      {
+        "type": 0,
+        "value": "None"
+      }
+    ],
+    "quotaSubCluster": [
+      {
+        "type": 0,
+        "value": "ClusterResourceQuota"
+      }
+    ],
+    "quotaSubNamespace": [
+      {
+        "type": 0,
+        "value": "Namespace ResourceQuota"
+      }
+    ],
+    "quotaUsed": [
+      {
+        "type": 0,
+        "value": "Used"
+      }
+    ],
+    "recommendationTermWindowDays": [
+      {
+        "type": 0,
+        "value": "Last "
+      },
+      {
+        "type": 2,
+        "value": "windowDays",
+        "style": null
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 6,
+        "value": "windowDays",
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 0,
+                "value": "day"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 0,
+                "value": "days"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
+      }
+    ],
     "recommended": [
       {
         "type": 0,
@@ -2305,6 +3034,12 @@
         "value": "—"
       }
     ],
+    "selectClearAriaLabel": [
+      {
+        "type": 0,
+        "value": "Clear input value"
+      }
+    ],
     "selectableTableAriaLabel": [
       {
         "type": 0,
@@ -2351,6 +3086,132 @@
       {
         "type": 1,
         "value": "dateRange"
+      }
+    ],
+    "snapshotAgeDays": [
+      {
+        "type": 0,
+        "value": "Age (days)"
+      }
+    ],
+    "snapshotClassificationActive": [
+      {
+        "type": 0,
+        "value": "Active"
+      }
+    ],
+    "snapshotClassificationManaged": [
+      {
+        "type": 0,
+        "value": "Managed"
+      }
+    ],
+    "snapshotClassificationNeverRestored": [
+      {
+        "type": 0,
+        "value": "Never restored"
+      }
+    ],
+    "snapshotClassificationOrphaned": [
+      {
+        "type": 0,
+        "value": "Orphaned"
+      }
+    ],
+    "snapshotClassificationRedundant": [
+      {
+        "type": 0,
+        "value": "Redundant"
+      }
+    ],
+    "snapshotClassificationStale": [
+      {
+        "type": 0,
+        "value": "Stale"
+      }
+    ],
+    "snapshotDetailTitle": [
+      {
+        "type": 0,
+        "value": "Snapshot details"
+      }
+    ],
+    "snapshotManagedBy": [
+      {
+        "type": 0,
+        "value": "Managed by"
+      }
+    ],
+    "snapshotSourcePvcMissing": [
+      {
+        "type": 0,
+        "value": "The source PVC no longer exists in this namespace."
+      }
+    ],
+    "snapshotViewSourcePvc": [
+      {
+        "type": 0,
+        "value": "View source PVC recommendations"
+      }
+    ],
+    "sourcePvc": [
+      {
+        "type": 0,
+        "value": "Source PVC"
+      }
+    ],
+    "storageGroupBy": [
+      {
+        "type": 0,
+        "value": "Group by"
+      }
+    ],
+    "storageGroupByCluster": [
+      {
+        "type": 0,
+        "value": "Cluster"
+      }
+    ],
+    "storageGroupByNone": [
+      {
+        "type": 0,
+        "value": "None"
+      }
+    ],
+    "storageGroupByProject": [
+      {
+        "type": 0,
+        "value": "Project"
+      }
+    ],
+    "storageRecommendationCount": [
+      {
+        "type": 0,
+        "value": "Recommendations"
+      }
+    ],
+    "storageSubPvc": [
+      {
+        "type": 0,
+        "value": "PVC"
+      }
+    ],
+    "storageSubSnapshot": [
+      {
+        "type": 0,
+        "value": "Snapshots"
+      }
+    ],
+    "storageTotalCapacity": [
+      {
+        "type": 0,
+        "value": "Total capacity"
+      }
+    ],
+    "storageTotalRestoreSize": [
+      {
+        "type": 0,
+        "value": "Total restore size"
       }
     ],
     "suggestions": [

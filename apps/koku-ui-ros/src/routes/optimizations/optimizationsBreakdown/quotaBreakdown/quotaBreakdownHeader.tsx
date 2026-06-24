@@ -50,7 +50,7 @@ const QuotaBreakdownHeader: React.FC<QuotaBreakdownHeaderOwnProps> = ({
       </div>
       <div style={styles.description}>
         <Content>
-          <Content component={ContentVariants.dl}>
+          <Content component={ContentVariants.dl} style={styles.metadataList}>
             <RecommendationIdMetadata recommendationId={recommendationId} />
             <Content component={ContentVariants.dt}>
               {intl.formatMessage(messages.optimizationsValues, { value: 'project' })}

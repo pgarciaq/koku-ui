@@ -61,7 +61,7 @@ const NamespaceBreakdownHeader: React.FC<NamespaceBreakdownHeaderProps> = ({
 
     return (
       <Content>
-        <Content component={ContentVariants.dl}>
+        <Content component={ContentVariants.dl} style={styles.metadataList}>
           <RecommendationIdMetadata recommendationId={recommendationId} />
           <Content component={ContentVariants.dt}>
             {intl.formatMessage(messages.optimizationsValues, { value: 'last_reported' })}

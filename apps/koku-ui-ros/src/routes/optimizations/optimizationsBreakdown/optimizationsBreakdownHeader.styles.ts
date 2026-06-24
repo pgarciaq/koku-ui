@@ -8,6 +8,9 @@ export const styles = {
   description: {
     marginTop: t_global_spacer_lg.var,
   },
+  metadataList: {
+    gridTemplateColumns: 'minmax(16rem, max-content) 1fr',
+  },
   infoIcon: {
     fontSize: t_global_font_size_md.var,
   },
