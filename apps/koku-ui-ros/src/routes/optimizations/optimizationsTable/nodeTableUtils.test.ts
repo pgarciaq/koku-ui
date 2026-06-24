@@ -36,6 +36,7 @@ describe('nodeTableUtils', () => {
   it('reads projection-specific engine fields', () => {
     expect(getNodeEngineRec(item, 'short_term', 'cost')?.node_count_reduction).toBe(2);
     expect(getNodeFleetReduction(item, 'short_term', 'cost')).toBe(2);
+    expect(getNodeFleetReduction({ ...item, recommendation_terms: { short_term: { recommendation_engines: { cost: { node_count_reduction: 0 } } } } }, 'short_term', 'cost')).toBe(0);
     expect(getNodeFleetReduction(item, 'medium_term', 'cost')).toBeUndefined();
     expect(getNodeLastReported(item, 'short_term', 'cost')).toBe('2026-06-22T12:00:00Z');
   });

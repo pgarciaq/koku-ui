@@ -9,7 +9,7 @@ import { DataTable } from 'routes/components/dataTable';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
 
 import { QuotaRecommendationTypeBadge, QuotaRiskLevelBadge } from '../quotaBadges';
-import { formatMoneyCell, formatUtilizationPercent, type QuotaGroupBy } from '../quotaTableUtils';
+import { formatUtilizationPercent, type QuotaGroupBy } from '../quotaTableUtils';
 
 interface OptimizationsClusterQuotasDataTableOwnProps {
   breadcrumbLabel?: string;
@@ -56,12 +56,10 @@ const OptimizationsClusterQuotasDataTable: React.FC<OptimizationsClusterQuotasDa
         { name: intl.formatMessage(messages.optimizationsNames, { value: 'cluster' }) },
         { name: intl.formatMessage(messages.storageRecommendationCount) },
         { name: intl.formatMessage(messages.quotaMaxUtilization) },
-        { name: intl.formatMessage(messages.savingsEstimatedMonthly) },
       ]);
 
       const newRows = [];
       report?.data?.forEach(item => {
-        const savings = formatMoneyCell(item.estimated_savings);
         const groupValue = item.cluster_uuid ?? '';
         const drillDown = onDrillDownFromGroup && groupValue;
 
@@ -84,7 +82,6 @@ const OptimizationsClusterQuotasDataTable: React.FC<OptimizationsClusterQuotasDa
             },
             { value: item.count != null ? String(item.count) : '—' },
             { value: formatUtilizationPercent(item.utilization) },
-            { value: savings ?? '—' },
           ],
         });
       });
@@ -117,16 +114,10 @@ const OptimizationsClusterQuotasDataTable: React.FC<OptimizationsClusterQuotasDa
         orderBy: 'risk_level',
         ...(hasData && { isSortable: true }),
       },
-      {
-        name: intl.formatMessage(messages.savingsEstimatedMonthly),
-        orderBy: 'estimated_monthly_savings',
-        ...(hasData && { isSortable: true }),
-      },
     ]);
 
     const newRows = [];
     report?.data?.forEach(item => {
-      const savings = formatMoneyCell(item.estimated_savings);
       const namespaceSummary =
         item.namespaces && item.namespaces.length > 0
           ? item.namespaces.length <= 3
@@ -186,7 +177,6 @@ const OptimizationsClusterQuotasDataTable: React.FC<OptimizationsClusterQuotasDa
           { value: formatUtilizationPercent(item.utilization) },
           { value: <QuotaRecommendationTypeBadge type={item.recommendation_type} /> },
           { value: <QuotaRiskLevelBadge level={item.risk_level} /> },
-          { value: savings ?? '—' },
         ],
       });
     });

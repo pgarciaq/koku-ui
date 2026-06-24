@@ -10,7 +10,7 @@ import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noO
 import { getTimeFromNow } from 'utils/dates';
 
 import { QuotaRecommendationTypeBadge, QuotaRiskLevelBadge } from '../quotaBadges';
-import { formatMoneyCell, formatUtilizationPercent, type QuotaGroupBy } from '../quotaTableUtils';
+import { formatUtilizationPercent, type QuotaGroupBy } from '../quotaTableUtils';
 
 interface OptimizationsQuotasDataTableOwnProps {
   breadcrumbLabel?: string;
@@ -62,12 +62,10 @@ const OptimizationsQuotasDataTable: React.FC<OptimizationsQuotasDataTableOwnProp
         { name: groupLabel },
         { name: intl.formatMessage(messages.storageRecommendationCount) },
         { name: intl.formatMessage(messages.quotaMaxUtilization) },
-        { name: intl.formatMessage(messages.savingsEstimatedMonthly) },
       ]);
 
       const newRows = [];
       report?.data?.forEach(item => {
-        const savings = formatMoneyCell(item.estimated_savings);
         const groupValue = groupBy === 'cluster' ? item.cluster_uuid ?? '' : item.namespace ?? '';
         const filterKey = groupBy === 'cluster' ? 'cluster' : 'project';
         const drillDown = onDrillDownFromGroup && groupValue;
@@ -91,7 +89,6 @@ const OptimizationsQuotasDataTable: React.FC<OptimizationsQuotasDataTableOwnProp
             },
             { value: item.count != null ? String(item.count) : '—' },
             { value: formatUtilizationPercent(item.utilization) },
-            { value: savings ?? '—' },
           ],
         });
       });
@@ -127,18 +124,12 @@ const OptimizationsQuotasDataTable: React.FC<OptimizationsQuotasDataTableOwnProp
         ...(hasData && { isSortable: true }),
       },
       {
-        name: intl.formatMessage(messages.savingsEstimatedMonthly),
-        orderBy: 'estimated_monthly_savings',
-        ...(hasData && { isSortable: true }),
-      },
-      {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'last_reported' }),
       },
     ]);
 
     const newRows = [];
     report?.data?.forEach(item => {
-      const savings = formatMoneyCell(item.estimated_savings);
       const quotaName = item.quota_name?.trim() || undefined;
       const rowLabel = quotaName || item.namespace || '';
       const breakdownParams = new URLSearchParams({
@@ -199,7 +190,6 @@ const OptimizationsQuotasDataTable: React.FC<OptimizationsQuotasDataTableOwnProp
           { value: formatUtilizationPercent(item.utilization) },
           { value: <QuotaRecommendationTypeBadge type={item.recommendation_type} /> },
           { value: <QuotaRiskLevelBadge level={item.risk_level} /> },
-          { value: savings ?? '—' },
           {
             value: item.last_observed_at ? getTimeFromNow(item.last_observed_at) : '—',
           },

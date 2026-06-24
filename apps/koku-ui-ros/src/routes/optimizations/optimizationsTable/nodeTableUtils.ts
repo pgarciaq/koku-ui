@@ -30,7 +30,7 @@ export function getNodeFleetReduction(
   engine: string
 ): number | undefined {
   const reduction = getNodeEngineRec(item, term, engine)?.node_count_reduction;
-  return reduction != null && reduction > 0 ? reduction : undefined;
+  return reduction != null && reduction >= 0 ? reduction : undefined;
 }
 
 export function getNodeLastReported(

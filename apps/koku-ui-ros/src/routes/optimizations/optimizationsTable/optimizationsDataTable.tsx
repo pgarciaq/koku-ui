@@ -1,6 +1,6 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { Icon, Label, Tooltip } from '@patternfly/react-core';
+import { Icon, Tooltip } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { RecommendationReport } from 'api/ros/recommendations';
 import messages from 'locales/messages';
@@ -13,6 +13,8 @@ import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noO
 import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { getTimeFromNow } from 'utils/dates';
 import { hasNotificationsWarning } from 'utils/notifications';
+
+import { OptimizationStateCell } from './optimizationStateCell';
 
 interface OptimizationsDataTableOwnProps {
   breadcrumbLabel?: string;
@@ -120,32 +122,6 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
         title: container,
       });
 
-      const stateBadge = (() => {
-        if (idleState === 'idle' || idleState === 'zombie') {
-          return (
-            <Label color={idleState === 'zombie' ? 'red' : 'orange'} isCompact>
-              {intl.formatMessage(messages.idleStateBadge, { state: idleState === 'zombie' ? 'Zombie' : 'Idle', days: idleDays ?? 0 })}
-            </Label>
-          );
-        }
-        return null;
-      })();
-
-      const dataQualityBadges = (
-        <>
-          {analyticsIncomplete && (
-            <Label color="yellow" isCompact style={stateBadge ? { marginLeft: 4 } : undefined}>
-              {intl.formatMessage(messages.dataQualityIncomplete)}
-            </Label>
-          )}
-          {ingestHooksFailed && (
-            <Label color="yellow" isCompact style={{ marginLeft: 4 }}>
-              {intl.formatMessage(messages.dataQualityIngestFailed)}
-            </Label>
-          )}
-        </>
-      );
-
       const isIdleOrZombie = idleState === 'idle' || idleState === 'zombie';
       const potentialSavingsSource = isIdleOrZombie ? waste : savings;
       const potentialSavingsCell = (() => {
@@ -188,10 +164,12 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
           },
           {
             value: (
-              <>
-                {stateBadge}
-                {dataQualityBadges}
-              </>
+              <OptimizationStateCell
+                analyticsIncomplete={analyticsIncomplete}
+                idleDays={idleDays}
+                idleState={idleState}
+                ingestHooksFailed={ingestHooksFailed}
+              />
             ),
           },
           { value: potentialSavingsCell },

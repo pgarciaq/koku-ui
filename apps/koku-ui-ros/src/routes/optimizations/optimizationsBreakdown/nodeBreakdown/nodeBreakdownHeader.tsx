@@ -89,9 +89,7 @@ const NodeBreakdownHeader: React.FC<NodeBreakdownHeaderProps> = ({
         : intl.formatMessage(messages.savingsNotAvailable);
     const lastReported = selectedEngine?.updated_at ? getTimeFromNow(selectedEngine.updated_at) : '—';
     const fleetReduction =
-      selectedEngine?.node_count_reduction != null && selectedEngine.node_count_reduction > 0
-        ? selectedEngine.node_count_reduction
-        : '—';
+      selectedEngine?.node_count_reduction != null ? selectedEngine.node_count_reduction : '—';
 
     const recommendationId =
       report?.id ??

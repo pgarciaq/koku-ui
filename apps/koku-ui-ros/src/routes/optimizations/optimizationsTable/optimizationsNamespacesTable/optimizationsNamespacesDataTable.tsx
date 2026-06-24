@@ -1,6 +1,6 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { Icon, Label, LabelGroup, Tooltip } from '@patternfly/react-core';
+import { Icon, Tooltip } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { RecommendationReport } from 'api/ros/recommendations';
 import messages from 'locales/messages';
@@ -15,6 +15,8 @@ import { getTimeFromNow } from 'utils/dates';
 import { hasNotificationsWarning } from 'utils/notifications';
 
 import { getRequestProps } from '../utils';
+import { OptimizationStateCell } from '../optimizationStateCell';
+import { RecommendationTagsLink } from '../recommendationTagsLink';
 
 interface OptimizationsNamespacesDataTableOwnProps {
   breadcrumbLabel?: string;
@@ -180,35 +182,6 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
       const analyticsIncomplete = item.analytics_incomplete;
       const ingestHooksFailed = item.ingest_hooks_failed;
 
-      const stateBadge = (() => {
-        if (idleState === 'idle' || idleState === 'zombie') {
-          return (
-            <Label color={idleState === 'zombie' ? 'red' : 'orange'} isCompact>
-              {intl.formatMessage(messages.idleStateBadge, {
-                state: idleState === 'zombie' ? 'Zombie' : 'Idle',
-                days: idleDays ?? 0,
-              })}
-            </Label>
-          );
-        }
-        return null;
-      })();
-
-      const dataQualityBadges = (
-        <>
-          {analyticsIncomplete && (
-            <Label color="yellow" isCompact style={stateBadge ? { marginLeft: 4 } : undefined}>
-              {intl.formatMessage(messages.dataQualityIncomplete)}
-            </Label>
-          )}
-          {ingestHooksFailed && (
-            <Label color="yellow" isCompact style={{ marginLeft: 4 }}>
-              {intl.formatMessage(messages.dataQualityIngestFailed)}
-            </Label>
-          )}
-        </>
-      );
-
       newRows.push({
         cells: [
           {
@@ -246,22 +219,7 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
             hidden: isClusterHidden,
           },
           {
-            value: (() => {
-              const tags = item.tags;
-              if (!tags || Object.keys(tags).length === 0) {
-                return '—';
-              }
-              const entries = Object.entries(tags);
-              return (
-                <LabelGroup numLabels={3} isCompact>
-                  {entries.map(([key, val]) => (
-                    <Label key={key} isCompact color="blue">
-                      {key}={val}
-                    </Label>
-                  ))}
-                </LabelGroup>
-              );
-            })(),
+            value: <RecommendationTagsLink tags={item.tags} />,
           },
           { value: requestProps?.memoryRequestCurrent },
           { value: requestProps?.memoryVariation },
@@ -269,10 +227,12 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
           { value: requestProps?.cpuVariation },
           {
             value: (
-              <>
-                {stateBadge}
-                {dataQualityBadges}
-              </>
+              <OptimizationStateCell
+                analyticsIncomplete={analyticsIncomplete}
+                idleDays={idleDays}
+                idleState={idleState}
+                ingestHooksFailed={ingestHooksFailed}
+              />
             ),
           },
           {
