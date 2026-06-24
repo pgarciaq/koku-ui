@@ -67,6 +67,39 @@ when projection was skipped.
 When the namespace feature flag is off, `optimizationsDetails.tsx` must render
 `OptimizationsContainersTable` (with projection), not legacy `OptimizationsTable`.
 
+## Shared display components
+
+Reuse these for any list tab that shows Kubernetes labels or workload state — do not build
+one-off tag popovers or state badges.
+
+### `RecommendationTagsLink`
+
+Path: `optimizationsTable/recommendationTagsLink.tsx`
+
+- Props: `tags?: Record<string, string>`
+- Renders tag icon + clickable count; PatternFly **Popover** lists key/value pairs
+- Shows "—" when `tags` is empty or absent (common when `ROS_TAGS_ENABLED=false` or tag sync has not run)
+- Backend: top-level `tags` on container and namespace list rows (`enrichContainerTags` /
+  `enrichNamespaceTags` in ros-ocp-backend)
+
+### `OptimizationStateCell`
+
+Path: `optimizationsTable/optimizationStateCell.tsx`
+
+- Props: `idleState`, `idleDays`, `analyticsIncomplete`, `ingestHooksFailed`
+- Renders green **Active** badge when row is healthy; orange/red idle/zombie badges; yellow data-quality badges
+- Backend fields (from `clusters` table, copied to list rows):
+  - `idle_state` / `idle_duration_days` — idle detection (codes **5**, **8**, **15**)
+  - `analytics_incomplete` — cluster analytics pipeline could not complete; savings may be stale
+  - `ingest_hooks_failed` — post-ingest hooks failed; investigate ROS processor logs
+- Does **not** suppress savings columns; surface badges so users know when dollar amounts may be unreliable
+
+### Quota list — savings column omitted
+
+Quota and ClusterResourceQuota list tables intentionally **omit** estimated monthly savings: API
+returns `estimated_savings` only for `tighten` rows; most rows are `raise`/`optimal` with null values.
+Detail views and API clients may still display savings when present.
+
 ## Backend pairing (ros-ocp-backend)
 
 List and detail endpoints must accept `filter[term]` and `filter[engine]`.
