@@ -17,6 +17,7 @@ interface OptimizationsProjectsToolbarOwnProps {
   onFilterRemoved(filter: Filter);
   pagination?: React.ReactNode;
   query?: RosQuery;
+  workloadTypeOptions?: { name: string; key: string }[];
 }
 
 interface OptimizationsProjectsToolbarState {
@@ -38,8 +39,23 @@ class OptimizationsProjectsToolbarBase extends React.Component<
     });
   }
 
+  public componentDidUpdate(prevProps: OptimizationsProjectsToolbarProps) {
+    if (prevProps.workloadTypeOptions !== this.props.workloadTypeOptions) {
+      this.setState({ categoryOptions: this.getCategoryOptions() });
+    }
+  }
+
   private getCategoryOptions = (): ToolbarLabelGroup[] => {
-    const { intl, isClusterHidden, isProjectHidden } = this.props;
+    const { intl, isClusterHidden, isProjectHidden, workloadTypeOptions } = this.props;
+
+    const defaultWorkloadTypes = [
+      { name: 'daemonset', key: 'daemonset' },
+      { name: 'deployment', key: 'deployment' },
+      { name: 'deploymentconfig', key: 'deploymentconfig' },
+      { name: 'replicaset', key: 'replicaset' },
+      { name: 'replicationcontroller', key: 'replicationcontroller' },
+      { name: 'statefulset', key: 'statefulset' },
+    ];
 
     const options = [
       { name: intl.formatMessage(messages.filterByValues, { value: 'container' }), key: 'container' },
@@ -49,15 +65,8 @@ class OptimizationsProjectsToolbarBase extends React.Component<
       {
         name: intl.formatMessage(messages.filterByValues, { value: 'workload_type' }),
         key: 'workload_type',
-        selectClassName: 'selectOverride', // A selector from routes/components/dataToolbar/dataToolbar.scss
-        selectOptions: [
-          { name: 'daemonset', key: 'daemonset' },
-          { name: 'deployment', key: 'deployment' },
-          { name: 'deploymentconfig', key: 'deploymentconfig' },
-          { name: 'replicaset', key: 'replicaset' },
-          { name: 'replicationcontroller', key: 'replicationcontroller' },
-          { name: 'statefulset', key: 'statefulset' },
-        ],
+        selectClassName: 'selectOverride',
+        selectOptions: workloadTypeOptions && workloadTypeOptions.length > 0 ? workloadTypeOptions : defaultWorkloadTypes,
       },
     ];
     const filteredOptions = isClusterHidden ? options.filter(option => option.key !== 'cluster') : options;

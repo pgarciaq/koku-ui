@@ -20,6 +20,7 @@ import {
   useOptimizationsNamespacesReport,
 } from '../useOptimizationsNamespacesReport';
 import { getLinkState } from '../utils';
+import { useWorkloadTypes, workloadTypesToSelectOptions } from '../useWorkloadTypes';
 import { OptimizationsContainersDataTable } from './optimizationsContainersDataTable';
 import { OptimizationsContainersToolbar } from './optimizationsContainersToolbar';
 
@@ -62,6 +63,8 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
 }) => {
   const intl = useIntl();
   const location = useLocation();
+  const { data: workloadTypes } = useWorkloadTypes();
+  const workloadTypeOptions = workloadTypesToSelectOptions(workloadTypes);
 
   const [newLinkState, setNewLinkState] = useState();
   const { query: urlQuery, setQuery: setUrlQuery } = useUrlState({
@@ -167,6 +170,7 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
         onTermSelect={handleOnTermSelect}
         pagination={getPagination(isDisabled)}
         query={query}
+        workloadTypeOptions={workloadTypeOptions}
       />
     );
   };

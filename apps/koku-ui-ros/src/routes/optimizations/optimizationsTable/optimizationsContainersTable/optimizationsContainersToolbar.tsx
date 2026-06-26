@@ -28,6 +28,7 @@ interface OptimizationsContainersToolbarOwnProps {
   onTermSelect?: (value: string) => void;
   pagination?: React.ReactNode;
   query?: RosQuery;
+  workloadTypeOptions?: { name: string; key: string }[];
 }
 
 interface OptimizationsContainersToolbarStateProps {
@@ -64,6 +65,12 @@ class OptimizationsContainersToolbarBase extends React.Component<
     this.updateReport();
   }
 
+  public componentDidUpdate(prevProps: OptimizationsContainersToolbarProps) {
+    if (prevProps.workloadTypeOptions !== this.props.workloadTypeOptions) {
+      this.setState({ categoryOptions: this.getCategoryOptions() });
+    }
+  }
+
   private updateReport = () => {
     const { fetchTag } = this.props;
     const tagQueryString = getQuery({ filter: { time_scope_value: -1 }, key_only: true, limit: 1000 });
@@ -71,7 +78,16 @@ class OptimizationsContainersToolbarBase extends React.Component<
   };
 
   private getCategoryOptions = (): ToolbarLabelGroup[] => {
-    const { intl, isClusterHidden, isProjectHidden } = this.props;
+    const { intl, isClusterHidden, isProjectHidden, workloadTypeOptions } = this.props;
+
+    const defaultWorkloadTypes = [
+      { name: 'daemonset', key: 'daemonset' },
+      { name: 'deployment', key: 'deployment' },
+      { name: 'deploymentconfig', key: 'deploymentconfig' },
+      { name: 'replicaset', key: 'replicaset' },
+      { name: 'replicationcontroller', key: 'replicationcontroller' },
+      { name: 'statefulset', key: 'statefulset' },
+    ];
 
     const options = [
       { name: intl.formatMessage(messages.filterByValues, { value: 'container' }), key: 'container' },
@@ -82,14 +98,7 @@ class OptimizationsContainersToolbarBase extends React.Component<
         name: intl.formatMessage(messages.filterByValues, { value: 'workload_type' }),
         key: 'workload_type',
         selectClassName: 'selectOverride',
-        selectOptions: [
-          { name: 'daemonset', key: 'daemonset' },
-          { name: 'deployment', key: 'deployment' },
-          { name: 'deploymentconfig', key: 'deploymentconfig' },
-          { name: 'replicaset', key: 'replicaset' },
-          { name: 'replicationcontroller', key: 'replicationcontroller' },
-          { name: 'statefulset', key: 'statefulset' },
-        ],
+        selectOptions: workloadTypeOptions && workloadTypeOptions.length > 0 ? workloadTypeOptions : defaultWorkloadTypes,
       },
       {
         name: intl.formatMessage(messages.filterByValues, { value: 'idle_state' }),

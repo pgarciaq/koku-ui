@@ -19,6 +19,7 @@ import {
   useOptimizationsNamespacesReport,
 } from '../useOptimizationsNamespacesReport';
 import { getLinkState } from '../utils';
+import { useWorkloadTypes, workloadTypesToSelectOptions } from '../useWorkloadTypes';
 import { OptimizationsProjectsDataTable } from './optimizationsProjectsDataTable';
 import { OptimizationsProjectsToolbar } from './optimizationsProjectsToolbar';
 
@@ -63,6 +64,8 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
 }) => {
   const intl = useIntl();
   const location = useLocation();
+  const { data: workloadTypes } = useWorkloadTypes();
+  const workloadTypeOptions = workloadTypesToSelectOptions(workloadTypes);
 
   const [newLinkState, setNewLinkState] = useState();
   const queryState = getQueryState(location, queryStateName);
@@ -160,6 +163,7 @@ const OptimizationsProjectsTable: React.FC<OptimizationsProjectsTableProps> = ({
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
         pagination={getPagination(isDisabled)}
         query={query}
+        workloadTypeOptions={workloadTypeOptions}
       />
     );
   };
