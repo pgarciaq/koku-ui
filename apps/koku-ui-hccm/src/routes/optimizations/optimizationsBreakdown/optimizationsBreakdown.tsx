@@ -30,7 +30,7 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
         ocpOptimizationsState: undefined, // Clear state to initialize optimizations tab
       }}
       projectPath={formatPath(routes.ocpBreakdown.path)} // Path for "project" link
-      queryStateName="optimizationsDetailsState"
+      queryStateName="containerDetailsState"
     />
   );
 };

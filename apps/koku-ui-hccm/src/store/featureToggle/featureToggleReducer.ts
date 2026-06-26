@@ -14,7 +14,6 @@ export type FeatureToggleState = Readonly<{
   isExportsToggleEnabled: boolean;
   isGpuToggleEnabled: boolean;
   isMigToggleEnabled: boolean;
-  isNamespaceToggleEnabled: boolean;
   isPriceListToggleEnabled: boolean;
   isSystemsToggleEnabled: boolean;
   isWastedCostToggleEnabled: boolean;
@@ -28,7 +27,6 @@ export const defaultState: FeatureToggleState = {
   isExportsToggleEnabled: false,
   isGpuToggleEnabled: false,
   isMigToggleEnabled: false,
-  isNamespaceToggleEnabled: false,
   isPriceListToggleEnabled: false,
   isSystemsToggleEnabled: false,
   isWastedCostToggleEnabled: false,
@@ -48,7 +46,6 @@ export function FeatureToggleReducer(state = defaultState, action: FeatureToggle
         isExportsToggleEnabled: action.payload.isExportsToggleEnabled,
         isGpuToggleEnabled: action.payload.isGpuToggleEnabled,
         isMigToggleEnabled: action.payload.isMigToggleEnabled,
-        isNamespaceToggleEnabled: action.payload.isNamespaceToggleEnabled,
         isPriceListToggleEnabled: action.payload.isPriceListToggleEnabled,
         isSystemsToggleEnabled: action.payload.isSystemsToggleEnabled,
         isWastedCostToggleEnabled: action.payload.isWastedCostToggleEnabled,

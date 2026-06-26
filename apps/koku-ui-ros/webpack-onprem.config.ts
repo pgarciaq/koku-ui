@@ -17,7 +17,6 @@ const exposedModules = {
   './NamespaceBreakdown': './src/fed-modules/namespaceBreakdownWrapper.tsx',
   './OptimizationsBreakdown': './src/fed-modules/optimizationsBreakdownWrapper.tsx',
   './OptimizationsContainersTable': './src/fed-modules/optimizationsContainersTableWrapper.tsx',
-  './OptimizationsDetails': './src/fed-modules/optimizationsDetailsWrapper.tsx',
   './OptimizationsDetailsTitle': './src/fed-modules/optimizationsDetailsTitleWrapper.tsx',
   './OptimizationsLink': './src/fed-modules/optimizationsLinkWrapper.tsx',
   './OptimizationsNamespacesBadge': './src/fed-modules/optimizationsNamespacesBadgeWrapper.tsx',
@@ -36,7 +35,6 @@ const exposedModules = {
   './OptimizationsOcpBreakdown': './src/fed-modules/optimizationsOcpBreakdownWrapper.tsx',
   './OptimizationsProjectsTable': './src/fed-modules/optimizationsProjectsTableWrapper.tsx',
   './OptimizationsSummary': './src/fed-modules/optimizationsSummaryWrapper.tsx',
-  './OptimizationsTable': './src/fed-modules/optimizationsTableWrapper.tsx',
 };
 
 const config: Configuration = {

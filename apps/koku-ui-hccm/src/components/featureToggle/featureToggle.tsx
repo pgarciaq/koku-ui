@@ -18,7 +18,6 @@ export const enum FeatureToggle {
   exports = 'cost-management.koku-ui-hccm.exports', // Async exports https://redhat.atlassian.net/browse/COST-2223
   gpu = 'cost-management.koku-ui-hccm.gpu', // Cost model GPU metrics https://redhat.atlassian.net/browse/COST-5334
   mig = 'cost-management.koku-ui-hccm.mig', // Cost of MIG support https://redhat.atlassian.net/browse/COST-7239
-  namespace = 'cost-management.koku-ui-ros.namespace', // Namespace recommendations https://redhat.atlassian.net/browse/COST-6267
   priceList = 'cost-management.koku-ui-hccm.price-list', // Life cycle of price list https://redhat.atlassian.net/browse/COST-7330
   systems = 'cost-management.koku-ui-hccm.systems', // Systems https://redhat.atlassian.net/browse/COST-5718
   wastedCost = 'cost-management.koku-ui-hccm.wasted-cost', // Wasted cost https://redhat.atlassian.net/browse/COST-7460
@@ -56,11 +55,6 @@ export const useIsGpuToggleEnabled = () => {
 export const useIsMigToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.mig);
 };
-
-export const useIsNamespaceToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.namespace);
-};
-
 export const useIsPriceListToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.priceList);
 };
@@ -85,7 +79,6 @@ export const useFeatureToggle = () => {
   const isExportsToggleEnabled = useIsExportsToggleEnabled();
   const isGpuToggleEnabled = useIsGpuToggleEnabled();
   const isMigToggleEnabled = useIsMigToggleEnabled();
-  const isNamespaceToggleEnabled = useIsNamespaceToggleEnabled();
   const isPriceListToggleEnabled = useIsPriceListToggleEnabled();
   const isSystemsToggleEnabled = useIsSystemsToggleEnabled();
   const isWastedCostToggleEnabled = useIsWastedCostToggleEnabled();
@@ -107,7 +100,6 @@ export const useFeatureToggle = () => {
         isExportsToggleEnabled,
         isGpuToggleEnabled,
         isMigToggleEnabled,
-        isNamespaceToggleEnabled,
         isPriceListToggleEnabled,
         isSystemsToggleEnabled,
         isWastedCostToggleEnabled,
@@ -125,7 +117,6 @@ export const useFeatureToggle = () => {
     isExportsToggleEnabled,
     isGpuToggleEnabled,
     isMigToggleEnabled,
-    isNamespaceToggleEnabled,
     isPriceListToggleEnabled,
     isSystemsToggleEnabled,
     isWastedCostToggleEnabled,

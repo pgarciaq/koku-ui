@@ -5,7 +5,6 @@ exports[`default state 1`] = `
   "hasFeatureToggle": false,
   "isBoxPlotToggleEnabled": false,
   "isDebugToggleEnabled": false,
-  "isNamespaceToggleEnabled": false,
   "isProjectLinkToggleEnabled": false,
 }
 `;

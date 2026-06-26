@@ -70,7 +70,6 @@ module.exports = {
         __dirname,
         './src/fed-modules/optimizationsContainersTableWrapper.tsx'
       ),
-      './OptimizationsDetails': path.resolve(__dirname, './src/fed-modules/optimizationsDetailsWrapper.tsx'),
       './OptimizationsDetailsTitle': path.resolve(__dirname, './src/fed-modules/optimizationsDetailsTitleWrapper.tsx'),
       './OptimizationsLink': path.resolve(__dirname, './src/fed-modules/optimizationsLinkWrapper.tsx'),
       './OptimizationsNamespacesBadge': path.resolve(
@@ -104,7 +103,6 @@ module.exports = {
         './src/fed-modules/optimizationsProjectsTableWrapper.tsx'
       ),
       './OptimizationsSummary': path.resolve(__dirname, './src/fed-modules/optimizationsSummaryWrapper.tsx'),
-      './OptimizationsTable': path.resolve(__dirname, './src/fed-modules/optimizationsTableWrapper.tsx'),
     },
     shared: [
       { 'react-redux': { version: dependencies['react-redux'] } },

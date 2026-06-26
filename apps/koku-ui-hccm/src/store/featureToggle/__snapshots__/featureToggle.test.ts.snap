@@ -9,7 +9,6 @@ exports[`default state 1`] = `
   "isExportsToggleEnabled": false,
   "isGpuToggleEnabled": false,
   "isMigToggleEnabled": false,
-  "isNamespaceToggleEnabled": false,
   "isPriceListToggleEnabled": false,
   "isSystemsToggleEnabled": false,
   "isWastedCostToggleEnabled": false,

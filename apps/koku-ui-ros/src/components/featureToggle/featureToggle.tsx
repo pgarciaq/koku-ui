@@ -7,7 +7,6 @@ import { featureToggleActions } from 'store/featureToggle';
 export const enum FeatureToggle {
   boxPlot = 'cost-management.koku-ui-ros.box-plot', // https://redhat.atlassian.net/browse/COST-4619
   debug = 'cost-management.koku-ui-ros.debug', // Logs user data (e.g., account ID) in browser console
-  namespace = 'cost-management.koku-ui-ros.namespace', // Namespace recommendations https://redhat.atlassian.net/browse/COST-6267
   projectLink = 'cost-management.koku-ui-ros.project-link', // Optimizations breakdown project link https://redhat.atlassian.net/browse/COST-4527
 }
 
@@ -27,11 +26,6 @@ export const useIsBoxPlotToggleEnabled = () => {
 export const useIsProjectLinkToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggle.projectLink);
 };
-
-export const useIsNamespaceToggleEnabled = () => {
-  return useIsToggleEnabled(FeatureToggle.namespace);
-};
-
 // The FeatureToggle component saves feature toggles in store for places where Unleash hooks not available
 const useFeatureToggle = () => {
   const dispatch = useDispatch();
@@ -39,7 +33,6 @@ const useFeatureToggle = () => {
 
   const isDebugToggleEnabled = useIsDebugToggleEnabled();
   const isBoxPlotToggleEnabled = useIsBoxPlotToggleEnabled();
-  const isNamespaceToggleEnabled = useIsNamespaceToggleEnabled();
   const isProjectLinkToggleEnabled = useIsProjectLinkToggleEnabled();
 
   const fetchUser = callback => {
@@ -54,7 +47,6 @@ const useFeatureToggle = () => {
       featureToggleActions.setFeatureToggle({
         isDebugToggleEnabled,
         isBoxPlotToggleEnabled,
-        isNamespaceToggleEnabled,
         isProjectLinkToggleEnabled,
       })
     );
@@ -62,7 +54,7 @@ const useFeatureToggle = () => {
       // eslint-disable-next-line no-console
       fetchUser(identity => console.log('User identity:', identity));
     }
-  }, [isDebugToggleEnabled, isBoxPlotToggleEnabled, isNamespaceToggleEnabled, isProjectLinkToggleEnabled]);
+  }, [isDebugToggleEnabled, isBoxPlotToggleEnabled, isProjectLinkToggleEnabled]);
 };
 
 export default useFeatureToggle;

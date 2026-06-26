@@ -8,7 +8,6 @@ export interface FeatureToggleActionMeta {
   isExportsToggleEnabled?: boolean;
   isGpuToggleEnabled?: boolean;
   isMigToggleEnabled?: boolean;
-  isNamespaceToggleEnabled?: boolean;
   isPriceListToggleEnabled?: boolean;
   isSystemsToggleEnabled?: boolean;
   isWastedCostToggleEnabled?: boolean;

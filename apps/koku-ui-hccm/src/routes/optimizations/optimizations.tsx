@@ -7,10 +7,10 @@ import { useIntl } from 'react-intl';
 import type { ChromeComponentProps } from 'utils/chrome';
 import { withChrome } from 'utils/chrome';
 
+import { ContainerDetails } from './containerDetails';
 import { Efficiency } from './efficiency';
 import { NamespaceDetails } from './namespaceDetails';
 import { NodeDetails } from './nodeDetails';
-import { OptimizationsDetails } from './optimizationsDetails';
 import { styles } from './optimizations.styles';
 import { StorageDetails } from './storageDetails';
 import { QuotaDetails } from './quotaDetails';
@@ -32,7 +32,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
   };
 
   if (!isEfficiencyToggleEnabled) {
-    return <OptimizationsDetails />;
+    return <ContainerDetails />;
   }
   return (
     <>
@@ -95,7 +95,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
       </PageSection>
       <PageSection>
         {activeTabKey === 0 && <Efficiency />}
-        {activeTabKey === 1 && <OptimizationsDetails activeTabKey={1} isHeaderHidden={true} />}
+        {activeTabKey === 1 && <ContainerDetails activeTabKey={1} />}
         {activeTabKey === 2 && <NamespaceDetails activeTabKey={2} />}
         {activeTabKey === 3 && <NodeDetails activeTabKey={3} />}
         {activeTabKey === 4 && <StorageDetails activeTabKey={4} />}

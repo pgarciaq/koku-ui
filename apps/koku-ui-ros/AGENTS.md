@@ -62,10 +62,11 @@ growth threshold; show **No growth detected** when enough data exists but slope 
 non-positive; do not render `growth_bytes_per_day` = 0 as if it were a measured rate
 when projection was skipped.
 
-### Container tab pitfall
+### Container tab
 
-When the namespace feature flag is off, `optimizationsDetails.tsx` must render
-`OptimizationsContainersTable` (with projection), not legacy `OptimizationsTable`.
+HCCM loads `./OptimizationsContainersTable` directly for the Container tab (via
+`containerDetails.tsx`), matching Namespace/Node/Storage/Quota. Do not route the
+main Container tab through legacy wrapper components.
 
 ## Shared display components
 

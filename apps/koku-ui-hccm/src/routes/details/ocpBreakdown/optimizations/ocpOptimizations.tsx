@@ -1,6 +1,5 @@
 import { Card, CardBody } from '@patternfly/react-core';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
-import { useIsNamespaceToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -14,10 +13,6 @@ interface OcpOptimizationsOwnProps {
   // TBD...
 }
 
-interface OcpOptimizationsStateProps {
-  isNamespaceToggleEnabled?: boolean;
-}
-
 type OcpOptimizationsProps = OcpOptimizationsOwnProps;
 
 const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
@@ -25,7 +20,6 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
   const location = useLocation();
   const queryFromRoute = useQueryFromRoute();
   const queryState = useQueryState();
-  const { isNamespaceToggleEnabled } = useMapToProps();
 
   const clusterFilter = queryState?.filter_by?.cluster;
   const groupBy = getGroupById(queryFromRoute);
@@ -40,31 +34,12 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
   }
   const queryString = `?${params.toString()}`;
 
-  if (isNamespaceToggleEnabled) {
-    return (
-      <AsyncComponent
-        scope="costManagementRos"
-        module="./OptimizationsOcpBreakdown"
-        breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
-        breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${queryString}`)}
-        cluster={clusterFilter}
-        isClusterHidden={clusterFilter !== undefined}
-        isProjectHidden={groupBy === 'project'}
-        linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
-        linkState={{
-          ...(location?.state || {}),
-        }}
-        project={groupBy === 'project' ? groupByValue : undefined}
-        queryStateName="ocpOptimizationsState"
-      />
-    );
-  }
   return (
     <Card>
       <CardBody>
         <AsyncComponent
           scope="costManagementRos"
-          module="./OptimizationsTable"
+          module="./OptimizationsOcpBreakdown"
           breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
           breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${queryString}`)}
           cluster={clusterFilter}
@@ -80,12 +55,6 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
       </CardBody>
     </Card>
   );
-};
-
-const useMapToProps = (): OcpOptimizationsStateProps => {
-  return {
-    isNamespaceToggleEnabled: useIsNamespaceToggleEnabled(),
-  };
 };
 
 export { OcpOptimizations };

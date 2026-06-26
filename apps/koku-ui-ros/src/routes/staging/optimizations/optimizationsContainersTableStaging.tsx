@@ -46,7 +46,7 @@ const OptimizationsContainersTableStaging: React.FC<OptimizationsContainersTable
         isProjectHidden={groupBy === 'project'}
         linkPath={formatPath(routes.optimizationsDetailsBreakdown.path)}
         project={projectFilter}
-        queryStateName="optimizationsDetailsState"
+        queryStateName="containerDetailsState"
       />
     </PageSection>
   );

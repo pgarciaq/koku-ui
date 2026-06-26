@@ -43,7 +43,7 @@ const OptimizationsProjectsTableStaging: React.FC<OptimizationsProjectsTableStag
         cluster={clusterFilter}
         linkPath={formatPath(routes.optimizationsDetailsBreakdown.path)}
         project={projectFilter}
-        queryStateName="optimizationsDetailsState"
+        queryStateName="containerDetailsState"
       />
     </PageSection>
   );
