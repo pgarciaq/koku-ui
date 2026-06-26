@@ -14,6 +14,7 @@ import { NodeDetails } from './nodeDetails';
 import { styles } from './optimizations.styles';
 import { StorageDetails } from './storageDetails';
 import { QuotaDetails } from './quotaDetails';
+import { VmDetails } from './vmDetails';
 import { useOptimizationsTabUrl } from './useOptimizationsTabUrl';
 
 interface OptimizationsOwnProps extends ChromeComponentProps {
@@ -84,6 +85,15 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
                 eventKey={5}
                 title={
                   <TabTitleText>
+                    {intl.formatMessage(messages.virtualMachine)}{' '}
+                    <AsyncComponent scope="costManagementRos" module="./OptimizationsVmsBadge" />
+                  </TabTitleText>
+                }
+              />
+              <Tab
+                eventKey={6}
+                title={
+                  <TabTitleText>
                     {intl.formatMessage(messages.quota)}{' '}
                     <AsyncComponent scope="costManagementRos" module="./OptimizationsQuotaBadge" />
                   </TabTitleText>
@@ -99,7 +109,8 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
         {activeTabKey === 2 && <NamespaceDetails activeTabKey={2} />}
         {activeTabKey === 3 && <NodeDetails activeTabKey={3} />}
         {activeTabKey === 4 && <StorageDetails activeTabKey={4} />}
-        {activeTabKey === 5 && <QuotaDetails activeTabKey={5} />}
+        {activeTabKey === 5 && <VmDetails activeTabKey={5} />}
+        {activeTabKey === 6 && <QuotaDetails activeTabKey={6} />}
       </PageSection>
     </>
   );

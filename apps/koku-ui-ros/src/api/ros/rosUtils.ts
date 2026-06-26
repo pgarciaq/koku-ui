@@ -12,6 +12,8 @@ import {
   runQuotaRosReports as runQuotaRecommendations,
   runClusterQuotaRosReport as runClusterQuotaRecommendation,
   runClusterQuotaRosReports as runClusterQuotaRecommendations,
+  runVmRosReport as runVmRecommendation,
+  runVmRosReports as runVmRecommendations,
 } from './recommendations';
 import { decodeRosDetailFetchQuery } from './rosListParams';
 import type { RosType } from './ros';
@@ -56,6 +58,14 @@ export function runRosReport(rosPathsType: RosPathsType, rosType: RosType, query
       break;
     case RosPathsType.clusterQuotaRecommendations:
       result = runClusterQuotaRecommendations(rosType, query);
+      break;
+    case RosPathsType.vmRecommendation: {
+      const { id, term, engine } = decodeRosDetailFetchQuery(query);
+      result = runVmRecommendation(rosType, id, term, engine);
+      break;
+    }
+    case RosPathsType.vmRecommendations:
+      result = runVmRecommendations(rosType, query);
       break;
     case RosPathsType.recommendation: {
       const { id, term, engine } = decodeRosDetailFetchQuery(query);

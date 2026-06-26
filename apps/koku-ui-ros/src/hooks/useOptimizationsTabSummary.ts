@@ -35,6 +35,8 @@ function getRosPathsType(plugin: TabSummaryPlugin): RosPathsType {
       return RosPathsType.quotaRecommendations;
     case 'cluster-quota':
       return RosPathsType.clusterQuotaRecommendations;
+    case 'vm':
+      return RosPathsType.vmRecommendations;
   }
 }
 

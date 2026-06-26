@@ -40,7 +40,7 @@ export function fetchFleetSavingsSummary(term?: string, engine?: string) {
   );
 }
 
-export type TabSummaryPlugin = 'container' | 'namespace' | 'node' | 'pvc' | 'snapshot' | 'quota' | 'cluster-quota';
+export type TabSummaryPlugin = 'container' | 'namespace' | 'node' | 'pvc' | 'snapshot' | 'quota' | 'cluster-quota' | 'vm';
 
 export function getPluginSavingsAmount(
   byPlugin: FleetSavingsByPlugin | undefined,
@@ -58,6 +58,8 @@ export function getPluginSavingsAmount(
       return byPlugin.pvc;
     case 'snapshot':
       return byPlugin.snapshot;
+    case 'vm':
+      return byPlugin.vm;
     default:
       return undefined;
   }

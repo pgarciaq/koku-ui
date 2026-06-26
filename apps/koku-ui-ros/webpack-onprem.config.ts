@@ -31,6 +31,8 @@ const exposedModules = {
   './QuotaBreakdown': './src/fed-modules/quotaBreakdownWrapper.tsx',
   './ClusterQuotaBreakdown': './src/fed-modules/clusterQuotaBreakdownWrapper.tsx',
   './OptimizationsTabSummaryBanner': './src/fed-modules/optimizationsTabSummaryBannerWrapper.tsx',
+  './OptimizationsVmsBadge': './src/fed-modules/optimizationsVmsBadgeWrapper.tsx',
+  './OptimizationsVmsTable': './src/fed-modules/optimizationsVmsTableWrapper.tsx',
   './PvcBreakdown': './src/fed-modules/pvcBreakdownWrapper.tsx',
   './OptimizationsOcpBreakdown': './src/fed-modules/optimizationsOcpBreakdownWrapper.tsx',
   './OptimizationsProjectsTable': './src/fed-modules/optimizationsProjectsTableWrapper.tsx',

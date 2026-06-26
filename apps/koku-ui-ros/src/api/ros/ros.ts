@@ -62,4 +62,6 @@ export const enum RosPathsType {
   clusterQuotaRecommendations = 'clusterQuotaRecommendations',
   quotaRecommendation = 'quotaRecommendation',
   clusterQuotaRecommendation = 'clusterQuotaRecommendation',
+  vmRecommendation = 'vmRecommendation',
+  vmRecommendations = 'vmRecommendations',
 }

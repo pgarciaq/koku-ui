@@ -395,6 +395,77 @@ export function runPvcRosReport(reportType: RosType, fetchQuery: string) {
   return axiosInstance.get<PvcRecommendationDetailResponse>(`${path}/pvcs/detail${queryString}`);
 }
 
+// --- VM recommendation types ---
+
+export interface VmSizingBlock {
+  vcpu?: number;
+  memory_gib?: number;
+  disk_gib?: number;
+  instance_type?: string;
+}
+
+export interface VmRecommendedSizing extends VmSizingBlock {
+  series?: string;
+}
+
+export interface VmRecMetadata {
+  guest_agent_detected?: boolean;
+  confidence?: string;
+  term?: string;
+  engine?: string;
+  is_idle?: boolean;
+  is_abandoned?: boolean;
+  is_power_off_candidate?: boolean;
+  power_off_idle_pct?: number;
+  is_oversized?: boolean;
+  is_network_bound?: boolean;
+  is_redundant_placement?: boolean;
+  has_shared_storage?: boolean;
+  numa_oversized?: boolean;
+  preference_name?: string;
+  preference_class?: string;
+}
+
+export interface VmRecommendationData {
+  id?: string;
+  vm_name?: string;
+  namespace?: string;
+  cluster_uuid?: string;
+  guest_os?: string;
+  current?: VmSizingBlock;
+  recommended?: VmRecommendedSizing;
+  metadata?: VmRecMetadata;
+  savings?: MoneyAmount;
+  last_recommended_at?: string;
+  notifications?: any[];
+}
+
+export interface VmRecommendationReport {
+  meta: {
+    count: number;
+    limit: number;
+    offset: number;
+    has_next?: boolean;
+    next_cursor?: string;
+    currency?: string;
+  };
+  data: VmRecommendationData[];
+  links?: Record<string, string>;
+  warnings?: string[];
+}
+
+export function runVmRosReports(reportType: RosType, query: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = query ? `?${query}` : '';
+  return axiosInstance.get<VmRecommendationReport>(`${path}/vm${queryString}`);
+}
+
+export function runVmRosReport(reportType: RosType, id: string, term?: string, engine?: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = id ? `/vm/detail?vm_name=${encodeURIComponent(id)}&${getDetailQueryParams(term, engine)}` : '';
+  return axiosInstance.get<any>(`${path}${queryString}`);
+}
+
 // --- Snapshot recommendation types ---
 
 export interface SnapshotRecommendationData {

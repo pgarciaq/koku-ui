@@ -268,8 +268,10 @@ export default defineMessages({
       'storage_class {StorageClass} ' +
       'subscription_guid {Account} ' +
       'tag {Tag} ' +
+      'vm_name {VM name} ' +
       'workload {Workload name} ' +
       'workload_type {Workload type} ' +
+      'namespace {Namespace} ' +
       'other {}}',
     description: 'Filter by values',
     id: 'filterByValues',
@@ -944,6 +946,13 @@ export default defineMessages({
       'classification {Classification} ' +
       'state {State} ' +
       'tags {Tags} ' +
+      'vm_name {VM name} ' +
+      'vm_guest_os {Guest OS} ' +
+      'vm_current_vcpu {Current vCPU} ' +
+      'vm_current_memory {Current memory} ' +
+      'vm_recommended_vcpu {Rec. vCPU} ' +
+      'vm_recommended_memory {Rec. memory} ' +
+      'vm_status {Status} ' +
       'workload {Workload names} ' +
       'workload_type {Workload types} ' +
       'other {}}',
@@ -1552,6 +1561,31 @@ export default defineMessages({
     defaultMessage: 'Peak hours sizing',
     description: 'Card title for peak hours sizing recommendations',
     id: 'peakHoursSizing',
+  },
+  vmStatusIdle: {
+    defaultMessage: 'Idle',
+    description: 'VM status badge for idle VMs',
+    id: 'vmStatusIdle',
+  },
+  vmStatusAbandoned: {
+    defaultMessage: 'Abandoned',
+    description: 'VM status badge for abandoned VMs',
+    id: 'vmStatusAbandoned',
+  },
+  vmStatusOversized: {
+    defaultMessage: 'Oversized',
+    description: 'VM status badge for oversized VMs',
+    id: 'vmStatusOversized',
+  },
+  vmStatusPowerOff: {
+    defaultMessage: 'Power-off candidate',
+    description: 'VM status badge for power-off candidate VMs',
+    id: 'vmStatusPowerOff',
+  },
+  vmStatusOk: {
+    defaultMessage: 'OK',
+    description: 'VM status badge for healthy VMs',
+    id: 'vmStatusOk',
   },
   welcomeInfo: {
     defaultMessage: 'For more information visit {url}',

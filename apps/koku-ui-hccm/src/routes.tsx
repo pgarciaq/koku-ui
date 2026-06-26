@@ -45,6 +45,9 @@ const PvcBreakdown = lazy(
 const QuotaBreakdown = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/quotaBreakdown')
 );
+const VmBreakdown = lazy(
+  () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/vmBreakdown')
+);
 const ClusterQuotaBreakdown = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/clusterQuotaBreakdown')
 );
@@ -134,6 +137,10 @@ export const routes = {
   optimizationsQuotaBreakdown: {
     element: userAccess(QuotaBreakdown),
     path: '/optimizations/quota-breakdown',
+  },
+  optimizationsVmBreakdown: {
+    element: userAccess(VmBreakdown),
+    path: '/optimizations/vm-breakdown',
   },
   optimizationsClusterQuotaBreakdown: {
     element: userAccess(ClusterQuotaBreakdown),
