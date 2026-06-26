@@ -23,6 +23,9 @@ from URL state; they do not duplicate the dropdowns.
 | Container | `optimizationsContainersTable/` | `optimizationsContainersToolbar.tsx` | `ctr_` |
 | Namespace | `optimizationsNamespacesTable/` | `optimizationsNamespacesToolbar.tsx` | `ns_` |
 | Node | `optimizationsNodesTable/` | `optimizationsNodesToolbar.tsx` | `node_` |
+| Storage (PVC) | `optimizationsPvcsTable/` | `optimizationsPvcsToolbar.tsx` | `pvc_` |
+| VM | `optimizationsVmsTable/` | `optimizationsVmsToolbar.tsx` | `vm_` |
+| Quota | `optimizationsQuotasTable/` | `optimizationsQuotasToolbar.tsx` | `quota_` |
 
 ### Checklist for a new recommendation tab
 
