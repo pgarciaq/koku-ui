@@ -33,6 +33,7 @@ const exposedModules = {
   './OptimizationsTabSummaryBanner': './src/fed-modules/optimizationsTabSummaryBannerWrapper.tsx',
   './OptimizationsVmsBadge': './src/fed-modules/optimizationsVmsBadgeWrapper.tsx',
   './OptimizationsVmsTable': './src/fed-modules/optimizationsVmsTableWrapper.tsx',
+  './VmBreakdown': './src/fed-modules/vmBreakdownWrapper.tsx',
   './PvcBreakdown': './src/fed-modules/pvcBreakdownWrapper.tsx',
   './OptimizationsOcpBreakdown': './src/fed-modules/optimizationsOcpBreakdownWrapper.tsx',
   './OptimizationsProjectsTable': './src/fed-modules/optimizationsProjectsTableWrapper.tsx',

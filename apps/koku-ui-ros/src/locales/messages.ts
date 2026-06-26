@@ -953,6 +953,9 @@ export default defineMessages({
       'vm_recommended_vcpu {Rec. vCPU} ' +
       'vm_recommended_memory {Rec. memory} ' +
       'vm_status {Status} ' +
+      'vm_recommended_series {Recommended series} ' +
+      'vm_confidence {Confidence} ' +
+      'vm_preference {Preference} ' +
       'workload {Workload names} ' +
       'workload_type {Workload types} ' +
       'other {}}',
@@ -1586,6 +1589,11 @@ export default defineMessages({
     defaultMessage: 'OK',
     description: 'VM status badge for healthy VMs',
     id: 'vmStatusOk',
+  },
+  vmMetadataFlagsTitle: {
+    defaultMessage: 'VM classification flags',
+    description: 'Alert title for VM metadata classification flags on breakdown page',
+    id: 'vmMetadataFlagsTitle',
   },
   welcomeInfo: {
     defaultMessage: 'For more information visit {url}',

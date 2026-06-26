@@ -1,19 +1,34 @@
-import { Bullseye, EmptyState, EmptyStateBody, PageSection } from '@patternfly/react-core';
-import messages from 'locales/messages';
+import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { useLocation } from 'react-router-dom';
+import { routes } from 'routes';
+import { formatPath } from 'utils/paths';
 
-const VmBreakdown: React.FC = () => {
-  const intl = useIntl();
+interface VmBreakdownOwnProps {
+  // TBD...
+}
+
+type VmBreakdownProps = VmBreakdownOwnProps;
+
+const VmBreakdown: React.FC<VmBreakdownProps> = () => {
+  const location = useLocation();
 
   return (
-    <PageSection>
-      <Bullseye>
-        <EmptyState headingLevel="h2" titleText={intl.formatMessage(messages.virtualMachine)}>
-          <EmptyStateBody>VM recommendation detail view coming soon.</EmptyStateBody>
-        </EmptyState>
-      </Bullseye>
-    </PageSection>
+    <AsyncComponent
+      scope="costManagementRos"
+      appName="cost-management-ros"
+      module="./VmBreakdown"
+      linkState={{
+        ...(location?.state || {}),
+        detailsState: {
+          ...(location?.state?.detailsState || {}),
+          breadcrumbPath: formatPath(`${routes.optimizationsVmBreakdown.path}${location.search}`),
+        },
+        ocpOptimizationsState: undefined,
+      }}
+      projectPath={formatPath(routes.ocpBreakdown.path)}
+      queryStateName="vmDetailsState"
+    />
   );
 };
 
