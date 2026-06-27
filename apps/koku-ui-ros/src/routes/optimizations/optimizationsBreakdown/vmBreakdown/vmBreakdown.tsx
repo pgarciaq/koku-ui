@@ -94,7 +94,14 @@ const VmBreakdown: React.FC<VmBreakdownProps> = ({ linkState, queryStateName }) 
     );
   };
 
-  const isLoading = reportFetchStatus === FetchStatus.inProgress;
+  if (reportFetchStatus !== FetchStatus.complete) {
+    return (
+      <LoadingState
+        body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
+        heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}
+      />
+    );
+  }
 
   return (
     <>
@@ -109,17 +116,8 @@ const VmBreakdown: React.FC<VmBreakdownProps> = ({ linkState, queryStateName }) 
         />
       </PageSection>
       <PageSection>
-        {isLoading ? (
-          <LoadingState
-            body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
-            heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}
-          />
-        ) : (
-          <div>
-            {getNotificationAlert()}
-            {getBreakdownContent()}
-          </div>
-        )}
+        {getNotificationAlert()}
+        {getBreakdownContent()}
       </PageSection>
     </>
   );

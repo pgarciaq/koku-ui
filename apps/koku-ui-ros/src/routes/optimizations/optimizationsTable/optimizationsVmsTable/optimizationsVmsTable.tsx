@@ -36,7 +36,6 @@ const OptimizationsVmsTable: React.FC<OptimizationsVmsTableProps> = ({
 }) => {
   const intl = useIntl();
   const location = useLocation();
-  const [cursorPage, setCursorPage] = useState(1);
   const [newLinkState, setNewLinkState] = useState();
 
   const { query, setQuery } = useUrlState({
@@ -63,7 +62,7 @@ const OptimizationsVmsTable: React.FC<OptimizationsVmsTableProps> = ({
     const count = report?.meta?.count ?? 0;
     const limit = report?.meta?.limit ?? query.limit ?? vmRecommendationsBaseQuery.limit;
     const offset = report?.meta?.offset ?? query.offset ?? vmRecommendationsBaseQuery.offset;
-    const page = query.after ? cursorPage : Math.trunc(offset / limit + 1);
+    const page = Math.trunc(offset / limit + 1);
 
     return (
       <Pagination
@@ -126,55 +125,35 @@ const OptimizationsVmsTable: React.FC<OptimizationsVmsTableProps> = ({
   };
 
   const handleOnFilterAdded = filter => {
-    setCursorPage(1);
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
     setQuery(newQuery);
   };
 
   const handleOnFilterRemoved = filter => {
-    setCursorPage(1);
     const newQuery = queryUtils.handleOnFilterRemoved(query, filter);
     setQuery(newQuery);
   };
 
   const handleOnPerPageSelect = perPage => {
-    setCursorPage(1);
     const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
     setQuery(newQuery);
   };
 
   const handleOnSetPage = pageNumber => {
-    const isNextPage = pageNumber === cursorPage + 1;
-    if (isNextPage && report?.meta?.has_next && report?.meta?.next_cursor) {
-      setCursorPage(pageNumber);
-      const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
-      setQuery(newQuery);
-    } else {
-      setCursorPage(pageNumber);
-      const limit = report?.meta?.limit ?? query.limit ?? vmRecommendationsBaseQuery.limit;
-      const offset = (pageNumber - 1) * limit;
-      setQuery({
-        ...query,
-        after: undefined,
-        offset: pageNumber === 1 ? 0 : offset,
-        limit,
-      });
-    }
+    const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
+    setQuery(newQuery);
   };
 
   const handleOnSort = (sortType, isSortAscending) => {
-    setCursorPage(1);
     const newQuery = queryUtils.handleOnSort(query, sortType, isSortAscending);
-    setQuery({ ...newQuery, offset: 0, after: undefined });
+    setQuery(newQuery);
   };
 
   const handleOnTermSelect = (term: string) => {
-    setCursorPage(1);
     setQuery({ ...query, term, offset: 0, after: undefined });
   };
 
   const handleOnEngineSelect = (engine: string) => {
-    setCursorPage(1);
     setQuery({ ...query, engine, offset: 0, after: undefined });
   };
 
@@ -198,7 +177,7 @@ const OptimizationsVmsTable: React.FC<OptimizationsVmsTableProps> = ({
     <>
       <OptimizationsTabSummaryBanner engine={query.engine} plugin="vm" term={query.term} />
       {getToolbar()}
-      {reportFetchStatus !== FetchStatus.complete ? (
+      {reportFetchStatus === FetchStatus.inProgress ? (
         <LoadingState
           body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
           heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}
