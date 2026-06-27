@@ -83,7 +83,7 @@ const VmBreakdownHeader: React.FC<VmBreakdownHeaderProps> = ({
     const recommendedInstanceType = report?.recommended?.instance_type;
     const recommendedSeries = report?.recommended?.series;
 
-    const savings = report?.savings;
+    const savings = report?.estimated_monthly_savings;
     const savingsDisplay =
       savings?.value != null
         ? `$${Number(savings.value).toFixed(2)} ${savings.units ?? 'USD'}`

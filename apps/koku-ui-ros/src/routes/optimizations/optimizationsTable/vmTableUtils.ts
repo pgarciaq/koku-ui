@@ -1,7 +1,7 @@
 import type { VmRecommendationData } from 'api/ros/recommendations';
 
 export function getVmSavingsDisplay(item: VmRecommendationData): string | undefined {
-  const savings = item.savings;
+  const savings = item.estimated_monthly_savings;
   if (savings?.value != null) {
     return `$${Number(savings.value).toFixed(2)} ${savings.units ?? 'USD'}`;
   }

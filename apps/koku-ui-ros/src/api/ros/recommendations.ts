@@ -435,7 +435,7 @@ export interface VmRecommendationData {
   current?: VmSizingBlock;
   recommended?: VmRecommendedSizing;
   metadata?: VmRecMetadata;
-  savings?: MoneyAmount;
+  estimated_monthly_savings?: MoneyAmount;
   last_recommended_at?: string;
   notifications?: any[];
 }

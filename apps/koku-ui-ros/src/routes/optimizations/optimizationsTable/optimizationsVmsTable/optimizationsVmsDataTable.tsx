@@ -79,7 +79,7 @@ const getStatusBadges = (item: VmRecommendationData, intl: any) => {
 };
 
 const getSavingsCell = (item: VmRecommendationData, intl: any) => {
-  const savings = item.savings;
+  const savings = item.estimated_monthly_savings;
   if (savings?.value != null) {
     return `$${Number(savings.value).toFixed(2)} ${savings.units ?? 'USD'}`;
   }
