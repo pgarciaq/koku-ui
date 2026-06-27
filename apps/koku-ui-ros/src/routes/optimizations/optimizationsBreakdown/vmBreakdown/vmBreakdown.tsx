@@ -94,14 +94,7 @@ const VmBreakdown: React.FC<VmBreakdownProps> = ({ linkState, queryStateName }) 
     );
   };
 
-  if (reportFetchStatus !== FetchStatus.complete) {
-    return (
-      <LoadingState
-        body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
-        heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}
-      />
-    );
-  }
+  const isLoading = reportFetchStatus === FetchStatus.inProgress;
 
   return (
     <>
@@ -116,8 +109,17 @@ const VmBreakdown: React.FC<VmBreakdownProps> = ({ linkState, queryStateName }) 
         />
       </PageSection>
       <PageSection>
-        {getNotificationAlert()}
-        {getBreakdownContent()}
+        {isLoading ? (
+          <LoadingState
+            body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}
+            heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}
+          />
+        ) : (
+          <div>
+            {getNotificationAlert()}
+            {getBreakdownContent()}
+          </div>
+        )}
       </PageSection>
     </>
   );
@@ -282,10 +284,10 @@ const useMapToProps = ({ queryStateName }: VmBreakdownMapProps): VmBreakdownStat
   );
 
   useEffect(() => {
-    if (!reportError && reportFetchStatus !== FetchStatus.inProgress && clusterUuid && namespace && vmName) {
+    if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
       dispatch(rosActions.fetchRosReport(reportPathsType, reportType, reportQueryString));
     }
-  }, [clusterUuid, dispatch, namespace, vmName, reportError, reportFetchStatus, reportQueryString]);
+  }, [reportQueryString]);
 
   return {
     breadcrumbLabel: queryFromRoute[breadcrumbLabelKey],

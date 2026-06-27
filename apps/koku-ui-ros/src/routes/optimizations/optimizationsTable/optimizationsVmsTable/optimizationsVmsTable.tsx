@@ -135,13 +135,23 @@ const OptimizationsVmsTable: React.FC<OptimizationsVmsTableProps> = ({
   };
 
   const handleOnPerPageSelect = perPage => {
-    const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
-    setQuery(newQuery);
+    setQuery({
+      ...query,
+      limit: perPage,
+      offset: 0,
+      after: undefined,
+    });
   };
 
   const handleOnSetPage = pageNumber => {
-    const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
-    setQuery(newQuery);
+    const limit = report?.meta?.limit ?? query.limit ?? vmRecommendationsBaseQuery.limit;
+    const offset = pageNumber * limit - limit;
+    setQuery({
+      ...query,
+      limit,
+      offset,
+      after: undefined,
+    });
   };
 
   const handleOnSort = (sortType, isSortAscending) => {
