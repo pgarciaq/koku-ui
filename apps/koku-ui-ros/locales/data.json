@@ -1203,6 +1203,14 @@
               }
             ]
           },
+          "vm_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "VM name"
+              }
+            ]
+          },
           "workload": {
             "value": [
               {
@@ -1216,6 +1224,14 @@
               {
                 "type": 0,
                 "value": "Workload type"
+              }
+            ]
+          },
+          "namespace": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Namespace"
               }
             ]
           },
@@ -1968,6 +1984,86 @@
               {
                 "type": 0,
                 "value": "Tags"
+              }
+            ]
+          },
+          "vm_name": {
+            "value": [
+              {
+                "type": 0,
+                "value": "VM name"
+              }
+            ]
+          },
+          "vm_guest_os": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Guest OS"
+              }
+            ]
+          },
+          "vm_current_vcpu": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Current vCPU"
+              }
+            ]
+          },
+          "vm_current_memory": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Current memory"
+              }
+            ]
+          },
+          "vm_recommended_vcpu": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Rec. vCPU"
+              }
+            ]
+          },
+          "vm_recommended_memory": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Rec. memory"
+              }
+            ]
+          },
+          "vm_status": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Status"
+              }
+            ]
+          },
+          "vm_recommended_series": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Recommended series"
+              }
+            ]
+          },
+          "vm_confidence": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Confidence"
+              }
+            ]
+          },
+          "vm_preference": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Preference"
               }
             ]
           },
@@ -3601,6 +3697,42 @@
       {
         "type": 1,
         "value": "units"
+      }
+    ],
+    "vmMetadataFlagsTitle": [
+      {
+        "type": 0,
+        "value": "VM classification flags"
+      }
+    ],
+    "vmStatusAbandoned": [
+      {
+        "type": 0,
+        "value": "Abandoned"
+      }
+    ],
+    "vmStatusIdle": [
+      {
+        "type": 0,
+        "value": "Idle"
+      }
+    ],
+    "vmStatusOk": [
+      {
+        "type": 0,
+        "value": "OK"
+      }
+    ],
+    "vmStatusOversized": [
+      {
+        "type": 0,
+        "value": "Oversized"
+      }
+    ],
+    "vmStatusPowerOff": [
+      {
+        "type": 0,
+        "value": "Power-off candidate"
       }
     ],
     "wasteEstimatedMonthly": [
