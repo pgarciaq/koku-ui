@@ -8,7 +8,6 @@ import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { DataTable } from 'routes/components/dataTable';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
-import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { getTimeFromNow } from 'utils/dates';
 
 interface OptimizationsVmsDataTableOwnProps {
@@ -152,19 +151,27 @@ const OptimizationsVmsDataTable: React.FC<OptimizationsVmsDataTableProps> = ({
     report?.data?.map(item => {
       const clusterLabel = item.cluster_uuid ?? '';
       const lastReported = item.last_recommended_at ? getTimeFromNow(item.last_recommended_at) : '—';
+      const breakdownPath =
+        linkPath && item.cluster_uuid && item.namespace && item.vm_name
+          ? `${linkPath}?id=${encodeURIComponent(item.vm_name)}&cluster_uuid=${encodeURIComponent(item.cluster_uuid)}&namespace=${encodeURIComponent(item.namespace)}${breadcrumbLabel ? `&breadcrumb_label=${encodeURIComponent(breadcrumbLabel)}` : ''}`
+          : undefined;
 
       newRows.push({
         cells: [
           {
-            value: linkPath ? (
+            value: breakdownPath ? (
               <Link
-                to={getOptimizationsBreakdownPath({
-                  basePath: linkPath,
-                  breadcrumbLabel,
-                  id: item.vm_name,
-                  title: item.vm_name,
-                })}
-                state={linkState}
+                to={breakdownPath}
+                state={{
+                  ...linkState,
+                  vmDetailsState: {
+                    ...(linkState?.vmDetailsState || {}),
+                    cluster_uuid: item.cluster_uuid,
+                    namespace: item.namespace,
+                    vm_name: item.vm_name,
+                    breadcrumbLabel,
+                  },
+                }}
               >
                 {item.vm_name ?? ''}
               </Link>

@@ -59,11 +59,9 @@ export function runRosReport(rosPathsType: RosPathsType, rosType: RosType, query
     case RosPathsType.clusterQuotaRecommendations:
       result = runClusterQuotaRecommendations(rosType, query);
       break;
-    case RosPathsType.vmRecommendation: {
-      const { id, term, engine } = decodeRosDetailFetchQuery(query);
-      result = runVmRecommendation(rosType, id, term, engine);
+    case RosPathsType.vmRecommendation:
+      result = runVmRecommendation(rosType, query);
       break;
-    }
     case RosPathsType.vmRecommendations:
       result = runVmRecommendations(rosType, query);
       break;

@@ -460,10 +460,34 @@ export function runVmRosReports(reportType: RosType, query: string) {
   return axiosInstance.get<VmRecommendationReport>(`${path}/vm${queryString}`);
 }
 
-export function runVmRosReport(reportType: RosType, id: string, term?: string, engine?: string) {
+export interface VmDetailFetchParams {
+  cluster_uuid: string;
+  namespace: string;
+  vm_name: string;
+  term?: string;
+  engine?: string;
+}
+
+export function encodeVmDetailFetchQuery(params: VmDetailFetchParams): string {
+  const search = new URLSearchParams({
+    cluster_uuid: params.cluster_uuid,
+    namespace: params.namespace,
+    vm_name: params.vm_name,
+    include: 'explanation',
+  });
+  if (params.term) {
+    search.set('term', params.term);
+  }
+  if (params.engine) {
+    search.set('engine', params.engine);
+  }
+  return search.toString();
+}
+
+export function runVmRosReport(reportType: RosType, fetchQuery: string) {
   const path = RosTypePaths[reportType];
-  const queryString = id ? `/vm/detail?vm_name=${encodeURIComponent(id)}&${getDetailQueryParams(term, engine)}` : '';
-  return axiosInstance.get<any>(`${path}${queryString}`);
+  const queryString = fetchQuery ? `?${fetchQuery}` : '';
+  return axiosInstance.get<any>(`${path}/vm/detail${queryString}`);
 }
 
 // --- Snapshot recommendation types ---

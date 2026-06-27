@@ -4,8 +4,8 @@ import { Alert, List, ListItem, PageSection } from '@patternfly/react-core';
 import type { Query } from 'api/queries/query';
 import { parseQuery } from 'api/queries/query';
 import type { VmRecommendationData, VmSizingBlock } from 'api/ros/recommendations';
+import { encodeVmDetailFetchQuery } from 'api/ros/recommendations';
 import { RosPathsType, RosType } from 'api/ros/ros';
-import { encodeRosDetailFetchQuery } from 'api/ros/rosListParams';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React, { useEffect } from 'react';
@@ -262,8 +262,14 @@ const useMapToProps = ({ queryStateName }: VmBreakdownMapProps): VmBreakdownStat
   const location = useLocation();
   const listQueryState = location?.state?.[queryStateName] ?? {};
 
-  const reportQueryString = encodeRosDetailFetchQuery({
-    id: queryFromRoute ? queryFromRoute.id : '',
+  const clusterUuid = (queryFromRoute as any)?.cluster_uuid ?? listQueryState.cluster_uuid;
+  const namespace = (queryFromRoute as any)?.namespace ?? listQueryState.namespace;
+  const vmName = queryFromRoute?.id ?? listQueryState.vm_name;
+
+  const reportQueryString = encodeVmDetailFetchQuery({
+    cluster_uuid: clusterUuid ?? '',
+    namespace: namespace ?? '',
+    vm_name: vmName ?? '',
     term: listQueryState.term,
     engine: listQueryState.engine,
   });
@@ -278,10 +284,10 @@ const useMapToProps = ({ queryStateName }: VmBreakdownMapProps): VmBreakdownStat
   );
 
   useEffect(() => {
-    if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
+    if (!reportError && reportFetchStatus !== FetchStatus.inProgress && clusterUuid && namespace && vmName) {
       dispatch(rosActions.fetchRosReport(reportPathsType, reportType, reportQueryString));
     }
-  }, [reportQueryString]);
+  }, [clusterUuid, dispatch, namespace, vmName, reportError, reportFetchStatus, reportQueryString]);
 
   return {
     breadcrumbLabel: queryFromRoute[breadcrumbLabelKey],
