@@ -1,17 +1,19 @@
 import {
+  runClusterQuotaRosReport as runClusterQuotaRecommendation,
+  runClusterQuotaRosReports as runClusterQuotaRecommendations,
+  runGpuMigRosReports as runGpuMigRecommendations,
+  runGpuTimeslicingRosReports as runGpuTimeslicingRecommendations,
   runNamespaceRosReport as runNamespaceRecommendation,
   runNamespaceRosReports as runNamespaceRecommendations,
   runNodeRosReport as runNodeRecommendation,
   runNodeRosReports as runNodeRecommendations,
   runPvcRosReport as runPvcRecommendation,
   runPvcRosReports as runPvcRecommendations,
+  runQuotaRosReport as runQuotaRecommendation,
+  runQuotaRosReports as runQuotaRecommendations,
   runRosReport as runRecommendation,
   runRosReports as runRecommendations,
   runSnapshotRosReports as runSnapshotRecommendations,
-  runQuotaRosReport as runQuotaRecommendation,
-  runQuotaRosReports as runQuotaRecommendations,
-  runClusterQuotaRosReport as runClusterQuotaRecommendation,
-  runClusterQuotaRosReports as runClusterQuotaRecommendations,
   runVmRosReport as runVmRecommendation,
   runVmRosReports as runVmRecommendations,
 } from './recommendations';
@@ -64,6 +66,12 @@ export function runRosReport(rosPathsType: RosPathsType, rosType: RosType, query
       break;
     case RosPathsType.vmRecommendations:
       result = runVmRecommendations(rosType, query);
+      break;
+    case RosPathsType.gpuMigRecommendations:
+      result = runGpuMigRecommendations(rosType, query);
+      break;
+    case RosPathsType.gpuTimeslicingRecommendations:
+      result = runGpuTimeslicingRecommendations(rosType, query);
       break;
     case RosPathsType.recommendation: {
       const { id, term, engine } = decodeRosDetailFetchQuery(query);

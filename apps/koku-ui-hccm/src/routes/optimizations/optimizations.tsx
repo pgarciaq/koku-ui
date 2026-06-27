@@ -9,6 +9,7 @@ import { withChrome } from 'utils/chrome';
 
 import { ContainerDetails } from './containerDetails';
 import { Efficiency } from './efficiency';
+import { GpuDetails } from './gpuDetails';
 import { NamespaceDetails } from './namespaceDetails';
 import { NodeDetails } from './nodeDetails';
 import { styles } from './optimizations.styles';
@@ -99,6 +100,15 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
                   </TabTitleText>
                 }
               />
+              <Tab
+                eventKey={7}
+                title={
+                  <TabTitleText>
+                    {intl.formatMessage(messages.gpuTitle)}{' '}
+                    <AsyncComponent scope="costManagementRos" module="./OptimizationsGpuBadge" />
+                  </TabTitleText>
+                }
+              />
             </Tabs>
           </div>
         </header>
@@ -111,6 +121,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
         {activeTabKey === 4 && <StorageDetails activeTabKey={4} />}
         {activeTabKey === 5 && <VmDetails activeTabKey={5} />}
         {activeTabKey === 6 && <QuotaDetails activeTabKey={6} />}
+        {activeTabKey === 7 && <GpuDetails activeTabKey={7} />}
       </PageSection>
     </>
   );

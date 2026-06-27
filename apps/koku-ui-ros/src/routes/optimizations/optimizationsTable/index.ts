@@ -7,3 +7,4 @@ export * from './optimizationsSnapshotsTable';
 export * from './optimizationsQuotasTable';
 export * from './optimizationsClusterQuotasTable';
 export * from './optimizationsVmsTable';
+export * from './optimizationsGpuTable';

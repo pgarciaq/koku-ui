@@ -18,6 +18,8 @@ const exposedModules = {
   './OptimizationsBreakdown': './src/fed-modules/optimizationsBreakdownWrapper.tsx',
   './OptimizationsContainersTable': './src/fed-modules/optimizationsContainersTableWrapper.tsx',
   './OptimizationsDetailsTitle': './src/fed-modules/optimizationsDetailsTitleWrapper.tsx',
+  './OptimizationsGpuBadge': './src/fed-modules/optimizationsGpuBadgeWrapper.tsx',
+  './OptimizationsGpuDetails': './src/fed-modules/optimizationsGpuDetailsWrapper.tsx',
   './OptimizationsLink': './src/fed-modules/optimizationsLinkWrapper.tsx',
   './OptimizationsNamespacesBadge': './src/fed-modules/optimizationsNamespacesBadgeWrapper.tsx',
   './OptimizationsNamespacesTable': './src/fed-modules/optimizationsNamespacesTableWrapper.tsx',

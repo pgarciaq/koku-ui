@@ -730,3 +730,81 @@ export function runClusterQuotaRosReport(reportType: RosType, fetchQuery: string
   const queryString = fetchQuery ? `?${fetchQuery}` : '';
   return axiosInstance.get<ClusterQuotaRecommendationDetailResponse>(`${path}/cluster-quota/detail${queryString}`);
 }
+
+// --- GPU MIG recommendation types ---
+
+export interface GPUMIGRecommendationData {
+  cluster_uuid?: string;
+  namespace?: string;
+  workload?: string;
+  container?: string;
+  term?: string;
+  gpu_model?: string;
+  node_name?: string;
+  recommended_gpu_profile?: string;
+  current_gpu_profile?: string;
+  classification?: string;
+  confidence?: number;
+  confidence_level?: number;
+  gpu_idle_state?: string;
+}
+
+export interface GPUMIGListMeta {
+  count: number;
+  limit: number;
+  offset: number;
+  has_next?: boolean;
+  next_cursor?: string;
+  currency?: string;
+  warnings?: string[];
+}
+
+export interface GPUMIGRecommendationReport {
+  meta: GPUMIGListMeta;
+  data: GPUMIGRecommendationData[];
+  warnings?: string[];
+}
+
+export function runGpuMigRosReports(reportType: RosType, query: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = query ? `?${query}` : '';
+  return axiosInstance.get<GPUMIGRecommendationReport>(`${path}/gpu/mig${queryString}`);
+}
+
+// --- GPU Timeslicing recommendation types ---
+
+export interface GPUTimeslicingRecommendationData {
+  cluster_uuid?: string;
+  node?: string;
+  gpu_model?: string;
+  gpu_count?: number;
+  current_replicas?: number;
+  recommended_replicas?: number;
+  estimated_monthly_savings?: MoneyAmount;
+  classification?: string;
+  confidence_level?: number;
+  last_reported?: string;
+  idle_state?: string;
+}
+
+export interface GPUTimeslicingListMeta {
+  count: number;
+  limit: number;
+  offset: number;
+  has_next?: boolean;
+  next_cursor?: string;
+  currency?: string;
+  warnings?: string[];
+}
+
+export interface GPUTimeslicingRecommendationReport {
+  meta: GPUTimeslicingListMeta;
+  data: GPUTimeslicingRecommendationData[];
+  warnings?: string[];
+}
+
+export function runGpuTimeslicingRosReports(reportType: RosType, query: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = query ? `?${query}` : '';
+  return axiosInstance.get<GPUTimeslicingRecommendationReport>(`${path}/gpu/timeslicing${queryString}`);
+}

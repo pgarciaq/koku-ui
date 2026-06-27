@@ -250,6 +250,7 @@ export default defineMessages({
       'cluster {Cluster} ' +
       'container {Container} ' +
       'gcp_project {GCP project} ' +
+      'gpu_model {GPU model} ' +
       'group {Group} ' +
       'idle_state {Idle state} ' +
       'name {Name} ' +
@@ -300,6 +301,101 @@ export default defineMessages({
     defaultMessage: '{value} for {dateRange}',
     description: '{value} for {Jan 1-31}',
     id: 'forDate',
+  },
+  gpuMig: {
+    defaultMessage: 'MIG',
+    description: 'GPU MIG sub-tab label',
+    id: 'gpuMig',
+  },
+  gpuMigColumnClassification: {
+    defaultMessage: 'Classification',
+    description: 'GPU MIG table classification column',
+    id: 'gpuMigColumnClassification',
+  },
+  gpuMigColumnCluster: {
+    defaultMessage: 'Cluster',
+    description: 'GPU MIG table cluster column',
+    id: 'gpuMigColumnCluster',
+  },
+  gpuMigColumnConfidence: {
+    defaultMessage: 'Confidence',
+    description: 'GPU MIG table confidence column',
+    id: 'gpuMigColumnConfidence',
+  },
+  gpuMigColumnContainer: {
+    defaultMessage: 'Container',
+    description: 'GPU MIG table container column',
+    id: 'gpuMigColumnContainer',
+  },
+  gpuMigColumnCurrentProfile: {
+    defaultMessage: 'Current profile',
+    description: 'GPU MIG table current profile column',
+    id: 'gpuMigColumnCurrentProfile',
+  },
+  gpuMigColumnGpuModel: {
+    defaultMessage: 'GPU model',
+    description: 'GPU MIG table GPU model column',
+    id: 'gpuMigColumnGpuModel',
+  },
+  gpuMigColumnNamespace: {
+    defaultMessage: 'Namespace',
+    description: 'GPU MIG table namespace column',
+    id: 'gpuMigColumnNamespace',
+  },
+  gpuMigColumnRecommendedProfile: {
+    defaultMessage: 'Recommended profile',
+    description: 'GPU MIG table recommended profile column',
+    id: 'gpuMigColumnRecommendedProfile',
+  },
+  gpuMigColumnWorkload: {
+    defaultMessage: 'Workload',
+    description: 'GPU MIG table workload column',
+    id: 'gpuMigColumnWorkload',
+  },
+  gpuTimeslicing: {
+    defaultMessage: 'Time-Slicing',
+    description: 'GPU Time-Slicing sub-tab label',
+    id: 'gpuTimeslicing',
+  },
+  gpuTimeslicingColumnClassification: {
+    defaultMessage: 'Classification',
+    description: 'GPU timeslicing table classification column',
+    id: 'gpuTimeslicingColumnClassification',
+  },
+  gpuTimeslicingColumnCluster: {
+    defaultMessage: 'Cluster',
+    description: 'GPU timeslicing table cluster column',
+    id: 'gpuTimeslicingColumnCluster',
+  },
+  gpuTimeslicingColumnCurrentReplicas: {
+    defaultMessage: 'Current replicas',
+    description: 'GPU timeslicing table current replicas column',
+    id: 'gpuTimeslicingColumnCurrentReplicas',
+  },
+  gpuTimeslicingColumnGpuCount: {
+    defaultMessage: 'GPU count',
+    description: 'GPU timeslicing table GPU count column',
+    id: 'gpuTimeslicingColumnGpuCount',
+  },
+  gpuTimeslicingColumnGpuModel: {
+    defaultMessage: 'GPU model',
+    description: 'GPU timeslicing table GPU model column',
+    id: 'gpuTimeslicingColumnGpuModel',
+  },
+  gpuTimeslicingColumnNode: {
+    defaultMessage: 'Node',
+    description: 'GPU timeslicing table node column',
+    id: 'gpuTimeslicingColumnNode',
+  },
+  gpuTimeslicingColumnRecommendedReplicas: {
+    defaultMessage: 'Recommended replicas',
+    description: 'GPU timeslicing table recommended replicas column',
+    id: 'gpuTimeslicingColumnRecommendedReplicas',
+  },
+  gpuTimeslicingColumnSavings: {
+    defaultMessage: 'Estimated monthly savings',
+    description: 'GPU timeslicing table estimated monthly savings column',
+    id: 'gpuTimeslicingColumnSavings',
   },
   kokuAppUrl: {
     defaultMessage: 'https://github.com/project-koku/koku-ui/tree/main/apps/koku-ui-ros',

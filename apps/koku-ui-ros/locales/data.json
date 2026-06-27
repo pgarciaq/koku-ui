@@ -1059,6 +1059,14 @@
               }
             ]
           },
+          "gpu_model": {
+            "value": [
+              {
+                "type": 0,
+                "value": "GPU model"
+              }
+            ]
+          },
           "group": {
             "value": [
               {
@@ -1259,6 +1267,120 @@
       {
         "type": 1,
         "value": "dateRange"
+      }
+    ],
+    "gpuMig": [
+      {
+        "type": 0,
+        "value": "MIG"
+      }
+    ],
+    "gpuMigColumnClassification": [
+      {
+        "type": 0,
+        "value": "Classification"
+      }
+    ],
+    "gpuMigColumnCluster": [
+      {
+        "type": 0,
+        "value": "Cluster"
+      }
+    ],
+    "gpuMigColumnConfidence": [
+      {
+        "type": 0,
+        "value": "Confidence"
+      }
+    ],
+    "gpuMigColumnContainer": [
+      {
+        "type": 0,
+        "value": "Container"
+      }
+    ],
+    "gpuMigColumnCurrentProfile": [
+      {
+        "type": 0,
+        "value": "Current profile"
+      }
+    ],
+    "gpuMigColumnGpuModel": [
+      {
+        "type": 0,
+        "value": "GPU model"
+      }
+    ],
+    "gpuMigColumnNamespace": [
+      {
+        "type": 0,
+        "value": "Namespace"
+      }
+    ],
+    "gpuMigColumnRecommendedProfile": [
+      {
+        "type": 0,
+        "value": "Recommended profile"
+      }
+    ],
+    "gpuMigColumnWorkload": [
+      {
+        "type": 0,
+        "value": "Workload"
+      }
+    ],
+    "gpuTimeslicing": [
+      {
+        "type": 0,
+        "value": "Time-Slicing"
+      }
+    ],
+    "gpuTimeslicingColumnClassification": [
+      {
+        "type": 0,
+        "value": "Classification"
+      }
+    ],
+    "gpuTimeslicingColumnCluster": [
+      {
+        "type": 0,
+        "value": "Cluster"
+      }
+    ],
+    "gpuTimeslicingColumnCurrentReplicas": [
+      {
+        "type": 0,
+        "value": "Current replicas"
+      }
+    ],
+    "gpuTimeslicingColumnGpuCount": [
+      {
+        "type": 0,
+        "value": "GPU count"
+      }
+    ],
+    "gpuTimeslicingColumnGpuModel": [
+      {
+        "type": 0,
+        "value": "GPU model"
+      }
+    ],
+    "gpuTimeslicingColumnNode": [
+      {
+        "type": 0,
+        "value": "Node"
+      }
+    ],
+    "gpuTimeslicingColumnRecommendedReplicas": [
+      {
+        "type": 0,
+        "value": "Recommended replicas"
+      }
+    ],
+    "gpuTimeslicingColumnSavings": [
+      {
+        "type": 0,
+        "value": "Estimated monthly savings"
       }
     ],
     "idleCalloutAction": [

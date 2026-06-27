@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export const OPTIMIZATION_TAB_KEYS = ['efficiency', 'container', 'namespace', 'node', 'storage', 'vm', 'quota'] as const;
+export const OPTIMIZATION_TAB_KEYS = ['efficiency', 'container', 'namespace', 'node', 'storage', 'vm', 'quota', 'gpu'] as const;
 export type OptimizationTabKey = (typeof OPTIMIZATION_TAB_KEYS)[number];
 
 export const TAB_KEY_TO_INDEX: Record<OptimizationTabKey, number> = {
@@ -12,6 +12,7 @@ export const TAB_KEY_TO_INDEX: Record<OptimizationTabKey, number> = {
   storage: 4,
   vm: 5,
   quota: 6,
+  gpu: 7,
 };
 
 const INDEX_TO_TAB_KEY: Record<number, OptimizationTabKey> = {
@@ -22,16 +23,20 @@ const INDEX_TO_TAB_KEY: Record<number, OptimizationTabKey> = {
   4: 'storage',
   5: 'vm',
   6: 'quota',
+  7: 'gpu',
 };
 
 export type StorageSubKey = 'pvc' | 'snapshot';
 export type QuotaSubKey = 'namespace' | 'cluster';
+export type GpuSubKey = 'mig' | 'timeslicing';
 
 export interface UseOptimizationsTabUrlResult {
   activeTab: OptimizationTabKey;
   activeTabKey: number;
+  gpuSub: GpuSubKey;
   quotaSub: QuotaSubKey;
   setActiveTab: (tabIndex: number) => void;
+  setGpuSub: (sub: GpuSubKey) => void;
   setQuotaSub: (sub: QuotaSubKey) => void;
   setStorageSub: (sub: StorageSubKey) => void;
   storageSub: StorageSubKey;
@@ -41,7 +46,7 @@ export function useOptimizationsTabUrl(): UseOptimizationsTabUrlResult {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { activeTabKey, activeTab, storageSub, quotaSub } = useMemo(() => {
+  const { activeTabKey, activeTab, storageSub, quotaSub, gpuSub } = useMemo(() => {
     const params = new URLSearchParams(location.search);
     const tabParam = params.get('tab') as OptimizationTabKey | null;
     const subParam = params.get('sub');
@@ -58,6 +63,7 @@ export function useOptimizationsTabUrl(): UseOptimizationsTabUrlResult {
       activeTab: INDEX_TO_TAB_KEY[tabKey] ?? 'efficiency',
       storageSub: subParam === 'snapshot' ? ('snapshot' as StorageSubKey) : ('pvc' as StorageSubKey),
       quotaSub: subParam === 'cluster' ? ('cluster' as QuotaSubKey) : ('namespace' as QuotaSubKey),
+      gpuSub: subParam === 'timeslicing' ? ('timeslicing' as GpuSubKey) : ('mig' as GpuSubKey),
     };
   }, [location.search, location.state]);
 
@@ -66,15 +72,19 @@ export function useOptimizationsTabUrl(): UseOptimizationsTabUrlResult {
       const tab = INDEX_TO_TAB_KEY[tabIndex] ?? 'efficiency';
       const params = new URLSearchParams(location.search);
       params.set('tab', tab);
-      if (tab !== 'storage' && tab !== 'quota') {
+      if (tab !== 'storage' && tab !== 'quota' && tab !== 'gpu') {
         params.delete('sub');
       } else if (tab === 'storage') {
-        if (!params.get('sub') || params.get('sub') === 'namespace' || params.get('sub') === 'cluster') {
+        if (!params.get('sub') || params.get('sub') === 'namespace' || params.get('sub') === 'cluster' || params.get('sub') === 'mig' || params.get('sub') === 'timeslicing') {
           params.set('sub', 'pvc');
         }
       } else if (tab === 'quota') {
-        if (!params.get('sub') || params.get('sub') === 'pvc' || params.get('sub') === 'snapshot') {
+        if (!params.get('sub') || params.get('sub') === 'pvc' || params.get('sub') === 'snapshot' || params.get('sub') === 'mig' || params.get('sub') === 'timeslicing') {
           params.set('sub', 'namespace');
+        }
+      } else if (tab === 'gpu') {
+        if (!params.get('sub') || params.get('sub') === 'pvc' || params.get('sub') === 'snapshot' || params.get('sub') === 'namespace' || params.get('sub') === 'cluster') {
+          params.set('sub', 'mig');
         }
       }
 
@@ -132,5 +142,25 @@ export function useOptimizationsTabUrl(): UseOptimizationsTabUrlResult {
     [location.pathname, location.search, location.state, navigate]
   );
 
-  return { activeTabKey, activeTab, storageSub, quotaSub, setActiveTab, setStorageSub, setQuotaSub };
+  const setGpuSub = useCallback(
+    (sub: GpuSubKey) => {
+      const params = new URLSearchParams(location.search);
+      params.set('tab', 'gpu');
+      params.set('sub', sub);
+
+      navigate(`${location.pathname}?${params.toString()}`, {
+        replace: true,
+        state: {
+          ...(location.state || {}),
+          efficiencyState: {
+            ...(location?.state?.efficiencyState || {}),
+            activeTabKey: TAB_KEY_TO_INDEX.gpu,
+          },
+        },
+      });
+    },
+    [location.pathname, location.search, location.state, navigate]
+  );
+
+  return { activeTabKey, activeTab, gpuSub, storageSub, quotaSub, setActiveTab, setGpuSub, setStorageSub, setQuotaSub };
 }
