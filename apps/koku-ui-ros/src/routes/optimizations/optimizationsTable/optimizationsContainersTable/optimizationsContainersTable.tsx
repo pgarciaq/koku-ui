@@ -66,6 +66,7 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   const { data: workloadTypes } = useWorkloadTypes();
   const workloadTypeOptions = workloadTypesToSelectOptions(workloadTypes);
 
+  const [cursorPage, setCursorPage] = useState(1);
   const [newLinkState, setNewLinkState] = useState();
   const { query: urlQuery, setQuery: setUrlQuery } = useUrlState({
     baseQuery: optimizationsNamespacesBaseQuery,
@@ -109,7 +110,7 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
     const count = report?.meta?.count ?? 0;
     const limit = report?.meta?.limit ?? query.limit ?? optimizationsNamespacesBaseQuery.limit;
     const offset = report?.meta?.offset ?? query.offset ?? optimizationsNamespacesBaseQuery.offset;
-    const page = Math.trunc(offset / limit + 1);
+    const page = query.after ? cursorPage : Math.trunc(offset / limit + 1);
 
     return (
       <Pagination
@@ -176,23 +177,39 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   };
 
   const handleOnFilterAdded = filter => {
+    setCursorPage(1);
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
     setQuery(newQuery);
   };
 
   const handleOnFilterRemoved = filter => {
+    setCursorPage(1);
     const newQuery = queryUtils.handleOnFilterRemoved(query, filter);
     setQuery(newQuery);
   };
 
   const handleOnPerPageSelect = perPage => {
+    setCursorPage(1);
     const newQuery = queryUtils.handleOnPerPageSelect(query, perPage, true);
     setQuery(newQuery);
   };
 
   const handleOnSetPage = pageNumber => {
-    const newQuery = queryUtils.handleOnSetPage(query, report, pageNumber, true);
-    setQuery(newQuery);
+    const isNextPage = pageNumber === cursorPage + 1;
+    if (isNextPage && report?.meta?.has_next && report?.meta?.next_cursor) {
+      setCursorPage(pageNumber);
+      setQuery(queryUtils.handleOnSetPage(query, report, pageNumber, true));
+    } else {
+      setCursorPage(pageNumber);
+      const limit = report?.meta?.limit ?? query.limit ?? optimizationsNamespacesBaseQuery.limit;
+      const offset = (pageNumber - 1) * limit;
+      setQuery({
+        ...query,
+        after: undefined,
+        offset: pageNumber === 1 ? 0 : offset,
+        limit,
+      });
+    }
   };
 
   const handleOnSort = (sortType, isSortAscending) => {
@@ -201,10 +218,12 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   };
 
   const handleOnTermSelect = (term: string) => {
+    setCursorPage(1);
     setQuery({ ...query, term, offset: 0, after: undefined });
   };
 
   const handleOnEngineSelect = (engine: string) => {
+    setCursorPage(1);
     setQuery({ ...query, engine, offset: 0, after: undefined });
   };
 

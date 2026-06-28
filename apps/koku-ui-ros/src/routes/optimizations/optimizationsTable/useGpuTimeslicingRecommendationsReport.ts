@@ -20,7 +20,7 @@ export const gpuTimeslicingRecommendationsBaseQuery: RosQuery = {
   term: Interval.short_term,
   engine: OptimizationType.cost,
   order_by: {
-    estimated_monthly_savings: 'desc',
+    node_name: 'asc',
   },
 };
 
