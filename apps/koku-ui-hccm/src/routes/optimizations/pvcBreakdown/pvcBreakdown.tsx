@@ -10,7 +10,8 @@ const PvcBreakdown: React.FC = () => {
   return (
     <AsyncComponent
       scope="costManagementRos"
-      module="./PvcBreakdown"
+      module="./OptimizationsBreakdown"
+      type="pvc"
       linkState={{
         ...(location?.state || {}),
         efficiencyState: {

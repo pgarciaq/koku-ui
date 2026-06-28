@@ -4,20 +4,15 @@ import { useLocation } from 'react-router-dom';
 import { routes } from 'routes';
 import { formatPath } from 'utils/paths';
 
-interface VmBreakdownOwnProps {
-  // TBD...
-}
-
-type VmBreakdownProps = VmBreakdownOwnProps;
-
-const VmBreakdown: React.FC<VmBreakdownProps> = () => {
+const VmBreakdown: React.FC = () => {
   const location = useLocation();
 
   return (
     <AsyncComponent
       scope="costManagementRos"
       appName="cost-management-ros"
-      module="./VmBreakdown"
+      module="./OptimizationsBreakdown"
+      type="vm"
       linkState={{
         ...(location?.state || {}),
         detailsState: {

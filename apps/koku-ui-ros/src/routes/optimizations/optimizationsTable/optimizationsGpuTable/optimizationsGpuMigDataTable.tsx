@@ -5,10 +5,12 @@ import type { GPUMIGRecommendationData, GPUMIGRecommendationReport } from 'api/r
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { Link, useLocation } from 'react-router-dom';
 import { DataTable } from 'routes/components/dataTable';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
 
 interface OptimizationsGpuMigDataTableOwnProps {
+  breakdownPath?: string;
   filterBy?: any;
   isLoading?: boolean;
   onSort(value: string, isSortAscending: boolean);
@@ -64,6 +66,7 @@ const formatTerm = (term: string) => {
 };
 
 const OptimizationsGpuMigDataTable: React.FC<OptimizationsGpuMigDataTableProps> = ({
+  breakdownPath,
   filterBy,
   isLoading,
   onSort,
@@ -71,6 +74,7 @@ const OptimizationsGpuMigDataTable: React.FC<OptimizationsGpuMigDataTableProps> 
   report,
 }) => {
   const intl = useIntl();
+  const location = useLocation();
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
 
@@ -99,17 +103,35 @@ const OptimizationsGpuMigDataTable: React.FC<OptimizationsGpuMigDataTableProps> 
 
     const newRows = [];
     report?.data?.map(item => {
-      const clusterLabel = item.cluster_uuid ?? '';
+      const containerName = item.container ?? '—';
+
+      const containerCell = breakdownPath ? (
+        <Link
+          to={breakdownPath}
+          state={{
+            ...(location?.state || {}),
+            gpuMigDetailsState: {
+              cluster_uuid: item.cluster_uuid,
+              namespace: item.namespace,
+              workload: item.workload,
+              container: item.container,
+              gpu_model: item.gpu_model,
+              breadcrumbPath: `${location.pathname}${location.search}`,
+            },
+          }}
+        >
+          {containerName}
+        </Link>
+      ) : (
+        containerName
+      );
 
       newRows.push({
         cells: [
-          {
-            // TODO: Link to GPU detail/breakdown page when one exists
-            value: clusterLabel,
-          },
+          { value: item.cluster_uuid ?? '' },
           { value: item.namespace ?? '—' },
           { value: item.workload ?? '—' },
-          { value: item.container ?? '—' },
+          { value: containerCell },
           { value: item.gpu_model ?? '—' },
           { value: formatTerm(item.term) },
           { value: item.current_gpu_profile ?? '—' },

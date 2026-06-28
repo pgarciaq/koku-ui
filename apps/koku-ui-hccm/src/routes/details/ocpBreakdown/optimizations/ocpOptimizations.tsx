@@ -39,7 +39,8 @@ const OcpOptimizations: React.FC<OcpOptimizationsProps> = () => {
       <CardBody>
         <AsyncComponent
           scope="costManagementRos"
-          module="./OptimizationsOcpBreakdown"
+          module="./OptimizationsBreakdown"
+          type="ocp"
           breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue })}
           breadcrumbPath={formatPath(`${routes.ocpBreakdown.path}${queryString}`)}
           cluster={clusterFilter}

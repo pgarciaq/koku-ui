@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { routes } from 'routes';
 import { formatPath } from 'utils/paths';
 
-const NodeBreakdown: React.FC = () => {
+const GpuMigBreakdown: React.FC = () => {
   const location = useLocation();
 
   return (
@@ -12,19 +12,17 @@ const NodeBreakdown: React.FC = () => {
       scope="costManagementRos"
       appName="cost-management-ros"
       module="./OptimizationsBreakdown"
-      type="node"
+      type="gpu-mig"
       linkState={{
         ...(location?.state || {}),
-        detailsState: {
-          ...(location?.state?.detailsState || {}),
-          breadcrumbPath: formatPath(`${routes.optimizationsNodeBreakdown.path}${location.search}`),
+        gpuMigDetailsState: {
+          ...(location?.state?.gpuMigDetailsState || {}),
+          breadcrumbPath: formatPath(`${routes.optimizations.path}${location.search}`),
         },
-        ocpOptimizationsState: undefined,
       }}
-      projectPath={formatPath(routes.ocpBreakdown.path)}
-      queryStateName="nodeDetailsState"
+      queryStateName="gpuMigDetailsState"
     />
   );
 };
 
-export default NodeBreakdown;
+export default GpuMigBreakdown;

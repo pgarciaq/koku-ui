@@ -63,6 +63,7 @@ const OptimizationsGpuMigTable: React.FC<OptimizationsGpuMigTableProps> = () => 
   const getTable = () => {
     return (
       <OptimizationsGpuMigDataTable
+        breakdownPath="/optimizations/gpu-mig-breakdown"
         filterBy={query.filter_by}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}

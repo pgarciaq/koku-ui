@@ -10,7 +10,8 @@ const QuotaBreakdown: React.FC = () => {
   return (
     <AsyncComponent
       scope="costManagementRos"
-      module="./QuotaBreakdown"
+      module="./OptimizationsBreakdown"
+      type="quota"
       linkState={{
         ...(location?.state || {}),
         efficiencyState: {

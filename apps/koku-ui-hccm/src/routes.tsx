@@ -51,6 +51,12 @@ const VmBreakdown = lazy(
 const ClusterQuotaBreakdown = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/clusterQuotaBreakdown')
 );
+const GpuTimeslicingBreakdown = lazy(
+  () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/gpuTimeslicingBreakdown')
+);
+const GpuMigBreakdown = lazy(
+  () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/gpuMigBreakdown')
+);
 const OptimizationsBreakdown = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/optimizationsBreakdown')
 );
@@ -145,6 +151,14 @@ export const routes = {
   optimizationsClusterQuotaBreakdown: {
     element: userAccess(ClusterQuotaBreakdown),
     path: '/optimizations/cluster-quota-breakdown',
+  },
+  optimizationsGpuTimeslicingBreakdown: {
+    element: userAccess(GpuTimeslicingBreakdown),
+    path: '/optimizations/gpu-timeslicing-breakdown',
+  },
+  optimizationsGpuMigBreakdown: {
+    element: userAccess(GpuMigBreakdown),
+    path: '/optimizations/gpu-mig-breakdown',
   },
   optimizations: {
     element: userAccess(Optimizations),

@@ -4,20 +4,15 @@ import { useLocation } from 'react-router-dom';
 import { routes } from 'routes';
 import { formatPath } from 'utils/paths';
 
-interface NamespaceBreakdownOwnProps {
-  // TBD...
-}
-
-type NamespaceBreakdownProps = NamespaceBreakdownOwnProps;
-
-const NamespaceBreakdown: React.FC<NamespaceBreakdownProps> = () => {
+const NamespaceBreakdown: React.FC = () => {
   const location = useLocation();
 
   return (
     <AsyncComponent
       scope="costManagementRos"
       appName="cost-management-ros"
-      module="./NamespaceBreakdown"
+      module="./OptimizationsBreakdown"
+      type="namespace"
       linkState={{
         ...(location?.state || {}),
         detailsState: {

@@ -5,10 +5,12 @@ import type { GPUTimeslicingRecommendationData, GPUTimeslicingRecommendationRepo
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { Link, useLocation } from 'react-router-dom';
 import { DataTable } from 'routes/components/dataTable';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
 
 interface OptimizationsGpuTimeslicingDataTableOwnProps {
+  breakdownPath?: string;
   filterBy?: any;
   isLoading?: boolean;
   onSort(value: string, isSortAscending: boolean);
@@ -50,6 +52,7 @@ const getSavingsCell = (item: GPUTimeslicingRecommendationData, intl: ReturnType
 };
 
 const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicingDataTableProps> = ({
+  breakdownPath,
   filterBy,
   isLoading,
   onSort,
@@ -57,6 +60,7 @@ const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicing
   report,
 }) => {
   const intl = useIntl();
+  const location = useLocation();
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
 
@@ -85,15 +89,30 @@ const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicing
 
     const newRows = [];
     report?.data?.map(item => {
-      const clusterLabel = item.cluster_uuid ?? '';
+      const nodeName = item.node_name ?? '—';
+
+      const nodeCell = breakdownPath ? (
+        <Link
+          to={breakdownPath}
+          state={{
+            ...(location?.state || {}),
+            gpuTimeslicingDetailsState: {
+              cluster_uuid: item.cluster_uuid,
+              node_name: item.node_name,
+              breadcrumbPath: `${location.pathname}${location.search}`,
+            },
+          }}
+        >
+          {nodeName}
+        </Link>
+      ) : (
+        nodeName
+      );
 
       newRows.push({
         cells: [
-          {
-            // TODO: Link to GPU detail/breakdown page when one exists
-            value: clusterLabel,
-          },
-          { value: item.node_name ?? '—' },
+          { value: item.cluster_uuid ?? '' },
+          { value: nodeCell },
           { value: item.gpu_model ?? '—' },
           { value: item.recommended_replicas != null ? item.recommended_replicas : '—' },
           { value: getSavingsCell(item, intl) },

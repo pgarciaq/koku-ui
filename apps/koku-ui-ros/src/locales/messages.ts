@@ -402,6 +402,26 @@ export default defineMessages({
     description: 'GPU timeslicing table estimated monthly savings column',
     id: 'gpuTimeslicingColumnSavings',
   },
+  gpuTimeslicingCandidateContainers: {
+    defaultMessage: 'Candidate containers',
+    description: 'GPU timeslicing breakdown candidate containers section title',
+    id: 'gpuTimeslicingCandidateContainers',
+  },
+  gpuTimeslicingNoCandidates: {
+    defaultMessage: 'No candidate containers found for this node',
+    description: 'GPU timeslicing breakdown empty candidates message',
+    id: 'gpuTimeslicingNoCandidates',
+  },
+  gpuTimeslicingSmActiveAvg: {
+    defaultMessage: 'SM active avg',
+    description: 'GPU timeslicing breakdown SM active average column',
+    id: 'gpuTimeslicingSmActiveAvg',
+  },
+  gpuMigProfileRecommendations: {
+    defaultMessage: 'MIG profile recommendations by term',
+    description: 'GPU MIG breakdown term table section title',
+    id: 'gpuMigProfileRecommendations',
+  },
   kokuAppUrl: {
     defaultMessage: 'https://github.com/project-koku/koku-ui/tree/main/apps/koku-ui-ros',
     description: 'https://github.com/project-koku/koku-ui/tree/main/apps/koku-ui-ros',

@@ -66,6 +66,7 @@ const OptimizationsGpuTimeslicingTable: React.FC<OptimizationsGpuTimeslicingTabl
   const getTable = () => {
     return (
       <OptimizationsGpuTimeslicingDataTable
+        breakdownPath="/optimizations/gpu-timeslicing-breakdown"
         filterBy={query.filter_by}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}

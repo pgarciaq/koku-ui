@@ -10,7 +10,8 @@ const ClusterQuotaBreakdown: React.FC = () => {
   return (
     <AsyncComponent
       scope="costManagementRos"
-      module="./ClusterQuotaBreakdown"
+      module="./OptimizationsBreakdown"
+      type="cluster-quota"
       linkState={{
         ...(location?.state || {}),
         efficiencyState: {

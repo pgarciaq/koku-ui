@@ -14,7 +14,6 @@ const distDir = path.resolve(__dirname, './dist');
 
 const exposedModules = {
   './OptimizationsBadge': './src/fed-modules/optimizationsBadgeWrapper.tsx',
-  './NamespaceBreakdown': './src/fed-modules/namespaceBreakdownWrapper.tsx',
   './OptimizationsBreakdown': './src/fed-modules/optimizationsBreakdownWrapper.tsx',
   './OptimizationsContainersTable': './src/fed-modules/optimizationsContainersTableWrapper.tsx',
   './OptimizationsDetailsTitle': './src/fed-modules/optimizationsDetailsTitleWrapper.tsx',
@@ -25,19 +24,13 @@ const exposedModules = {
   './OptimizationsNamespacesTable': './src/fed-modules/optimizationsNamespacesTableWrapper.tsx',
   './OptimizationsNodesBadge': './src/fed-modules/optimizationsNodesBadgeWrapper.tsx',
   './OptimizationsNodesTable': './src/fed-modules/optimizationsNodesTableWrapper.tsx',
-  './NodeBreakdown': './src/fed-modules/nodeBreakdownWrapper.tsx',
   './OptimizationsStorageBadge': './src/fed-modules/optimizationsStorageBadgeWrapper.tsx',
   './OptimizationsStorageDetails': './src/fed-modules/optimizationsStorageDetailsWrapper.tsx',
   './OptimizationsQuotaBadge': './src/fed-modules/optimizationsQuotaBadgeWrapper.tsx',
   './OptimizationsQuotaDetails': './src/fed-modules/optimizationsQuotaDetailsWrapper.tsx',
-  './QuotaBreakdown': './src/fed-modules/quotaBreakdownWrapper.tsx',
-  './ClusterQuotaBreakdown': './src/fed-modules/clusterQuotaBreakdownWrapper.tsx',
   './OptimizationsTabSummaryBanner': './src/fed-modules/optimizationsTabSummaryBannerWrapper.tsx',
   './OptimizationsVmsBadge': './src/fed-modules/optimizationsVmsBadgeWrapper.tsx',
   './OptimizationsVmsTable': './src/fed-modules/optimizationsVmsTableWrapper.tsx',
-  './VmBreakdown': './src/fed-modules/vmBreakdownWrapper.tsx',
-  './PvcBreakdown': './src/fed-modules/pvcBreakdownWrapper.tsx',
-  './OptimizationsOcpBreakdown': './src/fed-modules/optimizationsOcpBreakdownWrapper.tsx',
   './OptimizationsProjectsTable': './src/fed-modules/optimizationsProjectsTableWrapper.tsx',
   './OptimizationsSummary': './src/fed-modules/optimizationsSummaryWrapper.tsx',
 };
