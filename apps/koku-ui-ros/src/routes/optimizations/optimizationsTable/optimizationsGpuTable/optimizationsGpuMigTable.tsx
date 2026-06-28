@@ -84,7 +84,6 @@ const OptimizationsGpuMigTable: React.FC<OptimizationsGpuMigTableProps> = () => 
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
-        onEngineSelect={handleOnEngineSelect}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
         onTermSelect={handleOnTermSelect}
@@ -122,10 +121,6 @@ const OptimizationsGpuMigTable: React.FC<OptimizationsGpuMigTableProps> = () => 
 
   const handleOnTermSelect = (term: string) => {
     setQuery({ ...query, term, offset: 0 });
-  };
-
-  const handleOnEngineSelect = (engine: string) => {
-    setQuery({ ...query, engine, offset: 0 });
   };
 
   const itemsTotal = report?.meta ? report.meta.count : 0;
