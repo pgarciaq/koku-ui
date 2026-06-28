@@ -8,11 +8,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** Added GPU Recommendations tab to the Optimizations page with MIG and
+  Time-Slicing sub-views. MIG sub-tab shows container-level MIG profile
+  recommendations (current/recommended profile, classification, confidence).
+  Time-Slicing sub-tab shows node-level GPU time-slicing recommendations
+  (recommended replicas, classification, estimated monthly savings). Both include
+  detail/breakdown pages accessible by clicking a row.
+- **ROS:** Added GPU MIG and GPU Time-Slicing breakdown (detail) pages. MIG
+  breakdown displays all term recommendations for a container's GPU model.
+  Time-Slicing breakdown displays node metadata, classification badge, and a
+  candidate containers table.
 - **ROS:** Added VM (Virtual Machine) tab to the Optimizations page. The new tab displays OpenShift Virtualization VM-level recommendations with columns for VM Name, Namespace, Cluster, Current/Recommended vCPU and Memory, Status badges (idle, abandoned, oversized, power-off candidate), Potential Savings, and Last Reported. Includes term/engine projection toolbar, filtering by cluster/namespace/vm_name/tag, sorting, and cursor-based pagination.
 - **ROS:** Added Namespace tab to the Optimizations page (Phase 1 of the multi-tab architecture). The new tab displays namespace-level recommendations with columns for Namespace, Cluster, Memory/CPU current and change, State, and Last Reported. Includes filtering by cluster and project, sorting on all columns, and pagination with cursor-based navigation.
 
 ### Changed
 
+- **ROS:** Consolidated 9 separate Module Federation breakdown wrappers
+  (`VmBreakdownWrapper`, `NamespaceBreakdownWrapper`, `NodeBreakdownWrapper`,
+  `PvcBreakdownWrapper`, `QuotaBreakdownWrapper`, `ClusterQuotaBreakdownWrapper`,
+  `OptimizationsOcpBreakdownWrapper`, plus new GPU wrappers) into a single
+  `OptimizationsBreakdownWrapper` with a `type` prop that routes to the correct
+  breakdown component via `React.lazy`. Reduces Module Federation surface area
+  and eliminates per-entity exposed modules for breakdowns.
+- **ROS:** Removed stale `onEngineSelect` prop from GPU table components — the
+  prop was passed down but never consumed, causing React warnings.
 - **ROS:** Renamed "Optimizations" tab to "Container" in the Efficiency/Optimizations tabbed view to better reflect that this tab shows container-level recommendations (first step of the multi-tab architecture: Efficiency, Container, Namespace, GPU, Storage, Node, Quota, VM).
 
 ### Fixed
