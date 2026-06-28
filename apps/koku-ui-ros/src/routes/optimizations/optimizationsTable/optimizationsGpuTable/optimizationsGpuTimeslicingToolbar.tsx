@@ -6,6 +6,7 @@ import { injectIntl } from 'react-intl';
 import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { ToolbarChipGroupExt } from 'routes/components/dataToolbar/utils/common';
 import type { Filter } from 'routes/utils/filter';
+import { Interval } from 'utils/commonTypes';
 
 import { OptimizationsProjectionToolbar } from '../optimizationsProjectionToolbar';
 
@@ -13,7 +14,6 @@ interface OptimizationsGpuTimeslicingToolbarOwnProps {
   isDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
-  onEngineSelect?: (value: string) => void;
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
   onTermSelect?: (value: string) => void;
@@ -54,7 +54,6 @@ class OptimizationsGpuTimeslicingToolbarBase extends React.Component<
       isDisabled,
       itemsPerPage,
       itemsTotal,
-      onEngineSelect,
       onFilterAdded,
       onFilterRemoved,
       onTermSelect,
@@ -67,11 +66,15 @@ class OptimizationsGpuTimeslicingToolbarBase extends React.Component<
       <BasicToolbar
         actions={
           <OptimizationsProjectionToolbar
-            engine={query?.engine}
             isDisabled={isDisabled}
-            onEngineSelect={onEngineSelect}
             onTermSelect={onTermSelect}
+            showEngine={false}
             term={query?.term}
+            termOptions={[
+              { label: messages.optimizationsShortTerm, value: Interval.short_term },
+              { label: messages.optimizationsMediumTerm, value: Interval.medium_term },
+              { label: messages.optimizationsLongTerm, value: Interval.long_term },
+            ]}
           />
         }
         categoryOptions={categoryOptions}

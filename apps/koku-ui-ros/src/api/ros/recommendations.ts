@@ -743,7 +743,7 @@ export interface GPUMIGRecommendationData {
   node_name?: string;
   recommended_gpu_profile?: string;
   current_gpu_profile?: string;
-  classification?: string;
+  gpu_classification?: string;
   confidence?: number;
   confidence_level?: number;
   gpu_idle_state?: string;
@@ -775,16 +775,24 @@ export function runGpuMigRosReports(reportType: RosType, query: string) {
 
 export interface GPUTimeslicingRecommendationData {
   cluster_uuid?: string;
-  node?: string;
+  node_name?: string;
   gpu_model?: string;
-  gpu_count?: number;
-  current_replicas?: number;
+  term?: string;
+  recommendation_type?: string;
   recommended_replicas?: number;
   estimated_monthly_savings?: MoneyAmount;
+  savings_per_gpu?: MoneyAmount;
   classification?: string;
+  confidence?: number;
   confidence_level?: number;
-  last_reported?: string;
-  idle_state?: string;
+  candidate_containers?: Array<{
+    namespace?: string;
+    workload?: string;
+    container?: string;
+    sm_active_avg?: number;
+    classification?: string;
+  }>;
+  notification_codes?: number[];
 }
 
 export interface GPUTimeslicingListMeta {

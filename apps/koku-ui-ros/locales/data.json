@@ -1323,6 +1323,12 @@
         "value": "Recommended profile"
       }
     ],
+    "gpuMigColumnTerm": [
+      {
+        "type": 0,
+        "value": "Term"
+      }
+    ],
     "gpuMigColumnWorkload": [
       {
         "type": 0,

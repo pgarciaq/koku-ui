@@ -57,6 +57,13 @@ const getConfidenceLabel = (item: GPUMIGRecommendationData) => {
   );
 };
 
+const formatTerm = (term: string) => {
+  if (!term) {
+    return '—';
+  }
+  return term.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+};
+
 const OptimizationsGpuMigDataTable: React.FC<OptimizationsGpuMigDataTableProps> = ({
   filterBy,
   isLoading,
@@ -85,6 +92,7 @@ const OptimizationsGpuMigDataTable: React.FC<OptimizationsGpuMigDataTableProps> 
       { name: intl.formatMessage(messages.gpuMigColumnWorkload) },
       { name: intl.formatMessage(messages.gpuMigColumnContainer) },
       { name: intl.formatMessage(messages.gpuMigColumnGpuModel) },
+      { name: intl.formatMessage(messages.gpuMigColumnTerm) },
       { name: intl.formatMessage(messages.gpuMigColumnCurrentProfile) },
       { name: intl.formatMessage(messages.gpuMigColumnRecommendedProfile) },
       { name: intl.formatMessage(messages.gpuMigColumnClassification) },
@@ -116,9 +124,10 @@ const OptimizationsGpuMigDataTable: React.FC<OptimizationsGpuMigDataTableProps> 
           { value: item.workload ?? '—' },
           { value: item.container ?? '—' },
           { value: item.gpu_model ?? '—' },
+          { value: formatTerm(item.term) },
           { value: item.current_gpu_profile ?? '—' },
           { value: item.recommended_gpu_profile ?? '—' },
-          { value: getClassificationBadge(item.classification) },
+          { value: getClassificationBadge(item.gpu_classification) },
           { value: getConfidenceLabel(item) },
         ],
       });

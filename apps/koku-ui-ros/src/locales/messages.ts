@@ -347,6 +347,11 @@ export default defineMessages({
     description: 'GPU MIG table recommended profile column',
     id: 'gpuMigColumnRecommendedProfile',
   },
+  gpuMigColumnTerm: {
+    defaultMessage: 'Term',
+    description: 'GPU MIG table term column',
+    id: 'gpuMigColumnTerm',
+  },
   gpuMigColumnWorkload: {
     defaultMessage: 'Workload',
     description: 'GPU MIG table workload column',

@@ -76,8 +76,6 @@ const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicing
       },
       { name: intl.formatMessage(messages.gpuTimeslicingColumnNode) },
       { name: intl.formatMessage(messages.gpuTimeslicingColumnGpuModel) },
-      { name: intl.formatMessage(messages.gpuTimeslicingColumnGpuCount) },
-      { name: intl.formatMessage(messages.gpuTimeslicingColumnCurrentReplicas) },
       { name: intl.formatMessage(messages.gpuTimeslicingColumnRecommendedReplicas) },
       {
         name: intl.formatMessage(messages.gpuTimeslicingColumnSavings),
@@ -108,10 +106,8 @@ const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicing
               clusterLabel
             ),
           },
-          { value: item.node ?? '—' },
+          { value: item.node_name ?? '—' },
           { value: item.gpu_model ?? '—' },
-          { value: item.gpu_count != null ? item.gpu_count : '—' },
-          { value: item.current_replicas != null ? item.current_replicas : '—' },
           { value: item.recommended_replicas != null ? item.recommended_replicas : '—' },
           { value: getSavingsCell(item, intl) },
           { value: getClassificationBadge(item.classification) },
