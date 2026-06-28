@@ -11,7 +11,6 @@ import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noO
 interface OptimizationsGpuTimeslicingDataTableOwnProps {
   filterBy?: any;
   isLoading?: boolean;
-  onFilterAdded?(filter: { key: string; value: string });
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
   report: GPUTimeslicingRecommendationReport;
@@ -53,7 +52,6 @@ const getSavingsCell = (item: GPUTimeslicingRecommendationData, intl: ReturnType
 const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicingDataTableProps> = ({
   filterBy,
   isLoading,
-  onFilterAdded,
   onSort,
   orderBy,
   report,
@@ -92,19 +90,8 @@ const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicing
       newRows.push({
         cells: [
           {
-            value: onFilterAdded ? (
-              <a
-                href="#"
-                onClick={e => {
-                  e.preventDefault();
-                  onFilterAdded({ key: 'cluster', value: clusterLabel });
-                }}
-              >
-                {clusterLabel}
-              </a>
-            ) : (
-              clusterLabel
-            ),
+            // TODO: Link to GPU detail/breakdown page when one exists
+            value: clusterLabel,
           },
           { value: item.node_name ?? '—' },
           { value: item.gpu_model ?? '—' },

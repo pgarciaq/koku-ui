@@ -68,7 +68,6 @@ const OptimizationsGpuTimeslicingTable: React.FC<OptimizationsGpuTimeslicingTabl
       <OptimizationsGpuTimeslicingDataTable
         filterBy={query.filter_by}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
-        onFilterAdded={filter => handleOnFilterAdded(filter)}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         report={report}

@@ -11,7 +11,6 @@ import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noO
 interface OptimizationsGpuMigDataTableOwnProps {
   filterBy?: any;
   isLoading?: boolean;
-  onFilterAdded?(filter: { key: string; value: string });
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
   report: GPUMIGRecommendationReport;
@@ -67,7 +66,6 @@ const formatTerm = (term: string) => {
 const OptimizationsGpuMigDataTable: React.FC<OptimizationsGpuMigDataTableProps> = ({
   filterBy,
   isLoading,
-  onFilterAdded,
   onSort,
   orderBy,
   report,
@@ -106,19 +104,8 @@ const OptimizationsGpuMigDataTable: React.FC<OptimizationsGpuMigDataTableProps> 
       newRows.push({
         cells: [
           {
-            value: onFilterAdded ? (
-              <a
-                href="#"
-                onClick={e => {
-                  e.preventDefault();
-                  onFilterAdded({ key: 'cluster', value: clusterLabel });
-                }}
-              >
-                {clusterLabel}
-              </a>
-            ) : (
-              clusterLabel
-            ),
+            // TODO: Link to GPU detail/breakdown page when one exists
+            value: clusterLabel,
           },
           { value: item.namespace ?? '—' },
           { value: item.workload ?? '—' },
