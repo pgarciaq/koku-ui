@@ -90,28 +90,35 @@ const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicing
     const newRows = [];
     report?.data?.map(item => {
       const nodeName = item.node_name ?? '—';
+      const detailState = {
+        ...(location?.state || {}),
+        gpuTimeslicingDetailsState: {
+          cluster_uuid: item.cluster_uuid,
+          node_name: item.node_name,
+          breadcrumbPath: `${location.pathname}${location.search}`,
+        },
+      };
 
       const nodeCell = breakdownPath ? (
-        <Link
-          to={breakdownPath}
-          state={{
-            ...(location?.state || {}),
-            gpuTimeslicingDetailsState: {
-              cluster_uuid: item.cluster_uuid,
-              node_name: item.node_name,
-              breadcrumbPath: `${location.pathname}${location.search}`,
-            },
-          }}
-        >
+        <Link to={breakdownPath} state={detailState}>
           {nodeName}
         </Link>
       ) : (
         nodeName
       );
 
+      const clusterCell =
+        breakdownPath && item.cluster_uuid ? (
+          <Link to={breakdownPath} state={detailState}>
+            {item.cluster_uuid}
+          </Link>
+        ) : (
+          item.cluster_uuid ?? ''
+        );
+
       newRows.push({
         cells: [
-          { value: item.cluster_uuid ?? '' },
+          { value: clusterCell },
           { value: nodeCell },
           { value: item.gpu_model ?? '—' },
           { value: item.recommended_replicas != null ? item.recommended_replicas : '—' },

@@ -104,31 +104,38 @@ const OptimizationsGpuMigDataTable: React.FC<OptimizationsGpuMigDataTableProps> 
     const newRows = [];
     report?.data?.map(item => {
       const containerName = item.container ?? '—';
+      const detailState = {
+        ...(location?.state || {}),
+        gpuMigDetailsState: {
+          cluster_uuid: item.cluster_uuid,
+          namespace: item.namespace,
+          workload: item.workload,
+          container: item.container,
+          gpu_model: item.gpu_model,
+          breadcrumbPath: `${location.pathname}${location.search}`,
+        },
+      };
 
       const containerCell = breakdownPath ? (
-        <Link
-          to={breakdownPath}
-          state={{
-            ...(location?.state || {}),
-            gpuMigDetailsState: {
-              cluster_uuid: item.cluster_uuid,
-              namespace: item.namespace,
-              workload: item.workload,
-              container: item.container,
-              gpu_model: item.gpu_model,
-              breadcrumbPath: `${location.pathname}${location.search}`,
-            },
-          }}
-        >
+        <Link to={breakdownPath} state={detailState}>
           {containerName}
         </Link>
       ) : (
         containerName
       );
 
+      const clusterCell =
+        breakdownPath && item.cluster_uuid ? (
+          <Link to={breakdownPath} state={detailState}>
+            {item.cluster_uuid}
+          </Link>
+        ) : (
+          item.cluster_uuid ?? ''
+        );
+
       newRows.push({
         cells: [
-          { value: item.cluster_uuid ?? '' },
+          { value: clusterCell },
           { value: item.namespace ?? '—' },
           { value: item.workload ?? '—' },
           { value: containerCell },

@@ -2,7 +2,7 @@ import 'routes/components/dataTable/dataTable.scss';
 
 import type { QuotaRecommendationReport } from 'api/ros/recommendations';
 import messages from 'locales/messages';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { DataTable } from 'routes/components/dataTable';
@@ -42,12 +42,10 @@ const OptimizationsQuotasDataTable: React.FC<OptimizationsQuotasDataTableOwnProp
   report,
 }) => {
   const intl = useIntl();
-  const [columns, setColumns] = useState([]);
-  const [rows, setRows] = useState([]);
 
-  useEffect(() => {
+  const { columns, rows } = useMemo(() => {
     if (!report) {
-      return;
+      return { columns: [], rows: [] };
     }
     const hasData = report?.data && report.data.length > 0;
     const isGrouped = groupBy !== '';
@@ -58,19 +56,19 @@ const OptimizationsQuotasDataTable: React.FC<OptimizationsQuotasDataTableOwnProp
           ? intl.formatMessage(messages.optimizationsNames, { value: 'cluster' })
           : intl.formatMessage(messages.optimizationsNames, { value: 'project' });
 
-      setColumns([
+      const groupColumns = [
         { name: groupLabel },
         { name: intl.formatMessage(messages.storageRecommendationCount) },
         { name: intl.formatMessage(messages.quotaMaxUtilization) },
-      ]);
+      ];
 
-      const newRows = [];
+      const groupRows = [];
       report?.data?.forEach(item => {
         const groupValue = groupBy === 'cluster' ? item.cluster_uuid ?? '' : item.namespace ?? '';
         const filterKey = groupBy === 'cluster' ? 'cluster' : 'project';
         const drillDown = onDrillDownFromGroup && groupValue;
 
-        newRows.push({
+        groupRows.push({
           cells: [
             {
               value: drillDown ? (
@@ -92,11 +90,10 @@ const OptimizationsQuotasDataTable: React.FC<OptimizationsQuotasDataTableOwnProp
           ],
         });
       });
-      setRows(newRows);
-      return;
+      return { columns: groupColumns, rows: groupRows };
     }
 
-    setColumns([
+    const flatColumns = [
       {
         name: intl.formatMessage(messages.quotaName),
         orderBy: 'quota_name',
@@ -126,9 +123,9 @@ const OptimizationsQuotasDataTable: React.FC<OptimizationsQuotasDataTableOwnProp
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'last_reported' }),
       },
-    ]);
+    ];
 
-    const newRows = [];
+    const flatRows = [];
     report?.data?.forEach(item => {
       const quotaName = item.quota_name?.trim() || undefined;
       const rowLabel = quotaName || item.namespace || '';
@@ -148,7 +145,7 @@ const OptimizationsQuotasDataTable: React.FC<OptimizationsQuotasDataTableOwnProp
           : undefined;
       const stateKey = queryStateName ?? 'quotaDetailsState';
 
-      newRows.push({
+      flatRows.push({
         cells: [
           {
             value: breakdownPath ? (
@@ -196,7 +193,7 @@ const OptimizationsQuotasDataTable: React.FC<OptimizationsQuotasDataTableOwnProp
         ],
       });
     });
-    setRows(newRows);
+    return { columns: flatColumns, rows: flatRows };
   }, [breadcrumbLabel, groupBy, intl, linkPath, linkState, onDrillDownFromGroup, onFilterAdded, queryStateName, report]);
 
   if (!isLoading && (!report?.data || report.data.length === 0)) {

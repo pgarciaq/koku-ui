@@ -1,6 +1,6 @@
 import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import messages from 'locales/messages';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { NotAvailable } from 'routes/components/page/notAvailable';
@@ -39,19 +39,25 @@ const OptimizationsQuotasTable: React.FC<OptimizationsQuotasTableOwnProps> = ({
   const intl = useIntl();
   const location = useLocation();
   const [cursorPage, setCursorPage] = useState(1);
+  const [newLinkState, setNewLinkState] = useState();
+
   const { query, setQuery } = useUrlState({
     baseQuery: quotaRecommendationsBaseQuery,
     prefix: 'quota_',
   });
   const { report, reportError, reportFetchStatus } = useQuotaRecommendationsReport({ query });
 
-  const newLinkState = getLinkState({
-    breadcrumbPath,
-    linkState,
-    location,
-    query,
-    queryStateName,
-  });
+  useEffect(() => {
+    setNewLinkState(
+      getLinkState({
+        breadcrumbPath,
+        linkState,
+        location,
+        query,
+        queryStateName,
+      })
+    );
+  }, [query]);
 
   const getPagination = (isDisabled = false, isBottom = false) => {
     const count = report?.meta?.count ?? 0;

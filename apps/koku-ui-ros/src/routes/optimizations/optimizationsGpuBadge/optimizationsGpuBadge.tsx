@@ -9,32 +9,32 @@ export interface OptimizationsGpuBadgeOwnProps {
   cluster?: string | string[];
 }
 
-interface OptimizationsGpuBadgeStateProps {
-  count: number;
-}
-
-const reportPathsType = RosPathsType.gpuMigRecommendations;
 const reportType = RosType.ros;
 
 const OptimizationsGpuBadge: React.FC<OptimizationsGpuBadgeOwnProps> = ({ cluster }) => {
-  const { count } = useMapToProps({ cluster });
   const intl = useIntl();
-
-  if (count <= 0) {
-    return null;
-  }
-
-  return <Badge screenReaderText={intl.formatMessage(messages.optimizationsDetails, { count })}>{count}</Badge>;
-};
-
-const useMapToProps = ({ cluster }: OptimizationsGpuBadgeOwnProps): OptimizationsGpuBadgeStateProps => {
-  const { count } = useRosCount({
+  const { count: migCount } = useRosCount({
     cluster,
-    rosPathsType: reportPathsType,
+    rosPathsType: RosPathsType.gpuMigRecommendations,
+    rosType: reportType,
+  });
+  const { count: timeslicingCount } = useRosCount({
+    cluster,
+    rosPathsType: RosPathsType.gpuTimeslicingRecommendations,
     rosType: reportType,
   });
 
-  return { count };
+  const totalCount = migCount + timeslicingCount;
+
+  if (totalCount <= 0) {
+    return null;
+  }
+
+  return (
+    <Badge screenReaderText={intl.formatMessage(messages.optimizationsDetails, { count: totalCount })}>
+      {totalCount}
+    </Badge>
+  );
 };
 
 export default OptimizationsGpuBadge;
