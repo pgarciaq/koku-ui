@@ -1771,6 +1771,56 @@ export default defineMessages({
     description: 'Legend label for CPU usage p95 overlay line',
     id: 'visualInsightsCpuUsageP95',
   },
+  clusterQuotaGaugeAriaDesc: {
+    defaultMessage: '{resource} utilization as a percentage of the cluster quota hard limit',
+    description: 'Accessible description for a cluster quota utilization donut gauge',
+    id: 'clusterQuotaGaugeAriaDesc',
+  },
+  clusterQuotaGaugeAriaTitle: {
+    defaultMessage: '{resource} Utilization',
+    description: 'Accessible title for a cluster quota utilization donut gauge',
+    id: 'clusterQuotaGaugeAriaTitle',
+  },
+  clusterQuotaGaugeCpuTitle: {
+    defaultMessage: 'CPU',
+    description: 'Label for the CPU cluster quota utilization gauge',
+    id: 'clusterQuotaGaugeCpuTitle',
+  },
+  clusterQuotaGaugeMemoryTitle: {
+    defaultMessage: 'Memory',
+    description: 'Label for the Memory cluster quota utilization gauge',
+    id: 'clusterQuotaGaugeMemoryTitle',
+  },
+  clusterQuotaGaugePodsTitle: {
+    defaultMessage: 'Pods',
+    description: 'Label for the Pods cluster quota utilization gauge',
+    id: 'clusterQuotaGaugePodsTitle',
+  },
+  clusterQuotaGaugeSubtitle: {
+    defaultMessage: '{used} / {hard}',
+    description: 'Subtitle below the cluster quota gauge showing used vs hard limit values',
+    id: 'clusterQuotaGaugeSubtitle',
+  },
+  visualInsightsPvcUtilizationTitle: {
+    defaultMessage: 'PVC Utilization',
+    description: 'Title for the PVC utilization donut gauge',
+    id: 'visualInsightsPvcUtilizationTitle',
+  },
+  visualInsightsPvcUtilizationDesc: {
+    defaultMessage: 'Current PVC usage as a percentage of provisioned capacity',
+    description: 'Accessible description for the PVC utilization donut gauge',
+    id: 'visualInsightsPvcUtilizationDesc',
+  },
+  visualInsightsPvcUtilizationDataAsOf: {
+    defaultMessage: 'Data as of {date}',
+    description: 'Staleness label below the PVC utilization gauge',
+    id: 'visualInsightsPvcUtilizationDataAsOf',
+  },
+  visualInsightsPvcUtilizationUsed: {
+    defaultMessage: '{percent}% used',
+    description: 'Label shown in the center of the PVC utilization donut gauge',
+    id: 'visualInsightsPvcUtilizationUsed',
+  },
   welcomeInfo: {
     defaultMessage: 'For more information visit {url}',
     description: 'more information url',

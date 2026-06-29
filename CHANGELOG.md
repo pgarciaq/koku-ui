@@ -8,6 +8,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** Added Cluster Quota Utilization Gauges to the cluster quota breakdown
+  page (Visual Insights section). Displays up to three `ChartDonutUtilization`
+  donut gauges (CPU, Memory, Pods) showing current usage as a percentage of the
+  hard quota limit. Adapts dynamically to available resources — renders 1, 2, or
+  3 gauges based on which quota limits are set. Includes amber/red color thresholds
+  (default 85%/95%), over-quota handling (>100%), formatted value subtitles, and
+  accessible hidden data tables.
+- **ROS:** Added PVC Utilization Gauge to the PVC breakdown page (Visual Insights
+  section). Displays current PVC usage as a percentage of provisioned capacity
+  using a `ChartDonutUtilization` donut chart with color thresholds (green/amber/red)
+  derived from the backend `near_full_threshold_basis_points` setting. Includes
+  staleness label ("Data as of [date]") and accessible hidden data table.
 - **ROS:** Added PVC storage growth projection line to the PVC breakdown usage
   chart. When the active term has sufficient data, a dashed projection line
   extends from the last historical average usage point, showing projected growth

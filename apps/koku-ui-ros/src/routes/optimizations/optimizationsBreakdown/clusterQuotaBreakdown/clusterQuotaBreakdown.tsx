@@ -24,6 +24,7 @@ import { styles } from '../optimizationsBreakdown.styles';
 import { QuotaBreakdownHistoryCharts } from '../quotaBreakdown/quotaBreakdownHistoryCharts';
 import { ClusterQuotaBreakdownHeader } from './clusterQuotaBreakdownHeader';
 import { ClusterQuotaBreakdownExplanation } from './clusterQuotaBreakdownExplanation';
+import { ClusterQuotaVisualInsightsSection } from './clusterQuotaVisualInsightsSection';
 
 interface ClusterQuotaBreakdownOwnProps {
   linkState?: any;
@@ -88,6 +89,14 @@ const ClusterQuotaBreakdown: React.FC<ClusterQuotaBreakdownOwnProps> = ({ linkSt
             recommended={detail.quota_recommended}
             title={intl.formatMessage(messages.quotaResourceBreakdown)}
             used={detail.quota_used}
+          />
+        </div>
+        <div style={{ marginBottom: 24 }}>
+          <ClusterQuotaVisualInsightsSection
+            explanation={detail.explanation}
+            quotaHard={detail.quota_hard}
+            quotaUsed={detail.quota_used}
+            utilization={detail.utilization}
           />
         </div>
         <QuotaBreakdownHistoryCharts history={detail.history} />
