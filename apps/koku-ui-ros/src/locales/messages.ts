@@ -954,6 +954,16 @@ export default defineMessages({
     description: 'PVC usage history chart caption',
     id: 'pvcUsageHistoryCaption',
   },
+  pvcProjectionLine: {
+    defaultMessage: 'Projected usage',
+    description: 'PVC usage chart projection line legend label',
+    id: 'pvcProjectionLine',
+  },
+  pvcProjectionExhaustionDate: {
+    defaultMessage: 'Projected full: {date}',
+    description: 'PVC usage chart annotation for projected capacity exhaustion date',
+    id: 'pvcProjectionExhaustionDate',
+  },
   pvcClassificationReason: {
     defaultMessage: 'Classification reason',
     description: 'PVC explanation classification reason label',

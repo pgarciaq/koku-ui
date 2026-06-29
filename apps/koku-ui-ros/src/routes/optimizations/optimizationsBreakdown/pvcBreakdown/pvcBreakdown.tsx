@@ -27,6 +27,7 @@ import { PvcBreakdownExplanation } from './pvcBreakdownExplanation';
 import { PvcBreakdownHeader } from './pvcBreakdownHeader';
 import { PvcBreakdownTermCards } from './pvcBreakdownTermCards';
 import { PvcBreakdownUsageChart } from './pvcBreakdownUsageChart';
+import { getPvcTrendDisplayState } from './pvcTrendUtils';
 
 interface PvcBreakdownOwnProps {
   linkState?: any;
@@ -107,7 +108,15 @@ const PvcBreakdown: React.FC<PvcBreakdownOwnProps> = ({ linkState, queryStateNam
           <PvcBreakdownTermCards activeTermKey={activeTermKey} terms={detail.terms} />
         </div>
         <div style={{ marginBottom: 24 }}>
-          <PvcBreakdownUsageChart historicalUsage={detail.historical_usage} />
+          <PvcBreakdownUsageChart
+            daysToFull={termRec?.days_to_full}
+            growthBytesPerDay={termRec?.growth_bytes_per_day}
+            historicalUsage={detail.historical_usage}
+            showProjection={
+              !!termRec &&
+              getPvcTrendDisplayState(termRec, activeTermKey as RecommendationTermName) === 'projected'
+            }
+          />
         </div>
         <PvcBreakdownExplanation termName={activeTermKey as RecommendationTermName} termRec={termRec} />
       </PageSection>

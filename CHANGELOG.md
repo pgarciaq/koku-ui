@@ -8,6 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** Added PVC storage growth projection line to the PVC breakdown usage
+  chart. When the active term has sufficient data, a dashed projection line
+  extends from the last historical average usage point, showing projected growth
+  based on `growth_bytes_per_day`. Includes an exhaustion date tooltip when
+  `days_to_full` is within the 90-day projection horizon.
 - **ROS:** Added GPU Recommendations tab to the Optimizations page with MIG and
   Time-Slicing sub-views. MIG sub-tab shows container-level MIG profile
   recommendations (current/recommended profile, classification, confidence).
