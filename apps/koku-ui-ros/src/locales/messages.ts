@@ -547,8 +547,7 @@ export default defineMessages({
     id: 'optimizationsDetails',
   },
   optimizationsTabSummaryCount: {
-    defaultMessage:
-      '{count, plural, =0 {No recommendations} =1 {1 recommendation} other {{count} recommendations}}',
+    defaultMessage: '{count, plural, =0 {No recommendations} =1 {1 recommendation} other {{count} recommendations}}',
     description: 'Summary banner when savings are unavailable',
     id: 'optimizationsTabSummaryCount',
   },
@@ -1502,7 +1501,8 @@ export default defineMessages({
     id: 'replicaValues',
   },
   replicaNoDataTooltip: {
-    defaultMessage: 'Not reported by the metrics operator. This value may be managed by an HPA or not available for this workload.',
+    defaultMessage:
+      'Not reported by the metrics operator. This value may be managed by an HPA or not available for this workload.',
     description: 'Tooltip shown when a replica value is null',
     id: 'replicaNoDataTooltip',
   },
@@ -1715,6 +1715,51 @@ export default defineMessages({
     defaultMessage: 'VM classification flags',
     description: 'Alert title for VM metadata classification flags on breakdown page',
     id: 'vmMetadataFlagsTitle',
+  },
+  visualInsights: {
+    defaultMessage: 'Visual Insights',
+    description: 'Visual Insights section title',
+    id: 'visualInsights',
+  },
+  visualInsightsOomTimeline: {
+    defaultMessage: 'OOM Event Timeline',
+    description: 'OOM Event Timeline chart title',
+    id: 'visualInsightsOomTimeline',
+  },
+  visualInsightsOomTimelineEmpty: {
+    defaultMessage: 'No OOM events detected in this period',
+    description: 'Empty state for OOM timeline chart',
+    id: 'visualInsightsOomTimelineEmpty',
+  },
+  visualInsightsOomTimelineTooltip: {
+    defaultMessage: '{date}: {count, plural, one {{count} OOM kill} other {{count} OOM kills}}',
+    description: 'Tooltip for OOM timeline scatter point',
+    id: 'visualInsightsOomTimelineTooltip',
+  },
+  visualInsightsCpuThrottleTrend: {
+    defaultMessage: 'CPU Throttle Trend',
+    description: 'CPU Throttle Trend chart title',
+    id: 'visualInsightsCpuThrottleTrend',
+  },
+  visualInsightsCpuThrottleEmpty: {
+    defaultMessage: 'No CPU throttling detected',
+    description: 'Empty state for CPU throttle chart',
+    id: 'visualInsightsCpuThrottleEmpty',
+  },
+  visualInsightsCpuThrottleP95: {
+    defaultMessage: 'Throttle (p95)',
+    description: 'Legend label for CPU throttle p95 area',
+    id: 'visualInsightsCpuThrottleP95',
+  },
+  visualInsightsCpuThrottleMax: {
+    defaultMessage: 'Throttle (max)',
+    description: 'Legend label for CPU throttle max line',
+    id: 'visualInsightsCpuThrottleMax',
+  },
+  visualInsightsCpuUsageP95: {
+    defaultMessage: 'CPU Usage (p95)',
+    description: 'Legend label for CPU usage p95 overlay line',
+    id: 'visualInsightsCpuUsageP95',
   },
   welcomeInfo: {
     defaultMessage: 'For more information visit {url}',

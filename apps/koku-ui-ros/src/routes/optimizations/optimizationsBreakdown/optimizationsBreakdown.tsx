@@ -29,6 +29,7 @@ import { OptimizationsBreakdownExplanation } from './optimizationsBreakdownExpla
 import { OptimizationsBreakdownHeader } from './optimizationsBreakdownHeader';
 import { OptimizationsBreakdownUtilization } from './optimizationsBreakdownUtilization';
 import { useBreakdownProjection } from './useBreakdownProjection';
+import { VisualInsightsSection } from './visualInsights';
 
 interface OptimizationsBreakdownOwnProps {
   linkState?: any;
@@ -60,6 +61,7 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
     queryStateName,
   });
   const { term, engine } = useBreakdownProjection(queryStateName);
+  const queryFromRoute = useQueryFromRoute();
   const intl = useIntl();
 
   const getIdleCallout = () => {
@@ -80,7 +82,9 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
               <ListItem>{intl.formatMessage(messages.idleCalloutAction, { action: idleRec.action })}</ListItem>
             )}
             {idleRec?.confidence && (
-              <ListItem>{intl.formatMessage(messages.idleCalloutConfidence, { confidence: idleRec.confidence })}</ListItem>
+              <ListItem>
+                {intl.formatMessage(messages.idleCalloutConfidence, { confidence: idleRec.confidence })}
+              </ListItem>
             )}
             {idleRec?.reason && (
               <ListItem>{intl.formatMessage(messages.idleCalloutReason, { reason: idleRec.reason })}</ListItem>
@@ -132,6 +136,7 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
     const recommendationTerm = getRecommendationTerm(report?.recommendations, term);
     const plotsData = recommendationTerm?.plots?.plots_data;
     const recommendationEngine = recommendationTerm?.recommendation_engines?.[engine];
+    const recommendationId = queryFromRoute?.id as string;
 
     return (
       <>
@@ -150,6 +155,11 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
           </div>
         )}
         <OptimizationsBreakdownExplanation explanation={recommendationEngine?.explanation} />
+        {recommendationId && (
+          <div style={styles.utilizationContainer}>
+            <VisualInsightsSection plotsData={plotsData} recommendationId={recommendationId} />
+          </div>
+        )}
       </>
     );
   };

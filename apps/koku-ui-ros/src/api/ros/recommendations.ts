@@ -816,3 +816,28 @@ export function runGpuTimeslicingRosReports(reportType: RosType, query: string) 
   const queryString = query ? `?${query}` : '';
   return axiosInstance.get<GPUTimeslicingRecommendationReport>(`${path}/gpu/timeslicing${queryString}`);
 }
+
+// --- OOM Timeline types ---
+
+export interface OomTimelineEntry {
+  date: string;
+  oom_kill_count: number;
+}
+
+export interface OomTimelineMeta {
+  count: number;
+  container_id: string;
+  start_date: string;
+  end_date: string;
+}
+
+export interface OomTimelineResponse {
+  meta: OomTimelineMeta;
+  data: OomTimelineEntry[];
+}
+
+export function fetchOomTimeline(recommendationId: string) {
+  return axiosInstance.get<OomTimelineResponse>(
+    `recommendations/openshift/containers/${recommendationId}/oom-timeline`
+  );
+}
