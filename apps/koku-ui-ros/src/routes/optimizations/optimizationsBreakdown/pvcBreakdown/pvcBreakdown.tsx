@@ -28,6 +28,7 @@ import { PvcBreakdownHeader } from './pvcBreakdownHeader';
 import { PvcBreakdownTermCards } from './pvcBreakdownTermCards';
 import { PvcBreakdownUsageChart } from './pvcBreakdownUsageChart';
 import { getPvcTrendDisplayState } from './pvcTrendUtils';
+import { PvcVisualInsightsSection } from './pvcVisualInsightsSection';
 
 interface PvcBreakdownOwnProps {
   linkState?: any;
@@ -107,6 +108,23 @@ const PvcBreakdown: React.FC<PvcBreakdownOwnProps> = ({ linkState, queryStateNam
         <div style={{ marginBottom: 24 }}>
           <PvcBreakdownTermCards activeTermKey={activeTermKey} terms={detail.terms} />
         </div>
+        {detail.historical_usage?.length > 0 && (() => {
+          const lastPoint = detail.historical_usage[detail.historical_usage.length - 1];
+          const hasValidData = lastPoint.usage_bytes_max != null && lastPoint.capacity_bytes != null && lastPoint.capacity_bytes > 0;
+          if (!hasValidData) {
+            return null;
+          }
+          return (
+            <div style={{ marginBottom: 24 }}>
+              <PvcVisualInsightsSection
+                capacityBytes={lastPoint.capacity_bytes}
+                lastDate={lastPoint.date}
+                nearFullThresholdBp={termRec?.explanation?.near_full_threshold_basis_points}
+                usageBytesMax={lastPoint.usage_bytes_max}
+              />
+            </div>
+          );
+        })()}
         <div style={{ marginBottom: 24 }}>
           <PvcBreakdownUsageChart
             daysToFull={termRec?.days_to_full}
