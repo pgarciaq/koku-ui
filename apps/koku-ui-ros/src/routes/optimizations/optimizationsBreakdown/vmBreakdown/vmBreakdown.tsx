@@ -22,6 +22,7 @@ import { breadcrumbLabelKey } from 'utils/props';
 
 import { styles } from '../optimizationsBreakdown.styles';
 import { useBreakdownProjection } from '../useBreakdownProjection';
+import { VmVisualInsightsSection } from './visualInsights';
 import { VmBreakdownHeader } from './vmBreakdownHeader';
 
 interface VmBreakdownOwnProps {
@@ -90,6 +91,9 @@ const VmBreakdown: React.FC<VmBreakdownProps> = ({ linkState, queryStateName }) 
       <div style={{ padding: '16px 0' }}>
         <VmSizingTable current={current} recommended={recommended} intl={intl} />
         <VmMetadataFlags report={report} intl={intl} />
+        <div style={{ marginTop: 24 }}>
+          <VmVisualInsightsSection dailyDigests={report?.daily_digests} />
+        </div>
       </div>
     );
   };

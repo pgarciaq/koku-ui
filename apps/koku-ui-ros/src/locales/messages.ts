@@ -1861,6 +1861,46 @@ export default defineMessages({
     description: 'Accessible table header for snapshot count in the age distribution chart',
     id: 'visualInsightsSnapshotAgeDistributionCountHeader',
   },
+  visualInsightsVmDiskIo: {
+    defaultMessage: 'Disk I/O Trends',
+    description: 'Title for the VM disk I/O visual insights section',
+    id: 'visualInsightsVmDiskIo',
+  },
+  visualInsightsVmIopsTitle: {
+    defaultMessage: 'IOPS (p95)',
+    description: 'Title for the IOPS sparkline chart',
+    id: 'visualInsightsVmIopsTitle',
+  },
+  visualInsightsVmIopsDesc: {
+    defaultMessage: 'Daily p95 disk read and write IOPS over the observation period',
+    description: 'Accessible description for the IOPS sparkline chart',
+    id: 'visualInsightsVmIopsDesc',
+  },
+  visualInsightsVmThroughputTitle: {
+    defaultMessage: 'Throughput (p95)',
+    description: 'Title for the throughput sparkline chart',
+    id: 'visualInsightsVmThroughputTitle',
+  },
+  visualInsightsVmThroughputDesc: {
+    defaultMessage: 'Daily p95 disk read and write throughput over the observation period',
+    description: 'Accessible description for the throughput sparkline chart',
+    id: 'visualInsightsVmThroughputDesc',
+  },
+  visualInsightsVmIoRead: {
+    defaultMessage: 'Read',
+    description: 'Legend label for disk read series in I/O sparklines',
+    id: 'visualInsightsVmIoRead',
+  },
+  visualInsightsVmIoWrite: {
+    defaultMessage: 'Write',
+    description: 'Legend label for disk write series in I/O sparklines',
+    id: 'visualInsightsVmIoWrite',
+  },
+  visualInsightsVmIoEmpty: {
+    defaultMessage: 'No I/O data available for this period',
+    description: 'Empty state when all VM I/O values are null or zero',
+    id: 'visualInsightsVmIoEmpty',
+  },
   welcomeInfo: {
     defaultMessage: 'For more information visit {url}',
     description: 'more information url',

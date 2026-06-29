@@ -426,6 +426,23 @@ export interface VmRecMetadata {
   preference_class?: string;
 }
 
+export interface VmDailyDigestItem {
+  bucket_date: string;
+  cpu_usage_p95_mc: number;
+  mem_usage_p95_kib: number;
+  sample_count: number;
+  cpu_usage_p50_mc?: number;
+  cpu_usage_p99_mc?: number;
+  cpu_usage_max_mc?: number;
+  mem_usage_p50_kib?: number;
+  mem_usage_p99_kib?: number;
+  mem_usage_max_kib?: number;
+  disk_read_iops_p95?: number | null;
+  disk_write_iops_p95?: number | null;
+  disk_read_bps_p95?: number | null;
+  disk_write_bps_p95?: number | null;
+}
+
 export interface VmRecommendationData {
   id?: string;
   vm_name?: string;
@@ -438,6 +455,7 @@ export interface VmRecommendationData {
   estimated_monthly_savings?: MoneyAmount;
   last_recommended_at?: string;
   notifications?: any[];
+  daily_digests?: VmDailyDigestItem[];
 }
 
 export interface VmRecommendationReport {
