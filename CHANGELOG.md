@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** Added Snapshot Age Distribution Histogram to the snapshot list page
+  (Visual Insights section). Displays a bar chart of volume snapshot counts grouped
+  by age buckets (<7 days, 7-30 days, 30-90 days, 90+ days) using PatternFly Charts.
+  Includes color-coded bars (green/amber/orange/red), accessible hidden data table,
+  loading and error states, and i18n support.
+  ([Issue #15](https://github.com/pgarciaq/ros-ocp-backend/issues/15))
 - **ROS:** Added Cluster Quota Utilization Gauges to the cluster quota breakdown
   page (Visual Insights section). Displays up to three `ChartDonutUtilization`
   donut gauges (CPU, Memory, Pods) showing current usage as a percentage of the

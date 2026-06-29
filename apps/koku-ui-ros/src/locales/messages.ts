@@ -1821,6 +1821,46 @@ export default defineMessages({
     description: 'Label shown in the center of the PVC utilization donut gauge',
     id: 'visualInsightsPvcUtilizationUsed',
   },
+  visualInsightsSnapshotAgeDistribution: {
+    defaultMessage: 'Snapshot Age Distribution',
+    description: 'Title for the snapshot age distribution histogram chart',
+    id: 'visualInsightsSnapshotAgeDistribution',
+  },
+  visualInsightsSnapshotAgeDistributionDesc: {
+    defaultMessage: 'Distribution of volume snapshots by age in days',
+    description: 'Accessible description for the snapshot age distribution chart',
+    id: 'visualInsightsSnapshotAgeDistributionDesc',
+  },
+  visualInsightsSnapshotAgeDistributionEmpty: {
+    defaultMessage: 'No snapshot data available',
+    description: 'Empty state when no snapshots exist for the age distribution chart',
+    id: 'visualInsightsSnapshotAgeDistributionEmpty',
+  },
+  visualInsightsSnapshotAgeDistributionError: {
+    defaultMessage: 'Unable to load snapshot age distribution',
+    description: 'Error state when the snapshot age distribution API call fails',
+    id: 'visualInsightsSnapshotAgeDistributionError',
+  },
+  visualInsightsSnapshotAgeDistributionTooltip: {
+    defaultMessage: '{label}: {count, plural, one {{count} snapshot} other {{count} snapshots}}',
+    description: 'Tooltip for a bar in the snapshot age distribution chart',
+    id: 'visualInsightsSnapshotAgeDistributionTooltip',
+  },
+  visualInsightsSnapshotAgeDistributionYAxis: {
+    defaultMessage: 'Snapshot Count',
+    description: 'Y-axis label for the snapshot age distribution chart',
+    id: 'visualInsightsSnapshotAgeDistributionYAxis',
+  },
+  visualInsightsSnapshotAgeDistributionBucketHeader: {
+    defaultMessage: 'Age Range',
+    description: 'Accessible table header for age bucket labels in the snapshot age distribution chart',
+    id: 'visualInsightsSnapshotAgeDistributionBucketHeader',
+  },
+  visualInsightsSnapshotAgeDistributionCountHeader: {
+    defaultMessage: 'Count',
+    description: 'Accessible table header for snapshot count in the age distribution chart',
+    id: 'visualInsightsSnapshotAgeDistributionCountHeader',
+  },
   welcomeInfo: {
     defaultMessage: 'For more information visit {url}',
     description: 'more information url',

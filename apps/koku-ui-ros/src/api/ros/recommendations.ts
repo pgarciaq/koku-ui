@@ -841,3 +841,28 @@ export function fetchOomTimeline(recommendationId: string) {
     `recommendations/openshift/containers/${recommendationId}/oom-timeline`
   );
 }
+
+// --- Snapshot Age Distribution types ---
+
+export interface SnapshotAgeBucket {
+  label: string;
+  min_days: number;
+  max_days: number | null;
+  count: number;
+}
+
+export interface SnapshotAgeDistributionResponse {
+  buckets: SnapshotAgeBucket[];
+  total: number;
+}
+
+export function fetchSnapshotAgeDistribution(bucketBoundaries?: string) {
+  const params: Record<string, string> = {};
+  if (bucketBoundaries) {
+    params.bucket_boundaries = bucketBoundaries;
+  }
+  return axiosInstance.get<SnapshotAgeDistributionResponse>(
+    'recommendations/openshift/snapshots/age-distribution',
+    { params }
+  );
+}

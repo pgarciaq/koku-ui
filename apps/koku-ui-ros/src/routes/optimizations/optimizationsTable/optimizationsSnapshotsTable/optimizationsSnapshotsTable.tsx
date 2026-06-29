@@ -21,6 +21,7 @@ import {
 import { getStorageGroupBy, type StorageGroupBy } from '../storageTableUtils';
 import { OptimizationsSnapshotsDataTable } from './optimizationsSnapshotsDataTable';
 import { OptimizationsSnapshotsToolbar } from './optimizationsSnapshotsToolbar';
+import { SnapshotAgeDistributionChart } from './snapshotAgeDistributionChart';
 import { SnapshotDetailModal } from './snapshotDetailModal';
 
 const OptimizationsSnapshotsTable: React.FC = () => {
@@ -171,6 +172,7 @@ const OptimizationsSnapshotsTable: React.FC = () => {
   return (
     <>
       <OptimizationsTabSummaryBanner plugin="snapshot" variant="waste" />
+      <SnapshotAgeDistributionChart />
       <OptimizationsSnapshotsToolbar
         groupBy={storageGroupBy}
         isDisabled={isDisabled}
