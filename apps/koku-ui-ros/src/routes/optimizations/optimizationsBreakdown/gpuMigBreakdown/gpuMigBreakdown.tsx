@@ -198,7 +198,13 @@ const GpuMigBreakdown: React.FC<GpuMigBreakdownProps> = ({ linkState, queryState
         ) : (
           <>
             {getTermsTable()}
-            <GpuVisualInsightsSection fbUsageMaxMib={first?.fb_usage_max_mib} totalFbMib={first?.total_fb_mib} />
+            <GpuVisualInsightsSection
+              dramActiveAvg={first?.dram_active_avg}
+              fbUsageMaxMib={first?.fb_usage_max_mib}
+              smActiveAvg={first?.sm_active_avg}
+              tensorPipeActiveAvg={first?.tensor_pipe_active_avg}
+              totalFbMib={first?.total_fb_mib}
+            />
           </>
         )}
       </PageSection>

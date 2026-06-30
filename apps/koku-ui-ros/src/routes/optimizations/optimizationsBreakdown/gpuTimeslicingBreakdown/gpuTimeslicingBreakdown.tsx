@@ -204,8 +204,11 @@ const GpuTimeslicingBreakdown: React.FC<GpuTimeslicingBreakdownProps> = ({ linkS
           <>
             {getCandidateContainersTable()}
             <GpuVisualInsightsSection
-              fbUsageMaxMib={(item as any)?.fb_usage_max_mib}
-              totalFbMib={(item as any)?.total_fb_mib}
+              dramActiveAvg={item?.dram_active_avg}
+              fbUsageMaxMib={item?.fb_usage_max_mib}
+              smActiveAvg={item?.sm_active_avg}
+              tensorPipeActiveAvg={item?.tensor_pipe_active_avg}
+              totalFbMib={item?.total_fb_mib}
             />
           </>
         )}
