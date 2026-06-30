@@ -1986,6 +1986,41 @@ export default defineMessages({
     description: 'Empty state when all VM I/O values are null or zero',
     id: 'visualInsightsVmIoEmpty',
   },
+  visualInsightsVmCpuTrendTitle: {
+    defaultMessage: 'CPU Utilization Trend',
+    description: 'Title for the VM CPU utilization trend line chart',
+    id: 'visualInsightsVmCpuTrendTitle',
+  },
+  visualInsightsVmCpuTrendDesc: {
+    defaultMessage: 'Daily p95 CPU usage in cores with recommended threshold over the observation window',
+    description: 'Accessible description for the VM CPU utilization trend chart',
+    id: 'visualInsightsVmCpuTrendDesc',
+  },
+  visualInsightsVmMemoryTrendTitle: {
+    defaultMessage: 'Memory Utilization Trend',
+    description: 'Title for the VM memory utilization trend line chart',
+    id: 'visualInsightsVmMemoryTrendTitle',
+  },
+  visualInsightsVmMemoryTrendDesc: {
+    defaultMessage: 'Daily p95 memory usage in GiB with recommended threshold over the observation window',
+    description: 'Accessible description for the VM memory utilization trend chart',
+    id: 'visualInsightsVmMemoryTrendDesc',
+  },
+  visualInsightsVmTrendP95Usage: {
+    defaultMessage: 'P95 usage',
+    description: 'Legend label for p95 usage trend line in VM utilization charts',
+    id: 'visualInsightsVmTrendP95Usage',
+  },
+  visualInsightsVmTrendRecommended: {
+    defaultMessage: 'Recommended',
+    description: 'Legend label for recommended threshold reference line in VM utilization charts',
+    id: 'visualInsightsVmTrendRecommended',
+  },
+  visualInsightsVmUtilizationTrends: {
+    defaultMessage: 'Utilization Trends',
+    description: 'Section title for the VM CPU and memory utilization trend charts',
+    id: 'visualInsightsVmUtilizationTrends',
+  },
   welcomeInfo: {
     defaultMessage: 'For more information visit {url}',
     description: 'more information url',

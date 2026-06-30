@@ -6,6 +6,7 @@ import { useIntl } from 'react-intl';
 
 import { VmIoSparkline } from './vmIoSparkline';
 import { VmSizingChart } from './vmSizingChart';
+import { VmUtilizationTrendChart } from './vmUtilizationTrendChart';
 
 interface VmVisualInsightsSectionProps {
   current?: VmSizingBlock;
@@ -44,9 +45,19 @@ const VmVisualInsightsSection: React.FC<VmVisualInsightsSectionProps> = ({
     );
   }, [current, recommended]);
 
-  if (!hasAnyIoData && !hasSizingData) {
+  const hasUtilizationData = useMemo(() => {
+    if (!dailyDigests || dailyDigests.length === 0) {
+      return false;
+    }
+    return dailyDigests.some(d => d.cpu_usage_p95_mc != null || d.mem_usage_p95_kib != null);
+  }, [dailyDigests]);
+
+  if (!hasAnyIoData && !hasSizingData && !hasUtilizationData) {
     return null;
   }
+
+  const cpuRecommendedMc = recommended?.vcpu != null ? recommended.vcpu * 1000 : null;
+  const memRecommendedKib = recommended?.memory_gib != null ? recommended.memory_gib * 1024 * 1024 : null;
 
   return (
     <Card>
@@ -85,6 +96,41 @@ const VmVisualInsightsSection: React.FC<VmVisualInsightsSectionProps> = ({
                 </StackItem>
                 <StackItem>
                   <VmIoSparkline dailyDigests={dailyDigests} />
+                </StackItem>
+              </Stack>
+            </GridItem>
+          )}
+          {hasUtilizationData && (
+            <GridItem sm={12}>
+              <Stack hasGutter>
+                <StackItem>
+                  <Title headingLevel="h3" size="md">
+                    {intl.formatMessage(messages.visualInsightsVmUtilizationTrends)}
+                  </Title>
+                </StackItem>
+                <StackItem>
+                  <Grid hasGutter>
+                    <GridItem md={6} sm={12}>
+                      <Title headingLevel="h4" size="sm">
+                        {intl.formatMessage(messages.visualInsightsVmCpuTrendTitle)}
+                      </Title>
+                      <VmUtilizationTrendChart
+                        dailyDigests={dailyDigests}
+                        metricKey="cpu"
+                        recommendedValue={cpuRecommendedMc}
+                      />
+                    </GridItem>
+                    <GridItem md={6} sm={12}>
+                      <Title headingLevel="h4" size="sm">
+                        {intl.formatMessage(messages.visualInsightsVmMemoryTrendTitle)}
+                      </Title>
+                      <VmUtilizationTrendChart
+                        dailyDigests={dailyDigests}
+                        metricKey="memory"
+                        recommendedValue={memRecommendedKib}
+                      />
+                    </GridItem>
+                  </Grid>
                 </StackItem>
               </Stack>
             </GridItem>
