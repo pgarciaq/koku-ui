@@ -2072,6 +2072,41 @@ export default defineMessages({
     description: 'Legend label for recommended threshold reference line in VM utilization charts',
     id: 'visualInsightsVmTrendRecommended',
   },
+  visualInsightsNodeCpuTrendTitle: {
+    defaultMessage: 'CPU Utilization Trend',
+    description: 'Title for the node CPU utilization trend chart',
+    id: 'visualInsightsNodeCpuTrendTitle',
+  },
+  visualInsightsNodeCpuTrendDesc: {
+    defaultMessage: 'Daily CPU utilization as a percentage of allocatable capacity over the selected date range',
+    description: 'Accessible description for the node CPU utilization trend chart',
+    id: 'visualInsightsNodeCpuTrendDesc',
+  },
+  visualInsightsNodeMemoryTrendTitle: {
+    defaultMessage: 'Memory Utilization Trend',
+    description: 'Title for the node memory utilization trend chart',
+    id: 'visualInsightsNodeMemoryTrendTitle',
+  },
+  visualInsightsNodeMemoryTrendDesc: {
+    defaultMessage: 'Daily memory utilization as a percentage of allocatable capacity over the selected date range',
+    description: 'Accessible description for the node memory utilization trend chart',
+    id: 'visualInsightsNodeMemoryTrendDesc',
+  },
+  visualInsightsNodeTrendP95: {
+    defaultMessage: 'P95 utilization',
+    description: 'Legend label for P95 utilization line in node trend charts',
+    id: 'visualInsightsNodeTrendP95',
+  },
+  visualInsightsNodeTrendP50: {
+    defaultMessage: 'P50 utilization',
+    description: 'Legend label for P50 (median) utilization line in node trend charts',
+    id: 'visualInsightsNodeTrendP50',
+  },
+  visualInsightsNodeTrendThreshold: {
+    defaultMessage: 'Consolidation threshold',
+    description: 'Legend label for the consolidation threshold horizontal line in node trend charts',
+    id: 'visualInsightsNodeTrendThreshold',
+  },
   visualInsightsVmUtilizationTrends: {
     defaultMessage: 'Utilization Trends',
     description: 'Section title for the VM CPU and memory utilization trend charts',

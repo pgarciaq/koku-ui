@@ -248,6 +248,17 @@ export interface NodeRecommendationData {
     medium_term?: NodeRecommendationTerm;
     long_term?: NodeRecommendationTerm;
   };
+  daily_digests?: NodeDailyDigestItem[];
+}
+
+export interface NodeDailyDigestItem {
+  bucket_date: string;
+  cpu_usage_p50_mc: number;
+  cpu_usage_p95_mc: number;
+  mem_usage_p50_kib: number;
+  mem_usage_p95_kib: number;
+  max_cpu_allocatable_mc: number;
+  max_mem_allocatable_kib: number;
 }
 
 export interface NodeRecommendationReport {
