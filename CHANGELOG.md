@@ -8,6 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** VM Resource Sizing bar chart in the Visual Insights section of the VM
+  breakdown page. Displays a grouped bar chart comparing current vs recommended
+  vCPU and memory (GiB) allocation, with value labels on each bar, legend, and
+  an estimated monthly savings callout when savings data is available.
+  ([Issue #7](https://github.com/pgarciaq/ros-ocp-backend/issues/7))
 - **ROS:** Business-hours utilization overlay on container and namespace breakdown
   charts. When the backend provides `business_hours_plots`, an orange dashed P50
   line and translucent P50-P95 area band are rendered on top of the existing

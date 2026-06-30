@@ -1,16 +1,25 @@
-import { Card, CardBody, CardTitle, Title } from '@patternfly/react-core';
-import type { VmDailyDigestItem } from 'api/ros/recommendations';
+import { Card, CardBody, CardTitle, Grid, GridItem, Stack, StackItem, Title } from '@patternfly/react-core';
+import type { MoneyAmount, VmDailyDigestItem, VmRecommendedSizing, VmSizingBlock } from 'api/ros/recommendations';
 import messages from 'locales/messages';
 import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
 
 import { VmIoSparkline } from './vmIoSparkline';
+import { VmSizingChart } from './vmSizingChart';
 
 interface VmVisualInsightsSectionProps {
+  current?: VmSizingBlock;
   dailyDigests?: VmDailyDigestItem[];
+  estimatedMonthlySavings?: MoneyAmount;
+  recommended?: VmRecommendedSizing;
 }
 
-const VmVisualInsightsSection: React.FC<VmVisualInsightsSectionProps> = ({ dailyDigests }) => {
+const VmVisualInsightsSection: React.FC<VmVisualInsightsSectionProps> = ({
+  current,
+  dailyDigests,
+  estimatedMonthlySavings,
+  recommended,
+}) => {
   const intl = useIntl();
 
   const hasAnyIoData = useMemo(() => {
@@ -26,7 +35,16 @@ const VmVisualInsightsSection: React.FC<VmVisualInsightsSectionProps> = ({ daily
     );
   }, [dailyDigests]);
 
-  if (!hasAnyIoData) {
+  const hasSizingData = useMemo(() => {
+    return (
+      current?.vcpu != null &&
+      current?.memory_gib != null &&
+      recommended?.vcpu != null &&
+      recommended?.memory_gib != null
+    );
+  }, [current, recommended]);
+
+  if (!hasAnyIoData && !hasSizingData) {
     return null;
   }
 
@@ -38,10 +56,40 @@ const VmVisualInsightsSection: React.FC<VmVisualInsightsSectionProps> = ({ daily
         </Title>
       </CardTitle>
       <CardBody>
-        <Title headingLevel="h3" size="md">
-          {intl.formatMessage(messages.visualInsightsVmDiskIo)}
-        </Title>
-        <VmIoSparkline dailyDigests={dailyDigests} />
+        <Grid hasGutter>
+          {hasSizingData && (
+            <GridItem md={6} sm={12}>
+              <Stack hasGutter>
+                <StackItem>
+                  <Title headingLevel="h3" size="md">
+                    {intl.formatMessage(messages.visualInsightsVmSizingTitle)}
+                  </Title>
+                </StackItem>
+                <StackItem>
+                  <VmSizingChart
+                    current={current}
+                    recommended={recommended}
+                    estimatedMonthlySavings={estimatedMonthlySavings}
+                  />
+                </StackItem>
+              </Stack>
+            </GridItem>
+          )}
+          {hasAnyIoData && (
+            <GridItem md={hasSizingData ? 6 : 12} sm={12}>
+              <Stack hasGutter>
+                <StackItem>
+                  <Title headingLevel="h3" size="md">
+                    {intl.formatMessage(messages.visualInsightsVmDiskIo)}
+                  </Title>
+                </StackItem>
+                <StackItem>
+                  <VmIoSparkline dailyDigests={dailyDigests} />
+                </StackItem>
+              </Stack>
+            </GridItem>
+          )}
+        </Grid>
       </CardBody>
     </Card>
   );

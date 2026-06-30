@@ -92,7 +92,12 @@ const VmBreakdown: React.FC<VmBreakdownProps> = ({ linkState, queryStateName }) 
         <VmSizingTable current={current} recommended={recommended} intl={intl} />
         <VmMetadataFlags report={report} intl={intl} />
         <div style={{ marginTop: 24 }}>
-          <VmVisualInsightsSection dailyDigests={report?.daily_digests} />
+          <VmVisualInsightsSection
+            current={current}
+            dailyDigests={report?.daily_digests}
+            estimatedMonthlySavings={report?.estimated_monthly_savings}
+            recommended={recommended}
+          />
         </div>
       </div>
     );

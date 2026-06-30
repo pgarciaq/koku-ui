@@ -1921,6 +1921,36 @@ export default defineMessages({
     description: 'Title for the VM disk I/O visual insights section',
     id: 'visualInsightsVmDiskIo',
   },
+  visualInsightsVmSizingTitle: {
+    defaultMessage: 'VM Resource Sizing',
+    description: 'Title for the VM resource sizing grouped bar chart',
+    id: 'visualInsightsVmSizingTitle',
+  },
+  visualInsightsVmSizingDesc: {
+    defaultMessage: 'Comparison of current vs recommended vCPU and memory allocation',
+    description: 'Accessible description for the VM resource sizing chart',
+    id: 'visualInsightsVmSizingDesc',
+  },
+  visualInsightsVmSizingVcpu: {
+    defaultMessage: 'vCPU',
+    description: 'X-axis group label for vCPU in the VM sizing chart',
+    id: 'visualInsightsVmSizingVcpu',
+  },
+  visualInsightsVmSizingMemoryGib: {
+    defaultMessage: 'Memory GiB',
+    description: 'X-axis group label for memory in the VM sizing chart',
+    id: 'visualInsightsVmSizingMemoryGib',
+  },
+  visualInsightsVmSizingResourceMetric: {
+    defaultMessage: 'Resource Metric',
+    description: 'X-axis label for the VM resource sizing chart',
+    id: 'visualInsightsVmSizingResourceMetric',
+  },
+  visualInsightsVmSizingSavings: {
+    defaultMessage: 'Estimated monthly savings: {amount} ({percent}% reduction)',
+    description: 'Savings callout below the VM resource sizing chart',
+    id: 'visualInsightsVmSizingSavings',
+  },
   visualInsightsVmIopsTitle: {
     defaultMessage: 'IOPS (p95)',
     description: 'Title for the IOPS sparkline chart',
