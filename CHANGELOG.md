@@ -8,6 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** GPU VRAM Utilization gauge on the MIG breakdown page. Displays a
+  `ChartDonutUtilization` donut chart showing peak VRAM usage (`fb_usage_max_mib`)
+  as a percentage of total VRAM capacity (`total_fb_mib` from the GPU catalog).
+  Color thresholds at 85% (amber) and 95% (red). Not rendered when the GPU model
+  is unrecognized (null capacity). Integrated via a reusable `GpuVisualInsightsSection`
+  component that can also be used on the timeslicing breakdown page when VRAM data
+  becomes available.
+  ([Issue #21](https://github.com/pgarciaq/ros-ocp-backend/issues/21))
 - **ROS:** VM Resource Sizing bar chart in the Visual Insights section of the VM
   breakdown page. Displays a grouped bar chart comparing current vs recommended
   vCPU and memory (GiB) allocation, with value labels on each bar, legend, and

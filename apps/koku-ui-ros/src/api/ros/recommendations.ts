@@ -767,6 +767,8 @@ export interface GPUMIGRecommendationData {
   gpu_classification?: string;
   confidence?: number;
   confidence_level?: number;
+  fb_usage_max_mib?: number;
+  total_fb_mib?: number;
   gpu_idle_state?: string;
 }
 

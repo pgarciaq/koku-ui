@@ -17,6 +17,7 @@ import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import { breadcrumbLabelKey } from 'utils/props';
 
+import { GpuVisualInsightsSection } from '../gpuVisualInsights';
 import { styles as headerStyles } from '../optimizationsBreakdownHeader.styles';
 import { styles } from '../optimizationsBreakdown.styles';
 
@@ -195,7 +196,10 @@ const GpuMigBreakdown: React.FC<GpuMigBreakdownProps> = ({ linkState, queryState
             heading={intl.formatMessage(messages.optimizationsLoadingStateTitle)}
           />
         ) : (
-          getTermsTable()
+          <>
+            {getTermsTable()}
+            <GpuVisualInsightsSection fbUsageMaxMib={first?.fb_usage_max_mib} totalFbMib={first?.total_fb_mib} />
+          </>
         )}
       </PageSection>
     </>

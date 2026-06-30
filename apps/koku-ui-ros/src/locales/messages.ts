@@ -2021,6 +2021,31 @@ export default defineMessages({
     description: 'Section title for the VM CPU and memory utilization trend charts',
     id: 'visualInsightsVmUtilizationTrends',
   },
+  visualInsightsVramUtilizationTitle: {
+    defaultMessage: 'VRAM Utilization',
+    description: 'Title for the GPU VRAM utilization donut gauge',
+    id: 'visualInsightsVramUtilizationTitle',
+  },
+  visualInsightsVramUtilizationDesc: {
+    defaultMessage: 'Peak GPU frame buffer usage as a percentage of total VRAM capacity',
+    description: 'Accessible description for the GPU VRAM utilization donut gauge',
+    id: 'visualInsightsVramUtilizationDesc',
+  },
+  visualInsightsVramUtilizationUsed: {
+    defaultMessage: '{percent}% used',
+    description: 'Label shown in the center of the VRAM utilization donut gauge',
+    id: 'visualInsightsVramUtilizationUsed',
+  },
+  visualInsightsVramUtilizationSubtitle: {
+    defaultMessage: '{usage} / {capacity} MiB',
+    description: 'Subtitle below the VRAM utilization gauge showing usage vs capacity',
+    id: 'visualInsightsVramUtilizationSubtitle',
+  },
+  visualInsightsGpuSectionTitle: {
+    defaultMessage: 'Visual Insights',
+    description: 'Section title for GPU visual insights section on breakdown pages',
+    id: 'visualInsightsGpuSectionTitle',
+  },
   welcomeInfo: {
     defaultMessage: 'For more information visit {url}',
     description: 'more information url',

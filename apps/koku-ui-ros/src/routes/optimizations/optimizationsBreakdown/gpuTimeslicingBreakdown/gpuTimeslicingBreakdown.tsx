@@ -17,6 +17,7 @@ import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import { breadcrumbLabelKey } from 'utils/props';
 
+import { GpuVisualInsightsSection } from '../gpuVisualInsights';
 import { styles as headerStyles } from '../optimizationsBreakdownHeader.styles';
 import { styles } from '../optimizationsBreakdown.styles';
 
@@ -200,7 +201,13 @@ const GpuTimeslicingBreakdown: React.FC<GpuTimeslicingBreakdownProps> = ({ linkS
         ) : !item ? (
           <Alert isInline variant="info" title={intl.formatMessage(messages.optimizationsNoRecommendations)} />
         ) : (
-          getCandidateContainersTable()
+          <>
+            {getCandidateContainersTable()}
+            <GpuVisualInsightsSection
+              fbUsageMaxMib={(item as any)?.fb_usage_max_mib}
+              totalFbMib={(item as any)?.total_fb_mib}
+            />
+          </>
         )}
       </PageSection>
     </>
