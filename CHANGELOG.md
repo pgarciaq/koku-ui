@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** Added Snapshot Cost by Type donut chart to the snapshot list page
+  (Visual Insights section). Displays a PatternFly `ChartDonut` showing proportional
+  breakdown of snapshot storage costs by recommendation type (orphaned, stale, active,
+  etc.). Includes color coding per type, formatted USD cost in center, legend with
+  cost values, tooltip with count, and empty state handling.
+  ([Issue #19](https://github.com/pgarciaq/ros-ocp-backend/issues/19))
 - **ROS:** Added Node Pod Scheduling Headroom Gauge to the node breakdown page
   (Visual Insights section). Displays current pod count as a percentage of node
   pod capacity using a `ChartDonutUtilization` donut chart with color thresholds

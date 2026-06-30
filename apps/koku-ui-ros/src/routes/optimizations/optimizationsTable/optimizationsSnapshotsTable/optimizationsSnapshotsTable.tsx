@@ -22,6 +22,7 @@ import { getStorageGroupBy, type StorageGroupBy } from '../storageTableUtils';
 import { OptimizationsSnapshotsDataTable } from './optimizationsSnapshotsDataTable';
 import { OptimizationsSnapshotsToolbar } from './optimizationsSnapshotsToolbar';
 import { SnapshotAgeDistributionChart } from './snapshotAgeDistributionChart';
+import { SnapshotCostByTypeChart } from './snapshotCostByTypeChart';
 import { SnapshotDetailModal } from './snapshotDetailModal';
 
 const OptimizationsSnapshotsTable: React.FC = () => {
@@ -172,7 +173,14 @@ const OptimizationsSnapshotsTable: React.FC = () => {
   return (
     <>
       <OptimizationsTabSummaryBanner plugin="snapshot" variant="waste" />
-      <SnapshotAgeDistributionChart />
+      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+        <div style={{ flex: '1 1 400px' }}>
+          <SnapshotAgeDistributionChart />
+        </div>
+        <div style={{ flex: '1 1 400px' }}>
+          <SnapshotCostByTypeChart />
+        </div>
+      </div>
       <OptimizationsSnapshotsToolbar
         groupBy={storageGroupBy}
         isDisabled={isDisabled}

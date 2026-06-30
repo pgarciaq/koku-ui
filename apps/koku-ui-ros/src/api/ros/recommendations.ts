@@ -884,3 +884,21 @@ export function fetchSnapshotAgeDistribution(bucketBoundaries?: string) {
     { params }
   );
 }
+
+// --- Snapshot Cost by Type types ---
+
+export interface SnapshotCostByTypeItem {
+  recommendation_type: string;
+  total_cost_cents: number;
+  count: number;
+}
+
+export interface SnapshotCostByTypeResponse {
+  data: SnapshotCostByTypeItem[];
+}
+
+export function fetchSnapshotCostByType() {
+  return axiosInstance.get<SnapshotCostByTypeResponse>(
+    'recommendations/openshift/snapshots/cost-by-type'
+  );
+}

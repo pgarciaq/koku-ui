@@ -1881,6 +1881,31 @@ export default defineMessages({
     description: 'Accessible table header for snapshot count in the age distribution chart',
     id: 'visualInsightsSnapshotAgeDistributionCountHeader',
   },
+  visualInsightsSnapshotCostByType: {
+    defaultMessage: 'Snapshot Cost by Type',
+    description: 'Title for the snapshot cost-by-type donut chart',
+    id: 'visualInsightsSnapshotCostByType',
+  },
+  visualInsightsSnapshotCostByTypeDesc: {
+    defaultMessage: 'Proportional breakdown of snapshot storage cost by recommendation type',
+    description: 'Accessible description for the snapshot cost-by-type donut chart',
+    id: 'visualInsightsSnapshotCostByTypeDesc',
+  },
+  visualInsightsSnapshotCostByTypeEmpty: {
+    defaultMessage: 'No snapshot cost data available',
+    description: 'Empty state when no snapshot cost data exists',
+    id: 'visualInsightsSnapshotCostByTypeEmpty',
+  },
+  visualInsightsSnapshotCostByTypeError: {
+    defaultMessage: 'Unable to load snapshot cost data',
+    description: 'Error state when the snapshot cost-by-type API call fails',
+    id: 'visualInsightsSnapshotCostByTypeError',
+  },
+  visualInsightsSnapshotCostByTypeTooltip: {
+    defaultMessage: '{type}: {cost} ({count, plural, one {{count} snapshot} other {{count} snapshots}})',
+    description: 'Tooltip for a segment in the snapshot cost-by-type donut chart',
+    id: 'visualInsightsSnapshotCostByTypeTooltip',
+  },
   visualInsightsVmDiskIo: {
     defaultMessage: 'Disk I/O Trends',
     description: 'Title for the VM disk I/O visual insights section',
