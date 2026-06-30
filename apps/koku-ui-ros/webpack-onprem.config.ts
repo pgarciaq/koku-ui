@@ -13,6 +13,7 @@ const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './dist');
 
 const exposedModules = {
+  './FleetHeatmap': './src/fed-modules/fleetHeatmapWrapper.tsx',
   './FleetSummaryCards': './src/fed-modules/fleetSummaryCardsWrapper.tsx',
   './OptimizationsBadge': './src/fed-modules/optimizationsBadgeWrapper.tsx',
   './OptimizationsBreakdown': './src/fed-modules/optimizationsBreakdownWrapper.tsx',

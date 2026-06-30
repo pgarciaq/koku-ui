@@ -347,6 +347,91 @@ export default defineMessages({
     description: 'Fleet summary card title for total containers',
     id: 'fleetSummaryTotalContainers',
   },
+  fleetHeatmapTitle: {
+    defaultMessage: 'Node fleet utilization',
+    description: 'Fleet heatmap section title',
+    id: 'fleetHeatmapTitle',
+  },
+  fleetHeatmapBandIdle: {
+    defaultMessage: 'Idle',
+    description: 'Fleet heatmap band label for idle nodes',
+    id: 'fleetHeatmapBandIdle',
+  },
+  fleetHeatmapBandLow: {
+    defaultMessage: 'Low',
+    description: 'Fleet heatmap band label for low utilization',
+    id: 'fleetHeatmapBandLow',
+  },
+  fleetHeatmapBandModerate: {
+    defaultMessage: 'Moderate',
+    description: 'Fleet heatmap band label for moderate utilization',
+    id: 'fleetHeatmapBandModerate',
+  },
+  fleetHeatmapBandHealthy: {
+    defaultMessage: 'Healthy',
+    description: 'Fleet heatmap band label for healthy utilization',
+    id: 'fleetHeatmapBandHealthy',
+  },
+  fleetHeatmapBandHot: {
+    defaultMessage: 'Hot',
+    description: 'Fleet heatmap band label for hot utilization',
+    id: 'fleetHeatmapBandHot',
+  },
+  fleetHeatmapMetricCpu: {
+    defaultMessage: 'CPU utilization',
+    description: 'Fleet heatmap metric toggle label for CPU',
+    id: 'fleetHeatmapMetricCpu',
+  },
+  fleetHeatmapMetricMemory: {
+    defaultMessage: 'Memory utilization',
+    description: 'Fleet heatmap metric toggle label for memory',
+    id: 'fleetHeatmapMetricMemory',
+  },
+  fleetHeatmapMetricToggleLabel: {
+    defaultMessage: 'Select utilization metric',
+    description: 'Aria label for the metric toggle group',
+    id: 'fleetHeatmapMetricToggleLabel',
+  },
+  fleetHeatmapTooltip: {
+    defaultMessage: '{node} — {utilization} ({band})\nMachineSet: {machineSet}\nInstance: {instanceType}',
+    description: 'Tooltip content for a heatmap cell',
+    id: 'fleetHeatmapTooltip',
+  },
+  fleetHeatmapUngrouped: {
+    defaultMessage: 'Ungrouped',
+    description: 'Label for nodes without a MachineSet',
+    id: 'fleetHeatmapUngrouped',
+  },
+  fleetHeatmapNoData: {
+    defaultMessage: 'No node data available',
+    description: 'Fleet heatmap empty state title',
+    id: 'fleetHeatmapNoData',
+  },
+  fleetHeatmapNoDataDesc: {
+    defaultMessage: 'Node utilization data has not been collected yet. Data will appear after the operator reports node metrics.',
+    description: 'Fleet heatmap empty state description',
+    id: 'fleetHeatmapNoDataDesc',
+  },
+  fleetHeatmapShowAll: {
+    defaultMessage: 'Show all {count} nodes',
+    description: 'Link to show all nodes in the heatmap',
+    id: 'fleetHeatmapShowAll',
+  },
+  fleetHeatmapShowTop: {
+    defaultMessage: 'Show top {count} nodes',
+    description: 'Link to show only the top N nodes in the heatmap',
+    id: 'fleetHeatmapShowTop',
+  },
+  fleetHeatmapLegendLabel: {
+    defaultMessage: 'Utilization band legend',
+    description: 'Aria label for the heatmap legend',
+    id: 'fleetHeatmapLegendLabel',
+  },
+  fleetHeatmapAccessibilityCaption: {
+    defaultMessage: 'Node fleet utilization data',
+    description: 'Screen reader caption for the accessible heatmap data table',
+    id: 'fleetHeatmapAccessibilityCaption',
+  },
   forDate: {
     defaultMessage: '{value} for {dateRange}',
     description: '{value} for {Jan 1-31}',

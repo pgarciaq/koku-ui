@@ -8,6 +8,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** Node Fleet Utilization Heatmap on the Efficiency tab. Renders all nodes
+  as colored cells grouped by MachineSet, with each cell colored by utilization band
+  (idle/low/moderate/healthy/hot). Includes CPU/Memory metric toggle, clickable cells
+  linking to node breakdown, legend, screen-reader accessible data table, and "Show all"
+  toggle for fleets with >100 nodes. Data fetched from the new backend
+  `GET /recommendations/openshift/fleet-heatmap` endpoint.
+  ([Issue #24](https://github.com/pgarciaq/ros-ocp-backend/issues/24))
 - **ROS:** GPU Subsystem Utilization radar chart on MIG and timeslicing GPU
   breakdown pages. Renders a 4-axis polar area chart (Victory `VictoryChart` polar
   + `VictoryArea` + `VictoryPolarAxis`) showing SM Activity, Tensor Core Activity,
