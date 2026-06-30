@@ -1821,6 +1821,26 @@ export default defineMessages({
     description: 'Label shown in the center of the PVC utilization donut gauge',
     id: 'visualInsightsPvcUtilizationUsed',
   },
+  visualInsightsNodePodHeadroomTitle: {
+    defaultMessage: 'Pod Scheduling Headroom',
+    description: 'Title for the node pod scheduling headroom donut gauge',
+    id: 'visualInsightsNodePodHeadroomTitle',
+  },
+  visualInsightsNodePodHeadroomDesc: {
+    defaultMessage: 'Current pod count as a percentage of node pod capacity',
+    description: 'Accessible description for the node pod scheduling headroom donut gauge',
+    id: 'visualInsightsNodePodHeadroomDesc',
+  },
+  visualInsightsNodePodHeadroomScheduled: {
+    defaultMessage: '{percent}% scheduled',
+    description: 'Label shown in the center of the node pod headroom donut gauge',
+    id: 'visualInsightsNodePodHeadroomScheduled',
+  },
+  visualInsightsNodePodHeadroomDataAsOf: {
+    defaultMessage: 'Data as of {date}',
+    description: 'Staleness label below the node pod headroom gauge',
+    id: 'visualInsightsNodePodHeadroomDataAsOf',
+  },
   visualInsightsSnapshotAgeDistribution: {
     defaultMessage: 'Snapshot Age Distribution',
     description: 'Title for the snapshot age distribution histogram chart',

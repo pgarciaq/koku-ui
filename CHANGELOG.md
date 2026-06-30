@@ -8,6 +8,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** Added Node Pod Scheduling Headroom Gauge to the node breakdown page
+  (Visual Insights section). Displays current pod count as a percentage of node
+  pod capacity using a `ChartDonutUtilization` donut chart with color thresholds
+  (amber at 80%, red at 90%). Includes staleness label when `last_reported` is
+  available, accessible hidden data table, and over-capacity handling (caps visual
+  at 100% but displays actual percentage).
+  ([Issue #100](https://github.com/pgarciaq/ros-ocp-backend/issues/100))
 - **ROS:** Added Snapshot Age Distribution Histogram to the snapshot list page
   (Visual Insights section). Displays a bar chart of volume snapshot counts grouped
   by age buckets (<7 days, 7-30 days, 30-90 days, 90+ days) using PatternFly Charts.

@@ -25,6 +25,7 @@ import { useBreakdownProjection } from '../useBreakdownProjection';
 import { NodeBreakdownExplanation } from './nodeBreakdownExplanation';
 import { NodeBreakdownHeader } from './nodeBreakdownHeader';
 import { NodeBreakdownUtilization } from './nodeBreakdownUtilization';
+import { NodeVisualInsightsSection } from './nodeVisualInsightsSection';
 
 interface NodeBreakdownOwnProps {
   linkState?: any;
@@ -105,6 +106,15 @@ const NodeBreakdown: React.FC<NodeBreakdownProps> = ({ linkState, queryStateName
         <div style={{ marginBottom: 24 }}>
           <NodeBreakdownUtilization metrics={report?.metrics} />
         </div>
+        {report?.pod_capacity > 0 && (
+          <div style={{ marginBottom: 24 }}>
+            <NodeVisualInsightsSection
+              lastReported={(report as any)?.last_reported}
+              podCapacity={report.pod_capacity}
+              podCount={report?.pod_count ?? 0}
+            />
+          </div>
+        )}
         <NodeEngineDetails engine={recommendationEngine} intl={intl} />
         <div style={{ marginTop: 16 }}>
           <NodeBreakdownExplanation explanation={recommendationEngine.explanation} />
