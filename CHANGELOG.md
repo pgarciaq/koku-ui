@@ -75,6 +75,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   candidate containers table.
 - **ROS:** Added VM (Virtual Machine) tab to the Optimizations page. The new tab displays OpenShift Virtualization VM-level recommendations with columns for VM Name, Namespace, Cluster, Current/Recommended vCPU and Memory, Status badges (idle, abandoned, oversized, power-off candidate), Potential Savings, and Last Reported. Includes term/engine projection toolbar, filtering by cluster/namespace/vm_name/tag, sorting, and cursor-based pagination.
 - **ROS:** Added Namespace tab to the Optimizations page (Phase 1 of the multi-tab architecture). The new tab displays namespace-level recommendations with columns for Namespace, Cluster, Memory/CPU current and change, State, and Last Reported. Includes filtering by cluster and project, sorting on all columns, and pagination with cursor-based navigation.
+- **ROS:** Fleet summary stat cards on Efficiency tab showing container health
+  aggregates and potential savings from the fleet-summary API as PatternFly stat
+  cards. Exposed via Module Federation from koku-ui-ros.
+  ([Issue #63](https://github.com/pgarciaq/ros-ocp-backend/issues/63))
 
 ### Changed
 

@@ -307,6 +307,46 @@ export default defineMessages({
     description: 'Values',
     id: 'filterByValuesAriaLabel',
   },
+  fleetSummaryAbandonedContainers: {
+    defaultMessage: 'Abandoned containers',
+    description: 'Fleet summary card title for abandoned containers',
+    id: 'fleetSummaryAbandonedContainers',
+  },
+  fleetSummaryClusters: {
+    defaultMessage: 'Clusters',
+    description: 'Fleet summary card title for cluster count',
+    id: 'fleetSummaryClusters',
+  },
+  fleetSummaryIdleContainers: {
+    defaultMessage: 'Idle containers',
+    description: 'Fleet summary card title for idle containers',
+    id: 'fleetSummaryIdleContainers',
+  },
+  fleetSummaryNoData: {
+    defaultMessage: 'No fleet data available',
+    description: 'Fleet summary empty state message',
+    id: 'fleetSummaryNoData',
+  },
+  fleetSummaryPercentOfTotal: {
+    defaultMessage: '{percent}% of total',
+    description: 'Percentage of total containers',
+    id: 'fleetSummaryPercentOfTotal',
+  },
+  fleetSummaryPotentialSavings: {
+    defaultMessage: 'Potential monthly savings',
+    description: 'Fleet summary card title for potential savings',
+    id: 'fleetSummaryPotentialSavings',
+  },
+  fleetSummaryTitle: {
+    defaultMessage: 'Fleet overview',
+    description: 'Fleet summary section title',
+    id: 'fleetSummaryTitle',
+  },
+  fleetSummaryTotalContainers: {
+    defaultMessage: 'Total containers',
+    description: 'Fleet summary card title for total containers',
+    id: 'fleetSummaryTotalContainers',
+  },
   forDate: {
     defaultMessage: '{value} for {dateRange}',
     description: '{value} for {Jan 1-31}',
