@@ -8,6 +8,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** GPU Subsystem Utilization radar chart on MIG and timeslicing GPU
+  breakdown pages. Renders a 4-axis polar area chart (Victory `VictoryChart` polar
+  + `VictoryArea` + `VictoryPolarAxis`) showing SM Activity, Tensor Core Activity,
+  DRAM Bandwidth, and VRAM Usage as percentages. VRAM is normalized from
+  `fb_usage_max_mib / total_fb_mib`. Displayed side-by-side with the existing VRAM
+  gauge in the Visual Insights section using a PatternFly Grid. Includes a
+  visually-hidden accessibility data table.
+  ([Issue #17](https://github.com/pgarciaq/ros-ocp-backend/issues/17))
+- **ROS:** Quota Headroom Trend charts on the quota breakdown page. Two line charts
+  (CPU request and memory request) show daily quota hard limit vs actual usage over
+  time, with the gap representing headroom. Fetched lazily from the new backend
+  `GET /recommendations/openshift/quota/:quota-id/trend` endpoint. Handles loading,
+  empty, and error states. Uses PatternFly Charts (`ChartLine`).
+  ([Issue #14](https://github.com/pgarciaq/ros-ocp-backend/issues/14))
+- **ROS:** Container Inventory Table on the namespace breakdown page. Displays a
+  paginated table of all container-level recommendations within the current
+  namespace, fetched from the existing `GET /recommendations/openshift` API with
+  `filter[exact:project]=<namespace>`. Columns include container name (linked to
+  its container breakdown page), workload, workload type, current/recommended CPU
+  and memory, estimated monthly savings, and last reported date. Includes a
+  Popover explaining that container recommendations are computed independently
+  from aggregated container-level data, not derived from the namespace-level
+  recommendation.
+  ([Issue #64](https://github.com/pgarciaq/ros-ocp-backend/issues/64))
 - **ROS:** GPU VRAM Utilization gauge on the MIG breakdown page. Displays a
   `ChartDonutUtilization` donut chart showing peak VRAM usage (`fb_usage_max_mib`)
   as a percentage of total VRAM capacity (`total_fb_mib` from the GPU catalog).

@@ -25,6 +25,7 @@ import { styles } from '../optimizationsBreakdown.styles';
 import { QuotaBreakdownHeader } from './quotaBreakdownHeader';
 import { QuotaBreakdownHistoryCharts } from './quotaBreakdownHistoryCharts';
 import { QuotaBreakdownExplanation } from './quotaBreakdownExplanation';
+import { QuotaHeadroomTrend } from './quotaHeadroomTrend';
 
 interface QuotaBreakdownOwnProps {
   linkState?: any;
@@ -96,6 +97,9 @@ const QuotaBreakdown: React.FC<QuotaBreakdownOwnProps> = ({ linkState, queryStat
           />
         </div>
         <QuotaBreakdownHistoryCharts history={detail.history} />
+        <div style={{ marginTop: 24 }}>
+          <QuotaHeadroomTrend quotaId={detail.id} />
+        </div>
       </PageSection>
     </>
   );

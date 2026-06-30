@@ -769,6 +769,9 @@ export interface GPUMIGRecommendationData {
   confidence_level?: number;
   fb_usage_max_mib?: number;
   total_fb_mib?: number;
+  sm_active_avg?: number;
+  tensor_pipe_active_avg?: number;
+  dram_active_avg?: number;
   gpu_idle_state?: string;
 }
 
@@ -808,6 +811,11 @@ export interface GPUTimeslicingRecommendationData {
   classification?: string;
   confidence?: number;
   confidence_level?: number;
+  fb_usage_max_mib?: number;
+  total_fb_mib?: number;
+  sm_active_avg?: number;
+  tensor_pipe_active_avg?: number;
+  dram_active_avg?: number;
   candidate_containers?: Array<{
     namespace?: string;
     workload?: string;
@@ -905,5 +913,42 @@ export interface SnapshotCostByTypeResponse {
 export function fetchSnapshotCostByType() {
   return axiosInstance.get<SnapshotCostByTypeResponse>(
     'recommendations/openshift/snapshots/cost-by-type'
+  );
+}
+
+// --- Quota Trend types ---
+
+export interface QuotaTrendEntry {
+  date: string;
+  cpu_request_hard_millicores: number | null;
+  cpu_request_used_millicores: number | null;
+  memory_request_hard_bytes: number | null;
+  memory_request_used_bytes: number | null;
+}
+
+export interface QuotaTrendMeta {
+  count: number;
+  cluster_uuid: string;
+  namespace: string;
+  start_date: string;
+  end_date: string;
+}
+
+export interface QuotaTrendResponse {
+  meta: QuotaTrendMeta;
+  data: QuotaTrendEntry[];
+}
+
+export function fetchQuotaTrend(quotaId: string, startDate?: string, endDate?: string) {
+  const params: Record<string, string> = {};
+  if (startDate) {
+    params.start_date = startDate;
+  }
+  if (endDate) {
+    params.end_date = endDate;
+  }
+  return axiosInstance.get<QuotaTrendResponse>(
+    `recommendations/openshift/quota/${quotaId}/trend`,
+    { params }
   );
 }
