@@ -534,6 +534,22 @@ export default defineMessages({
     description: 'No optimizations available',
     id: 'noOptimizationsTitle',
   },
+  namespaceContainerInventoryTitle: {
+    defaultMessage: 'Container recommendations in this namespace',
+    description: 'Title for the container inventory table on the namespace breakdown page',
+    id: 'namespaceContainerInventoryTitle',
+  },
+  namespaceContainerInventoryHelperText: {
+    defaultMessage:
+      'Container recommendations are computed independently from aggregated container-level data, not derived from the namespace-level recommendation above. Values may differ because each uses a different data source and methodology.',
+    description: 'Helper text explaining namespace vs container recommendation independence',
+    id: 'namespaceContainerInventoryHelperText',
+  },
+  namespaceContainerInventoryEmpty: {
+    defaultMessage: 'No container recommendations are available for this namespace.',
+    description: 'Empty state when no container recommendations exist in the namespace',
+    id: 'namespaceContainerInventoryEmpty',
+  },
   noResultsFound: {
     defaultMessage: 'No results found',
     description: 'No results found',
@@ -2081,10 +2097,95 @@ export default defineMessages({
     description: 'Subtitle below the VRAM utilization gauge showing usage vs capacity',
     id: 'visualInsightsVramUtilizationSubtitle',
   },
+  visualInsightsGpuRadarTitle: {
+    defaultMessage: 'GPU Subsystem Utilization',
+    description: 'Title for the GPU subsystem utilization radar chart',
+    id: 'visualInsightsGpuRadarTitle',
+  },
+  visualInsightsGpuRadarDesc: {
+    defaultMessage: 'Radar chart showing SM activity, tensor core activity, DRAM bandwidth, and VRAM usage as percentages',
+    description: 'Accessible description for the GPU subsystem utilization radar chart',
+    id: 'visualInsightsGpuRadarDesc',
+  },
+  visualInsightsGpuRadarAxisSm: {
+    defaultMessage: 'SM Activity',
+    description: 'Radar chart axis label for streaming multiprocessor activity',
+    id: 'visualInsightsGpuRadarAxisSm',
+  },
+  visualInsightsGpuRadarAxisTensor: {
+    defaultMessage: 'Tensor Core',
+    description: 'Radar chart axis label for tensor core pipeline activity',
+    id: 'visualInsightsGpuRadarAxisTensor',
+  },
+  visualInsightsGpuRadarAxisDram: {
+    defaultMessage: 'DRAM Bandwidth',
+    description: 'Radar chart axis label for DRAM bandwidth activity',
+    id: 'visualInsightsGpuRadarAxisDram',
+  },
+  visualInsightsGpuRadarAxisVram: {
+    defaultMessage: 'VRAM Usage',
+    description: 'Radar chart axis label for VRAM (frame buffer) usage',
+    id: 'visualInsightsGpuRadarAxisVram',
+  },
+  visualInsightsGpuRadarSubsystem: {
+    defaultMessage: 'Subsystem',
+    description: 'Column header for subsystem name in the radar chart accessibility table',
+    id: 'visualInsightsGpuRadarSubsystem',
+  },
+  visualInsightsGpuRadarUtilization: {
+    defaultMessage: 'Utilization',
+    description: 'Column header for utilization percentage in the radar chart accessibility table',
+    id: 'visualInsightsGpuRadarUtilization',
+  },
   visualInsightsGpuSectionTitle: {
     defaultMessage: 'Visual Insights',
     description: 'Section title for GPU visual insights section on breakdown pages',
     id: 'visualInsightsGpuSectionTitle',
+  },
+  visualInsightsQuotaTrendTitle: {
+    defaultMessage: 'Quota Headroom Trend',
+    description: 'Section title for the namespace quota headroom trend charts',
+    id: 'visualInsightsQuotaTrendTitle',
+  },
+  visualInsightsQuotaTrendCpuTitle: {
+    defaultMessage: 'CPU Request',
+    description: 'Title for the CPU request quota headroom trend chart',
+    id: 'visualInsightsQuotaTrendCpuTitle',
+  },
+  visualInsightsQuotaTrendCpuDesc: {
+    defaultMessage: 'Daily CPU request quota hard limit vs actual usage in millicores',
+    description: 'Accessible description for the CPU request quota headroom chart',
+    id: 'visualInsightsQuotaTrendCpuDesc',
+  },
+  visualInsightsQuotaTrendMemoryTitle: {
+    defaultMessage: 'Memory Request',
+    description: 'Title for the memory request quota headroom trend chart',
+    id: 'visualInsightsQuotaTrendMemoryTitle',
+  },
+  visualInsightsQuotaTrendMemoryDesc: {
+    defaultMessage: 'Daily memory request quota hard limit vs actual usage',
+    description: 'Accessible description for the memory request quota headroom chart',
+    id: 'visualInsightsQuotaTrendMemoryDesc',
+  },
+  visualInsightsQuotaTrendHardLimit: {
+    defaultMessage: 'Hard limit',
+    description: 'Legend label for the quota hard limit line in headroom charts',
+    id: 'visualInsightsQuotaTrendHardLimit',
+  },
+  visualInsightsQuotaTrendUsed: {
+    defaultMessage: 'Used',
+    description: 'Legend label for the actual usage line in headroom charts',
+    id: 'visualInsightsQuotaTrendUsed',
+  },
+  visualInsightsQuotaTrendEmpty: {
+    defaultMessage: 'No quota trend data available for this period',
+    description: 'Empty state when no quota trend data exists',
+    id: 'visualInsightsQuotaTrendEmpty',
+  },
+  visualInsightsQuotaTrendError: {
+    defaultMessage: 'Unable to load quota trend data',
+    description: 'Error state when the quota trend API call fails',
+    id: 'visualInsightsQuotaTrendError',
   },
   welcomeInfo: {
     defaultMessage: 'For more information visit {url}',

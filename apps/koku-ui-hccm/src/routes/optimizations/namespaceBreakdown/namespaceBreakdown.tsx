@@ -21,6 +21,7 @@ const NamespaceBreakdown: React.FC = () => {
         },
         ocpOptimizationsState: undefined,
       }}
+      containerBreakdownPath={formatPath(routes.optimizationsBreakdown.path)}
       projectPath={formatPath(routes.ocpBreakdown.path)}
       queryStateName="namespaceDetailsState"
     />

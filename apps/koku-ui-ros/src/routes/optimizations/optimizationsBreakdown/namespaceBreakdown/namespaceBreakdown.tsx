@@ -29,8 +29,10 @@ import { OptimizationsBreakdownExplanation } from '../optimizationsBreakdownExpl
 import { OptimizationsBreakdownUtilization } from '../optimizationsBreakdownUtilization';
 import { useBreakdownProjection } from '../useBreakdownProjection';
 import { NamespaceBreakdownHeader } from './namespaceBreakdownHeader';
+import { NamespaceContainerInventory } from './namespaceContainerInventory';
 
 interface NamespaceBreakdownOwnProps {
+  containerBreakdownPath?: string;
   linkState?: any;
   projectPath?: string;
   queryStateName: string;
@@ -55,7 +57,12 @@ type NamespaceBreakdownProps = NamespaceBreakdownOwnProps & NamespaceBreakdownSt
 const reportType = RosType.ros as any;
 const reportPathsType = RosPathsType.namespaceRecommendation as any;
 
-const NamespaceBreakdown: React.FC<NamespaceBreakdownProps> = ({ linkState, projectPath, queryStateName }) => {
+const NamespaceBreakdown: React.FC<NamespaceBreakdownProps> = ({
+  containerBreakdownPath,
+  linkState,
+  projectPath,
+  queryStateName,
+}) => {
   const { breadcrumbLabel, breadcrumbPath, isBoxPlotToggleEnabled, report, reportFetchStatus } = useMapToProps({
     queryStateName,
   });
@@ -150,6 +157,18 @@ const NamespaceBreakdown: React.FC<NamespaceBreakdownProps> = ({ linkState, proj
           </div>
         )}
         <OptimizationsBreakdownExplanation explanation={recommendationEngine?.explanation} />
+        {report?.project && (
+          <div style={styles.utilizationContainer}>
+            <NamespaceContainerInventory
+              breakdownPath={containerBreakdownPath}
+              clusterUuid={report?.cluster_uuid}
+              engine={engine}
+              linkState={linkState}
+              namespace={report.project}
+              term={term}
+            />
+          </div>
+        )}
       </>
     );
   };
