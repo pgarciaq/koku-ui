@@ -8,6 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** VM Activity Heatmap on the VM breakdown Visual Insights section.
+  Renders a 24-column × 7-row hour-of-day × day-of-week grid showing CPU
+  utilization intensity. Cells are colored by utilization band using the shared
+  `getCellStyle` utilities. Includes tooltips on hover, screen-reader accessible
+  data table, sparse data handling, and empty state. Uses the generic
+  `UtilizationHeatmap` component (reusable for future node heatmaps).
+  Data fetched from the new backend
+  `GET /recommendations/openshift/vm/hourly-activity` endpoint.
+  ([Issue #13](https://github.com/pgarciaq/ros-ocp-backend/issues/13))
 - **ROS:** Node Fleet Utilization Heatmap on the Efficiency tab. Renders all nodes
   as colored cells grouped by MachineSet, with each cell colored by utilization band
   (idle/low/moderate/healthy/hot). Includes CPU/Memory metric toggle, clickable cells

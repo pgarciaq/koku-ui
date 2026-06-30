@@ -38,10 +38,13 @@ interface VmBreakdownMapProps {
 interface VmBreakdownStateProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
+  clusterUuid?: string;
+  namespace?: string;
   report?: VmRecommendationData;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
   reportQueryString?: string;
+  vmName?: string;
 }
 
 type VmBreakdownProps = VmBreakdownOwnProps & VmBreakdownStateProps;
@@ -50,7 +53,7 @@ const reportType = RosType.ros as any;
 const reportPathsType = RosPathsType.vmRecommendation as any;
 
 const VmBreakdown: React.FC<VmBreakdownProps> = ({ linkState, queryStateName }) => {
-  const { breadcrumbLabel, breadcrumbPath, report, reportFetchStatus } = useMapToProps({
+  const { breadcrumbLabel, breadcrumbPath, clusterUuid, namespace, report, reportFetchStatus, vmName } = useMapToProps({
     queryStateName,
   });
   const { term, engine } = useBreakdownProjection(queryStateName);
@@ -93,10 +96,13 @@ const VmBreakdown: React.FC<VmBreakdownProps> = ({ linkState, queryStateName }) 
         <VmMetadataFlags report={report} intl={intl} />
         <div style={{ marginTop: 24 }}>
           <VmVisualInsightsSection
+            clusterUuid={clusterUuid}
             current={current}
             dailyDigests={report?.daily_digests}
             estimatedMonthlySavings={report?.estimated_monthly_savings}
+            namespace={namespace}
             recommended={recommended}
+            vmName={vmName}
           />
         </div>
       </div>
@@ -301,10 +307,13 @@ const useMapToProps = ({ queryStateName }: VmBreakdownMapProps): VmBreakdownStat
   return {
     breadcrumbLabel: queryFromRoute[breadcrumbLabelKey],
     breadcrumbPath: location?.state?.[queryStateName]?.breadcrumbPath,
+    clusterUuid,
+    namespace,
     report,
     reportError,
     reportFetchStatus,
     reportQueryString,
+    vmName,
   };
 };
 

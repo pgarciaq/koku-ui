@@ -1,27 +1,64 @@
-import { Card, CardBody, CardTitle, Grid, GridItem, Stack, StackItem, Title } from '@patternfly/react-core';
+import { Card, CardBody, CardTitle, Grid, GridItem, Spinner, Stack, StackItem, Title } from '@patternfly/react-core';
 import type { MoneyAmount, VmDailyDigestItem, VmRecommendedSizing, VmSizingBlock } from 'api/ros/recommendations';
+import { useVmHourlyActivity } from 'hooks/useVmHourlyActivity';
 import messages from 'locales/messages';
 import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
+import type { HeatmapDataPoint } from 'routes/optimizations/visualInsightsUtils';
+import { UtilizationHeatmap } from 'routes/optimizations/visualInsightsUtils';
+import { FetchStatus } from 'store/common';
 
 import { VmIoSparkline } from './vmIoSparkline';
 import { VmSizingChart } from './vmSizingChart';
 import { VmUtilizationTrendChart } from './vmUtilizationTrendChart';
 
 interface VmVisualInsightsSectionProps {
+  clusterUuid?: string;
   current?: VmSizingBlock;
   dailyDigests?: VmDailyDigestItem[];
   estimatedMonthlySavings?: MoneyAmount;
+  namespace?: string;
   recommended?: VmRecommendedSizing;
+  vmName?: string;
 }
 
 const VmVisualInsightsSection: React.FC<VmVisualInsightsSectionProps> = ({
+  clusterUuid,
   current,
   dailyDigests,
   estimatedMonthlySavings,
+  namespace,
   recommended,
+  vmName,
 }) => {
   const intl = useIntl();
+
+  const hourlyParams = useMemo(() => {
+    if (!clusterUuid || !namespace || !vmName) {
+      return null;
+    }
+    return { cluster_uuid: clusterUuid, namespace, vm_name: vmName, days: 14 };
+  }, [clusterUuid, namespace, vmName]);
+
+  const { data: hourlyData, fetchStatus: hourlyFetchStatus } = useVmHourlyActivity(hourlyParams);
+
+  const heatmapPoints: HeatmapDataPoint[] = useMemo(() => {
+    if (!hourlyData?.data) {
+      return [];
+    }
+    return hourlyData.data.map(row => ({
+      report_date: row.report_date,
+      hour: row.hour,
+      value: row.cpu_usage_p95_mc,
+    }));
+  }, [hourlyData]);
+
+  const heatmapMaxValue = useMemo(() => {
+    if (!heatmapPoints.length) {
+      return 0;
+    }
+    return Math.max(...heatmapPoints.map(p => p.value));
+  }, [heatmapPoints]);
 
   const hasAnyIoData = useMemo(() => {
     if (!dailyDigests || dailyDigests.length === 0) {
@@ -52,7 +89,7 @@ const VmVisualInsightsSection: React.FC<VmVisualInsightsSectionProps> = ({
     return dailyDigests.some(d => d.cpu_usage_p95_mc != null || d.mem_usage_p95_kib != null);
   }, [dailyDigests]);
 
-  if (!hasAnyIoData && !hasSizingData && !hasUtilizationData) {
+  if (!hasAnyIoData && !hasSizingData && !hasUtilizationData && !hourlyParams) {
     return null;
   }
 
@@ -131,6 +168,33 @@ const VmVisualInsightsSection: React.FC<VmVisualInsightsSectionProps> = ({
                       />
                     </GridItem>
                   </Grid>
+                </StackItem>
+              </Stack>
+            </GridItem>
+          )}
+          {hourlyParams && (
+            <GridItem sm={12}>
+              <Stack hasGutter>
+                <StackItem>
+                  <Title headingLevel="h3" size="md">
+                    {intl.formatMessage(messages.visualInsightsVmActivityHeatmap)}
+                  </Title>
+                  <div style={{ fontSize: 13, color: 'var(--pf-t--global--text--color--subtle)' }}>
+                    {intl.formatMessage(messages.visualInsightsVmActivityHeatmapDesc)}
+                  </div>
+                </StackItem>
+                <StackItem>
+                  {hourlyFetchStatus === FetchStatus.inProgress ? (
+                    <Spinner size="lg" aria-label="Loading" />
+                  ) : (
+                    <UtilizationHeatmap
+                      data={heatmapPoints}
+                      maxValue={heatmapMaxValue}
+                      metricLabel="mCPU"
+                      entityLabel={vmName ?? 'VM'}
+                      valueFormatter={(v: number) => `${v}`}
+                    />
+                  )}
                 </StackItem>
               </Stack>
             </GridItem>

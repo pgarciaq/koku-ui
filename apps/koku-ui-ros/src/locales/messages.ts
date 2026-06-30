@@ -2307,6 +2307,46 @@ export default defineMessages({
     description: 'Error state when the quota trend API call fails',
     id: 'visualInsightsQuotaTrendError',
   },
+  visualInsightsVmActivityHeatmap: {
+    defaultMessage: 'Activity Heatmap',
+    description: 'Title for the VM hourly activity heatmap chart',
+    id: 'visualInsightsVmActivityHeatmap',
+  },
+  visualInsightsVmActivityHeatmapDesc: {
+    defaultMessage: 'Hour-of-day × day-of-week CPU utilization revealing idle periods',
+    description: 'Accessible description for the VM activity heatmap',
+    id: 'visualInsightsVmActivityHeatmapDesc',
+  },
+  visualInsightsVmActivityHeatmapEmpty: {
+    defaultMessage: 'No hourly activity data available yet. Data begins collecting after deployment.',
+    description: 'Empty state when no hourly VM data is available',
+    id: 'visualInsightsVmActivityHeatmapEmpty',
+  },
+  visualInsightsHeatmapTooltip: {
+    defaultMessage: '{dayOfWeek} {hour}:00 – {value} {unit}',
+    description: 'Tooltip for a heatmap cell showing day, hour, and value',
+    id: 'visualInsightsHeatmapTooltip',
+  },
+  visualInsightsHeatmapAccessCaption: {
+    defaultMessage: '{entity} hourly {metric} data',
+    description: 'Caption for the screen-reader-only data table',
+    id: 'visualInsightsHeatmapAccessCaption',
+  },
+  visualInsightsHeatmapAccessDay: {
+    defaultMessage: 'Day',
+    description: 'Column header for day-of-week in heatmap accessibility table',
+    id: 'visualInsightsHeatmapAccessDay',
+  },
+  visualInsightsHeatmapAccessHour: {
+    defaultMessage: 'Hour',
+    description: 'Column header for hour in heatmap accessibility table',
+    id: 'visualInsightsHeatmapAccessHour',
+  },
+  visualInsightsHeatmapAccessValue: {
+    defaultMessage: 'Value',
+    description: 'Column header for metric value in heatmap accessibility table',
+    id: 'visualInsightsHeatmapAccessValue',
+  },
   welcomeInfo: {
     defaultMessage: 'For more information visit {url}',
     description: 'more information url',
