@@ -62,10 +62,10 @@ const OptimizationsBreakdownUtilization: React.FC<OptimizationsBreakdownUtilizat
       : [];
   };
 
-  const createUsageDatum = (usageType: UsageType) => {
-    const term = getRecommendationTerm(recommendations, currentInterval);
-    const plotsData = term?.plots?.plots_data || [];
-
+  const buildPlotDatum = (plotsData: Record<string, any> | undefined, usageType: UsageType) => {
+    if (!plotsData) {
+      return [];
+    }
     const datum = [];
     for (const key of Object.keys(plotsData)) {
       const data = plotsData?.[key]?.[usageType];
@@ -83,7 +83,13 @@ const OptimizationsBreakdownUtilization: React.FC<OptimizationsBreakdownUtilizat
         y: data?.p50 ?? null,
       });
     }
-    // Pad dates if plots_data is missing
+    return datum;
+  };
+
+  const createUsageDatum = (usageType: UsageType) => {
+    const term = getRecommendationTerm(recommendations, currentInterval);
+    const datum = buildPlotDatum(term?.plots?.plots_data, usageType);
+
     if (datum.length === 0 && recommendations?.monitoring_end_time) {
       if (currentInterval === Interval.short_term) {
         const today = new Date(recommendations?.monitoring_end_time);
@@ -112,14 +118,21 @@ const OptimizationsBreakdownUtilization: React.FC<OptimizationsBreakdownUtilizat
     return datum;
   };
 
+  const createBusinessHoursUsageDatum = (usageType: UsageType) => {
+    const term = getRecommendationTerm(recommendations, currentInterval);
+    return buildPlotDatum(term?.business_hours_plots?.plots_data, usageType);
+  };
+
   const getChart = (usageType: UsageType, recommendationType: RecommendationType) => {
     const usageDatum = createUsageDatum(usageType);
+    const bhUsageDatum = createBusinessHoursUsageDatum(usageType);
     const limitDatum = createRecommendationDatum(recommendationType, ResourceType.limits, usageDatum);
     const requestDatum = createRecommendationDatum(recommendationType, ResourceType.requests, usageDatum);
 
     return (
       <OptimizationsBreakdownChart
         baseHeight={chartStyles.chartHeight}
+        businessHoursUsageData={bhUsageDatum.length > 0 ? bhUsageDatum : undefined}
         limitData={limitDatum}
         name={`utilization-${usageType}`}
         requestData={requestDatum}

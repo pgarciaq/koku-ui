@@ -61,6 +61,16 @@ export default defineMessages({
     description: 'P95-P99 (peak range)',
     id: 'chartUsageP95P99Legend',
   },
+  chartBhP50Legend: {
+    defaultMessage: 'Business hours median (P50)',
+    description: 'Business hours median (P50)',
+    id: 'chartBhP50Legend',
+  },
+  chartBhP50P95Legend: {
+    defaultMessage: 'Business hours P50-P95',
+    description: 'Business hours P50-P95 range',
+    id: 'chartBhP50P95Legend',
+  },
   chooseKeyPlaceholder: {
     defaultMessage: 'Choose key',
     description: 'Choose key',

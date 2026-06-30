@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** Business-hours utilization overlay on container and namespace breakdown
+  charts. When the backend provides `business_hours_plots`, an orange dashed P50
+  line and translucent P50-P95 area band are rendered on top of the existing
+  all-hours utilization chart. Legend entries toggle the overlay independently.
+  No visual change when business hours are not configured.
+  ([Issue #18](https://github.com/pgarciaq/ros-ocp-backend/issues/18))
 - **ROS:** Added Snapshot Cost by Type donut chart to the snapshot list page
   (Visual Insights section). Displays a PatternFly `ChartDonut` showing proportional
   breakdown of snapshot storage costs by recommendation type (orphaned, stale, active,

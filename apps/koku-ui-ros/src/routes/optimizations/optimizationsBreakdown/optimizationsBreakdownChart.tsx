@@ -30,9 +30,11 @@ import { unitsLookupKey } from 'utils/format';
 import { chartStyles } from './optimizationsBreakdownChart.styles';
 
 const USAGE_CHILD_NAMES = ['usageP50P95', 'usageP95P99', 'usageP50', 'usageMax'] as const;
+const BH_CHILD_NAMES = ['bhP50P95', 'bhP50'] as const;
 
 interface OptimizationsBreakdownChartOwnProps {
   baseHeight?: number;
+  businessHoursUsageData?: any;
   limitData?: any;
   name?: string;
   padding?: any;
@@ -44,6 +46,7 @@ type OptimizationsBreakdownChartProps = OptimizationsBreakdownChartOwnProps;
 
 const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = ({
   baseHeight,
+  businessHoursUsageData,
   name,
   limitData,
   padding,
@@ -157,15 +160,55 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
     });
   };
 
+  const isBhSeriesHidden = () =>
+    series?.some((s, i) => BH_CHILD_NAMES.includes(s.childName as (typeof BH_CHILD_NAMES)[number]) && hiddenSeries.has(i)) ??
+    false;
+
+  const getBusinessHoursCharts = () => {
+    const hidden = isBhSeriesHidden();
+    return series?.map(serie => {
+      const emptyData = [{ y: null }];
+      const data = hidden ? emptyData : serie.data;
+
+      if (serie.childName === 'bhP50P95') {
+        return (
+          <ChartArea
+            data={data}
+            interpolation="monotoneX"
+            key={serie.childName}
+            name={serie.childName}
+            style={serie.style}
+          />
+        );
+      }
+      if (serie.childName === 'bhP50') {
+        return (
+          <ChartLine
+            data={data}
+            interpolation="monotoneX"
+            key={serie.childName}
+            name={serie.childName}
+            style={serie.style}
+          />
+        );
+      }
+    });
+  };
+
   // Returns groups of chart names associated with each data series
   const getChartNames = () => {
     const result = [];
     const usageGroup = [...USAGE_CHILD_NAMES];
+    const bhGroup = [...BH_CHILD_NAMES];
 
     if (series) {
       series.map(serie => {
         if (serie.childName === 'usageP50P95') {
           result.push(usageGroup);
+        } else if (serie.childName === 'bhP50P95') {
+          result.push(bhGroup);
+        } else if (BH_CHILD_NAMES.includes(serie.childName as (typeof BH_CHILD_NAMES)[number])) {
+          result.push(bhGroup);
         } else if (!USAGE_CHILD_NAMES.includes(serie.childName as (typeof USAGE_CHILD_NAMES)[number])) {
           result.push(serie.childName);
         } else if (serie.childName !== 'usageP50P95') {
@@ -195,13 +238,14 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
        * 2.3 cores is represented as "2.3" (Note cores is not specified)
        */
       if (
-        (datum.childName === 'limit' || datum.childName === 'request' || USAGE_CHILD_NAMES.includes(datum.childName)) &&
+        (datum.childName === 'limit' || datum.childName === 'request' ||
+          USAGE_CHILD_NAMES.includes(datum.childName) || BH_CHILD_NAMES.includes(datum.childName)) &&
         datum.units === ''
       ) {
         units = unitsLookupKey('cores');
       }
 
-      if (USAGE_CHILD_NAMES.includes(datum.childName)) {
+      if (USAGE_CHILD_NAMES.includes(datum.childName) || BH_CHILD_NAMES.includes(datum.childName)) {
         if (
           datum.p50 !== undefined ||
           datum.p95 !== undefined ||
@@ -285,22 +329,29 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
     }
   };
 
-  // Hide each data series individually; usage percentile layers toggle together
+  const toggleGroup = (groupNames: readonly string[]) => (index: number) => {
+    const groupIndices =
+      series
+        ?.map((s, i) => (groupNames.includes(s.childName) ? i : null))
+        .filter((i): i is number => i !== null) ?? [];
+    const anyHidden = groupIndices.some(i => hiddenSeries.has(i));
+    const newHiddenSeries = new Set(hiddenSeries);
+    if (anyHidden) {
+      groupIndices.forEach(i => newHiddenSeries.delete(i));
+    } else {
+      groupIndices.forEach(i => newHiddenSeries.add(i));
+    }
+    setHiddenSeries(newHiddenSeries);
+  };
+
   const handleOnLegendClick = (index: number) => {
     const clickedChild = series?.[index]?.childName;
     if (clickedChild && USAGE_CHILD_NAMES.includes(clickedChild as (typeof USAGE_CHILD_NAMES)[number])) {
-      const usageIndices =
-        series
-          ?.map((s, i) => (USAGE_CHILD_NAMES.includes(s.childName as (typeof USAGE_CHILD_NAMES)[number]) ? i : null))
-          .filter((i): i is number => i !== null) ?? [];
-      const anyHidden = usageIndices.some(i => hiddenSeries.has(i));
-      const newHiddenSeries = new Set(hiddenSeries);
-      if (anyHidden) {
-        usageIndices.forEach(i => newHiddenSeries.delete(i));
-      } else {
-        usageIndices.forEach(i => newHiddenSeries.add(i));
-      }
-      setHiddenSeries(newHiddenSeries);
+      toggleGroup(USAGE_CHILD_NAMES)(index);
+      return;
+    }
+    if (clickedChild && BH_CHILD_NAMES.includes(clickedChild as (typeof BH_CHILD_NAMES)[number])) {
+      toggleGroup(BH_CHILD_NAMES)(index);
       return;
     }
     const newHiddenSeries = initHiddenSeries(series, hiddenSeries, index);
@@ -454,6 +505,58 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
         },
       });
     }
+    if (businessHoursUsageData && businessHoursUsageData.length) {
+      const bhP50P95Data = businessHoursUsageData.map(datum => ({
+        ...datum,
+        childName: 'bhP50P95',
+        y: datum.p95 ?? null,
+        y0: datum.p50 ?? null,
+      }));
+      const bhP50LineData = businessHoursUsageData.map(datum => ({
+        ...datum,
+        childName: 'bhP50',
+        y: datum.p50 ?? null,
+      }));
+
+      newSeries.push({
+        childName: 'bhP50P95',
+        data: bhP50P95Data as any,
+        legendItem: {
+          name: intl.formatMessage(messages.chartBhP50P95Legend),
+          symbol: {
+            fill: chartStyles.bhP50P95ColorScale[0],
+            type: 'square',
+          },
+          tooltip: intl.formatMessage(messages.chartBhP50P95Legend),
+        },
+        style: {
+          data: {
+            fill: chartStyles.bhP50P95ColorScale[0],
+            fillOpacity: 0.4,
+            stroke: chartStyles.bhP50P95ColorScale[0],
+          },
+        },
+      });
+      newSeries.push({
+        childName: 'bhP50',
+        data: bhP50LineData as any,
+        legendItem: {
+          name: intl.formatMessage(messages.chartBhP50Legend),
+          symbol: {
+            fill: chartStyles.bhP50ColorScale[0],
+            type: 'minus',
+          },
+          tooltip: intl.formatMessage(messages.chartBhP50Legend),
+        },
+        style: {
+          data: {
+            stroke: chartStyles.bhP50ColorScale[0],
+            strokeWidth: 2,
+            strokeDasharray: '6,3',
+          },
+        },
+      });
+    }
     setSeries(newSeries);
     setCursorVoronoiContainer(getCursorVoronoiContainer());
     setHiddenSeries(new Set());
@@ -461,7 +564,7 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
 
   useEffect(() => {
     initDatum();
-  }, [limitData, requestData, usageData]);
+  }, [limitData, requestData, usageData, businessHoursUsageData]);
 
   useEffect(() => {
     if (containerRef?.current) {
@@ -481,7 +584,7 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
       <div style={{ height: chartHeight }}>
         <Chart
           containerComponent={cloneContainer()}
-          domain={getDomain(series, hiddenSeries, USAGE_CHILD_NAMES.length - 1)}
+          domain={getDomain(series, hiddenSeries, USAGE_CHILD_NAMES.length - 1 + (businessHoursUsageData?.length ? BH_CHILD_NAMES.length - 1 : 0))}
           domainPadding={{ x: [30, 30] }}
           events={getEvents()}
           height={chartHeight}
@@ -498,6 +601,7 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
           {getRequestChart()}
           {getLimitChart()}
           {getUsageCharts()}
+          {getBusinessHoursCharts()}
         </Chart>
       </div>
     </div>

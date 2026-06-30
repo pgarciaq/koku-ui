@@ -49,21 +49,24 @@ export interface UsageValue {
   format?: string;
 }
 
+export interface PlotData {
+  datapoints?: number;
+  plots_data?: {
+    [date: string]: {
+      cpuUsage?: UsageValue;
+      memoryUsage?: UsageValue;
+    };
+  };
+}
+
 export interface RecommendationTerm {
+  business_hours_plots?: PlotData;
   duration_in_hours?: number;
   monitoring_start_time?: string;
   notifications?: {
     [key: string]: Notification;
   };
-  plots?: {
-    datapoints?: number;
-    plots_data?: {
-      [date: string]: {
-        cpuUsage?: UsageValue;
-        memoryUsage?: UsageValue;
-      };
-    };
-  };
+  plots?: PlotData;
   recommendation_engines?: {
     cost: RecommendationEngine;
     performance: RecommendationEngine;
