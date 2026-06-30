@@ -2322,6 +2322,16 @@ export default defineMessages({
     description: 'Empty state when no hourly VM data is available',
     id: 'visualInsightsVmActivityHeatmapEmpty',
   },
+  visualInsightsNodeActivityHeatmap: {
+    defaultMessage: 'Activity Heatmap',
+    description: 'Title for the node hourly utilization heatmap chart',
+    id: 'visualInsightsNodeActivityHeatmap',
+  },
+  visualInsightsNodeActivityHeatmapDesc: {
+    defaultMessage: 'Hour-of-day × day-of-week CPU utilization showing workload patterns',
+    description: 'Accessible description for the node utilization heatmap',
+    id: 'visualInsightsNodeActivityHeatmapDesc',
+  },
   visualInsightsHeatmapTooltip: {
     defaultMessage: '{dayOfWeek} {hour}:00 – {value} {unit}',
     description: 'Tooltip for a heatmap cell showing day, hour, and value',

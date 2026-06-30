@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** Node Activity Heatmap on the node breakdown Visual Insights section.
+  Reuses the generic `UtilizationHeatmap` component (24×7 hour-of-day × day-of-week
+  grid) consuming the new backend
+  `GET /recommendations/openshift/node/{id}/hourly-utilization` endpoint. Integrated
+  into the existing `NodeVisualInsightsSection` below the utilization trends.
+  ([Issue #16](https://github.com/pgarciaq/ros-ocp-backend/issues/16))
 - **ROS:** VM Activity Heatmap on the VM breakdown Visual Insights section.
   Renders a 24-column × 7-row hour-of-day × day-of-week grid showing CPU
   utilization intensity. Cells are colored by utilization band using the shared
