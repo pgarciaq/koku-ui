@@ -10,11 +10,14 @@ import { DataTable } from 'routes/components/dataTable';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
 
 import { CrossTabLink, SameTabFilterLink } from '../crossTabLink';
+import { formatMoneyCell, type StorageGroupBy } from '../storageTableUtils';
 
 interface OptimizationsGpuTimeslicingDataTableOwnProps {
   breakdownPath?: string;
   filterBy?: any;
+  groupBy?: StorageGroupBy;
   isLoading?: boolean;
+  onDrillDownFromGroup?(filter: { key: string; value: string });
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
   report: GPUTimeslicingRecommendationReport;
@@ -56,7 +59,9 @@ const getSavingsCell = (item: GPUTimeslicingRecommendationData, intl: ReturnType
 const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicingDataTableProps> = ({
   breakdownPath,
   filterBy,
+  groupBy = '',
   isLoading,
+  onDrillDownFromGroup,
   onSort,
   orderBy,
   report,
@@ -71,6 +76,48 @@ const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicing
       return;
     }
     const hasData = report?.data && report.data.length > 0;
+    const isGrouped = groupBy !== '';
+
+    if (isGrouped) {
+      const groupLabel = intl.formatMessage(messages.gpuTimeslicingColumnCluster);
+
+      setColumns([
+        { name: groupLabel },
+        { name: intl.formatMessage(messages.storageRecommendationCount) },
+        { name: intl.formatMessage(messages.gpuTimeslicingColumnSavings) },
+      ]);
+
+      const newRows = [];
+      report?.data?.forEach(item => {
+        const savings = formatMoneyCell(item.estimated_monthly_savings);
+        const groupValue = item.cluster_uuid ?? '';
+        const drillDown = onDrillDownFromGroup && groupValue;
+
+        newRows.push({
+          cells: [
+            {
+              value: drillDown ? (
+                <a
+                  href="#"
+                  onClick={e => {
+                    e.preventDefault();
+                    onDrillDownFromGroup({ key: 'cluster', value: groupValue });
+                  }}
+                >
+                  {groupValue}
+                </a>
+              ) : (
+                groupValue
+              ),
+            },
+            { value: item.count != null ? String(item.count) : '—' },
+            { value: savings ?? '—' },
+          ],
+        });
+      });
+      setRows(newRows);
+      return;
+    }
 
     const newColumns = [
       {
@@ -141,7 +188,7 @@ const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicing
 
   useEffect(() => {
     initDatum();
-  }, [report]);
+  }, [groupBy, onDrillDownFromGroup, report]);
 
   return (
     <DataTable

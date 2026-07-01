@@ -11,14 +11,17 @@ import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noO
 import { getTimeFromNow } from 'utils/dates';
 
 import { CrossTabLink } from '../crossTabLink';
+import { formatMoneyCell, type StorageGroupBy } from '../storageTableUtils';
 
 interface OptimizationsVmsDataTableOwnProps {
   breadcrumbLabel?: string;
   engine?: string;
   filterBy?: any;
+  groupBy?: StorageGroupBy;
   isLoading?: boolean;
   linkPath?: string;
   linkState?: any;
+  onDrillDownFromGroup?(filter: { key: string; value: string });
   onFilterAdded?(filter: { key: string; value: string });
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
@@ -94,9 +97,11 @@ const getSavingsCell = (item: VmRecommendationData, intl: any) => {
 const OptimizationsVmsDataTable: React.FC<OptimizationsVmsDataTableProps> = ({
   breadcrumbLabel,
   filterBy,
+  groupBy = '',
   isLoading,
   linkPath,
   linkState,
+  onDrillDownFromGroup,
   onFilterAdded,
   onSort,
   orderBy,
@@ -111,6 +116,54 @@ const OptimizationsVmsDataTable: React.FC<OptimizationsVmsDataTableProps> = ({
       return;
     }
     const hasData = report?.data && report.data.length > 0;
+    const isGrouped = groupBy !== '';
+
+    if (isGrouped) {
+      const groupLabel =
+        groupBy === 'cluster'
+          ? intl.formatMessage(messages.optimizationsNames, { value: 'cluster' })
+          : intl.formatMessage(messages.optimizationsNames, { value: 'namespace' });
+
+      setColumns([
+        { name: groupLabel },
+        { name: intl.formatMessage(messages.storageRecommendationCount) },
+        {
+          name: intl.formatMessage(messages.optimizationsNames, { value: 'potential_savings' }),
+        },
+      ]);
+
+      const newRows = [];
+      report?.data?.forEach(item => {
+        const savings = formatMoneyCell(item.estimated_monthly_savings);
+        const groupValue = groupBy === 'cluster' ? item.cluster_uuid ?? '' : item.namespace ?? '';
+        const filterKey = groupBy === 'cluster' ? 'cluster' : 'namespace';
+        const drillDown = onDrillDownFromGroup && groupValue;
+
+        newRows.push({
+          cells: [
+            {
+              value: drillDown ? (
+                <a
+                  href="#"
+                  onClick={e => {
+                    e.preventDefault();
+                    onDrillDownFromGroup({ key: filterKey, value: groupValue });
+                  }}
+                >
+                  {groupValue}
+                </a>
+              ) : (
+                groupValue
+              ),
+            },
+            { value: item.count != null ? String(item.count) : '—' },
+            { value: savings ?? '—' },
+          ],
+        });
+      });
+      setRows(newRows);
+      return;
+    }
 
     const newColumns = [
       {
@@ -228,7 +281,7 @@ const OptimizationsVmsDataTable: React.FC<OptimizationsVmsDataTableProps> = ({
 
   useEffect(() => {
     initDatum();
-  }, [linkState, report]);
+  }, [groupBy, linkState, onDrillDownFromGroup, report]);
 
   return (
     <DataTable

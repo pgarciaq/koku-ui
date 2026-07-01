@@ -10,11 +10,14 @@ import { DataTable } from 'routes/components/dataTable';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
 
 import { CrossTabLink, SameTabFilterLink } from '../crossTabLink';
+import { type StorageGroupBy } from '../storageTableUtils';
 
 interface OptimizationsGpuMigDataTableOwnProps {
   breakdownPath?: string;
   filterBy?: any;
+  groupBy?: StorageGroupBy;
   isLoading?: boolean;
+  onDrillDownFromGroup?(filter: { key: string; value: string });
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
   report: GPUMIGRecommendationReport;
@@ -70,7 +73,9 @@ const formatTerm = (term: string) => {
 const OptimizationsGpuMigDataTable: React.FC<OptimizationsGpuMigDataTableProps> = ({
   breakdownPath,
   filterBy,
+  groupBy = '',
   isLoading,
+  onDrillDownFromGroup,
   onSort,
   orderBy,
   report,
@@ -85,6 +90,49 @@ const OptimizationsGpuMigDataTable: React.FC<OptimizationsGpuMigDataTableProps> 
       return;
     }
     const hasData = report?.data && report.data.length > 0;
+    const isGrouped = groupBy !== '';
+
+    if (isGrouped) {
+      const groupLabel =
+        groupBy === 'cluster'
+          ? intl.formatMessage(messages.gpuMigColumnCluster)
+          : intl.formatMessage(messages.gpuMigColumnNamespace);
+
+      setColumns([
+        { name: groupLabel },
+        { name: intl.formatMessage(messages.storageRecommendationCount) },
+      ]);
+
+      const newRows = [];
+      report?.data?.forEach(item => {
+        const groupValue = groupBy === 'cluster' ? item.cluster_uuid ?? '' : item.namespace ?? '';
+        const filterKey = groupBy === 'cluster' ? 'cluster' : 'project';
+        const drillDown = onDrillDownFromGroup && groupValue;
+
+        newRows.push({
+          cells: [
+            {
+              value: drillDown ? (
+                <a
+                  href="#"
+                  onClick={e => {
+                    e.preventDefault();
+                    onDrillDownFromGroup({ key: filterKey, value: groupValue });
+                  }}
+                >
+                  {groupValue}
+                </a>
+              ) : (
+                groupValue
+              ),
+            },
+            { value: item.count != null ? String(item.count) : '—' },
+          ],
+        });
+      });
+      setRows(newRows);
+      return;
+    }
 
     const newColumns = [
       {
@@ -170,7 +218,7 @@ const OptimizationsGpuMigDataTable: React.FC<OptimizationsGpuMigDataTableProps> 
 
   useEffect(() => {
     initDatum();
-  }, [report]);
+  }, [groupBy, onDrillDownFromGroup, report]);
 
   return (
     <DataTable

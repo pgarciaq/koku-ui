@@ -29,6 +29,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   ([Issue #108](https://github.com/pgarciaq/ros-ocp-backend/issues/108))
 - **ROS:** GPU MIG `workload` filter.
   ([Issue #109](https://github.com/pgarciaq/ros-ocp-backend/issues/109))
+- **ROS:** `group_by` support for Node, GPU MIG, GPU Time-Slicing, and VM tabs.
+  Adds a group-by dropdown toolbar (reusing `OptimizationsStorageGroupByToolbar`)
+  and grouped table rendering with drill-down navigation. Follows the existing
+  Storage/Quota group-by pattern.
+  ([Issue #112](https://github.com/pgarciaq/ros-ocp-backend/issues/112))
 
 - **ROS:** Node Activity Heatmap on the node breakdown Visual Insights section.
   Reuses the generic `UtilizationHeatmap` component (24×7 hour-of-day × day-of-week

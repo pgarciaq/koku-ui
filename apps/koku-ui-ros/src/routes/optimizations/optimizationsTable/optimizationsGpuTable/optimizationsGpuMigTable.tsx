@@ -12,6 +12,7 @@ import { useUrlState } from 'routes/utils/useUrlState';
 import { FetchStatus } from 'store/common';
 
 import { gpuMigRecommendationsBaseQuery, useGpuMigRecommendationsReport } from '../useGpuMigRecommendationsReport';
+import { getStorageGroupBy, type StorageGroupBy } from '../storageTableUtils';
 import { OptimizationsGpuMigDataTable } from './optimizationsGpuMigDataTable';
 import { OptimizationsGpuMigToolbar } from './optimizationsGpuMigToolbar';
 
@@ -66,7 +67,9 @@ const OptimizationsGpuMigTable: React.FC<OptimizationsGpuMigTableProps> = () => 
       <OptimizationsGpuMigDataTable
         breakdownPath="/optimizations/gpu-mig-breakdown"
         filterBy={query.filter_by}
+        groupBy={gpuMigGroupBy}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
+        onDrillDownFromGroup={handleDrillDownFromGroup}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         report={report}
@@ -82,11 +85,13 @@ const OptimizationsGpuMigTable: React.FC<OptimizationsGpuMigTableProps> = () => 
 
     return (
       <OptimizationsGpuMigToolbar
+        groupBy={gpuMigGroupBy}
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
+        onGroupBySelect={handleOnGroupBySelect}
         onTermSelect={handleOnTermSelect}
         pagination={getPagination(isDisabled)}
         query={query}
@@ -123,6 +128,33 @@ const OptimizationsGpuMigTable: React.FC<OptimizationsGpuMigTableProps> = () => 
   const handleOnTermSelect = (term: string) => {
     setQuery({ ...query, term, offset: 0 });
   };
+
+  const handleOnGroupBySelect = (groupBy: StorageGroupBy) => {
+    if (!groupBy) {
+      const { group_by: _removed, ...rest } = query;
+      setQuery({ ...rest, offset: 0 });
+      return;
+    }
+    setQuery({
+      ...query,
+      group_by: { [groupBy]: '*' },
+      offset: 0,
+    });
+  };
+
+  const handleDrillDownFromGroup = (filter: { key: string; value: string }) => {
+    const { group_by: _removed, ...rest } = query;
+    setQuery({
+      ...rest,
+      filter_by: {
+        ...query.filter_by,
+        [filter.key]: filter.value,
+      },
+      offset: 0,
+    });
+  };
+
+  const gpuMigGroupBy = getStorageGroupBy(query);
 
   const itemsTotal = report?.meta ? report.meta.count : 0;
   const isDisabled = itemsTotal === 0;

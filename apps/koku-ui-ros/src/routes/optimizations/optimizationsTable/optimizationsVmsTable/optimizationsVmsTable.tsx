@@ -14,6 +14,7 @@ import { FetchStatus } from 'store/common';
 
 import { useSavingsFallbackSort } from '../useSavingsFallbackSort';
 import { vmRecommendationsBaseQuery, useVmRecommendationsReport } from '../useVmRecommendationsReport';
+import { getStorageGroupBy, type StorageGroupBy } from '../storageTableUtils';
 import { getLinkState } from '../utils';
 import { OptimizationsVmsDataTable } from './optimizationsVmsDataTable';
 import { OptimizationsVmsToolbar } from './optimizationsVmsToolbar';
@@ -100,9 +101,11 @@ const OptimizationsVmsTable: React.FC<OptimizationsVmsTableProps> = ({
         breadcrumbLabel={breadcrumbLabel}
         engine={query.engine}
         filterBy={query.filter_by}
+        groupBy={vmGroupBy}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         linkPath={linkPath}
         linkState={newLinkState}
+        onDrillDownFromGroup={handleDrillDownFromGroup}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
@@ -120,12 +123,14 @@ const OptimizationsVmsTable: React.FC<OptimizationsVmsTableProps> = ({
 
     return (
       <OptimizationsVmsToolbar
+        groupBy={vmGroupBy}
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onEngineSelect={handleOnEngineSelect}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
+        onGroupBySelect={handleOnGroupBySelect}
         onTermSelect={handleOnTermSelect}
         pagination={getPagination(isDisabled)}
         query={query}
@@ -175,6 +180,35 @@ const OptimizationsVmsTable: React.FC<OptimizationsVmsTableProps> = ({
   const handleOnEngineSelect = (engine: string) => {
     setQuery({ ...query, engine, offset: 0, after: undefined });
   };
+
+  const handleOnGroupBySelect = (groupBy: StorageGroupBy) => {
+    if (!groupBy) {
+      const { group_by: _removed, ...rest } = query;
+      setQuery({ ...rest, offset: 0, after: undefined });
+      return;
+    }
+    setQuery({
+      ...query,
+      group_by: { [groupBy]: '*' },
+      offset: 0,
+      after: undefined,
+    });
+  };
+
+  const handleDrillDownFromGroup = (filter: { key: string; value: string }) => {
+    const { group_by: _removed, ...rest } = query;
+    setQuery({
+      ...rest,
+      filter_by: {
+        ...query.filter_by,
+        [filter.key]: filter.value,
+      },
+      offset: 0,
+      after: undefined,
+    });
+  };
+
+  const vmGroupBy = getStorageGroupBy(query);
 
   const itemsTotal = report?.meta ? report.meta.count : 0;
   const isDisabled = itemsTotal === 0;

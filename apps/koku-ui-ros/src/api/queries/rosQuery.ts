@@ -8,6 +8,7 @@ type RosGroupByValue = string | string[];
 
 interface RosGroupBys {
   cluster?: RosGroupByValue;
+  namespace?: RosGroupByValue;
   node?: RosGroupByValue;
   project?: RosGroupByValue;
 }

@@ -15,14 +15,18 @@ import type { RootState } from 'store/rootReducer';
 import { tagActions, tagSelectors } from 'store/tags';
 
 import { OptimizationsProjectionToolbar } from '../optimizationsProjectionToolbar';
+import { OptimizationsStorageGroupByToolbar } from '../optimizationsStorageGroupByToolbar';
+import type { StorageGroupBy } from '../storageTableUtils';
 
 interface OptimizationsNodesToolbarOwnProps {
+  groupBy?: StorageGroupBy;
   isDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   onEngineSelect?: (value: string) => void;
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
+  onGroupBySelect?: (value: StorageGroupBy) => void;
   onTermSelect?: (value: string) => void;
   pagination?: React.ReactNode;
   query?: RosQuery;
@@ -96,12 +100,14 @@ class OptimizationsNodesToolbarBase extends React.Component<
 
   public render() {
     const {
+      groupBy,
       isDisabled,
       itemsPerPage,
       itemsTotal,
       onEngineSelect,
       onFilterAdded,
       onFilterRemoved,
+      onGroupBySelect,
       onTermSelect,
       pagination,
       query,
@@ -112,13 +118,21 @@ class OptimizationsNodesToolbarBase extends React.Component<
     return (
       <BasicToolbar
         actions={
-          <OptimizationsProjectionToolbar
-            engine={query?.engine}
-            isDisabled={isDisabled}
-            onEngineSelect={onEngineSelect}
-            onTermSelect={onTermSelect}
-            term={query?.term}
-          />
+          <>
+            <OptimizationsStorageGroupByToolbar
+              groupBy={groupBy}
+              isDisabled={isDisabled}
+              onGroupBySelect={onGroupBySelect}
+              projectGroupByDisabled
+            />
+            <OptimizationsProjectionToolbar
+              engine={query?.engine}
+              isDisabled={isDisabled}
+              onEngineSelect={onEngineSelect}
+              onTermSelect={onTermSelect}
+              term={query?.term}
+            />
+          </>
         }
         categoryOptions={categoryOptions}
         isDisabled={isDisabled}

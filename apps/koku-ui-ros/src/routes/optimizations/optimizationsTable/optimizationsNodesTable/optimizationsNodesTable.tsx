@@ -18,6 +18,7 @@ import { FetchStatus } from 'store/common';
 
 import { useSavingsFallbackSort } from '../useSavingsFallbackSort';
 import { nodeRecommendationsBaseQuery, useNodeRecommendationsReport } from '../useNodeRecommendationsReport';
+import { getStorageGroupBy, type StorageGroupBy } from '../storageTableUtils';
 import { getLinkState } from '../utils';
 import { OptimizationsNodesDataTable } from './optimizationsNodesDataTable';
 import { OptimizationsNodesToolbar } from './optimizationsNodesToolbar';
@@ -106,9 +107,11 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
         breadcrumbLabel={breadcrumbLabel}
         engine={query.engine}
         filterBy={query.filter_by}
+        groupBy={nodeGroupBy}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         linkPath={linkPath}
         linkState={newLinkState}
+        onDrillDownFromGroup={handleDrillDownFromGroup}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
@@ -126,12 +129,14 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
 
     return (
       <OptimizationsNodesToolbar
+        groupBy={nodeGroupBy}
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
         onEngineSelect={handleOnEngineSelect}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
+        onGroupBySelect={handleOnGroupBySelect}
         onTermSelect={handleOnTermSelect}
         pagination={getPagination(isDisabled)}
         query={query}
@@ -191,6 +196,37 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
     setCursorPage(1);
     setQuery({ ...query, engine, offset: 0, after: undefined });
   };
+
+  const handleOnGroupBySelect = (groupBy: StorageGroupBy) => {
+    setCursorPage(1);
+    if (!groupBy) {
+      const { group_by: _removed, ...rest } = query;
+      setQuery({ ...rest, offset: 0, after: undefined });
+      return;
+    }
+    setQuery({
+      ...query,
+      group_by: { [groupBy]: '*' },
+      offset: 0,
+      after: undefined,
+    });
+  };
+
+  const handleDrillDownFromGroup = (filter: { key: string; value: string }) => {
+    setCursorPage(1);
+    const { group_by: _removed, ...rest } = query;
+    setQuery({
+      ...rest,
+      filter_by: {
+        ...query.filter_by,
+        [filter.key]: filter.value,
+      },
+      offset: 0,
+      after: undefined,
+    });
+  };
+
+  const nodeGroupBy = getStorageGroupBy(query);
 
   const itemsTotal = report?.meta ? report.meta.count : 0;
   const isDisabled = itemsTotal === 0;

@@ -970,6 +970,16 @@ export default defineMessages({
     description: 'Storage list group-by namespace/project option',
     id: 'storageGroupByProject',
   },
+  storageGroupByNamespace: {
+    defaultMessage: 'Namespace',
+    description: 'Group-by namespace option',
+    id: 'storageGroupByNamespace',
+  },
+  storageGroupByNode: {
+    defaultMessage: 'Node',
+    description: 'Group-by node option',
+    id: 'storageGroupByNode',
+  },
   storageRecommendationCount: {
     defaultMessage: 'Recommendations',
     description: 'Grouped storage table column for row count in a group',

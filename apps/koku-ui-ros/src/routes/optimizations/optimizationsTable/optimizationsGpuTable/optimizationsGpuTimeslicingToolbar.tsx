@@ -9,13 +9,17 @@ import type { Filter } from 'routes/utils/filter';
 import { Interval } from 'utils/commonTypes';
 
 import { OptimizationsProjectionToolbar } from '../optimizationsProjectionToolbar';
+import { OptimizationsStorageGroupByToolbar } from '../optimizationsStorageGroupByToolbar';
+import type { StorageGroupBy } from '../storageTableUtils';
 
 interface OptimizationsGpuTimeslicingToolbarOwnProps {
+  groupBy?: StorageGroupBy;
   isDisabled?: boolean;
   itemsPerPage?: number;
   itemsTotal?: number;
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
+  onGroupBySelect?: (value: StorageGroupBy) => void;
   onTermSelect?: (value: string) => void;
   pagination?: React.ReactNode;
   query?: RosQuery;
@@ -52,11 +56,13 @@ class OptimizationsGpuTimeslicingToolbarBase extends React.Component<
 
   public render() {
     const {
+      groupBy,
       isDisabled,
       itemsPerPage,
       itemsTotal,
       onFilterAdded,
       onFilterRemoved,
+      onGroupBySelect,
       onTermSelect,
       pagination,
       query,
@@ -66,17 +72,25 @@ class OptimizationsGpuTimeslicingToolbarBase extends React.Component<
     return (
       <BasicToolbar
         actions={
-          <OptimizationsProjectionToolbar
-            isDisabled={isDisabled}
-            onTermSelect={onTermSelect}
-            showEngine={false}
-            term={query?.term}
-            termOptions={[
-              { label: messages.optimizationsShortTerm, value: Interval.short_term },
-              { label: messages.optimizationsMediumTerm, value: Interval.medium_term },
-              { label: messages.optimizationsLongTerm, value: Interval.long_term },
-            ]}
-          />
+          <>
+            <OptimizationsStorageGroupByToolbar
+              groupBy={groupBy}
+              isDisabled={isDisabled}
+              onGroupBySelect={onGroupBySelect}
+              projectGroupByDisabled
+            />
+            <OptimizationsProjectionToolbar
+              isDisabled={isDisabled}
+              onTermSelect={onTermSelect}
+              showEngine={false}
+              term={query?.term}
+              termOptions={[
+                { label: messages.optimizationsShortTerm, value: Interval.short_term },
+                { label: messages.optimizationsMediumTerm, value: Interval.medium_term },
+                { label: messages.optimizationsLongTerm, value: Interval.long_term },
+              ]}
+            />
+          </>
         }
         categoryOptions={categoryOptions}
         isDisabled={isDisabled}

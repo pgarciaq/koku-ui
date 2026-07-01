@@ -18,14 +18,17 @@ import {
   getNodeFleetReduction,
   getNodeLastReported,
 } from '../nodeTableUtils';
+import { formatMoneyCell, type StorageGroupBy } from '../storageTableUtils';
 
 interface OptimizationsNodesDataTableOwnProps {
   breadcrumbLabel?: string;
   engine?: string;
   filterBy?: any;
+  groupBy?: StorageGroupBy;
   isLoading?: boolean;
   linkPath?: string;
   linkState?: any;
+  onDrillDownFromGroup?(filter: { key: string; value: string });
   onFilterAdded?(filter: { key: string; value: string });
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
@@ -112,9 +115,11 @@ const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = 
   breadcrumbLabel,
   engine = ROS_LIST_ENGINE,
   filterBy,
+  groupBy = '',
   isLoading,
   linkPath,
   linkState,
+  onDrillDownFromGroup,
   onFilterAdded,
   onSort,
   orderBy,
@@ -130,6 +135,50 @@ const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = 
       return;
     }
     const hasData = report?.data && report.data.length > 0;
+    const isGrouped = groupBy !== '';
+
+    if (isGrouped) {
+      const groupLabel = intl.formatMessage(messages.optimizationsNames, { value: 'cluster' });
+
+      setColumns([
+        { name: groupLabel },
+        { name: intl.formatMessage(messages.storageRecommendationCount) },
+        {
+          name: intl.formatMessage(messages.optimizationsNames, { value: 'potential_savings' }),
+        },
+      ]);
+
+      const newRows = [];
+      report?.data?.forEach(item => {
+        const savings = formatMoneyCell(item.estimated_monthly_savings);
+        const groupValue = item.cluster_uuid ?? '';
+        const drillDown = onDrillDownFromGroup && groupValue;
+
+        newRows.push({
+          cells: [
+            {
+              value: drillDown ? (
+                <a
+                  href="#"
+                  onClick={e => {
+                    e.preventDefault();
+                    onDrillDownFromGroup({ key: 'cluster', value: groupValue });
+                  }}
+                >
+                  {groupValue}
+                </a>
+              ) : (
+                groupValue
+              ),
+            },
+            { value: item.count != null ? String(item.count) : '—' },
+            { value: savings ?? '—' },
+          ],
+        });
+      });
+      setRows(newRows);
+      return;
+    }
 
     const newColumns = [
       {
@@ -232,7 +281,7 @@ const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = 
 
   useEffect(() => {
     initDatum();
-  }, [engine, linkState, report, term]);
+  }, [engine, groupBy, linkState, onDrillDownFromGroup, report, term]);
 
   return (
     <DataTable
