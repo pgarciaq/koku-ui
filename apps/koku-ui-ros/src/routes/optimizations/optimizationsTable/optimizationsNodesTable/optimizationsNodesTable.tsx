@@ -243,10 +243,12 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
   }
   if (!query.filter_by && !hasOptimizations && reportFetchStatus === FetchStatus.complete) {
     const dataDaysAvailable = report?.meta?.data_days_available ?? 0;
-    const activeTerm = query.term ?? ROS_LIST_TERM;
-    const termName = INTERVAL_TO_TERM_NAME[activeTerm];
-    const matchedTerm = termSettings.find(t => t.name === termName);
-    const minDataDays = matchedTerm?.min_data_days ?? 3;
+    const minDataDays = report?.meta?.min_data_days ?? (() => {
+      const activeTerm = query.term ?? ROS_LIST_TERM;
+      const termName = INTERVAL_TO_TERM_NAME[activeTerm];
+      const matchedTerm = termSettings.find(t => t.name === termName);
+      return matchedTerm?.min_data_days ?? 3;
+    })();
     if (dataDaysAvailable < minDataDays) {
       return <ColdStartState currentDays={dataDaysAvailable} minDays={minDataDays} />;
     }

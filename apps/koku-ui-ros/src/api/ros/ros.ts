@@ -37,6 +37,7 @@ export interface RosMeta extends PagedMetaData {
   currency?: string;
   has_next?: boolean;
   limit?: number;
+  min_data_days?: number;
   next_cursor?: string;
   offset?: number;
 }

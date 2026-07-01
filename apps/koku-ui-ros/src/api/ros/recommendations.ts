@@ -277,6 +277,7 @@ export interface NodeRecommendationReport {
     next_cursor?: string;
     currency?: string;
     data_days_available?: number;
+    min_data_days?: number;
   };
   data: NodeRecommendationData[];
   links?: Record<string, string>;
@@ -369,6 +370,7 @@ export interface PvcRecommendationReport {
     currency?: string;
     has_next?: boolean;
     limit: number;
+    min_data_days?: number;
     next_cursor?: string;
     offset: number;
   };
@@ -488,6 +490,7 @@ export interface VmRecommendationReport {
     has_next?: boolean;
     next_cursor?: string;
     currency?: string;
+    min_data_days?: number;
   };
   data: VmRecommendationData[];
   links?: Record<string, string>;
@@ -852,6 +855,7 @@ export interface GPUTimeslicingListMeta {
   has_next?: boolean;
   next_cursor?: string;
   currency?: string;
+  min_data_days?: number;
   warnings?: string[];
 }
 
