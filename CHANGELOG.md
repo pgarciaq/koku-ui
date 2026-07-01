@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **ROS:** Added missing `category`, `category_cpu`, and `category_memory` fields
+  to the `RosData` TypeScript interface. These fields are returned by the backend
+  container recommendation list endpoint and documented in the OpenAPI spec but
+  were not present in the frontend types.
+  ([Issue #118](https://github.com/pgarciaq/ros-ocp-backend/issues/118))
+
 ### Added
 
 - **ROS:** Node recommendations cold-start empty state. When insufficient data is

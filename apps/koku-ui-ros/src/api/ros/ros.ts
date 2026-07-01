@@ -6,8 +6,13 @@ export interface RosIdleRecommendation {
   reason?: string;
 }
 
+export type RecommendationCategory = 'undersized' | 'oversized' | 'optimized';
+
 export interface RosData {
   analytics_incomplete?: boolean;
+  category?: RecommendationCategory;
+  category_cpu?: RecommendationCategory;
+  category_memory?: RecommendationCategory;
   cluster_uuid?: string;
   cluster_alias?: string;
   container?: string;
