@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added
+
+- **ROS:** Node Request vs Usage Gap Chart in Visual Insights section. Renders
+  two line charts (CPU/Memory) showing aggregate requests overlaid on P95 usage,
+  with the gap between them shaded to highlight overcommitted resources. Uses
+  `max_cpu_requests_mc` and `max_mem_requests_kib` from the daily digests response.
+  Includes WCAG 2.1 AA accessibility (hidden data table, aria labels).
+  ([Issue #23](https://github.com/pgarciaq/ros-ocp-backend/issues/23))
+
 ### Changed
 
 - **ROS:** Consolidated 5 table federated module wrappers into a single

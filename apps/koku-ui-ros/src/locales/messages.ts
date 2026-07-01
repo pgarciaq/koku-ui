@@ -2483,6 +2483,36 @@ export default defineMessages({
     description: 'Legend label for max utilization line in node trend charts',
     id: 'visualInsightsNodeTrendMax',
   },
+  visualInsightsNodeRequestGapCpuTitle: {
+    defaultMessage: 'CPU Request vs Usage',
+    description: 'Title for the node CPU request versus usage gap chart',
+    id: 'visualInsightsNodeRequestGapCpuTitle',
+  },
+  visualInsightsNodeRequestGapMemTitle: {
+    defaultMessage: 'Memory Request vs Usage',
+    description: 'Title for the node memory request versus usage gap chart',
+    id: 'visualInsightsNodeRequestGapMemTitle',
+  },
+  visualInsightsNodeRequestGapDesc: {
+    defaultMessage: 'Daily aggregate requests compared to P95 usage, as a percentage of allocatable capacity. The gap indicates overcommitted resources.',
+    description: 'Accessible description for the node request vs usage gap chart',
+    id: 'visualInsightsNodeRequestGapDesc',
+  },
+  visualInsightsNodeRequestGapRequest: {
+    defaultMessage: 'Requests',
+    description: 'Legend label for the requests line in node request gap charts',
+    id: 'visualInsightsNodeRequestGapRequest',
+  },
+  visualInsightsNodeRequestGapUsage: {
+    defaultMessage: 'P95 usage',
+    description: 'Legend label for the P95 usage line in node request gap charts',
+    id: 'visualInsightsNodeRequestGapUsage',
+  },
+  visualInsightsNodeRequestGapAllocatable: {
+    defaultMessage: 'Allocatable',
+    description: 'Legend label for the allocatable capacity line in node request gap charts',
+    id: 'visualInsightsNodeRequestGapAllocatable',
+  },
   visualInsightsVmUtilizationTrends: {
     defaultMessage: 'Utilization Trends',
     description: 'Section title for the VM CPU and memory utilization trend charts',

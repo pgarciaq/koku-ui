@@ -9,7 +9,7 @@ import { UtilizationHeatmap } from 'routes/optimizations/visualInsightsUtils';
 import { FetchStatus } from 'store/common';
 
 import { NodePodHeadroomGauge } from './nodePodHeadroomGauge';
-import { NodeUtilizationTrend } from './visualInsights';
+import { NodeRequestGapChart, NodeUtilizationTrend } from './visualInsights';
 
 interface NodeVisualInsightsSectionOwnProps {
   clusterUuid?: string;
@@ -61,6 +61,7 @@ const NodeVisualInsightsSection: React.FC<NodeVisualInsightsSectionOwnProps> = (
 
   const hasPodHeadroom = podCapacity > 0;
   const hasDigests = dailyDigests && dailyDigests.length > 0;
+  const hasRequestData = hasDigests && dailyDigests.some(d => d.max_cpu_requests_mc > 0 || d.max_mem_requests_kib > 0);
 
   if (!hasPodHeadroom && !hasDigests && !hourlyParams) {
     return null;
@@ -102,6 +103,24 @@ const NodeVisualInsightsSection: React.FC<NodeVisualInsightsSectionOwnProps> = (
               />
             </GridItem>
           </Grid>
+        )}
+        {hasDigests && hasRequestData && (
+          <div style={{ marginTop: 24 }}>
+            <Grid hasGutter>
+              <GridItem md={6}>
+                <Title headingLevel="h3" size="md">
+                  {intl.formatMessage(messages.visualInsightsNodeRequestGapCpuTitle)}
+                </Title>
+                <NodeRequestGapChart dailyDigests={dailyDigests} metricKey="cpu" />
+              </GridItem>
+              <GridItem md={6}>
+                <Title headingLevel="h3" size="md">
+                  {intl.formatMessage(messages.visualInsightsNodeRequestGapMemTitle)}
+                </Title>
+                <NodeRequestGapChart dailyDigests={dailyDigests} metricKey="memory" />
+              </GridItem>
+            </Grid>
+          </div>
         )}
         {hourlyParams && (
           <div style={{ marginTop: hasDigests ? 24 : 0 }}>

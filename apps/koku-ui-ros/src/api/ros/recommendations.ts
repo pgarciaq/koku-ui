@@ -268,6 +268,8 @@ export interface NodeDailyDigestItem {
   mem_usage_max_kib?: number;
   max_cpu_allocatable_mc: number;
   max_mem_allocatable_kib: number;
+  max_cpu_requests_mc: number;
+  max_mem_requests_kib: number;
 }
 
 export interface NodeRecommendationReport {
