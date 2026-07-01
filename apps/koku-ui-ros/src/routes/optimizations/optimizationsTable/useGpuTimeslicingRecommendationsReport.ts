@@ -47,6 +47,7 @@ export const useGpuTimeslicingRecommendationsReport = ({
   const reportQuery = withRosListProjection({
     ...(query.filter_by?.cluster && { cluster_uuid: query.filter_by.cluster }),
     ...(query.filter_by?.node && { node: query.filter_by.node }),
+    ...(query.filter_by?.gpu_model && { gpu_model: query.filter_by.gpu_model }),
     limit: query.limit,
     offset: query.offset ?? 0,
     order_by,

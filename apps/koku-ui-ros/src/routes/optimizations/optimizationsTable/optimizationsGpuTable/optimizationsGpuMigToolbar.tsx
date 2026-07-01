@@ -46,6 +46,7 @@ class OptimizationsGpuMigToolbarBase extends React.Component<
     return [
       { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'project' }), key: 'project' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'workload' }), key: 'workload' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'gpu_model' }), key: 'gpu_model' },
     ];
   };

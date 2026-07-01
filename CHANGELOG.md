@@ -8,6 +8,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** GPU summary totals banner on MIG and Time-Slicing tabs. MIG shows
+  recommendation count only; Time-Slicing shows total potential savings and count.
+  ([Issue #113](https://github.com/pgarciaq/ros-ocp-backend/issues/113))
+- **ROS:** Cross-tab navigation links. Entity names (cluster, namespace, node, PVC,
+  container) are now clickable, navigating to the relevant tab with a pre-applied filter.
+  ([Issue #110](https://github.com/pgarciaq/ros-ocp-backend/issues/110))
+- **ROS:** Savings fallback sort. When all visible rows have null/zero savings, tables
+  automatically fall back to sorting by the relevant variation field.
+  ([Issue #114](https://github.com/pgarciaq/ros-ocp-backend/issues/114))
+- **ROS:** GPU Time-Slicing `gpu_model` filter.
+  ([Issue #109](https://github.com/pgarciaq/ros-ocp-backend/issues/109))
+- **ROS:** VM filters: `is_idle`, `is_abandoned`, `is_oversized`, `is_network_bound`,
+  `guest_os`, `node`, and `is_power_off_candidate`.
+  ([Issue #108](https://github.com/pgarciaq/ros-ocp-backend/issues/108))
+- **ROS:** GPU MIG `workload` filter.
+  ([Issue #109](https://github.com/pgarciaq/ros-ocp-backend/issues/109))
+
 - **ROS:** Node Activity Heatmap on the node breakdown Visual Insights section.
   Reuses the generic `UtilizationHeatmap` component (24×7 hour-of-day × day-of-week
   grid) consuming the new backend

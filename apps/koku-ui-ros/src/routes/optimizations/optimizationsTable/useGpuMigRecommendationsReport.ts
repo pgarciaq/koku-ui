@@ -47,6 +47,7 @@ export const useGpuMigRecommendationsReport = ({
   const reportQuery = withRosListProjection({
     ...(query.filter_by?.cluster && { cluster_uuid: query.filter_by.cluster }),
     ...(query.filter_by?.project && { 'filter[project]': query.filter_by.project }),
+    ...(query.filter_by?.workload && { 'filter[workload]': query.filter_by.workload }),
     ...(query.filter_by?.gpu_model && { gpu_model: query.filter_by.gpu_model }),
     limit: query.limit,
     offset: query.offset ?? 0,

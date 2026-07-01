@@ -46,6 +46,7 @@ class OptimizationsGpuTimeslicingToolbarBase extends React.Component<
     return [
       { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'node' }), key: 'node' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'gpu_model' }), key: 'gpu_model' },
     ];
   };
 

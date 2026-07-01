@@ -635,6 +635,11 @@ export default defineMessages({
     description: 'Empty state when no container recommendations exist in the namespace',
     id: 'namespaceContainerInventoryEmpty',
   },
+  no: {
+    defaultMessage: 'No',
+    description: 'No',
+    id: 'no',
+  },
   noResultsFound: {
     defaultMessage: 'No results found',
     description: 'No results found',
@@ -1872,6 +1877,36 @@ export default defineMessages({
     description: 'VM status badge for healthy VMs',
     id: 'vmStatusOk',
   },
+  vmFilterIsIdle: {
+    defaultMessage: 'Is idle',
+    description: 'VM filter label for is_idle boolean',
+    id: 'vmFilterIsIdle',
+  },
+  vmFilterIsAbandoned: {
+    defaultMessage: 'Is abandoned',
+    description: 'VM filter label for is_abandoned boolean',
+    id: 'vmFilterIsAbandoned',
+  },
+  vmFilterIsOversized: {
+    defaultMessage: 'Is oversized',
+    description: 'VM filter label for is_oversized boolean',
+    id: 'vmFilterIsOversized',
+  },
+  vmFilterIsNetworkBound: {
+    defaultMessage: 'Is network bound',
+    description: 'VM filter label for is_network_bound boolean',
+    id: 'vmFilterIsNetworkBound',
+  },
+  vmFilterIsPowerOffCandidate: {
+    defaultMessage: 'Power-off candidate',
+    description: 'VM filter label for is_power_off_candidate boolean',
+    id: 'vmFilterIsPowerOffCandidate',
+  },
+  vmFilterGuestOs: {
+    defaultMessage: 'Guest OS',
+    description: 'VM filter label for guest_os',
+    id: 'vmFilterGuestOs',
+  },
   vmMetadataFlagsTitle: {
     defaultMessage: 'VM classification flags',
     description: 'Alert title for VM metadata classification flags on breakdown page',
@@ -2532,5 +2567,10 @@ export default defineMessages({
     defaultMessage: 'Half-life must be between 0 and 8760',
     description: 'Validation error for decay_halflife_hours out of range',
     id: 'decaySettingsValidationHalfLifeRange',
+  },
+  yes: {
+    defaultMessage: 'Yes',
+    description: 'Yes',
+    id: 'yes',
   },
 });
