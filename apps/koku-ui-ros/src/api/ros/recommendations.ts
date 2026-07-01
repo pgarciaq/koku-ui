@@ -79,6 +79,12 @@ export interface RecommendationTerms {
   short_term?: RecommendationTerm;
 }
 
+export interface ReplicaOptimization {
+  recommended_replicas?: number;
+  confidence?: 'high' | 'medium' | 'low';
+  explanation?: string;
+}
+
 export interface Recommendations {
   current?: RecommendationValues;
   estimated_monthly_savings?: MoneyAmount;
@@ -92,6 +98,7 @@ export interface Recommendations {
     [key: string]: Notification;
   };
   recommendation_terms?: RecommendationTerms;
+  replica_optimization?: ReplicaOptimization;
   replicas?: {
     min?: number;
     max?: number;

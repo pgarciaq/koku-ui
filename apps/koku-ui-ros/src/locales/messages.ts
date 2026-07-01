@@ -1672,6 +1672,46 @@ export default defineMessages({
     description: 'Tooltip shown when a replica value is null',
     id: 'replicaNoDataTooltip',
   },
+  replicaOptimizationTitle: {
+    defaultMessage: 'Replica recommendation',
+    description: 'Label for replica optimization section in container breakdown',
+    id: 'replicaOptimizationTitle',
+  },
+  replicaOptimizationRecommended: {
+    defaultMessage: '{recommended, plural, one {# replica} other {# replicas}}',
+    description: 'Display of recommended replica count',
+    id: 'replicaOptimizationRecommended',
+  },
+  replicaOptimizationReduceBy: {
+    defaultMessage: 'Reduce by {count}',
+    description: 'Badge text when replica reduction is recommended',
+    id: 'replicaOptimizationReduceBy',
+  },
+  replicaOptimizationOptimal: {
+    defaultMessage: 'Optimal',
+    description: 'Badge text when current replica count is optimal',
+    id: 'replicaOptimizationOptimal',
+  },
+  replicaOptimizationScaleUp: {
+    defaultMessage: 'Scale up by {count}',
+    description: 'Badge text when more replicas are recommended',
+    id: 'replicaOptimizationScaleUp',
+  },
+  replicaOptimizationConfidenceHigh: {
+    defaultMessage: 'High confidence',
+    description: 'Confidence level description for replica recommendation',
+    id: 'replicaOptimizationConfidenceHigh',
+  },
+  replicaOptimizationConfidenceMedium: {
+    defaultMessage: 'Medium confidence',
+    description: 'Confidence level description for replica recommendation',
+    id: 'replicaOptimizationConfidenceMedium',
+  },
+  replicaOptimizationConfidenceLow: {
+    defaultMessage: 'Low confidence',
+    description: 'Confidence level description for replica recommendation',
+    id: 'replicaOptimizationConfidenceLow',
+  },
   dataThrough: {
     defaultMessage: 'Data through',
     description: 'Label for monitoring end time date',

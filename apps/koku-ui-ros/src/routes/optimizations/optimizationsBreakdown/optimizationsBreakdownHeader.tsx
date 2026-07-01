@@ -1,4 +1,5 @@
-import { Content, ContentVariants, Icon, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
+import { Content, ContentVariants, Icon, Label, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
+import { CheckCircleIcon } from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { RecommendationReportData } from 'api/ros/recommendations';
 import messages from 'locales/messages';
@@ -144,6 +145,47 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
               </Content>
             </>
           )}
+          {(() => {
+            const replicaOpt = report?.recommendations?.replica_optimization;
+            if (!replicaOpt?.recommended_replicas) return null;
+            const current = replicas?.desired ?? replicas?.available;
+            const recommended = replicaOpt.recommended_replicas;
+            const diff = current != null ? current - recommended : 0;
+
+            let badge: React.ReactNode;
+            if (diff > 0) {
+              badge = <Label color="green">{intl.formatMessage(messages.replicaOptimizationReduceBy, { count: diff })}</Label>;
+            } else if (diff < 0) {
+              badge = <Label color="orange">{intl.formatMessage(messages.replicaOptimizationScaleUp, { count: Math.abs(diff) })}</Label>;
+            } else {
+              badge = <Label color="blue" icon={<CheckCircleIcon />}>{intl.formatMessage(messages.replicaOptimizationOptimal)}</Label>;
+            }
+
+            const confidenceMsg = replicaOpt.confidence === 'high'
+              ? messages.replicaOptimizationConfidenceHigh
+              : replicaOpt.confidence === 'medium'
+                ? messages.replicaOptimizationConfidenceMedium
+                : messages.replicaOptimizationConfidenceLow;
+
+            return (
+              <>
+                <Content component={ContentVariants.dt}>
+                  {intl.formatMessage(messages.replicaOptimizationTitle)}
+                </Content>
+                <Content component={ContentVariants.dd}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                    {intl.formatMessage(messages.replicaOptimizationRecommended, { recommended })}
+                    {badge}
+                    <Tooltip content={replicaOpt.explanation || intl.formatMessage(confidenceMsg)}>
+                      <Label variant="outline" color={replicaOpt.confidence === 'high' ? 'green' : replicaOpt.confidence === 'medium' ? 'gold' : 'orange'}>
+                        {intl.formatMessage(confidenceMsg)}
+                      </Label>
+                    </Tooltip>
+                  </span>
+                </Content>
+              </>
+            );
+          })()}
           {monitoringEndTime && (
             <>
               <Content component={ContentVariants.dt}>
