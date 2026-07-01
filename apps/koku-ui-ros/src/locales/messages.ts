@@ -2478,6 +2478,11 @@ export default defineMessages({
     description: 'Legend label for the consolidation threshold horizontal line in node trend charts',
     id: 'visualInsightsNodeTrendThreshold',
   },
+  visualInsightsNodeTrendMax: {
+    defaultMessage: 'Max utilization',
+    description: 'Legend label for max utilization line in node trend charts',
+    id: 'visualInsightsNodeTrendMax',
+  },
   visualInsightsVmUtilizationTrends: {
     defaultMessage: 'Utilization Trends',
     description: 'Section title for the VM CPU and memory utilization trend charts',

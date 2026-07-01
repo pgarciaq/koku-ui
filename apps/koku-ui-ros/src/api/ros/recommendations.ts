@@ -262,8 +262,10 @@ export interface NodeDailyDigestItem {
   bucket_date: string;
   cpu_usage_p50_mc: number;
   cpu_usage_p95_mc: number;
+  cpu_usage_max_mc?: number;
   mem_usage_p50_kib: number;
   mem_usage_p95_kib: number;
+  mem_usage_max_kib?: number;
   max_cpu_allocatable_mc: number;
   max_mem_allocatable_kib: number;
 }

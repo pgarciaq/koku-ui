@@ -22,6 +22,7 @@ interface NodeUtilizationTrendProps {
 
 const P95_COLOR = '#0066CC';
 const P50_COLOR = '#8BC1F7';
+const MAX_COLOR = '#EC7A08';
 const THRESHOLD_COLOR = '#C9190B';
 const CHART_HEIGHT = 220;
 
@@ -60,17 +61,19 @@ const NodeUtilizationTrend: React.FC<NodeUtilizationTrendProps> = ({
   );
   const p95Label = intl.formatMessage(messages.visualInsightsNodeTrendP95);
   const p50Label = intl.formatMessage(messages.visualInsightsNodeTrendP50);
+  const maxLabel = intl.formatMessage(messages.visualInsightsNodeTrendMax);
   const thresholdLabel = intl.formatMessage(messages.visualInsightsNodeTrendThreshold);
 
   const thresholdPct = targetUtilizationBP != null ? targetUtilizationBP / 100 : null;
 
-  const { p95Data, p50Data, thresholdData } = useMemo(() => {
+  const { p95Data, p50Data, maxData, thresholdData } = useMemo(() => {
     const sorted = [...dailyDigests].sort(
       (a, b) => new Date(a.bucket_date).getTime() - new Date(b.bucket_date).getTime()
     );
 
     const p95: { x: string; y: number; name: string }[] = [];
     const p50: { x: string; y: number; name: string }[] = [];
+    const max: { x: string; y: number; name: string }[] = [];
     const threshold: { x: string; y: number; name: string }[] = [];
 
     for (const d of sorted) {
@@ -83,6 +86,7 @@ const NodeUtilizationTrend: React.FC<NodeUtilizationTrendProps> = ({
 
       const p95Value = isCpu ? d.cpu_usage_p95_mc : d.mem_usage_p95_kib;
       const p50Value = isCpu ? d.cpu_usage_p50_mc : d.mem_usage_p50_kib;
+      const maxValue = isCpu ? d.cpu_usage_max_mc : d.mem_usage_max_kib;
 
       const p95Pct = parseFloat(((p95Value / allocatable) * 100).toFixed(1));
       const p50Pct = parseFloat(((p50Value / allocatable) * 100).toFixed(1));
@@ -90,12 +94,17 @@ const NodeUtilizationTrend: React.FC<NodeUtilizationTrendProps> = ({
       p95.push({ x: label, y: p95Pct, name: 'p95' });
       p50.push({ x: label, y: p50Pct, name: 'p50' });
 
+      if (maxValue != null) {
+        const maxPct = parseFloat(((maxValue / allocatable) * 100).toFixed(1));
+        max.push({ x: label, y: maxPct, name: 'max' });
+      }
+
       if (thresholdPct != null) {
         threshold.push({ x: label, y: thresholdPct, name: 'threshold' });
       }
     }
 
-    return { p95Data: p95, p50Data: p50, thresholdData: threshold };
+    return { p95Data: p95, p50Data: p50, maxData: max, thresholdData: threshold };
   }, [dailyDigests, thresholdPct, isCpu]);
 
   if (!p95Data.length) {
@@ -105,6 +114,9 @@ const NodeUtilizationTrend: React.FC<NodeUtilizationTrendProps> = ({
   const legendData = [
     { childName: 'p95', name: p95Label, symbol: { fill: P95_COLOR, type: 'minus' } },
     { childName: 'p50', name: p50Label, symbol: { fill: P50_COLOR, type: 'minus' } },
+    ...(maxData.length
+      ? [{ childName: 'max', name: maxLabel, symbol: { fill: MAX_COLOR, type: 'minus' } }]
+      : []),
     ...(thresholdData.length
       ? [{ childName: 'threshold', name: thresholdLabel, symbol: { fill: THRESHOLD_COLOR, type: 'minus' } }]
       : []),
@@ -148,6 +160,14 @@ const NodeUtilizationTrend: React.FC<NodeUtilizationTrendProps> = ({
             name="p50"
             style={{ data: { stroke: P50_COLOR, strokeWidth: 1.5, strokeDasharray: '6,3' } }}
           />
+          {maxData.length > 0 && (
+            <ChartLine
+              data={maxData}
+              interpolation="monotoneX"
+              name="max"
+              style={{ data: { stroke: MAX_COLOR, strokeWidth: 1.5, strokeDasharray: '3,3' } }}
+            />
+          )}
           {thresholdData.length > 0 && (
             <ChartThreshold
               data={thresholdData}
