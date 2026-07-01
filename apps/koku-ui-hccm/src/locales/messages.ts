@@ -3346,6 +3346,11 @@ export default defineMessages({
     description: 'Optimizations',
     id: 'optimizations',
   },
+  optimizationsDecaySettings: {
+    defaultMessage: 'Decay weighting settings',
+    description: 'Decay weighting settings page title',
+    id: 'optimizationsDecaySettings',
+  },
   orderPriceLists: {
     defaultMessage: 'Order price lists',
     description: 'Order price lists',

@@ -2367,4 +2367,170 @@ export default defineMessages({
     description: 'Cost Management ROS UI',
     id: 'welcomeTitle',
   },
+  decaySettingsTitle: {
+    defaultMessage: 'Term & decay settings',
+    description: 'Page title for the term and decay weighting settings page',
+    id: 'decaySettingsTitle',
+  },
+  decaySettingsDesc: {
+    defaultMessage:
+      'Configure the observation window and exponential decay half-life for each recommendation term. Changes apply on the next recommendation cycle.',
+    description: 'Description text for the decay settings page',
+    id: 'decaySettingsDesc',
+  },
+  decaySettingsTermShort: {
+    defaultMessage: 'Short',
+    description: 'Short term label',
+    id: 'decaySettingsTermShort',
+  },
+  decaySettingsTermMedium: {
+    defaultMessage: 'Medium',
+    description: 'Medium term label',
+    id: 'decaySettingsTermMedium',
+  },
+  decaySettingsTermLong: {
+    defaultMessage: 'Long',
+    description: 'Long term label',
+    id: 'decaySettingsTermLong',
+  },
+  decaySettingsWindowDays: {
+    defaultMessage: 'Window (days)',
+    description: 'Field label for term observation window in days',
+    id: 'decaySettingsWindowDays',
+  },
+  decaySettingsMinDataDays: {
+    defaultMessage: 'Min data days',
+    description: 'Field label for minimum required data days',
+    id: 'decaySettingsMinDataDays',
+  },
+  decaySettingsHalfLifeHours: {
+    defaultMessage: 'Decay half-life (hours)',
+    description: 'Field label for exponential decay half-life in hours',
+    id: 'decaySettingsHalfLifeHours',
+  },
+  decaySettingsDefault: {
+    defaultMessage: 'Default',
+    description: 'Badge label indicating a term uses default values',
+    id: 'decaySettingsDefault',
+  },
+  decaySettingsLockedTooltip: {
+    defaultMessage: 'Set by administrator',
+    description: 'Tooltip shown on locked term fields',
+    id: 'decaySettingsLockedTooltip',
+  },
+  decaySettingsSave: {
+    defaultMessage: 'Save',
+    description: 'Save button for decay settings form',
+    id: 'decaySettingsSave',
+  },
+  decaySettingsResetDefaults: {
+    defaultMessage: 'Reset to defaults',
+    description: 'Button to reset term settings to defaults',
+    id: 'decaySettingsResetDefaults',
+  },
+  decaySettingsSaveSuccess: {
+    defaultMessage: 'Term settings saved. Changes apply on the next recommendation cycle.',
+    description: 'Toast notification after saving term settings',
+    id: 'decaySettingsSaveSuccess',
+  },
+  decaySettingsResetSuccess: {
+    defaultMessage: 'Term settings reset to defaults.',
+    description: 'Toast notification after resetting term settings',
+    id: 'decaySettingsResetSuccess',
+  },
+  decaySettingsSaveError: {
+    defaultMessage: 'Failed to save term settings.',
+    description: 'Toast notification on term settings save error',
+    id: 'decaySettingsSaveError',
+  },
+  decaySettingsResetError: {
+    defaultMessage: 'Failed to reset term settings.',
+    description: 'Toast notification on term settings reset error',
+    id: 'decaySettingsResetError',
+  },
+  decayCurveChartTitle: {
+    defaultMessage: 'Decay curve',
+    description: 'Title for the decay curve chart',
+    id: 'decayCurveChartTitle',
+  },
+  decayCurveChartDesc: {
+    defaultMessage: 'Shows how data weight decreases as data ages within the observation window',
+    description: 'Accessible description for the decay curve chart',
+    id: 'decayCurveChartDesc',
+  },
+  decayCurveChartWeight: {
+    defaultMessage: 'Weight',
+    description: 'Y-axis label for the decay curve chart',
+    id: 'decayCurveChartWeight',
+  },
+  decayCurveChartDaysAgo: {
+    defaultMessage: 'Days ago',
+    description: 'X-axis label for the decay curve chart',
+    id: 'decayCurveChartDaysAgo',
+  },
+  decayCurveChartHalfLife: {
+    defaultMessage: '50% line',
+    description: 'Legend label for the 50% reference line on decay curve',
+    id: 'decayCurveChartHalfLife',
+  },
+  decayCurveNoDecay: {
+    defaultMessage: 'No decay (uniform weighting)',
+    description: 'Label shown when decay half-life is 0',
+    id: 'decayCurveNoDecay',
+  },
+  decayInfoCardTitle: {
+    defaultMessage: 'Decay weighting',
+    description: 'Title for the inline decay info card on breakdown pages',
+    id: 'decayInfoCardTitle',
+  },
+  decayInfoCardHalfLifeDesc: {
+    defaultMessage: 'Data from {halfLifeDays} days ago contributes 50% weight',
+    description: 'Description of half-life in the inline decay info card',
+    id: 'decayInfoCardHalfLifeDesc',
+  },
+  decayInfoCardViewSettings: {
+    defaultMessage: 'View full settings',
+    description: 'Link to the decay settings page from inline card',
+    id: 'decayInfoCardViewSettings',
+  },
+  decaySettingsPluginContainer: {
+    defaultMessage: 'Container',
+    description: 'Tab label for container recommendation type settings',
+    id: 'decaySettingsPluginContainer',
+  },
+  decaySettingsPluginNamespace: {
+    defaultMessage: 'Namespace',
+    description: 'Tab label for namespace recommendation type settings',
+    id: 'decaySettingsPluginNamespace',
+  },
+  decaySettingsPluginNode: {
+    defaultMessage: 'Node',
+    description: 'Tab label for node recommendation type settings',
+    id: 'decaySettingsPluginNode',
+  },
+  decaySettingsPluginGpu: {
+    defaultMessage: 'GPU',
+    description: 'Tab label for GPU recommendation type settings',
+    id: 'decaySettingsPluginGpu',
+  },
+  decaySettingsPluginPvc: {
+    defaultMessage: 'PVC',
+    description: 'Tab label for PVC recommendation type settings',
+    id: 'decaySettingsPluginPvc',
+  },
+  decaySettingsPluginVm: {
+    defaultMessage: 'VM',
+    description: 'Tab label for VM recommendation type settings',
+    id: 'decaySettingsPluginVm',
+  },
+  decaySettingsValidationWindowRange: {
+    defaultMessage: 'Window must be between 1 and {max}',
+    description: 'Validation error for window_days out of range',
+    id: 'decaySettingsValidationWindowRange',
+  },
+  decaySettingsValidationHalfLifeRange: {
+    defaultMessage: 'Half-life must be between 0 and 8760',
+    description: 'Validation error for decay_halflife_hours out of range',
+    id: 'decaySettingsValidationHalfLifeRange',
+  },
 });

@@ -24,6 +24,9 @@ const CostModelCreate = lazy(
 const Explorer = lazy(() => import(/* webpackChunkName: "explorer" */ 'routes/explorer'));
 const GcpBreakdown = lazy(() => import(/* webpackChunkName: "gcpBreakdown" */ 'routes/details/gcpBreakdown'));
 const GcpDetails = lazy(() => import(/* webpackChunkName: "gcpDetails" */ 'routes/details/gcpDetails'));
+const OptimizationsDecaySettings = lazy(
+  () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/decaySettings')
+);
 const Optimizations = lazy(() => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations'));
 const OcpBreakdown = lazy(() => import(/* webpackChunkName: "ocpBreakdown" */ 'routes/details/ocpBreakdown'));
 const OcpDetails = lazy(() => import(/* webpackChunkName: "ocpDetails" */ 'routes/details/ocpDetails'));
@@ -159,6 +162,10 @@ export const routes = {
   optimizationsGpuMigBreakdown: {
     element: userAccess(GpuMigBreakdown),
     path: '/optimizations/gpu-mig-breakdown',
+  },
+  optimizationsDecaySettings: {
+    element: userAccess(OptimizationsDecaySettings),
+    path: '/optimizations/settings/decay',
   },
   optimizations: {
     element: userAccess(Optimizations),

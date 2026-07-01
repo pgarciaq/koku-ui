@@ -28,6 +28,7 @@ import { OptimizationsBreakdownConfiguration } from './optimizationsBreakdownCon
 import { OptimizationsBreakdownExplanation } from './optimizationsBreakdownExplanation';
 import { OptimizationsBreakdownHeader } from './optimizationsBreakdownHeader';
 import { OptimizationsBreakdownUtilization } from './optimizationsBreakdownUtilization';
+import { BreakdownDecayInfoCard } from './shared/breakdownDecayInfoCard';
 import { useBreakdownProjection } from './useBreakdownProjection';
 import { VisualInsightsSection } from './visualInsights';
 
@@ -155,6 +156,7 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
           </div>
         )}
         <OptimizationsBreakdownExplanation explanation={recommendationEngine?.explanation} />
+        <BreakdownDecayInfoCard recommendationType="container" term={term} />
         {recommendationId && (
           <div style={styles.utilizationContainer}>
             <VisualInsightsSection plotsData={plotsData} recommendationId={recommendationId} />

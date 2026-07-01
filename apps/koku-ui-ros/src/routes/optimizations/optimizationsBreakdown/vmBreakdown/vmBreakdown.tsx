@@ -21,6 +21,7 @@ import { rosActions, rosSelectors } from 'store/ros';
 import { breadcrumbLabelKey } from 'utils/props';
 
 import { styles } from '../optimizationsBreakdown.styles';
+import { BreakdownDecayInfoCard } from '../shared/breakdownDecayInfoCard';
 import { useBreakdownProjection } from '../useBreakdownProjection';
 import { VmVisualInsightsSection } from './visualInsights';
 import { VmBreakdownHeader } from './vmBreakdownHeader';
@@ -105,6 +106,7 @@ const VmBreakdown: React.FC<VmBreakdownProps> = ({ linkState, queryStateName }) 
             vmName={vmName}
           />
         </div>
+        <BreakdownDecayInfoCard recommendationType="vm" term={term} />
       </div>
     );
   };

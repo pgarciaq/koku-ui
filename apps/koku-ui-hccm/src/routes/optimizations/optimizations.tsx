@@ -1,11 +1,15 @@
-import { PageSection, Tab, Tabs, TabTitleText } from '@patternfly/react-core';
+import { Button, PageSection, Tab, Tabs, TabTitleText, Tooltip } from '@patternfly/react-core';
+import { CogIcon } from '@patternfly/react-icons';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { useIsEfficiencyToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { Link } from 'react-router-dom';
+import { routes } from 'routes';
 import type { ChromeComponentProps } from 'utils/chrome';
 import { withChrome } from 'utils/chrome';
+import { formatPath } from 'utils/paths';
 
 import { ContainerDetails } from './containerDetails';
 import { Efficiency } from './efficiency';
@@ -40,8 +44,15 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
     <>
       <PageSection style={styles.headerContainer}>
         <header>
-          <div style={styles.headerContent}>
+          <div style={{ ...styles.headerContent, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <AsyncComponent scope="costManagementRos" module="./OptimizationsDetailsTitle" />
+            <Tooltip content={intl.formatMessage(messages.optimizationsDecaySettings)}>
+              <Link to={formatPath(routes.optimizationsDecaySettings.path)}>
+                <Button variant="plain" aria-label={intl.formatMessage(messages.optimizationsDecaySettings)}>
+                  <CogIcon />
+                </Button>
+              </Link>
+            </Tooltip>
           </div>
           <div style={styles.tabs}>
             <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>

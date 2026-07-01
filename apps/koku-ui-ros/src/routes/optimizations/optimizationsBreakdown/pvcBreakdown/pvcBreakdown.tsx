@@ -22,6 +22,7 @@ import { rosActions, rosSelectors } from 'store/ros';
 import { breadcrumbLabelKey } from 'utils/props';
 
 import { styles } from '../optimizationsBreakdown.styles';
+import { BreakdownDecayInfoCard } from '../shared/breakdownDecayInfoCard';
 import { useBreakdownProjection } from '../useBreakdownProjection';
 import { PvcBreakdownExplanation } from './pvcBreakdownExplanation';
 import { PvcBreakdownHeader } from './pvcBreakdownHeader';
@@ -137,6 +138,7 @@ const PvcBreakdown: React.FC<PvcBreakdownOwnProps> = ({ linkState, queryStateNam
           />
         </div>
         <PvcBreakdownExplanation termName={activeTermKey as RecommendationTermName} termRec={termRec} />
+        <BreakdownDecayInfoCard recommendationType="pvc" term={term} />
       </PageSection>
     </>
   );

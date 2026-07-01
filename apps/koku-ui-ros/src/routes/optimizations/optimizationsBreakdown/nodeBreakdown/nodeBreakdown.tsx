@@ -21,6 +21,7 @@ import { rosActions, rosSelectors } from 'store/ros';
 import { breadcrumbLabelKey } from 'utils/props';
 
 import { styles } from '../optimizationsBreakdown.styles';
+import { BreakdownDecayInfoCard } from '../shared/breakdownDecayInfoCard';
 import { useBreakdownProjection } from '../useBreakdownProjection';
 import { NodeBreakdownExplanation } from './nodeBreakdownExplanation';
 import { NodeBreakdownHeader } from './nodeBreakdownHeader';
@@ -123,6 +124,7 @@ const NodeBreakdown: React.FC<NodeBreakdownProps> = ({ linkState, queryStateName
         <div style={{ marginTop: 16 }}>
           <NodeBreakdownExplanation explanation={recommendationEngine.explanation} />
         </div>
+        <BreakdownDecayInfoCard recommendationType="node" term={term} />
       </div>
     );
   };
