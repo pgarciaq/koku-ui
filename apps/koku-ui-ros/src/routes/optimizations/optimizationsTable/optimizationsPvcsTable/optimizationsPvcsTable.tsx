@@ -12,6 +12,7 @@ import * as queryUtils from 'routes/utils/query';
 import { useUrlState } from 'routes/utils/useUrlState';
 import { FetchStatus } from 'store/common';
 
+import { useSavingsFallbackSort } from '../useSavingsFallbackSort';
 import { pvcRecommendationsBaseQuery, usePvcRecommendationsReport } from '../usePvcRecommendationsReport';
 import { getLinkState } from '../utils';
 import { getStorageGroupBy, type StorageGroupBy } from '../storageTableUtils';
@@ -43,6 +44,14 @@ const OptimizationsPvcsTable: React.FC<OptimizationsPvcsTableOwnProps> = ({
     prefix: 'pvc_',
   });
   const { report, reportError, reportFetchStatus } = usePvcRecommendationsReport({ query });
+
+  const currentOrderBy = query.order_by ? Object.keys(query.order_by)[0] : undefined;
+  useSavingsFallbackSort({
+    data: report?.data,
+    currentOrderBy,
+    fallbackOrderBy: 'storage_variation_short_cost',
+    onSort: (orderBy, isAscending) => handleOnSort(orderBy, isAscending),
+  });
 
   useEffect(() => {
     setNewLinkState(

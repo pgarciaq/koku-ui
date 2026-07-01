@@ -5,11 +5,13 @@ import { useIntl } from 'react-intl';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { OptimizationsTabSummaryBanner } from 'routes/optimizations/optimizationsTabSummary';
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
 import * as queryUtils from 'routes/utils/query';
 import { useUrlState } from 'routes/utils/useUrlState';
 import { FetchStatus } from 'store/common';
 
+import { useSavingsFallbackSort } from '../useSavingsFallbackSort';
 import {
   gpuTimeslicingRecommendationsBaseQuery,
   useGpuTimeslicingRecommendationsReport,
@@ -34,6 +36,14 @@ const OptimizationsGpuTimeslicingTable: React.FC<OptimizationsGpuTimeslicingTabl
   });
   const { report, reportError, reportFetchStatus, reportQueryString } = useGpuTimeslicingRecommendationsReport({
     query,
+  });
+
+  const currentOrderBy = query.order_by ? Object.keys(query.order_by)[0] : undefined;
+  useSavingsFallbackSort({
+    data: report?.data,
+    currentOrderBy,
+    fallbackOrderBy: 'gpu_variation_short_cost',
+    onSort: (orderBy, isAscending) => handleOnSort(orderBy, isAscending),
   });
 
   const getPagination = (isDisabled = false, isBottom = false) => {
@@ -144,6 +154,7 @@ const OptimizationsGpuTimeslicingTable: React.FC<OptimizationsGpuTimeslicingTabl
   }
   return (
     <>
+      <OptimizationsTabSummaryBanner plugin="gpu-ts" term={query.term} />
       {getToolbar()}
       {reportFetchStatus !== FetchStatus.complete ? (
         <LoadingState

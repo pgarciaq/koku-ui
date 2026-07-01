@@ -12,6 +12,7 @@ import * as queryUtils from 'routes/utils/query';
 import { useUrlState } from 'routes/utils/useUrlState';
 import { FetchStatus } from 'store/common';
 
+import { useSavingsFallbackSort } from '../useSavingsFallbackSort';
 import {
   namespaceRecommendationsBaseQuery,
   useNamespaceRecommendationsReport,
@@ -53,6 +54,14 @@ const OptimizationsNamespacesTable: React.FC<OptimizationsNamespacesTableProps> 
   const { report, reportError, reportFetchStatus, reportQueryString } = useNamespaceRecommendationsReport({
     cluster,
     query,
+  });
+
+  const currentOrderBy = query.order_by ? Object.keys(query.order_by)[0] : undefined;
+  useSavingsFallbackSort({
+    data: report?.data,
+    currentOrderBy,
+    fallbackOrderBy: 'cpu_variation_short_cost',
+    onSort: (orderBy, isAscending) => handleOnSort(orderBy, isAscending),
   });
 
   useEffect(() => {

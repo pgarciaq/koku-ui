@@ -12,6 +12,7 @@ import * as queryUtils from 'routes/utils/query';
 import { useUrlState } from 'routes/utils/useUrlState';
 import { FetchStatus } from 'store/common';
 
+import { useSavingsFallbackSort } from '../useSavingsFallbackSort';
 import { vmRecommendationsBaseQuery, useVmRecommendationsReport } from '../useVmRecommendationsReport';
 import { getLinkState } from '../utils';
 import { OptimizationsVmsDataTable } from './optimizationsVmsDataTable';
@@ -44,6 +45,14 @@ const OptimizationsVmsTable: React.FC<OptimizationsVmsTableProps> = ({
   });
   const { report, reportError, reportFetchStatus, reportQueryString } = useVmRecommendationsReport({
     query,
+  });
+
+  const currentOrderBy = query.order_by ? Object.keys(query.order_by)[0] : undefined;
+  useSavingsFallbackSort({
+    data: report?.data,
+    currentOrderBy,
+    fallbackOrderBy: 'cpu_variation_short_cost',
+    onSort: (orderBy, isAscending) => handleOnSort(orderBy, isAscending),
   });
 
   useEffect(() => {

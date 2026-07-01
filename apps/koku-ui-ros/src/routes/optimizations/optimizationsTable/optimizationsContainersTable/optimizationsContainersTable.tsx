@@ -15,6 +15,7 @@ import * as queryUtils from 'routes/utils/query';
 import { useUrlState } from 'routes/utils/useUrlState';
 import { FetchStatus } from 'store/common';
 
+import { useSavingsFallbackSort } from '../useSavingsFallbackSort';
 import {
   optimizationsNamespacesBaseQuery,
   useOptimizationsNamespacesReport,
@@ -85,6 +86,14 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   const reportError = usesSharedReport ? sharedReportError : fetchedReport.reportError;
   const reportFetchStatus = usesSharedReport ? sharedReportFetchStatus : fetchedReport.reportFetchStatus;
   const reportQueryString = usesSharedReport ? sharedReportQueryString : fetchedReport.reportQueryString;
+
+  const currentOrderBy = query.order_by ? Object.keys(query.order_by)[0] : undefined;
+  useSavingsFallbackSort({
+    data: report?.data,
+    currentOrderBy,
+    fallbackOrderBy: 'cpu_variation_short_cost',
+    onSort: (orderBy, isAscending) => handleOnSort(orderBy, isAscending),
+  });
 
   // This table component is used in multiple pages; Optimizations and OCP breakdown. Each table instance has
   // a unique state for when users return to the OCP breakdown and then back to the Optimizations page.

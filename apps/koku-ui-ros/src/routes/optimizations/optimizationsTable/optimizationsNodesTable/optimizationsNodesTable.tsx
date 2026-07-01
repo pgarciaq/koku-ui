@@ -12,6 +12,7 @@ import * as queryUtils from 'routes/utils/query';
 import { useUrlState } from 'routes/utils/useUrlState';
 import { FetchStatus } from 'store/common';
 
+import { useSavingsFallbackSort } from '../useSavingsFallbackSort';
 import { nodeRecommendationsBaseQuery, useNodeRecommendationsReport } from '../useNodeRecommendationsReport';
 import { getLinkState } from '../utils';
 import { OptimizationsNodesDataTable } from './optimizationsNodesDataTable';
@@ -45,6 +46,14 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
   });
   const { report, reportError, reportFetchStatus, reportQueryString } = useNodeRecommendationsReport({
     query,
+  });
+
+  const currentOrderBy = query.order_by ? Object.keys(query.order_by)[0] : undefined;
+  useSavingsFallbackSort({
+    data: report?.data,
+    currentOrderBy,
+    fallbackOrderBy: 'cpu_variation_short_cost',
+    onSort: (orderBy, isAscending) => handleOnSort(orderBy, isAscending),
   });
 
   useEffect(() => {
