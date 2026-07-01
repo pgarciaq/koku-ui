@@ -2884,4 +2884,64 @@ export default defineMessages({
     description: 'Error state when the savings summary API call fails',
     id: 'savingsWaterfallError',
   },
+  historyChartTitle: {
+    defaultMessage: 'Recommendation History',
+    description: 'Title for container recommendation history chart section',
+    id: 'historyChartTitle',
+  },
+  historyChartEmpty: {
+    defaultMessage: 'No recommendation history available for this container.',
+    description: 'Empty state when no history data is returned',
+    id: 'historyChartEmpty',
+  },
+  historyChartCpuTitle: {
+    defaultMessage: 'CPU Recommendation Trend',
+    description: 'Title for the CPU recommendation history sub-chart',
+    id: 'historyChartCpuTitle',
+  },
+  historyChartCpuDesc: {
+    defaultMessage: 'Line chart showing CPU request and limit recommendation values over time in millicores',
+    description: 'Accessible description for the CPU recommendation history chart',
+    id: 'historyChartCpuDesc',
+  },
+  historyChartCpuYAxis: {
+    defaultMessage: 'Millicores',
+    description: 'Y-axis label for CPU recommendation chart',
+    id: 'historyChartCpuYAxis',
+  },
+  historyChartCpuRequest: {
+    defaultMessage: 'CPU Request',
+    description: 'Legend label for CPU request recommendation line',
+    id: 'historyChartCpuRequest',
+  },
+  historyChartCpuLimit: {
+    defaultMessage: 'CPU Limit',
+    description: 'Legend label for CPU limit recommendation line',
+    id: 'historyChartCpuLimit',
+  },
+  historyChartMemTitle: {
+    defaultMessage: 'Memory Recommendation Trend',
+    description: 'Title for the memory recommendation history sub-chart',
+    id: 'historyChartMemTitle',
+  },
+  historyChartMemDesc: {
+    defaultMessage: 'Line chart showing memory request and limit recommendation values over time in MiB',
+    description: 'Accessible description for the memory recommendation history chart',
+    id: 'historyChartMemDesc',
+  },
+  historyChartMemYAxis: {
+    defaultMessage: 'MiB',
+    description: 'Y-axis label for memory recommendation chart',
+    id: 'historyChartMemYAxis',
+  },
+  historyChartMemRequest: {
+    defaultMessage: 'Memory Request',
+    description: 'Legend label for memory request recommendation line',
+    id: 'historyChartMemRequest',
+  },
+  historyChartMemLimit: {
+    defaultMessage: 'Memory Limit',
+    description: 'Legend label for memory limit recommendation line',
+    id: 'historyChartMemLimit',
+  },
 });

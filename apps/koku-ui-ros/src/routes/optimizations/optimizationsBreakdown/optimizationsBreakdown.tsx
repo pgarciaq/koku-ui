@@ -23,6 +23,7 @@ import { getNotifications } from 'utils/notifications';
 import { breadcrumbLabelKey } from 'utils/props';
 import { getRecommendationTerm } from 'utils/recomendations';
 
+import { useRecommendationHistory } from 'hooks/useRecommendationHistory';
 import { styles } from './optimizationsBreakdown.styles';
 import { OptimizationsBreakdownConfiguration } from './optimizationsBreakdownConfiguration';
 import { OptimizationsBreakdownExplanation } from './optimizationsBreakdownExplanation';
@@ -64,6 +65,19 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
   const { term, engine } = useBreakdownProjection(queryStateName);
   const queryFromRoute = useQueryFromRoute();
   const intl = useIntl();
+
+  const historyParams =
+    report?.cluster_uuid && report?.project && report?.workload && report?.container
+      ? {
+          cluster: report.cluster_uuid,
+          project: report.project,
+          workload: report.workload,
+          container: report.container,
+          term,
+          engine,
+        }
+      : null;
+  const { data: historyResponse, fetchStatus: historyFetchStatus } = useRecommendationHistory(historyParams);
 
   const getIdleCallout = () => {
     const idleState = (report as any)?.idle_state;
@@ -159,7 +173,12 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
         <BreakdownDecayInfoCard recommendationType="container" term={term} />
         {recommendationId && (
           <div style={styles.utilizationContainer}>
-            <VisualInsightsSection plotsData={plotsData} recommendationId={recommendationId} />
+            <VisualInsightsSection
+              plotsData={plotsData}
+              recommendationId={recommendationId}
+              historyData={historyResponse?.data}
+              historyFetchStatus={historyFetchStatus}
+            />
           </div>
         )}
       </>

@@ -8,6 +8,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** Container Recommendation History Chart in Visual Insights section. Renders
+  two multi-line trend charts (CPU/Memory) showing how recommended request and limit
+  values drift over time. CPU chart uses millicores, Memory chart uses MiB (converted
+  from KiB). Includes legend, voronoi tooltips, responsive sizing via ResizeObserver,
+  and empty state when no history data available.
+  ([Issue #49](https://github.com/pgarciaq/ros-ocp-backend/issues/49))
+
 - **ROS:** Node Request vs Usage Gap Chart in Visual Insights section. Renders
   two line charts (CPU/Memory) showing aggregate requests overlaid on P95 usage,
   with the gap between them shaded to highlight overcommitted resources. Uses

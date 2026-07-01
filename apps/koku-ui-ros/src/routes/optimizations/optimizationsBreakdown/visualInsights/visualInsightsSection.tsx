@@ -1,17 +1,27 @@
-import { Card, CardBody, CardTitle, Stack, StackItem, Title } from '@patternfly/react-core';
+import { Card, CardBody, CardTitle, Spinner, Stack, StackItem, Title } from '@patternfly/react-core';
+import type { HistoryRow } from 'api/ros/recommendationHistory';
 import messages from 'locales/messages';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { FetchStatus } from 'store/common';
 
+import { ContainerHistoryChart } from './containerHistoryChart';
 import { CpuThrottleTrend } from './cpuThrottleTrend';
 import { OomTimeline } from './oomTimeline';
 
 interface VisualInsightsSectionProps {
   plotsData?: Record<string, any>;
   recommendationId: string;
+  historyData?: HistoryRow[];
+  historyFetchStatus?: FetchStatus;
 }
 
-const VisualInsightsSection: React.FC<VisualInsightsSectionProps> = ({ plotsData, recommendationId }) => {
+const VisualInsightsSection: React.FC<VisualInsightsSectionProps> = ({
+  plotsData,
+  recommendationId,
+  historyData,
+  historyFetchStatus,
+}) => {
   const intl = useIntl();
   const [hasOomData, setHasOomData] = useState<boolean | undefined>(undefined);
 
@@ -43,6 +53,16 @@ const VisualInsightsSection: React.FC<VisualInsightsSectionProps> = ({ plotsData
       </CardTitle>
       <CardBody>
         <Stack hasGutter>
+          <StackItem>
+            <Title headingLevel="h3" size="md">
+              {intl.formatMessage(messages.historyChartTitle)}
+            </Title>
+            {historyFetchStatus === FetchStatus.inProgress ? (
+              <Spinner size="lg" />
+            ) : (
+              <ContainerHistoryChart data={historyData ?? []} />
+            )}
+          </StackItem>
           <StackItem>
             <Title headingLevel="h3" size="md">
               {intl.formatMessage(messages.visualInsightsOomTimeline)}
