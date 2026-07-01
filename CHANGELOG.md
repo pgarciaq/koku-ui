@@ -8,6 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** Node recommendations cold-start empty state. When insufficient data is
+  available (`meta.data_days_available < min_data_days`), the node recommendations
+  table displays a `ColdStartState` component with a "Collecting data" message and
+  dynamic day count pulled from the terms API (`GET .../settings/terms?recommendation_type=node`).
+  ([Issue #84](https://github.com/pgarciaq/ros-ocp-backend/issues/84))
 - **ROS:** GPU summary totals banner on MIG and Time-Slicing tabs. MIG shows
   recommendation count only; Time-Slicing shows total potential savings and count.
   ([Issue #113](https://github.com/pgarciaq/ros-ocp-backend/issues/113))

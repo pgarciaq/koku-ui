@@ -602,6 +602,17 @@ export default defineMessages({
     description: 'Name plural or singular',
     id: 'names',
   },
+  nodeColdStartDesc: {
+    defaultMessage:
+      'Node recommendations will appear after {minDays, plural, one {# day} other {# days}} of usage data has been collected. Currently {currentDays, plural, one {# day} other {# days}} available.',
+    description: 'Description for node recommendations cold start empty state',
+    id: 'nodeColdStartDesc',
+  },
+  nodeColdStartTitle: {
+    defaultMessage: 'Collecting data',
+    description: 'Title for node recommendations cold start empty state',
+    id: 'nodeColdStartTitle',
+  },
   noDataForDate: {
     defaultMessage: 'No data available for {dateRange}',
     description: 'No data available for Jan 1-31',

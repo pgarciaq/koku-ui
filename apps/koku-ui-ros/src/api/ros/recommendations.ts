@@ -276,6 +276,7 @@ export interface NodeRecommendationReport {
     has_next?: boolean;
     next_cursor?: string;
     currency?: string;
+    data_days_available?: number;
   };
   data: NodeRecommendationData[];
   links?: Record<string, string>;

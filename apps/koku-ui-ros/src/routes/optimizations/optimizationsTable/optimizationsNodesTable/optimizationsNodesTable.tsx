@@ -3,9 +3,13 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
+import { ROS_LIST_TERM } from 'api/ros/rosListParams';
+import { useRecommendationTermOptions } from 'hooks/useRecommendationTermOptions';
+import { ColdStartState } from 'routes/components/page/coldStart';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { INTERVAL_TO_TERM_NAME } from '../recommendationTermLabels';
 import { OptimizationsTabSummaryBanner } from 'routes/optimizations/optimizationsTabSummary';
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
 import * as queryUtils from 'routes/utils/query';
@@ -47,6 +51,7 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
   const { report, reportError, reportFetchStatus, reportQueryString } = useNodeRecommendationsReport({
     query,
   });
+  const { termSettings } = useRecommendationTermOptions('node');
 
   const currentOrderBy = query.order_by ? Object.keys(query.order_by)[0] : undefined;
   useSavingsFallbackSort({
@@ -201,6 +206,14 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
     return <NotConfigured />;
   }
   if (!query.filter_by && !hasOptimizations && reportFetchStatus === FetchStatus.complete) {
+    const dataDaysAvailable = report?.meta?.data_days_available ?? 0;
+    const activeTerm = query.term ?? ROS_LIST_TERM;
+    const termName = INTERVAL_TO_TERM_NAME[activeTerm];
+    const matchedTerm = termSettings.find(t => t.name === termName);
+    const minDataDays = matchedTerm?.min_data_days ?? 3;
+    if (dataDaysAvailable < minDataDays) {
+      return <ColdStartState currentDays={dataDaysAvailable} minDays={minDataDays} />;
+    }
     return <NotConfigured />;
   }
   return (
