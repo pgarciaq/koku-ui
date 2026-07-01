@@ -4153,6 +4153,11 @@ export default defineMessages({
     description: 'Optimizations top-level Quality metrics tab label',
     id: 'qualityTab',
   },
+  historyTab: {
+    defaultMessage: 'History',
+    description: 'Optimizations top-level History tab label',
+    id: 'historyTab',
+  },
   storageClass: {
     defaultMessage: 'StorageClass',
     description: 'StorageClass',

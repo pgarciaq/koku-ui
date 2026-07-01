@@ -2944,4 +2944,234 @@ export default defineMessages({
     description: 'Legend label for memory limit recommendation line',
     id: 'historyChartMemLimit',
   },
+  historyExplorerTitle: {
+    defaultMessage: 'Recommendation History',
+    description: 'Title for the history explorer page',
+    id: 'historyExplorerTitle',
+  },
+  historyFilterCluster: {
+    defaultMessage: 'Cluster',
+    description: 'Cluster filter label',
+    id: 'historyFilterCluster',
+  },
+  historyFilterProject: {
+    defaultMessage: 'Project',
+    description: 'Project filter label',
+    id: 'historyFilterProject',
+  },
+  historyFilterWorkload: {
+    defaultMessage: 'Workload',
+    description: 'Workload filter label',
+    id: 'historyFilterWorkload',
+  },
+  historyFilterContainer: {
+    defaultMessage: 'Container',
+    description: 'Container filter label',
+    id: 'historyFilterContainer',
+  },
+  historyFilterSearch: {
+    defaultMessage: 'Search',
+    description: 'Search input aria label',
+    id: 'historyFilterSearch',
+  },
+  historyFilterPlaceholder: {
+    defaultMessage: 'Filter by {category}',
+    description: 'Placeholder for filter search input',
+    id: 'historyFilterPlaceholder',
+  },
+  historyAllTerms: {
+    defaultMessage: 'All terms',
+    description: 'Option for all terms in term filter',
+    id: 'historyAllTerms',
+  },
+  historyTermShort: {
+    defaultMessage: 'Short term',
+    description: 'Short term option',
+    id: 'historyTermShort',
+  },
+  historyTermMedium: {
+    defaultMessage: 'Medium term',
+    description: 'Medium term option',
+    id: 'historyTermMedium',
+  },
+  historyTermLong: {
+    defaultMessage: 'Long term',
+    description: 'Long term option',
+    id: 'historyTermLong',
+  },
+  historyAllEngines: {
+    defaultMessage: 'All engines',
+    description: 'Option for all engines in engine filter',
+    id: 'historyAllEngines',
+  },
+  historyEngineCost: {
+    defaultMessage: 'Cost',
+    description: 'Cost engine option',
+    id: 'historyEngineCost',
+  },
+  historyEnginePerformance: {
+    defaultMessage: 'Performance',
+    description: 'Performance engine option',
+    id: 'historyEnginePerformance',
+  },
+  historyStartDate: {
+    defaultMessage: 'Start date',
+    description: 'Start date picker label',
+    id: 'historyStartDate',
+  },
+  historyEndDate: {
+    defaultMessage: 'End date',
+    description: 'End date picker label',
+    id: 'historyEndDate',
+  },
+  historyExport: {
+    defaultMessage: 'Export to CSV',
+    description: 'Export button aria label',
+    id: 'historyExport',
+  },
+  historyTableAriaLabel: {
+    defaultMessage: 'Recommendation history table',
+    description: 'Aria label for the history data table',
+    id: 'historyTableAriaLabel',
+  },
+  historyColDate: {
+    defaultMessage: 'Date',
+    description: 'Date column header',
+    id: 'historyColDate',
+  },
+  historyColCluster: {
+    defaultMessage: 'Cluster',
+    description: 'Cluster column header',
+    id: 'historyColCluster',
+  },
+  historyColProject: {
+    defaultMessage: 'Project',
+    description: 'Project column header',
+    id: 'historyColProject',
+  },
+  historyColWorkload: {
+    defaultMessage: 'Workload',
+    description: 'Workload column header',
+    id: 'historyColWorkload',
+  },
+  historyColContainer: {
+    defaultMessage: 'Container',
+    description: 'Container column header',
+    id: 'historyColContainer',
+  },
+  historyColTerm: {
+    defaultMessage: 'Term',
+    description: 'Term column header',
+    id: 'historyColTerm',
+  },
+  historyColEngine: {
+    defaultMessage: 'Engine',
+    description: 'Engine column header',
+    id: 'historyColEngine',
+  },
+  historyColCpuRequest: {
+    defaultMessage: 'CPU Request',
+    description: 'CPU request recommendation column',
+    id: 'historyColCpuRequest',
+  },
+  historyColCpuLimit: {
+    defaultMessage: 'CPU Limit',
+    description: 'CPU limit recommendation column',
+    id: 'historyColCpuLimit',
+  },
+  historyColMemRequest: {
+    defaultMessage: 'Mem Request',
+    description: 'Memory request recommendation column',
+    id: 'historyColMemRequest',
+  },
+  historyColMemLimit: {
+    defaultMessage: 'Mem Limit',
+    description: 'Memory limit recommendation column',
+    id: 'historyColMemLimit',
+  },
+  historyColConfidence: {
+    defaultMessage: 'Confidence',
+    description: 'Confidence column header',
+    id: 'historyColConfidence',
+  },
+  historyColSavings: {
+    defaultMessage: 'Est. Savings',
+    description: 'Estimated savings column header',
+    id: 'historyColSavings',
+  },
+  historyColDataDays: {
+    defaultMessage: 'Data Days',
+    description: 'Data days advanced column',
+    id: 'historyColDataDays',
+  },
+  historyColDecayHalfLife: {
+    defaultMessage: 'Decay Half-Life',
+    description: 'Decay half-life advanced column',
+    id: 'historyColDecayHalfLife',
+  },
+  historyColCpuP95: {
+    defaultMessage: 'CPU P95',
+    description: 'CPU P95 advanced column',
+    id: 'historyColCpuP95',
+  },
+  historyColMemP95: {
+    defaultMessage: 'Mem P95',
+    description: 'Memory P95 advanced column',
+    id: 'historyColMemP95',
+  },
+  historyColOomCount: {
+    defaultMessage: 'OOM Count',
+    description: 'OOM count advanced column',
+    id: 'historyColOomCount',
+  },
+  historyColIsIdle: {
+    defaultMessage: 'Idle',
+    description: 'Is idle advanced column',
+    id: 'historyColIsIdle',
+  },
+  historyNoData: {
+    defaultMessage: 'No recommendation history found',
+    description: 'Empty table row message',
+    id: 'historyNoData',
+  },
+  historyNoDataTitle: {
+    defaultMessage: 'No recommendation history found',
+    description: 'Empty state title when no history data available',
+    id: 'historyNoDataTitle',
+  },
+  historyNoDataBody: {
+    defaultMessage: 'Try adjusting your filters or expanding the date range to see recommendation history.',
+    description: 'Empty state body text',
+    id: 'historyNoDataBody',
+  },
+  historyLoadingTitle: {
+    defaultMessage: 'Loading recommendation history',
+    description: 'Loading state title',
+    id: 'historyLoadingTitle',
+  },
+  historyLoadingBody: {
+    defaultMessage: 'Please wait while we fetch your recommendation history data.',
+    description: 'Loading state body',
+    id: 'historyLoadingBody',
+  },
+  historyErrorTitle: {
+    defaultMessage: 'Unable to load history',
+    description: 'Error state title',
+    id: 'historyErrorTitle',
+  },
+  historyPaginationAriaLabel: {
+    defaultMessage: 'History table pagination - {placement}',
+    description: 'Pagination aria label',
+    id: 'historyPaginationAriaLabel',
+  },
+  historyShowAdvancedColumns: {
+    defaultMessage: 'Show advanced columns',
+    description: 'Label for toggle to show/hide advanced explanation columns',
+    id: 'historyShowAdvancedColumns',
+  },
+  historyTab: {
+    defaultMessage: 'History',
+    description: 'History tab title in optimizations page',
+    id: 'historyTab',
+  },
 });

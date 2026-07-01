@@ -14,6 +14,7 @@ import { formatPath } from 'utils/paths';
 import { ContainerDetails } from './containerDetails';
 import { Efficiency } from './efficiency';
 import { GpuDetails } from './gpuDetails';
+import { HistoryDetails } from './historyDetails';
 import { NamespaceDetails } from './namespaceDetails';
 import { NodeDetails } from './nodeDetails';
 import { styles } from './optimizations.styles';
@@ -122,9 +123,13 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
                   </TabTitleText>
                 }
               />
+              <Tab
+                eventKey={8}
+                title={<TabTitleText>{intl.formatMessage(messages.historyTab)}</TabTitleText>}
+              />
               {isQualityDashboardToggleEnabled && (
                 <Tab
-                  eventKey={8}
+                  eventKey={9}
                   title={<TabTitleText>{intl.formatMessage(messages.qualityTab)}</TabTitleText>}
                 />
               )}
@@ -141,7 +146,8 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
         {activeTabKey === 5 && <VmDetails activeTabKey={5} />}
         {activeTabKey === 6 && <QuotaDetails activeTabKey={6} />}
         {activeTabKey === 7 && <GpuDetails activeTabKey={7} />}
-        {activeTabKey === 8 && isQualityDashboardToggleEnabled && <QualityDetails activeTabKey={8} />}
+        {activeTabKey === 8 && <HistoryDetails activeTabKey={8} />}
+        {activeTabKey === 9 && isQualityDashboardToggleEnabled && <QualityDetails activeTabKey={9} />}
       </PageSection>
     </>
   );

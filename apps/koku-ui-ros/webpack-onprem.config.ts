@@ -15,6 +15,7 @@ const distDir = path.resolve(__dirname, './dist');
 const exposedModules = {
   './DecaySettings': './src/fed-modules/decaySettingsWrapper.tsx',
   './FleetHeatmap': './src/fed-modules/fleetHeatmapWrapper.tsx',
+  './HistoryExplorer': './src/fed-modules/historyExplorerWrapper.tsx',
   './FleetSummaryCards': './src/fed-modules/fleetSummaryCardsWrapper.tsx',
   './OptimizationsBadge': './src/fed-modules/optimizationsBadgeWrapper.tsx',
   './OptimizationsBreakdown': './src/fed-modules/optimizationsBreakdownWrapper.tsx',
