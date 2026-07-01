@@ -2829,4 +2829,29 @@ export default defineMessages({
     description: 'Yes',
     id: 'yes',
   },
+  savingsWaterfallTitle: {
+    defaultMessage: 'Potential Savings by Category',
+    description: 'Title for the savings waterfall horizontal bar chart',
+    id: 'savingsWaterfallTitle',
+  },
+  savingsWaterfallSubtitle: {
+    defaultMessage: 'Total estimated: {total} {currency}/month',
+    description: 'Subtitle showing total estimated savings beneath chart title',
+    id: 'savingsWaterfallSubtitle',
+  },
+  savingsWaterfallAriaDesc: {
+    defaultMessage: 'Horizontal bar chart showing potential monthly savings broken down by optimization category',
+    description: 'Accessible description for the savings waterfall chart',
+    id: 'savingsWaterfallAriaDesc',
+  },
+  savingsWaterfallEmpty: {
+    defaultMessage: 'No savings data available. Configure cost rates to see potential savings by category.',
+    description: 'Empty state when no savings data is returned from the API',
+    id: 'savingsWaterfallEmpty',
+  },
+  savingsWaterfallError: {
+    defaultMessage: 'Unable to load savings data',
+    description: 'Error state when the savings summary API call fails',
+    id: 'savingsWaterfallError',
+  },
 });

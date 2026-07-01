@@ -33,6 +33,7 @@ const exposedModules = {
   './OptimizationsVmsBadge': './src/fed-modules/optimizationsVmsBadgeWrapper.tsx',
   './OptimizationsSummary': './src/fed-modules/optimizationsSummaryWrapper.tsx',
   './QualityDashboard': './src/fed-modules/qualityDashboardWrapper.tsx',
+  './SavingsWaterfallChart': './src/fed-modules/savingsWaterfallChartWrapper.tsx',
 };
 
 const config: Configuration = {

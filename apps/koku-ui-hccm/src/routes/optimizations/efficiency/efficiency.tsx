@@ -269,6 +269,7 @@ const Efficiency: React.FC<EfficiencyProps> = () => {
         )}
         <AsyncComponent scope="costManagementRos" module="./FleetSummaryCards" />
         <AsyncComponent scope="costManagementRos" module="./FleetHeatmap" />
+        <AsyncComponent scope="costManagementRos" module="./SavingsWaterfallChart" />
         <Grid hasGutter>
           <GridItem xl={gridColumns}>
             <ComputeCard
