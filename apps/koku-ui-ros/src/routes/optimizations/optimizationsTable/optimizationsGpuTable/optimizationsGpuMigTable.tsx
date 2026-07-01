@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { OptimizationsTabSummaryBanner } from 'routes/optimizations/optimizationsTabSummary';
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
 import * as queryUtils from 'routes/utils/query';
 import { useUrlState } from 'routes/utils/useUrlState';
@@ -141,6 +142,7 @@ const OptimizationsGpuMigTable: React.FC<OptimizationsGpuMigTableProps> = () => 
   }
   return (
     <>
+      <OptimizationsTabSummaryBanner plugin="gpu-mig" term={query.term} />
       {getToolbar()}
       {reportFetchStatus !== FetchStatus.complete ? (
         <LoadingState

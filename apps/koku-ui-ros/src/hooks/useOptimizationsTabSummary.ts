@@ -37,6 +37,10 @@ function getRosPathsType(plugin: TabSummaryPlugin): RosPathsType {
       return RosPathsType.clusterQuotaRecommendations;
     case 'vm':
       return RosPathsType.vmRecommendations;
+    case 'gpu-mig':
+      return RosPathsType.gpuMigRecommendations;
+    case 'gpu-ts':
+      return RosPathsType.gpuTimeslicingRecommendations;
   }
 }
 
@@ -58,7 +62,7 @@ export function useOptimizationsTabSummary({
   const [savingsUnits, setSavingsUnits] = useState<string | undefined>();
 
   useEffect(() => {
-    if (plugin === 'namespace' || plugin === 'quota' || plugin === 'cluster-quota') {
+    if (plugin === 'namespace' || plugin === 'quota' || plugin === 'cluster-quota' || plugin === 'gpu-mig') {
       setSummaryFetchStatus(FetchStatus.complete);
       setSavingsValue(undefined);
       setSavingsUnits(undefined);
