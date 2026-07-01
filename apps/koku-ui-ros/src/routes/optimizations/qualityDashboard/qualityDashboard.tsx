@@ -5,6 +5,8 @@ import {
   PageSection,
   Spinner,
   Title,
+  ToggleGroup,
+  ToggleGroupItem,
 } from '@patternfly/react-core';
 import {
   InnerScrollContainer,
@@ -16,8 +18,8 @@ import {
   Thead,
   Tr,
 } from '@patternfly/react-table';
-import type { QualityRow } from 'api/ros/quality';
-import { fetchQualityMetrics } from 'api/ros/quality';
+import type { PVCQualityRow, QualityEntityType, QualityRow, VMQualityRow } from 'api/ros/quality';
+import { fetchPVCQualityMetrics, fetchQualityMetrics, fetchVMQualityMetrics } from 'api/ros/quality';
 import messages from 'locales/messages';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -29,9 +31,27 @@ import { QualityToolbar } from './qualityToolbar';
 
 const DEFAULT_LIMIT = 50;
 
+type AnyQualityRow = QualityRow | PVCQualityRow | VMQualityRow;
+
+const containerSortColumns = [
+  'measured_at', 'cluster', 'project', 'workload', 'container',
+  'stability', 'adoption', 'oom_events', 'recommendation_age',
+];
+
+const pvcSortColumns = [
+  'measured_at', 'cluster', 'project', 'pvc_name',
+  'stability', 'adoption', 'days_above_threshold', 'recommendation_age',
+];
+
+const vmSortColumns = [
+  'measured_at', 'cluster', 'project', 'vm_name',
+  'stability', 'adoption', 'saturation_days', 'recommendation_age',
+];
+
 const QualityDashboard: React.FC = () => {
   const intl = useIntl();
-  const [data, setData] = useState<QualityRow[]>([]);
+  const [entityType, setEntityType] = useState<QualityEntityType>('container');
+  const [data, setData] = useState<AnyQualityRow[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -42,17 +62,7 @@ const QualityDashboard: React.FC = () => {
     direction: SortByDirection.desc,
   });
 
-  const sortColumns = [
-    'measured_at',
-    'cluster',
-    'project',
-    'workload',
-    'container',
-    'stability',
-    'adoption',
-    'oom_events',
-    'recommendation_age',
-  ];
+  const sortColumns = entityType === 'pvc' ? pvcSortColumns : entityType === 'vm' ? vmSortColumns : containerSortColumns;
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
@@ -61,7 +71,7 @@ const QualityDashboard: React.FC = () => {
       const params: Record<string, string> = {
         limit: String(DEFAULT_LIMIT),
         offset: String(offset),
-        order_by: sortColumns[sortBy.index],
+        order_by: sortColumns[sortBy.index] || 'measured_at',
         order_how: sortBy.direction,
       };
       for (const [key, val] of Object.entries(filters)) {
@@ -69,19 +79,40 @@ const QualityDashboard: React.FC = () => {
           params[key] = val;
         }
       }
-      const response = await fetchQualityMetrics(params);
-      setData(response.data?.data ?? []);
-      setTotalCount(response.data?.meta?.count ?? 0);
+      let responseData: AnyQualityRow[] = [];
+      let count = 0;
+      if (entityType === 'pvc') {
+        const response = await fetchPVCQualityMetrics(params);
+        responseData = response.data?.data ?? [];
+        count = response.data?.meta?.count ?? 0;
+      } else if (entityType === 'vm') {
+        const response = await fetchVMQualityMetrics(params);
+        responseData = response.data?.data ?? [];
+        count = response.data?.meta?.count ?? 0;
+      } else {
+        const response = await fetchQualityMetrics(params);
+        responseData = response.data?.data ?? [];
+        count = response.data?.meta?.count ?? 0;
+      }
+      setData(responseData);
+      setTotalCount(count);
     } catch {
       setHasError(true);
     } finally {
       setIsLoading(false);
     }
-  }, [filters, offset, sortBy]);
+  }, [entityType, filters, offset, sortBy]);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const handleEntityTypeChange = (type: QualityEntityType) => {
+    setEntityType(type);
+    setData([]);
+    setOffset(0);
+    setSortBy({ index: 0, direction: SortByDirection.desc });
+  };
 
   const handleFiltersChange = (newFilters: QualityFilters) => {
     setFilters(newFilters);
@@ -93,24 +124,118 @@ const QualityDashboard: React.FC = () => {
     setOffset(0);
   };
 
-  const columnHeaders = useMemo(
-    () => [
+  const columnHeaders = useMemo(() => {
+    const common = [
       intl.formatMessage(messages.qualityColumnDate),
       intl.formatMessage(messages.qualityColumnCluster),
       intl.formatMessage(messages.qualityColumnProject),
+    ];
+    if (entityType === 'pvc') {
+      return [
+        ...common,
+        intl.formatMessage(messages.qualityColumnPvcName),
+        intl.formatMessage(messages.qualityColumnStability),
+        intl.formatMessage(messages.qualityColumnAdoption),
+        intl.formatMessage(messages.qualityColumnDaysAboveThreshold),
+        intl.formatMessage(messages.qualityColumnAge),
+      ];
+    }
+    if (entityType === 'vm') {
+      return [
+        ...common,
+        intl.formatMessage(messages.qualityColumnVmName),
+        intl.formatMessage(messages.qualityColumnStability),
+        intl.formatMessage(messages.qualityColumnAdoption),
+        intl.formatMessage(messages.qualityColumnSaturationDays),
+        intl.formatMessage(messages.qualityColumnAge),
+      ];
+    }
+    return [
+      ...common,
       intl.formatMessage(messages.qualityColumnWorkload),
       intl.formatMessage(messages.qualityColumnContainer),
       intl.formatMessage(messages.qualityColumnStability),
       intl.formatMessage(messages.qualityColumnAdoption),
       intl.formatMessage(messages.qualityColumnOom),
       intl.formatMessage(messages.qualityColumnAge),
-    ],
-    [intl]
+    ];
+  }, [entityType, intl]);
+
+  const renderRow = (row: AnyQualityRow, rowIdx: number) => {
+    const commonCells = (
+      <>
+        <Td>{new Date(row.measured_at).toLocaleDateString()}</Td>
+        <Td>{row.cluster_alias || row.cluster_uuid}</Td>
+        <Td>{row.namespace}</Td>
+      </>
+    );
+
+    if (entityType === 'pvc') {
+      const pvcRow = row as PVCQualityRow;
+      return (
+        <Tr key={rowIdx}>
+          {commonCells}
+          <Td>{pvcRow.pvc_name}</Td>
+          <Td>{pvcRow.stability_pct != null ? `${(pvcRow.stability_pct * 100).toFixed(1)}%` : '—'}</Td>
+          <Td>{pvcRow.adoption_detected ? intl.formatMessage(messages.yes) : intl.formatMessage(messages.no)}</Td>
+          <Td>{pvcRow.days_above_threshold ?? '—'}</Td>
+          <Td>{pvcRow.recommendation_age_hours != null ? `${pvcRow.recommendation_age_hours}h` : '—'}</Td>
+        </Tr>
+      );
+    }
+
+    if (entityType === 'vm') {
+      const vmRow = row as VMQualityRow;
+      return (
+        <Tr key={rowIdx}>
+          {commonCells}
+          <Td>{vmRow.vm_name}</Td>
+          <Td>{vmRow.stability_pct != null ? `${(vmRow.stability_pct * 100).toFixed(1)}%` : '—'}</Td>
+          <Td>{vmRow.adoption_detected ? intl.formatMessage(messages.yes) : intl.formatMessage(messages.no)}</Td>
+          <Td>{vmRow.saturation_days ?? '—'}</Td>
+          <Td>{vmRow.recommendation_age_hours != null ? `${vmRow.recommendation_age_hours}h` : '—'}</Td>
+        </Tr>
+      );
+    }
+
+    const containerRow = row as QualityRow;
+    return (
+      <Tr key={rowIdx}>
+        {commonCells}
+        <Td>{containerRow.workload}</Td>
+        <Td>{containerRow.container_name}</Td>
+        <Td>{containerRow.stability_pct != null ? `${(containerRow.stability_pct * 100).toFixed(1)}%` : '—'}</Td>
+        <Td>{containerRow.adoption_detected ? intl.formatMessage(messages.yes) : intl.formatMessage(messages.no)}</Td>
+        <Td>{containerRow.oom_events_after_rec ?? '—'}</Td>
+        <Td>{containerRow.recommendation_age_hours != null ? `${containerRow.recommendation_age_hours}h` : '—'}</Td>
+      </Tr>
+    );
+  };
+
+  const entityToggle = (
+    <ToggleGroup aria-label="Entity type selector" style={{ marginBottom: 16 }}>
+      <ToggleGroupItem
+        text={intl.formatMessage(messages.qualityEntityContainer)}
+        isSelected={entityType === 'container'}
+        onChange={() => handleEntityTypeChange('container')}
+      />
+      <ToggleGroupItem
+        text={intl.formatMessage(messages.qualityEntityPvc)}
+        isSelected={entityType === 'pvc'}
+        onChange={() => handleEntityTypeChange('pvc')}
+      />
+      <ToggleGroupItem
+        text={intl.formatMessage(messages.qualityEntityVm)}
+        isSelected={entityType === 'vm'}
+        onChange={() => handleEntityTypeChange('vm')}
+      />
+    </ToggleGroup>
   );
 
   if (isLoading && !data.length) {
     return (
       <PageSection>
+        {entityToggle}
         <Spinner size="xl" aria-label={intl.formatMessage(messages.qualityDashboardTitle)} />
       </PageSection>
     );
@@ -119,6 +244,7 @@ const QualityDashboard: React.FC = () => {
   if (hasError) {
     return (
       <PageSection>
+        {entityToggle}
         <EmptyState variant={EmptyStateVariant.lg}>
           <Title headingLevel="h2" size="lg">
             {intl.formatMessage(messages.qualityDashboardTitle)}
@@ -132,7 +258,8 @@ const QualityDashboard: React.FC = () => {
   if (!data.length && !isLoading) {
     return (
       <PageSection>
-        <QualityToolbar filters={filters} onFiltersChange={handleFiltersChange} />
+        {entityToggle}
+        <QualityToolbar entityType={entityType} filters={filters} onFiltersChange={handleFiltersChange} />
         <EmptyState variant={EmptyStateVariant.lg}>
           <Title headingLevel="h2" size="lg">
             {intl.formatMessage(messages.qualityDashboardTitle)}
@@ -148,9 +275,14 @@ const QualityDashboard: React.FC = () => {
 
   return (
     <>
-      <QualityToolbar filters={filters} onFiltersChange={handleFiltersChange} />
-      <QualityKpis data={data} />
-      <QualityCharts data={data} />
+      {entityToggle}
+      <QualityToolbar entityType={entityType} filters={filters} onFiltersChange={handleFiltersChange} />
+      {entityType === 'container' && (
+        <>
+          <QualityKpis data={data as QualityRow[]} />
+          <QualityCharts data={data as QualityRow[]} />
+        </>
+      )}
       <InnerScrollContainer>
         <Table aria-label={intl.formatMessage(messages.qualityDashboardTitle)} variant="compact">
           <Thead>
@@ -170,19 +302,7 @@ const QualityDashboard: React.FC = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {data.map((row, rowIdx) => (
-              <Tr key={rowIdx}>
-                <Td>{new Date(row.measured_at).toLocaleDateString()}</Td>
-                <Td>{row.cluster_alias || row.cluster_uuid}</Td>
-                <Td>{row.namespace}</Td>
-                <Td>{row.workload}</Td>
-                <Td>{row.container_name}</Td>
-                <Td>{row.stability_pct != null ? `${(row.stability_pct * 100).toFixed(1)}%` : '—'}</Td>
-                <Td>{row.adoption_detected ? intl.formatMessage(messages.yes) : intl.formatMessage(messages.no)}</Td>
-                <Td>{row.oom_events_after_rec ?? '—'}</Td>
-                <Td>{row.recommendation_age_hours != null ? `${row.recommendation_age_hours}h` : '—'}</Td>
-              </Tr>
-            ))}
+            {data.map((row, rowIdx) => renderRow(row, rowIdx))}
           </Tbody>
         </Table>
       </InnerScrollContainer>

@@ -1080,6 +1080,41 @@ export default defineMessages({
     description: 'Pagination button for next page',
     id: 'qualityPaginationNext',
   },
+  qualityEntityContainer: {
+    defaultMessage: 'Container',
+    description: 'Entity type selector label for containers',
+    id: 'qualityEntityContainer',
+  },
+  qualityEntityPvc: {
+    defaultMessage: 'PVC',
+    description: 'Entity type selector label for PVCs',
+    id: 'qualityEntityPvc',
+  },
+  qualityEntityVm: {
+    defaultMessage: 'VM',
+    description: 'Entity type selector label for VMs',
+    id: 'qualityEntityVm',
+  },
+  qualityColumnPvcName: {
+    defaultMessage: 'PVC name',
+    description: 'Table column header for PVC name on quality dashboard',
+    id: 'qualityColumnPvcName',
+  },
+  qualityColumnDaysAboveThreshold: {
+    defaultMessage: 'Days above threshold',
+    description: 'Table column header for PVC days above usage threshold',
+    id: 'qualityColumnDaysAboveThreshold',
+  },
+  qualityColumnVmName: {
+    defaultMessage: 'VM name',
+    description: 'Table column header for VM name on quality dashboard',
+    id: 'qualityColumnVmName',
+  },
+  qualityColumnSaturationDays: {
+    defaultMessage: 'Saturation days',
+    description: 'Table column header for VM CPU/memory saturation day count',
+    id: 'qualityColumnSaturationDays',
+  },
   storageGroupBy: {
     defaultMessage: 'Group by',
     description: 'Storage list group-by toolbar label',

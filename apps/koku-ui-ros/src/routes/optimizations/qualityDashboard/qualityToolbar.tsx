@@ -9,6 +9,7 @@ import {
   ToolbarItem,
 } from '@patternfly/react-core';
 import { DownloadIcon, SearchIcon } from '@patternfly/react-icons';
+import type { QualityEntityType } from 'api/ros/quality';
 import { getQualityCsvUrl } from 'api/ros/quality';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
@@ -25,11 +26,12 @@ export interface QualityFilters {
 }
 
 interface QualityToolbarProps {
+  entityType?: QualityEntityType;
   filters: QualityFilters;
   onFiltersChange: (filters: QualityFilters) => void;
 }
 
-const QualityToolbar: React.FC<QualityToolbarProps> = ({ filters, onFiltersChange }) => {
+const QualityToolbar: React.FC<QualityToolbarProps> = ({ entityType = 'container', filters, onFiltersChange }) => {
   const intl = useIntl();
   const [clusterInput, setClusterInput] = useState(filters['filter[cluster]'] ?? '');
   const [projectInput, setProjectInput] = useState(filters['filter[project]'] ?? '');
@@ -62,7 +64,7 @@ const QualityToolbar: React.FC<QualityToolbarProps> = ({ filters, onFiltersChang
         params[key] = val;
       }
     }
-    const url = getQualityCsvUrl(params);
+    const url = getQualityCsvUrl(params, entityType);
     window.open(url, '_blank');
   };
 
