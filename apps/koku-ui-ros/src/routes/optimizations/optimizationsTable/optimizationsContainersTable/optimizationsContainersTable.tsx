@@ -6,6 +6,9 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
+import { ROS_LIST_TERM } from 'api/ros/rosListParams';
+import { useRecommendationTermOptions } from 'hooks/useRecommendationTermOptions';
+import { ColdStartState } from 'routes/components/page/coldStart';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
 import { LoadingState } from 'routes/components/state/loadingState';
@@ -15,6 +18,7 @@ import * as queryUtils from 'routes/utils/query';
 import { useUrlState } from 'routes/utils/useUrlState';
 import { FetchStatus } from 'store/common';
 
+import { INTERVAL_TO_TERM_NAME } from '../recommendationTermLabels';
 import { useSavingsFallbackSort } from '../useSavingsFallbackSort';
 import {
   optimizationsNamespacesBaseQuery,
@@ -66,6 +70,7 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
   const location = useLocation();
   const { data: workloadTypes } = useWorkloadTypes();
   const workloadTypeOptions = workloadTypesToSelectOptions(workloadTypes);
+  const { termSettings } = useRecommendationTermOptions('container');
 
   const [cursorPage, setCursorPage] = useState(1);
   const [newLinkState, setNewLinkState] = useState();
@@ -250,6 +255,16 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
     return <NotConfigured />;
   }
   if (!query.filter_by && !hasOptimizations && reportFetchStatus === FetchStatus.complete) {
+    const dataDaysAvailable = report?.meta?.data_days_available ?? 0;
+    const minDataDays = report?.meta?.min_data_days ?? (() => {
+      const activeTerm = query.term ?? ROS_LIST_TERM;
+      const termName = INTERVAL_TO_TERM_NAME[activeTerm];
+      const matchedTerm = termSettings.find(t => t.name === termName);
+      return matchedTerm?.min_data_days ?? 3;
+    })();
+    if (dataDaysAvailable < minDataDays) {
+      return <ColdStartState currentDays={dataDaysAvailable} minDays={minDataDays} />;
+    }
     return <NotConfigured />;
   }
   return (
