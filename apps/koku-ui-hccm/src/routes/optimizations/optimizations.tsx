@@ -1,7 +1,7 @@
 import { Button, PageSection, Tab, Tabs, TabTitleText, Tooltip } from '@patternfly/react-core';
 import { CogIcon } from '@patternfly/react-icons';
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
-import { useIsEfficiencyToggleEnabled } from 'components/featureToggle';
+import { useIsEfficiencyToggleEnabled, useIsQualityDashboardToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
@@ -17,6 +17,7 @@ import { GpuDetails } from './gpuDetails';
 import { NamespaceDetails } from './namespaceDetails';
 import { NodeDetails } from './nodeDetails';
 import { styles } from './optimizations.styles';
+import { QualityDetails } from './qualityDetails';
 import { StorageDetails } from './storageDetails';
 import { QuotaDetails } from './quotaDetails';
 import { VmDetails } from './vmDetails';
@@ -31,6 +32,7 @@ type OptimizationsProps = OptimizationsOwnProps;
 const Optimizations: React.FC<OptimizationsProps> = () => {
   const intl = useIntl();
   const isEfficiencyToggleEnabled = useIsEfficiencyToggleEnabled();
+  const isQualityDashboardToggleEnabled = useIsQualityDashboardToggleEnabled();
   const { activeTabKey, setActiveTab } = useOptimizationsTabUrl();
 
   const handleTabClick = (_event, tabIndex: number) => {
@@ -120,6 +122,12 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
                   </TabTitleText>
                 }
               />
+              {isQualityDashboardToggleEnabled && (
+                <Tab
+                  eventKey={8}
+                  title={<TabTitleText>{intl.formatMessage(messages.qualityTab)}</TabTitleText>}
+                />
+              )}
             </Tabs>
           </div>
         </header>
@@ -133,6 +141,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
         {activeTabKey === 5 && <VmDetails activeTabKey={5} />}
         {activeTabKey === 6 && <QuotaDetails activeTabKey={6} />}
         {activeTabKey === 7 && <GpuDetails activeTabKey={7} />}
+        {activeTabKey === 8 && isQualityDashboardToggleEnabled && <QualityDetails activeTabKey={8} />}
       </PageSection>
     </>
   );

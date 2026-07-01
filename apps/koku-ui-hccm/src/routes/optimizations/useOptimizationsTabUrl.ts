@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export const OPTIMIZATION_TAB_KEYS = ['efficiency', 'container', 'namespace', 'node', 'storage', 'vm', 'quota', 'gpu'] as const;
+export const OPTIMIZATION_TAB_KEYS = ['efficiency', 'container', 'namespace', 'node', 'storage', 'vm', 'quota', 'gpu', 'quality'] as const;
 export type OptimizationTabKey = (typeof OPTIMIZATION_TAB_KEYS)[number];
 
 export const TAB_KEY_TO_INDEX: Record<OptimizationTabKey, number> = {
@@ -13,6 +13,7 @@ export const TAB_KEY_TO_INDEX: Record<OptimizationTabKey, number> = {
   vm: 5,
   quota: 6,
   gpu: 7,
+  quality: 8,
 };
 
 const INDEX_TO_TAB_KEY: Record<number, OptimizationTabKey> = {
@@ -24,6 +25,7 @@ const INDEX_TO_TAB_KEY: Record<number, OptimizationTabKey> = {
   5: 'vm',
   6: 'quota',
   7: 'gpu',
+  8: 'quality',
 };
 
 export type StorageSubKey = 'pvc' | 'snapshot';

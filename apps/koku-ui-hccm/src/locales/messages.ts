@@ -4148,6 +4148,11 @@ export default defineMessages({
     description: 'Optimizations top-level Quota tab label',
     id: 'quota',
   },
+  qualityTab: {
+    defaultMessage: 'Quality',
+    description: 'Optimizations top-level Quality metrics tab label',
+    id: 'qualityTab',
+  },
   storageClass: {
     defaultMessage: 'StorageClass',
     description: 'StorageClass',

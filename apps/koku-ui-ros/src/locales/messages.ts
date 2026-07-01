@@ -950,6 +950,136 @@ export default defineMessages({
     description: 'Cluster quota explanation field for base CPU before headroom',
     id: 'quotaExplanationBaseCpu',
   },
+  qualityDashboardTitle: {
+    defaultMessage: 'Quality metrics',
+    description: 'Title for the quality metrics dashboard',
+    id: 'qualityDashboardTitle',
+  },
+  qualityDashboardEmpty: {
+    defaultMessage: 'No quality metrics data is available for the selected filters.',
+    description: 'Empty state when no quality metrics data exists',
+    id: 'qualityDashboardEmpty',
+  },
+  qualityDashboardError: {
+    defaultMessage: 'Unable to load quality metrics. Please try again later.',
+    description: 'Error state for quality metrics dashboard',
+    id: 'qualityDashboardError',
+  },
+  qualityKpiStability: {
+    defaultMessage: 'Overall stability',
+    description: 'KPI card title for overall recommendation stability percentage',
+    id: 'qualityKpiStability',
+  },
+  qualityKpiAdoption: {
+    defaultMessage: 'Fleet adoption rate',
+    description: 'KPI card title for fleet-wide recommendation adoption rate',
+    id: 'qualityKpiAdoption',
+  },
+  qualityKpiOom: {
+    defaultMessage: 'OOM events this period',
+    description: 'KPI card title for total OOM events after recommendations',
+    id: 'qualityKpiOom',
+  },
+  qualityChartStabilityTitle: {
+    defaultMessage: 'Recommendation stability',
+    description: 'Chart title for stability percentage over time',
+    id: 'qualityChartStabilityTitle',
+  },
+  qualityChartStabilityLegend: {
+    defaultMessage: 'Avg stability %',
+    description: 'Legend label for stability line chart',
+    id: 'qualityChartStabilityLegend',
+  },
+  qualityChartAdoptionTitle: {
+    defaultMessage: 'Adoption rate',
+    description: 'Chart title for adoption rate over time',
+    id: 'qualityChartAdoptionTitle',
+  },
+  qualityChartAdoptionLegend: {
+    defaultMessage: 'Adoption %',
+    description: 'Legend label for adoption area chart',
+    id: 'qualityChartAdoptionLegend',
+  },
+  qualityChartOomTitle: {
+    defaultMessage: 'OOM events after recommendation',
+    description: 'Chart title for OOM event count over time',
+    id: 'qualityChartOomTitle',
+  },
+  qualityChartOomLegend: {
+    defaultMessage: 'OOM count',
+    description: 'Legend label for OOM bar chart',
+    id: 'qualityChartOomLegend',
+  },
+  qualityFilterCluster: {
+    defaultMessage: 'Filter by cluster',
+    description: 'Placeholder for cluster filter input on quality dashboard',
+    id: 'qualityFilterCluster',
+  },
+  qualityFilterProject: {
+    defaultMessage: 'Filter by project',
+    description: 'Placeholder for project filter input on quality dashboard',
+    id: 'qualityFilterProject',
+  },
+  qualityCsvDownload: {
+    defaultMessage: 'Download CSV',
+    description: 'Button label to download quality metrics as CSV',
+    id: 'qualityCsvDownload',
+  },
+  qualityColumnDate: {
+    defaultMessage: 'Date',
+    description: 'Table column header for measurement date',
+    id: 'qualityColumnDate',
+  },
+  qualityColumnCluster: {
+    defaultMessage: 'Cluster',
+    description: 'Table column header for cluster name',
+    id: 'qualityColumnCluster',
+  },
+  qualityColumnProject: {
+    defaultMessage: 'Project',
+    description: 'Table column header for project/namespace',
+    id: 'qualityColumnProject',
+  },
+  qualityColumnWorkload: {
+    defaultMessage: 'Workload',
+    description: 'Table column header for workload name',
+    id: 'qualityColumnWorkload',
+  },
+  qualityColumnContainer: {
+    defaultMessage: 'Container',
+    description: 'Table column header for container name',
+    id: 'qualityColumnContainer',
+  },
+  qualityColumnStability: {
+    defaultMessage: 'Stability %',
+    description: 'Table column header for recommendation stability',
+    id: 'qualityColumnStability',
+  },
+  qualityColumnAdoption: {
+    defaultMessage: 'Adopted',
+    description: 'Table column header for adoption status',
+    id: 'qualityColumnAdoption',
+  },
+  qualityColumnOom: {
+    defaultMessage: 'OOM events',
+    description: 'Table column header for OOM event count after recommendation',
+    id: 'qualityColumnOom',
+  },
+  qualityColumnAge: {
+    defaultMessage: 'Rec. age',
+    description: 'Table column header for recommendation age in hours',
+    id: 'qualityColumnAge',
+  },
+  qualityPaginationPrevious: {
+    defaultMessage: 'Previous',
+    description: 'Pagination button for previous page',
+    id: 'qualityPaginationPrevious',
+  },
+  qualityPaginationNext: {
+    defaultMessage: 'Next',
+    description: 'Pagination button for next page',
+    id: 'qualityPaginationNext',
+  },
   storageGroupBy: {
     defaultMessage: 'Group by',
     description: 'Storage list group-by toolbar label',

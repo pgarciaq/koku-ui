@@ -36,6 +36,7 @@ const exposedModules = {
   './OptimizationsVmsTable': './src/fed-modules/optimizationsVmsTableWrapper.tsx',
   './OptimizationsProjectsTable': './src/fed-modules/optimizationsProjectsTableWrapper.tsx',
   './OptimizationsSummary': './src/fed-modules/optimizationsSummaryWrapper.tsx',
+  './QualityDashboard': './src/fed-modules/qualityDashboardWrapper.tsx',
 };
 
 const config: Configuration = {

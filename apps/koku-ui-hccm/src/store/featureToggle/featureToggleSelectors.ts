@@ -17,6 +17,8 @@ export const selectIsGpuToggleEnabled = (state: RootState) => selectFeatureToggl
 export const selectIsMigToggleEnabled = (state: RootState) => selectFeatureToggleState(state).isMigToggleEnabled;
 export const selectIsPriceListToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isPriceListToggleEnabled;
+export const selectIsQualityDashboardToggleEnabled = (state: RootState) =>
+  selectFeatureToggleState(state).isQualityDashboardToggleEnabled;
 export const selectIsSystemsToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isSystemsToggleEnabled;
 export const selectIsWastedCostToggleEnabled = (state: RootState) =>
