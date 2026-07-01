@@ -67,9 +67,10 @@ when projection was skipped.
 
 ### Container tab
 
-HCCM loads `./OptimizationsContainersTable` directly for the Container tab (via
-`containerDetails.tsx`), matching Namespace/Node/Storage/Quota. Do not route the
-main Container tab through legacy wrapper components.
+HCCM loads `./OptimizationsTable` with `type="containers"` for the Container tab
+(via `containerDetails.tsx`), matching Namespace/Node/VM tabs. All table types
+use the single consolidated `./OptimizationsTable` federated module with a `type`
+prop.
 
 ## Shared display components
 

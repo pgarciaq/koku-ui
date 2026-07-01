@@ -66,22 +66,13 @@ module.exports = {
       // Shared component module path. Must include default export!
       './OptimizationsBadge': path.resolve(__dirname, './src/fed-modules/optimizationsBadgeWrapper.tsx'),
       './OptimizationsBreakdown': path.resolve(__dirname, './src/fed-modules/optimizationsBreakdownWrapper.tsx'),
-      './OptimizationsContainersTable': path.resolve(
-        __dirname,
-        './src/fed-modules/optimizationsContainersTableWrapper.tsx'
-      ),
       './OptimizationsDetailsTitle': path.resolve(__dirname, './src/fed-modules/optimizationsDetailsTitleWrapper.tsx'),
       './OptimizationsLink': path.resolve(__dirname, './src/fed-modules/optimizationsLinkWrapper.tsx'),
       './OptimizationsNamespacesBadge': path.resolve(
         __dirname,
         './src/fed-modules/optimizationsNamespacesBadgeWrapper.tsx'
       ),
-      './OptimizationsNamespacesTable': path.resolve(
-        __dirname,
-        './src/fed-modules/optimizationsNamespacesTableWrapper.tsx'
-      ),
       './OptimizationsNodesBadge': path.resolve(__dirname, './src/fed-modules/optimizationsNodesBadgeWrapper.tsx'),
-      './OptimizationsNodesTable': path.resolve(__dirname, './src/fed-modules/optimizationsNodesTableWrapper.tsx'),
       './NodeBreakdown': path.resolve(__dirname, './src/fed-modules/nodeBreakdownWrapper.tsx'),
       './OptimizationsStorageBadge': path.resolve(__dirname, './src/fed-modules/optimizationsStorageBadgeWrapper.tsx'),
       './OptimizationsStorageDetails': path.resolve(
@@ -98,10 +89,7 @@ module.exports = {
       ),
       './PvcBreakdown': path.resolve(__dirname, './src/fed-modules/pvcBreakdownWrapper.tsx'),
       './OptimizationsOcpBreakdown': path.resolve(__dirname, './src/fed-modules/optimizationsOcpBreakdownWrapper.tsx'),
-      './OptimizationsProjectsTable': path.resolve(
-        __dirname,
-        './src/fed-modules/optimizationsProjectsTableWrapper.tsx'
-      ),
+      './OptimizationsTable': path.resolve(__dirname, './src/fed-modules/optimizationsTableWrapper.tsx'),
       './OptimizationsSummary': path.resolve(__dirname, './src/fed-modules/optimizationsSummaryWrapper.tsx'),
     },
     shared: [

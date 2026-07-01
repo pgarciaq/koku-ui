@@ -23,7 +23,8 @@ const VmDetails: React.FC<VmDetailsProps> = ({ activeTabKey }: VmDetailsOwnProps
         <CardBody>
           <AsyncComponent
             scope="costManagementRos"
-            module="./OptimizationsVmsTable"
+            module="./OptimizationsTable"
+            type="vms"
             breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
             breadcrumbPath={formatPath(`${routes.optimizations.path}${location.search}`)}
             linkPath={formatPath(routes.optimizationsVmBreakdown.path)}

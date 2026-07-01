@@ -23,7 +23,8 @@ const NamespaceDetails: React.FC<NamespaceDetailsProps> = ({ activeTabKey }: Nam
         <CardBody>
           <AsyncComponent
             scope="costManagementRos"
-            module="./OptimizationsNamespacesTable"
+            module="./OptimizationsTable"
+            type="namespaces"
             breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
             breadcrumbPath={formatPath(`${routes.optimizations.path}${location.search}`)}
             linkPath={formatPath(routes.optimizationsNamespaceBreakdown.path)}

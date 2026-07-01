@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- **ROS:** Consolidated 5 table federated module wrappers into a single
+  `./OptimizationsTable` exposed module with a `type` prop (`containers`,
+  `namespaces`, `nodes`, `projects`, `vms`). Follows the same pattern as the
+  `./OptimizationsBreakdown` consolidation. Reduces boilerplate and simplifies
+  adding new table types.
+  ([Issue #93](https://github.com/pgarciaq/ros-ocp-backend/issues/93))
+
 ### Fixed
 
 - **ROS:** Added missing `category`, `category_cpu`, and `category_memory` fields

@@ -23,7 +23,8 @@ const NodeDetails: React.FC<NodeDetailsProps> = ({ activeTabKey }: NodeDetailsOw
         <CardBody>
           <AsyncComponent
             scope="costManagementRos"
-            module="./OptimizationsNodesTable"
+            module="./OptimizationsTable"
+            type="nodes"
             breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
             breadcrumbPath={formatPath(`${routes.optimizations.path}${location.search}`)}
             linkPath={formatPath(routes.optimizationsNodeBreakdown.path)}

@@ -23,7 +23,8 @@ const ContainerDetails: React.FC<ContainerDetailsProps> = ({ activeTabKey }: Con
         <CardBody>
           <AsyncComponent
             scope="costManagementRos"
-            module="./OptimizationsContainersTable"
+            module="./OptimizationsTable"
+            type="containers"
             breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
             breadcrumbPath={formatPath(`${routes.optimizations.path}${location.search}`)}
             linkPath={formatPath(routes.optimizationsBreakdown.path)}
