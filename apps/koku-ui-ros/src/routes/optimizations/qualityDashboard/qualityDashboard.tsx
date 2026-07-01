@@ -18,8 +18,8 @@ import {
   Thead,
   Tr,
 } from '@patternfly/react-table';
-import type { PVCQualityRow, QualityEntityType, QualityRow, VMQualityRow } from 'api/ros/quality';
-import { fetchPVCQualityMetrics, fetchQualityMetrics, fetchVMQualityMetrics } from 'api/ros/quality';
+import type { GPUMIGQualityRow, PVCQualityRow, QualityEntityType, QualityRow, SnapshotQualityRow, VMQualityRow } from 'api/ros/quality';
+import { fetchGPUMIGQualityMetrics, fetchPVCQualityMetrics, fetchQualityMetrics, fetchSnapshotQualityMetrics, fetchVMQualityMetrics } from 'api/ros/quality';
 import messages from 'locales/messages';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -31,7 +31,7 @@ import { QualityToolbar } from './qualityToolbar';
 
 const DEFAULT_LIMIT = 50;
 
-type AnyQualityRow = QualityRow | PVCQualityRow | VMQualityRow;
+type AnyQualityRow = QualityRow | PVCQualityRow | VMQualityRow | GPUMIGQualityRow | SnapshotQualityRow;
 
 const containerSortColumns = [
   'measured_at', 'cluster', 'project', 'workload', 'container',
@@ -48,6 +48,16 @@ const vmSortColumns = [
   'stability', 'adoption', 'saturation_days', 'recommendation_age',
 ];
 
+const gpuSortColumns = [
+  'measured_at', 'cluster', 'project', 'workload', 'container_name',
+  'stability', 'adoption', 'contention_days', 'recommendation_age',
+];
+
+const snapshotSortColumns = [
+  'measured_at', 'cluster', 'snapshot_name',
+  'adoption', 'recommendation_age',
+];
+
 const QualityDashboard: React.FC = () => {
   const intl = useIntl();
   const [entityType, setEntityType] = useState<QualityEntityType>('container');
@@ -62,7 +72,7 @@ const QualityDashboard: React.FC = () => {
     direction: SortByDirection.desc,
   });
 
-  const sortColumns = entityType === 'pvc' ? pvcSortColumns : entityType === 'vm' ? vmSortColumns : containerSortColumns;
+  const sortColumns = entityType === 'pvc' ? pvcSortColumns : entityType === 'vm' ? vmSortColumns : entityType === 'gpu' ? gpuSortColumns : entityType === 'snapshot' ? snapshotSortColumns : containerSortColumns;
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
@@ -87,6 +97,14 @@ const QualityDashboard: React.FC = () => {
         count = response.data?.meta?.count ?? 0;
       } else if (entityType === 'vm') {
         const response = await fetchVMQualityMetrics(params);
+        responseData = response.data?.data ?? [];
+        count = response.data?.meta?.count ?? 0;
+      } else if (entityType === 'gpu') {
+        const response = await fetchGPUMIGQualityMetrics(params);
+        responseData = response.data?.data ?? [];
+        count = response.data?.meta?.count ?? 0;
+      } else if (entityType === 'snapshot') {
+        const response = await fetchSnapshotQualityMetrics(params);
         responseData = response.data?.data ?? [];
         count = response.data?.meta?.count ?? 0;
       } else {
@@ -150,6 +168,26 @@ const QualityDashboard: React.FC = () => {
         intl.formatMessage(messages.qualityColumnAge),
       ];
     }
+    if (entityType === 'gpu') {
+      return [
+        ...common,
+        intl.formatMessage(messages.qualityColumnWorkload),
+        intl.formatMessage(messages.qualityColumnContainerName),
+        intl.formatMessage(messages.qualityColumnStability),
+        intl.formatMessage(messages.qualityColumnAdoption),
+        intl.formatMessage(messages.qualityColumnContentionDays),
+        intl.formatMessage(messages.qualityColumnAge),
+      ];
+    }
+    if (entityType === 'snapshot') {
+      return [
+        intl.formatMessage(messages.qualityColumnDate),
+        intl.formatMessage(messages.qualityColumnCluster),
+        intl.formatMessage(messages.qualityColumnSnapshotName),
+        intl.formatMessage(messages.qualityColumnAdoption),
+        intl.formatMessage(messages.qualityColumnAge),
+      ];
+    }
     return [
       ...common,
       intl.formatMessage(messages.qualityColumnWorkload),
@@ -166,7 +204,7 @@ const QualityDashboard: React.FC = () => {
       <>
         <Td>{new Date(row.measured_at).toLocaleDateString()}</Td>
         <Td>{row.cluster_alias || row.cluster_uuid}</Td>
-        <Td>{row.namespace}</Td>
+        <Td>{'namespace' in row ? row.namespace : ''}</Td>
       </>
     );
 
@@ -194,6 +232,34 @@ const QualityDashboard: React.FC = () => {
           <Td>{vmRow.adoption_detected ? intl.formatMessage(messages.yes) : intl.formatMessage(messages.no)}</Td>
           <Td>{vmRow.saturation_days ?? '—'}</Td>
           <Td>{vmRow.recommendation_age_hours != null ? `${vmRow.recommendation_age_hours}h` : '—'}</Td>
+        </Tr>
+      );
+    }
+
+    if (entityType === 'gpu') {
+      const gpuRow = row as GPUMIGQualityRow;
+      return (
+        <Tr key={rowIdx}>
+          {commonCells}
+          <Td>{gpuRow.workload}</Td>
+          <Td>{gpuRow.container_name}</Td>
+          <Td>{gpuRow.stability_pct != null ? `${(gpuRow.stability_pct * 100).toFixed(1)}%` : '—'}</Td>
+          <Td>{gpuRow.adoption_detected ? intl.formatMessage(messages.yes) : intl.formatMessage(messages.no)}</Td>
+          <Td>{gpuRow.contention_days ?? '—'}</Td>
+          <Td>{gpuRow.recommendation_age_hours != null ? `${gpuRow.recommendation_age_hours}h` : '—'}</Td>
+        </Tr>
+      );
+    }
+
+    if (entityType === 'snapshot') {
+      const snapRow = row as SnapshotQualityRow;
+      return (
+        <Tr key={rowIdx}>
+          <Td>{new Date(snapRow.measured_at).toLocaleDateString()}</Td>
+          <Td>{snapRow.cluster_alias || snapRow.cluster_uuid}</Td>
+          <Td>{snapRow.snapshot_name}</Td>
+          <Td>{snapRow.adoption_detected ? intl.formatMessage(messages.yes) : intl.formatMessage(messages.no)}</Td>
+          <Td>{snapRow.recommendation_age_hours != null ? `${snapRow.recommendation_age_hours}h` : '—'}</Td>
         </Tr>
       );
     }
@@ -228,6 +294,16 @@ const QualityDashboard: React.FC = () => {
         text={intl.formatMessage(messages.qualityEntityVm)}
         isSelected={entityType === 'vm'}
         onChange={() => handleEntityTypeChange('vm')}
+      />
+      <ToggleGroupItem
+        text={intl.formatMessage(messages.qualityEntityGpu)}
+        isSelected={entityType === 'gpu'}
+        onChange={() => handleEntityTypeChange('gpu')}
+      />
+      <ToggleGroupItem
+        text={intl.formatMessage(messages.qualityEntitySnapshot)}
+        isSelected={entityType === 'snapshot'}
+        onChange={() => handleEntityTypeChange('snapshot')}
       />
     </ToggleGroup>
   );

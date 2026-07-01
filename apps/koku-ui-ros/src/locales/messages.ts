@@ -1115,6 +1115,31 @@ export default defineMessages({
     description: 'Table column header for VM CPU/memory saturation day count',
     id: 'qualityColumnSaturationDays',
   },
+  qualityEntityGpu: {
+    defaultMessage: 'GPU',
+    description: 'Entity type selector label for GPU MIG',
+    id: 'qualityEntityGpu',
+  },
+  qualityEntitySnapshot: {
+    defaultMessage: 'Snapshot',
+    description: 'Entity type selector label for Snapshots',
+    id: 'qualityEntitySnapshot',
+  },
+  qualityColumnContainerName: {
+    defaultMessage: 'Container',
+    description: 'Table column header for container name on GPU quality dashboard',
+    id: 'qualityColumnContainerName',
+  },
+  qualityColumnContentionDays: {
+    defaultMessage: 'Contention days',
+    description: 'Table column header for GPU SM active contention day count',
+    id: 'qualityColumnContentionDays',
+  },
+  qualityColumnSnapshotName: {
+    defaultMessage: 'Snapshot name',
+    description: 'Table column header for snapshot name on quality dashboard',
+    id: 'qualityColumnSnapshotName',
+  },
   storageGroupBy: {
     defaultMessage: 'Group by',
     description: 'Storage list group-by toolbar label',
