@@ -2,6 +2,9 @@ import { Pagination, PaginationVariant } from '@patternfly/react-core';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { ROS_LIST_TERM } from 'api/ros/rosListParams';
+import { useRecommendationTermOptions } from 'hooks/useRecommendationTermOptions';
+import { ColdStartState } from 'routes/components/page/coldStart';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
 import { LoadingState } from 'routes/components/state/loadingState';
@@ -10,6 +13,8 @@ import { styles } from 'routes/optimizations/optimizationsBreakdown/optimization
 import * as queryUtils from 'routes/utils/query';
 import { useUrlState } from 'routes/utils/useUrlState';
 import { FetchStatus } from 'store/common';
+
+import { INTERVAL_TO_TERM_NAME } from '../recommendationTermLabels';
 
 import { gpuMigRecommendationsBaseQuery, useGpuMigRecommendationsReport } from '../useGpuMigRecommendationsReport';
 import { getStorageGroupBy, type StorageGroupBy } from '../storageTableUtils';
@@ -26,6 +31,7 @@ type OptimizationsGpuMigTableProps = OptimizationsGpuMigTableOwnProps;
 
 const OptimizationsGpuMigTable: React.FC<OptimizationsGpuMigTableProps> = () => {
   const intl = useIntl();
+  const { termSettings } = useRecommendationTermOptions('gpu');
 
   const { query, setQuery } = useUrlState({
     baseQuery: gpuMigRecommendationsBaseQuery,
@@ -170,6 +176,16 @@ const OptimizationsGpuMigTable: React.FC<OptimizationsGpuMigTableProps> = () => 
     return <NotConfigured />;
   }
   if (!query.filter_by && !hasOptimizations && reportFetchStatus === FetchStatus.complete) {
+    const dataDaysAvailable = report?.meta?.data_days_available ?? 0;
+    const minDataDays = report?.meta?.min_data_days ?? (() => {
+      const activeTerm = query.term ?? ROS_LIST_TERM;
+      const termName = INTERVAL_TO_TERM_NAME[activeTerm];
+      const matchedTerm = termSettings.find(t => t.name === termName);
+      return matchedTerm?.min_data_days ?? 3;
+    })();
+    if (dataDaysAvailable < minDataDays) {
+      return <ColdStartState currentDays={dataDaysAvailable} minDays={minDataDays} />;
+    }
     return <NotConfigured />;
   }
   return (
