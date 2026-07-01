@@ -10,6 +10,8 @@ import { DataTable } from 'routes/components/dataTable';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
 import { getTimeFromNow } from 'utils/dates';
 
+import { CrossTabLink } from '../crossTabLink';
+
 interface OptimizationsVmsDataTableOwnProps {
   breadcrumbLabel?: string;
   engine?: string;
@@ -180,18 +182,12 @@ const OptimizationsVmsDataTable: React.FC<OptimizationsVmsDataTableProps> = ({
             ),
           },
           {
-            value: onFilterAdded ? (
-              <a
-                href="#"
-                onClick={e => {
-                  e.preventDefault();
-                  onFilterAdded({ key: 'namespace', value: item.namespace ?? '' });
-                }}
-              >
-                {item.namespace ?? ''}
-              </a>
+            value: item.namespace ? (
+              <CrossTabLink target={{ tab: 'namespace', filterKey: 'project', filterValue: item.namespace }}>
+                {item.namespace}
+              </CrossTabLink>
             ) : (
-              item.namespace ?? ''
+              ''
             ),
           },
           {

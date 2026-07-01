@@ -9,6 +9,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { DataTable } from 'routes/components/dataTable';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
 
+import { CrossTabLink, SameTabFilterLink } from '../crossTabLink';
+
 interface OptimizationsGpuMigDataTableOwnProps {
   breakdownPath?: string;
   filterBy?: any;
@@ -116,27 +118,34 @@ const OptimizationsGpuMigDataTable: React.FC<OptimizationsGpuMigDataTableProps> 
         },
       };
 
-      const containerCell = breakdownPath ? (
-        <Link to={breakdownPath} state={detailState}>
+      const containerCell = item.container ? (
+        <CrossTabLink target={{ tab: 'container', filterKey: 'container', filterValue: item.container }}>
           {containerName}
-        </Link>
+        </CrossTabLink>
       ) : (
         containerName
       );
 
-      const clusterCell =
-        breakdownPath && item.cluster_uuid ? (
-          <Link to={breakdownPath} state={detailState}>
-            {item.cluster_uuid}
-          </Link>
-        ) : (
-          item.cluster_uuid ?? ''
-        );
+      const clusterCell = item.cluster_uuid ? (
+        <SameTabFilterLink filterKey="cluster" filterValue={item.cluster_uuid} prefix="gpu_mig_">
+          {item.cluster_uuid}
+        </SameTabFilterLink>
+      ) : (
+        ''
+      );
+
+      const namespaceCell = item.namespace ? (
+        <CrossTabLink target={{ tab: 'namespace', filterKey: 'project', filterValue: item.namespace }}>
+          {item.namespace}
+        </CrossTabLink>
+      ) : (
+        '—'
+      );
 
       newRows.push({
         cells: [
           { value: clusterCell },
-          { value: item.namespace ?? '—' },
+          { value: namespaceCell },
           { value: item.workload ?? '—' },
           { value: containerCell },
           { value: item.gpu_model ?? '—' },

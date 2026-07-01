@@ -9,6 +9,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { DataTable } from 'routes/components/dataTable';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
 
+import { CrossTabLink, SameTabFilterLink } from '../crossTabLink';
+
 interface OptimizationsGpuTimeslicingDataTableOwnProps {
   breakdownPath?: string;
   filterBy?: any;
@@ -99,22 +101,21 @@ const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicing
         },
       };
 
-      const nodeCell = breakdownPath ? (
-        <Link to={breakdownPath} state={detailState}>
+      const nodeCell = item.node_name ? (
+        <CrossTabLink target={{ tab: 'node', filterKey: 'node', filterValue: item.node_name }}>
           {nodeName}
-        </Link>
+        </CrossTabLink>
       ) : (
         nodeName
       );
 
-      const clusterCell =
-        breakdownPath && item.cluster_uuid ? (
-          <Link to={breakdownPath} state={detailState}>
-            {item.cluster_uuid}
-          </Link>
-        ) : (
-          item.cluster_uuid ?? ''
-        );
+      const clusterCell = item.cluster_uuid ? (
+        <SameTabFilterLink filterKey="cluster" filterValue={item.cluster_uuid} prefix="gpu_ts_">
+          {item.cluster_uuid}
+        </SameTabFilterLink>
+      ) : (
+        ''
+      );
 
       newRows.push({
         cells: [

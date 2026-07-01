@@ -9,6 +9,7 @@ import { DataTable } from 'routes/components/dataTable';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
 import { getTimeFromNow } from 'utils/dates';
 
+import { CrossTabLink, SameTabFilterLink } from '../crossTabLink';
 import { formatMoneyCell, formatStorageBytes, type StorageGroupBy } from '../storageTableUtils';
 
 interface OptimizationsSnapshotsDataTableOwnProps {
@@ -178,59 +179,30 @@ const OptimizationsSnapshotsDataTable: React.FC<OptimizationsSnapshotsDataTableO
             ),
           },
           {
-            value: onFilterAdded ? (
-              <a
-                href="#"
-                onClick={e => {
-                  e.preventDefault();
-                  onFilterAdded({ key: 'project', value: item.namespace ?? '' });
-                }}
-              >
-                {item.namespace ?? ''}
-              </a>
+            value: item.namespace ? (
+              <CrossTabLink target={{ tab: 'namespace', filterKey: 'project', filterValue: item.namespace }}>
+                {item.namespace}
+              </CrossTabLink>
             ) : (
-              item.namespace ?? ''
+              ''
             ),
           },
           {
-            value:
-              onNavigateToSourcePvc && item.source_pvc_name ? (
-                <a
-                  href="#"
-                  onClick={e => {
-                    e.preventDefault();
-                    onNavigateToSourcePvc(item);
-                  }}
-                >
-                  {item.source_pvc_name}
-                </a>
-              ) : onFilterAdded ? (
-                <a
-                  href="#"
-                  onClick={e => {
-                    e.preventDefault();
-                    onFilterAdded({ key: 'pvc_name', value: item.source_pvc_name ?? '' });
-                  }}
-                >
-                  {item.source_pvc_name ?? ''}
-                </a>
-              ) : (
-                item.source_pvc_name ?? ''
-              ),
+            value: item.source_pvc_name ? (
+              <CrossTabLink target={{ tab: 'storage', sub: 'pvc', filterKey: 'pvc_name', filterValue: item.source_pvc_name }}>
+                {item.source_pvc_name}
+              </CrossTabLink>
+            ) : (
+              ''
+            ),
           },
           {
-            value: onFilterAdded ? (
-              <a
-                href="#"
-                onClick={e => {
-                  e.preventDefault();
-                  onFilterAdded({ key: 'cluster', value: clusterLabel });
-                }}
-              >
+            value: clusterLabel ? (
+              <SameTabFilterLink filterKey="cluster" filterValue={clusterLabel} prefix="snap_">
                 {clusterLabel}
-              </a>
+              </SameTabFilterLink>
             ) : (
-              clusterLabel
+              ''
             ),
           },
           { value: item.age_days != null ? String(item.age_days) : '—' },
