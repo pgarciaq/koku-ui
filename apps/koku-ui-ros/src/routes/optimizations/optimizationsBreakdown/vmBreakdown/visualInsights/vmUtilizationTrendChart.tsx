@@ -124,9 +124,9 @@ const VmUtilizationTrendChart: React.FC<VmUtilizationTrendChartProps> = ({
           }
           domain={{ y: [0, maxValue * 1.2 || 1] }}
           height={CHART_HEIGHT}
-          legendComponent={<ChartLegend data={legendData} height={20} gutter={20} responsive={false} />}
+          legendComponent={<ChartLegend data={legendData} gutter={20} />}
           legendPosition="bottom"
-          padding={{ bottom: 60, left: 60, right: 20, top: 10 }}
+          padding={{ bottom: 70, left: 60, right: 20, top: 10 }}
           width={width}
         >
           <ChartAxis fixLabelOverlap />

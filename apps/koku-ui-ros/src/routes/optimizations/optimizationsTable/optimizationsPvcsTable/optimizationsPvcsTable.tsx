@@ -55,7 +55,7 @@ const OptimizationsPvcsTable: React.FC<OptimizationsPvcsTableOwnProps> = ({
   useSavingsFallbackSort({
     data: report?.data,
     currentOrderBy,
-    fallbackOrderBy: 'storage_variation_short_cost',
+    fallbackOrderBy: 'usage_ratio',
     onSort: (orderBy, isAscending) => handleOnSort(orderBy, isAscending),
   });
 

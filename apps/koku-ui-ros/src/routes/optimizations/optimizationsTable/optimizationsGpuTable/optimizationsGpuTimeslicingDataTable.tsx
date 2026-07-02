@@ -164,11 +164,20 @@ const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicing
         ''
       );
 
+      const gpuModelCell =
+        breakdownPath && item.gpu_model ? (
+          <Link to={breakdownPath} state={detailState}>
+            {item.gpu_model}
+          </Link>
+        ) : (
+          item.gpu_model ?? '—'
+        );
+
       newRows.push({
         cells: [
           { value: clusterCell },
           { value: nodeCell },
-          { value: item.gpu_model ?? '—' },
+          { value: gpuModelCell },
           { value: item.recommended_replicas != null ? item.recommended_replicas : '—' },
           { value: getSavingsCell(item, intl) },
           { value: getClassificationBadge(item.classification) },

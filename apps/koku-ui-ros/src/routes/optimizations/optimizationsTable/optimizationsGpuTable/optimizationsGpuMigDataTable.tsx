@@ -190,11 +190,20 @@ const OptimizationsGpuMigDataTable: React.FC<OptimizationsGpuMigDataTableProps> 
         '—'
       );
 
+      const workloadCell =
+        breakdownPath && item.workload ? (
+          <Link to={breakdownPath} state={detailState}>
+            {item.workload}
+          </Link>
+        ) : (
+          item.workload ?? '—'
+        );
+
       newRows.push({
         cells: [
           { value: clusterCell },
           { value: namespaceCell },
-          { value: item.workload ?? '—' },
+          { value: workloadCell },
           { value: containerCell },
           { value: item.gpu_model ?? '—' },
           { value: formatTerm(item.term) },

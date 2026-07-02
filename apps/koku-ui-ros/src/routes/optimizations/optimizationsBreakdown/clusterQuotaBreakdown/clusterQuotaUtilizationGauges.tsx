@@ -24,7 +24,8 @@ interface GaugeData {
 const formatMillicores = (millicores: number): string => {
   if (millicores >= 1000) {
     const cores = millicores / 1000;
-    return Number.isInteger(cores) ? `${cores}` : `${cores.toFixed(1)}`;
+    const val = Number.isInteger(cores) ? `${cores}` : `${cores.toFixed(1)}`;
+    return `${val} cores`;
   }
   return `${Math.round(millicores)}m`;
 };

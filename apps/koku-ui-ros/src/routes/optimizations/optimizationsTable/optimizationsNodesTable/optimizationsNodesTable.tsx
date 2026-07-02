@@ -58,7 +58,7 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
   useSavingsFallbackSort({
     data: report?.data,
     currentOrderBy,
-    fallbackOrderBy: 'cpu_variation_short_cost',
+    fallbackOrderBy: 'node_name',
     onSort: (orderBy, isAscending) => handleOnSort(orderBy, isAscending),
   });
 
