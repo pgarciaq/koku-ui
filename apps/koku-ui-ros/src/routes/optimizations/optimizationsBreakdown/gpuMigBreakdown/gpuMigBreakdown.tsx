@@ -217,10 +217,11 @@ const useMapToProps = ({ queryStateName }: GpuMigBreakdownMapProps): GpuMigBreak
   const location = useLocation();
   const listQueryState = location?.state?.[queryStateName] ?? {};
 
-  const clusterUuid = listQueryState.cluster_uuid ?? '';
-  const namespace = listQueryState.namespace ?? '';
-  const container = listQueryState.container ?? '';
-  const gpuModel = listQueryState.gpu_model ?? '';
+  const queryFromRoute = new URLSearchParams(location.search);
+  const clusterUuid = queryFromRoute.get('cluster_uuid') ?? listQueryState.cluster_uuid ?? '';
+  const namespace = queryFromRoute.get('namespace') ?? listQueryState.namespace ?? '';
+  const container = queryFromRoute.get('container') ?? listQueryState.container ?? '';
+  const gpuModel = queryFromRoute.get('gpu_model') ?? listQueryState.gpu_model ?? '';
 
   const params = new URLSearchParams();
   if (clusterUuid) params.set('filter[cluster]', clusterUuid);

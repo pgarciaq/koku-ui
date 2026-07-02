@@ -8,8 +8,6 @@ import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
 import { DataTable } from 'routes/components/dataTable';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
-
-import { CrossTabLink, SameTabFilterLink } from '../crossTabLink';
 import { type StorageGroupBy } from '../storageTableUtils';
 
 interface OptimizationsGpuMigDataTableOwnProps {
@@ -166,38 +164,24 @@ const OptimizationsGpuMigDataTable: React.FC<OptimizationsGpuMigDataTableProps> 
         },
       };
 
-      const containerCell = item.container ? (
-        <CrossTabLink target={{ tab: 'container', filterKey: 'container', filterValue: item.container }}>
-          {containerName}
-        </CrossTabLink>
-      ) : (
-        containerName
-      );
+      const breakdownUrl = breakdownPath
+        ? `${breakdownPath}?cluster_uuid=${encodeURIComponent(item.cluster_uuid ?? '')}&namespace=${encodeURIComponent(item.namespace ?? '')}&container=${encodeURIComponent(item.container ?? '')}&gpu_model=${encodeURIComponent(item.gpu_model ?? '')}`
+        : undefined;
 
-      const clusterCell = item.cluster_uuid ? (
-        <SameTabFilterLink filterKey="cluster" filterValue={item.cluster_uuid} prefix="gpu_mig_">
-          {item.cluster_uuid}
-        </SameTabFilterLink>
-      ) : (
-        ''
-      );
-
-      const namespaceCell = item.namespace ? (
-        <CrossTabLink target={{ tab: 'namespace', filterKey: 'project', filterValue: item.namespace }}>
-          {item.namespace}
-        </CrossTabLink>
-      ) : (
-        '—'
-      );
-
-      const workloadCell =
-        breakdownPath && item.workload ? (
-          <Link to={breakdownPath} state={detailState}>
-            {item.workload}
+      const containerCell =
+        breakdownUrl && item.container ? (
+          <Link to={breakdownUrl} state={detailState}>
+            {containerName}
           </Link>
         ) : (
-          item.workload ?? '—'
+          containerName
         );
+
+      const clusterCell = item.cluster_uuid ?? '';
+
+      const namespaceCell = item.namespace ?? '—';
+
+      const workloadCell = item.workload ?? '—';
 
       newRows.push({
         cells: [

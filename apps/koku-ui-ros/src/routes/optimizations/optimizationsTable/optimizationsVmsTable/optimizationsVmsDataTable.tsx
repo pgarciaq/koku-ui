@@ -173,21 +173,33 @@ const OptimizationsVmsDataTable: React.FC<OptimizationsVmsDataTableProps> = ({
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'namespace' }),
+        orderBy: 'namespace',
+        ...(hasData && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'cluster' }),
+        orderBy: 'cluster_uuid',
+        ...(hasData && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'vm_current_vcpu' }),
+        orderBy: 'current_vcpu',
+        ...(hasData && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'vm_current_memory' }),
+        orderBy: 'current_memory_gib',
+        ...(hasData && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'vm_recommended_vcpu' }),
+        orderBy: 'recommended_vcpu',
+        ...(hasData && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'vm_recommended_memory' }),
+        orderBy: 'recommended_memory_gib',
+        ...(hasData && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'vm_status' }),
@@ -199,6 +211,8 @@ const OptimizationsVmsDataTable: React.FC<OptimizationsVmsDataTableProps> = ({
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'last_reported' }),
+        orderBy: 'last_recommended_at',
+        ...(hasData && { isSortable: true }),
       },
     ];
 

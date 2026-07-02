@@ -127,7 +127,7 @@ const PvcBreakdownUsageChart: React.FC<PvcBreakdownUsageChartOwnProps> = ({
     <Card>
       <CardTitle>{intl.formatMessage(messages.pvcUsageHistoryTitle)}</CardTitle>
       <CardBody>
-        <div style={{ height: 280 }}>
+        <div style={{ height: 280, overflowX: 'auto' }}>
           <Chart
             ariaDesc={intl.formatMessage(messages.pvcUsageHistoryTitle)}
             ariaTitle={intl.formatMessage(messages.pvcUsageHistoryTitle)}

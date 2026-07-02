@@ -222,8 +222,9 @@ const useMapToProps = ({ queryStateName }: GpuTimeslicingBreakdownMapProps): Gpu
   const location = useLocation();
   const listQueryState = location?.state?.[queryStateName] ?? {};
 
-  const clusterUuid = listQueryState.cluster_uuid ?? '';
-  const nodeName = listQueryState.node_name ?? '';
+  const queryFromRoute = new URLSearchParams(location.search);
+  const clusterUuid = queryFromRoute.get('cluster_uuid') ?? listQueryState.cluster_uuid ?? '';
+  const nodeName = queryFromRoute.get('node_name') ?? listQueryState.node_name ?? '';
 
   const queryString = `filter[cluster]=${encodeURIComponent(clusterUuid)}&filter[node]=${encodeURIComponent(nodeName)}&limit=1`;
 

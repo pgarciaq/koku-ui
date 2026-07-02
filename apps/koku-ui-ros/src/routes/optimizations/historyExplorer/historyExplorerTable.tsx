@@ -36,42 +36,38 @@ const HistoryExplorerTable: React.FC<HistoryExplorerTableProps> = ({
     };
   };
 
-  const formatMillicores = (value: number | null): string => {
-    if (value == null) {
-      return '—';
-    }
-    if (value >= 1000) {
-      return `${(value / 1000).toFixed(2)} cores`;
-    }
-    return `${value}m`;
+  const toNum = (v: unknown): number | null => {
+    if (v == null) return null;
+    const n = typeof v === 'number' ? v : Number(v);
+    return Number.isFinite(n) ? n : null;
   };
 
-  const formatKib = (value: number | null): string => {
-    if (value == null) {
-      return '—';
-    }
-    if (value >= 1048576) {
-      return `${(value / 1048576).toFixed(2)} GiB`;
-    }
-    if (value >= 1024) {
-      return `${(value / 1024).toFixed(1)} MiB`;
-    }
-    return `${value} KiB`;
+  const formatMillicores = (value: unknown): string => {
+    const n = toNum(value);
+    if (n == null) return '—';
+    if (n >= 1000) return `${(n / 1000).toFixed(2)} cores`;
+    return `${n}m`;
+  };
+
+  const formatKib = (value: unknown): string => {
+    const n = toNum(value);
+    if (n == null) return '—';
+    if (n >= 1048576) return `${(n / 1048576).toFixed(2)} GiB`;
+    if (n >= 1024) return `${(n / 1024).toFixed(1)} MiB`;
+    return `${n} KiB`;
   };
 
   const formatSavings = (savings: HistoryRow['estimated_monthly_savings']): string => {
-    if (!savings || savings.value == null) {
-      return '—';
-    }
-    const val = savings.value;
-    return `$${val.toFixed(2)}`;
+    if (!savings) return '—';
+    const n = toNum(savings.value);
+    if (n == null) return '—';
+    return `$${n.toFixed(2)}`;
   };
 
-  const formatConfidence = (value: number | null): string => {
-    if (value == null) {
-      return '—';
-    }
-    return `${(value * 100).toFixed(0)}%`;
+  const formatConfidence = (value: unknown): string => {
+    const n = toNum(value);
+    if (n == null) return '—';
+    return `${(n * 100).toFixed(0)}%`;
   };
 
   const formatDate = (dateStr: string): string => {
@@ -158,7 +154,7 @@ const HistoryExplorerTable: React.FC<HistoryExplorerTableProps> = ({
             {showAdvancedColumns && (
               <>
                 <Td>{row.expl_data_days ?? '—'}</Td>
-                <Td>{row.expl_decay_half_life_hours != null ? `${row.expl_decay_half_life_hours.toFixed(1)}h` : '—'}</Td>
+                <Td>{toNum(row.expl_decay_half_life_hours) != null ? `${toNum(row.expl_decay_half_life_hours).toFixed(1)}h` : '—'}</Td>
                 <Td>{formatMillicores(row.expl_cpu_usage_p95_mc ?? null)}</Td>
                 <Td>{formatKib(row.expl_mem_usage_p95_kib ?? null)}</Td>
                 <Td>{row.expl_oom_count_sum ?? '—'}</Td>

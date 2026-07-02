@@ -57,8 +57,10 @@ const VmVisualInsightsSection: React.FC<VmVisualInsightsSectionProps> = ({
     if (!heatmapPoints.length) {
       return 0;
     }
-    return Math.max(...heatmapPoints.map(p => p.value));
-  }, [heatmapPoints]);
+    const capacityMc = current?.vcpu != null ? current.vcpu * 1000 : 0;
+    const observedMax = Math.max(...heatmapPoints.map(p => p.value));
+    return capacityMc > 0 ? capacityMc : observedMax;
+  }, [heatmapPoints, current]);
 
   const hasAnyIoData = useMemo(() => {
     if (!dailyDigests || dailyDigests.length === 0) {

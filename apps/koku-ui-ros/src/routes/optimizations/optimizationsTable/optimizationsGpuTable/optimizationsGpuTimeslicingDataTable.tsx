@@ -8,8 +8,6 @@ import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
 import { DataTable } from 'routes/components/dataTable';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
-
-import { CrossTabLink, SameTabFilterLink } from '../crossTabLink';
 import { formatMoneyCell, type StorageGroupBy } from '../storageTableUtils';
 
 interface OptimizationsGpuTimeslicingDataTableOwnProps {
@@ -148,25 +146,17 @@ const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicing
         },
       };
 
-      const nodeCell = item.node_name ? (
-        <CrossTabLink target={{ tab: 'node', filterKey: 'node', filterValue: item.node_name }}>
-          {nodeName}
-        </CrossTabLink>
-      ) : (
-        nodeName
-      );
+      const nodeCell = nodeName;
 
-      const clusterCell = item.cluster_uuid ? (
-        <SameTabFilterLink filterKey="cluster" filterValue={item.cluster_uuid} prefix="gpu_ts_">
-          {item.cluster_uuid}
-        </SameTabFilterLink>
-      ) : (
-        ''
-      );
+      const clusterCell = item.cluster_uuid ?? '';
+
+      const breakdownUrl = breakdownPath
+        ? `${breakdownPath}?cluster_uuid=${encodeURIComponent(item.cluster_uuid ?? '')}&node_name=${encodeURIComponent(item.node_name ?? '')}`
+        : undefined;
 
       const gpuModelCell =
-        breakdownPath && item.gpu_model ? (
-          <Link to={breakdownPath} state={detailState}>
+        breakdownUrl && item.gpu_model ? (
+          <Link to={breakdownUrl} state={detailState}>
             {item.gpu_model}
           </Link>
         ) : (

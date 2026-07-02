@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl';
 
 import { AccessibilityTable } from './accessibilityTable';
 import type { UtilizationBand } from './heatmapColors';
-import { getCellStyle } from './heatmapColors';
+import { bandColorTokens, bandOrder, getCellStyle } from './heatmapColors';
 
 export interface HeatmapDataPoint {
   report_date: string;
@@ -147,6 +147,30 @@ const UtilizationHeatmap: React.FC<UtilizationHeatmapProps> = ({
           })}
         </div>
       ))}
+      <div
+        style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 8, paddingLeft: 40, flexWrap: 'wrap' }}
+        aria-label={intl.formatMessage(messages.fleetHeatmapLegendLabel)}
+        role="img"
+      >
+        <span style={{ fontSize: 11, color: 'var(--pf-t--global--text--color--subtle)', marginRight: 4 }}>
+          {intl.formatMessage(messages.fleetHeatmapBandIdle)}
+        </span>
+        {bandOrder.map(band => (
+          <div
+            key={band}
+            style={{
+              width: 16,
+              height: 16,
+              borderRadius: 3,
+              backgroundColor: bandColorTokens[band],
+              border: '1px solid var(--pf-t--global--border--color--default)',
+            }}
+          />
+        ))}
+        <span style={{ fontSize: 11, color: 'var(--pf-t--global--text--color--subtle)', marginLeft: 4 }}>
+          {intl.formatMessage(messages.fleetHeatmapBandHot)}
+        </span>
+      </div>
       <AccessibilityTable
         caption={intl.formatMessage(messages.visualInsightsHeatmapAccessCaption, {
           entity: entityLabel,
