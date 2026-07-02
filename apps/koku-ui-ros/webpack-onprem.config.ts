@@ -52,6 +52,7 @@ const config: Configuration = {
             options: {
               configFile: 'tsconfig-onprem.json',
               allowTsInNodeModules: true,
+              transpileOnly: true,
             },
           },
         ],
