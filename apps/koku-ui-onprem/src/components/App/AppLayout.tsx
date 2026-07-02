@@ -121,12 +121,11 @@ const AppLayout = () => {
       mainContainerId="primary-app-container"
       masthead={masthead}
       sidebar={sidebar}
-      isContentFilled
       style={{
         width: '100%',
       }}
     >
-      <PageSection isFilled padding={{ default: 'noPadding' }}>
+      <PageSection padding={{ default: 'noPadding' }}>
         <Routes>
           <Route path="/" element={<Navigate to="/openshift/cost-management" replace />} />
           <Route

@@ -12,13 +12,17 @@ interface OptimizationsGpuDetailsOwnProps {
   breadcrumbPath?: string;
   linkPath?: string;
   linkState?: any;
+  migBreakdownPath?: string;
   queryStateName?: string;
+  timeslicingBreakdownPath?: string;
 }
 
 const OptimizationsGpuDetails: React.FC<OptimizationsGpuDetailsOwnProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
+  migBreakdownPath,
   queryStateName,
+  timeslicingBreakdownPath,
 }) => {
   const intl = useIntl();
   const { sub, setSub } = useOptimizationsGpuSubUrl('mig');
@@ -47,12 +51,14 @@ const OptimizationsGpuDetails: React.FC<OptimizationsGpuDetailsOwnProps> = ({
         <OptimizationsGpuMigTable
           breadcrumbLabel={breadcrumbLabel}
           breadcrumbPath={breadcrumbPath}
+          breakdownPath={migBreakdownPath}
           queryStateName={queryStateName}
         />
       ) : (
         <OptimizationsGpuTimeslicingTable
           breadcrumbLabel={breadcrumbLabel}
           breadcrumbPath={breadcrumbPath}
+          breakdownPath={timeslicingBreakdownPath}
           queryStateName={queryStateName}
         />
       )}

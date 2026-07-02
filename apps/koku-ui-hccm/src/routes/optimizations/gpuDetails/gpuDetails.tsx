@@ -24,6 +24,8 @@ const GpuDetails: React.FC<GpuDetailsOwnProps> = ({ activeTabKey }) => {
             module="./OptimizationsGpuDetails"
             breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
             breadcrumbPath={formatPath(`${routes.optimizations.path}${location.search}`)}
+            migBreakdownPath={formatPath(routes.optimizationsGpuMigBreakdown.path)}
+            timeslicingBreakdownPath={formatPath(routes.optimizationsGpuTimeslicingBreakdown.path)}
             linkState={{
               ...(location?.state || {}),
               efficiencyState: {

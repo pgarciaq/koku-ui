@@ -28,12 +28,15 @@ import { OptimizationsGpuTimeslicingToolbar } from './optimizationsGpuTimeslicin
 interface OptimizationsGpuTimeslicingTableOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
+  breakdownPath?: string;
   queryStateName?: string;
 }
 
 type OptimizationsGpuTimeslicingTableProps = OptimizationsGpuTimeslicingTableOwnProps;
 
-const OptimizationsGpuTimeslicingTable: React.FC<OptimizationsGpuTimeslicingTableProps> = () => {
+const OptimizationsGpuTimeslicingTable: React.FC<OptimizationsGpuTimeslicingTableProps> = ({
+  breakdownPath: breakdownPathProp,
+}) => {
   const intl = useIntl();
   const { termSettings } = useRecommendationTermOptions('gpu');
 
@@ -83,7 +86,7 @@ const OptimizationsGpuTimeslicingTable: React.FC<OptimizationsGpuTimeslicingTabl
   const getTable = () => {
     return (
       <OptimizationsGpuTimeslicingDataTable
-        breakdownPath="/optimizations/gpu-timeslicing-breakdown"
+        breakdownPath={breakdownPathProp ?? '/optimizations/gpu-timeslicing-breakdown'}
         filterBy={query.filter_by}
         groupBy={gpuTsGroupBy}
         isLoading={reportFetchStatus === FetchStatus.inProgress}

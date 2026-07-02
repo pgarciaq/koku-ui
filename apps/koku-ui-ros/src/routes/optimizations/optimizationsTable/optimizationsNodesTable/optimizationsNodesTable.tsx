@@ -58,7 +58,7 @@ const OptimizationsNodesTable: React.FC<OptimizationsNodesTableProps> = ({
   useSavingsFallbackSort({
     data: report?.data,
     currentOrderBy,
-    fallbackOrderBy: 'node_name',
+    fallbackOrderBy: 'node',
     onSort: (orderBy, isAscending) => handleOnSort(orderBy, isAscending),
   });
 

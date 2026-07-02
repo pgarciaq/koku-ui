@@ -58,7 +58,7 @@ const OptimizationsVmsTable: React.FC<OptimizationsVmsTableProps> = ({
   useSavingsFallbackSort({
     data: report?.data,
     currentOrderBy,
-    fallbackOrderBy: 'cpu_variation_short_cost',
+    fallbackOrderBy: 'vm_name',
     onSort: (orderBy, isAscending) => handleOnSort(orderBy, isAscending),
   });
 

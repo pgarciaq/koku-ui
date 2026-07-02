@@ -158,6 +158,8 @@ const OptimizationsPvcsDataTable: React.FC<OptimizationsPvcsDataTableOwnProps> =
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'classification' }),
+        orderBy: 'recommendation_type',
+        ...(hasData && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'potential_savings' }),

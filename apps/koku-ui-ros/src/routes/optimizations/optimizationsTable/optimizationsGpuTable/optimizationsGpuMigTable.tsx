@@ -24,12 +24,15 @@ import { OptimizationsGpuMigToolbar } from './optimizationsGpuMigToolbar';
 interface OptimizationsGpuMigTableOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
+  breakdownPath?: string;
   queryStateName?: string;
 }
 
 type OptimizationsGpuMigTableProps = OptimizationsGpuMigTableOwnProps;
 
-const OptimizationsGpuMigTable: React.FC<OptimizationsGpuMigTableProps> = () => {
+const OptimizationsGpuMigTable: React.FC<OptimizationsGpuMigTableProps> = ({
+  breakdownPath: breakdownPathProp,
+}) => {
   const intl = useIntl();
   const { termSettings } = useRecommendationTermOptions('gpu');
 
@@ -71,7 +74,7 @@ const OptimizationsGpuMigTable: React.FC<OptimizationsGpuMigTableProps> = () => 
   const getTable = () => {
     return (
       <OptimizationsGpuMigDataTable
-        breakdownPath="/optimizations/gpu-mig-breakdown"
+        breakdownPath={breakdownPathProp ?? '/optimizations/gpu-mig-breakdown'}
         filterBy={query.filter_by}
         groupBy={gpuMigGroupBy}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
