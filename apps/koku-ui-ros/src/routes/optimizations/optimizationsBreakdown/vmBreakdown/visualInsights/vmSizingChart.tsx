@@ -113,10 +113,10 @@ const VmSizingChart: React.FC<VmSizingChartProps> = ({ current, recommended, est
             domain={{ y: [0, maxValue * 1.2] }}
             domainPadding={{ x: 80 }}
             height={CHART_HEIGHT}
-            legendComponent={<ChartLegend data={legendData} gutter={20} />}
+            legendComponent={<ChartLegend data={legendData} gutter={40} />}
             legendPosition="bottom"
             padding={{ bottom: 70, left: 10, right: 30, top: 30 }}
-            width={width}
+            width={width > 0 ? width : 600}
           >
             <ChartAxis
               label={intl.formatMessage(messages.visualInsightsVmSizingResourceMetric)}

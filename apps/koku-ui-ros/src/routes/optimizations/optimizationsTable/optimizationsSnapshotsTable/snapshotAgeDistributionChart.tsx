@@ -128,7 +128,7 @@ const SnapshotAgeDistributionChart: React.FC = () => {
               domainPadding={{ x: 50 }}
               height={chartHeight}
               padding={{ bottom: 60, left: 60, right: 30, top: 20 }}
-              width={width}
+              width={width > 0 ? width : 600}
             >
               <ChartAxis fixLabelOverlap />
               <ChartAxis

@@ -188,6 +188,8 @@ const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = 
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'cluster' }),
+        orderBy: 'cluster_uuid',
+        ...(hasData && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'node_cpu_util' }),
@@ -204,6 +206,8 @@ const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = 
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'node_fleet_reduction' }),
+        orderBy: 'fleet_reduction',
+        ...(hasData && { isSortable: true }),
       },
       {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'potential_savings' }),

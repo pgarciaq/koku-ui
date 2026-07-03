@@ -149,12 +149,12 @@ const CpuThrottleTrend: React.FC<CpuThrottleTrendProps> = ({ plotsData }) => {
           height={chartHeight}
           legendComponent={<ChartLegend data={legendData} height={25} gutter={20} responsive={false} />}
           legendPosition="bottom"
-          padding={{ bottom: 75, left: 60, right: 30, top: 20 }}
+          padding={{ bottom: 75, left: 75, right: 30, top: 20 }}
           theme={ChartTheme}
           width={width}
         >
           <ChartAxis fixLabelOverlap />
-          <ChartAxis dependentAxis showGrid label="Cores" />
+          <ChartAxis dependentAxis showGrid label="Cores" style={{ axisLabel: { padding: 50 } }} />
           <ChartArea
             data={throttleP95Data}
             interpolation="monotoneX"

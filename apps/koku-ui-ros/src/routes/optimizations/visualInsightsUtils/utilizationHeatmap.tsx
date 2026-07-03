@@ -108,7 +108,7 @@ const UtilizationHeatmap: React.FC<UtilizationHeatmapProps> = ({
 
   return (
     <div>
-      <div style={{ display: 'flex', fontSize: 11, marginBottom: 4, paddingLeft: 40, minWidth: 'max-content' }}>
+      <div style={{ display: 'flex', fontSize: 11, marginBottom: 4, paddingLeft: 40 }}>
         {HOURS.map(h => (
           <div key={h} style={{ width: 32, textAlign: 'center', color: 'var(--pf-t--global--text--color--subtle)' }}>
             {h}

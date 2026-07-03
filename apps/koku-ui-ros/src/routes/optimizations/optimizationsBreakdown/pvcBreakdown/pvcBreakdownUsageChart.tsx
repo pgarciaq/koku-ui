@@ -10,8 +10,9 @@ import {
 } from '@patternfly/react-charts/victory';
 import type { PvcHistoricalUsagePoint } from 'api/ros/recommendations';
 import messages from 'locales/messages';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { getResizeObserver } from 'routes/components/charts/common/chartUtils';
 import { formatStorageBytes } from 'routes/optimizations/optimizationsTable/storageTableUtils';
 
 const PROJECTION_HORIZON_DAYS = 90;
@@ -67,6 +68,8 @@ export function computeProjectionPoints(
   return points;
 }
 
+const CHART_HEIGHT = 260;
+
 const PvcBreakdownUsageChart: React.FC<PvcBreakdownUsageChartOwnProps> = ({
   growthBytesPerDay,
   daysToFull,
@@ -74,6 +77,23 @@ const PvcBreakdownUsageChart: React.FC<PvcBreakdownUsageChartOwnProps> = ({
   showProjection = false,
 }) => {
   const intl = useIntl();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      const unobserve = getResizeObserver(containerRef.current, () => {
+        if (containerRef.current) {
+          setWidth(containerRef.current.clientWidth);
+        }
+      });
+      return () => {
+        if (unobserve) {
+          unobserve();
+        }
+      };
+    }
+  }, []);
 
   const chartData = useMemo(() => {
     if (!historicalUsage?.length) {
@@ -127,7 +147,7 @@ const PvcBreakdownUsageChart: React.FC<PvcBreakdownUsageChartOwnProps> = ({
     <Card>
       <CardTitle>{intl.formatMessage(messages.pvcUsageHistoryTitle)}</CardTitle>
       <CardBody>
-        <div>
+        <div ref={containerRef}>
           <Chart
             ariaDesc={intl.formatMessage(messages.pvcUsageHistoryTitle)}
             ariaTitle={intl.formatMessage(messages.pvcUsageHistoryTitle)}
@@ -143,10 +163,10 @@ const PvcBreakdownUsageChart: React.FC<PvcBreakdownUsageChartOwnProps> = ({
               />
             }
             domainPadding={{ x: [20, 20] }}
-            height={260}
+            height={CHART_HEIGHT}
             padding={{ bottom: 60, left: 70, right: 30, top: 20 }}
             themeColor={ChartThemeColor.multiUnordered}
-            width={800}
+            width={width > 0 ? width : 800}
           >
             <ChartAxis tickFormat={tick => tick} />
             <ChartAxis dependentAxis showGrid tickFormat={tick => `${tick} GiB`} />

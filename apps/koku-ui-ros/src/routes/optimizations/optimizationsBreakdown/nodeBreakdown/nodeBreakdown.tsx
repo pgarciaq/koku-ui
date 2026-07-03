@@ -105,6 +105,9 @@ const NodeBreakdown: React.FC<NodeBreakdownProps> = ({ linkState, queryStateName
     return (
       <div style={{ padding: '16px 0' }}>
         <div style={{ marginBottom: 24 }}>
+          <NodeEngineDetails engine={recommendationEngine} intl={intl} />
+        </div>
+        <div style={{ marginBottom: 24 }}>
           <NodeBreakdownUtilization metrics={report?.metrics} />
         </div>
         {(report?.pod_capacity > 0 || (report as any)?.daily_digests?.length > 0 || report?.cluster_uuid) && (
@@ -120,7 +123,6 @@ const NodeBreakdown: React.FC<NodeBreakdownProps> = ({ linkState, queryStateName
             />
           </div>
         )}
-        <NodeEngineDetails engine={recommendationEngine} intl={intl} />
         <div style={{ marginTop: 16 }}>
           <NodeBreakdownExplanation explanation={recommendationEngine.explanation} />
         </div>
@@ -251,17 +253,6 @@ const NodeEngineDetails: React.FC<{ engine: any; intl: any }> = ({ engine, intl 
           </tr>
         </tbody>
       </table>
-      {engine.notifications && Object.keys(engine.notifications).length > 0 && (
-        <div style={{ marginTop: 16 }}>
-          <Alert isInline variant="info" title={intl.formatMessage(messages.notificationsAlertTitle)}>
-            <List>
-              {Object.values(engine.notifications).map((n: any, idx) => (
-                <ListItem key={idx}>{n.message}</ListItem>
-              ))}
-            </List>
-          </Alert>
-        </div>
-      )}
     </div>
   );
 };

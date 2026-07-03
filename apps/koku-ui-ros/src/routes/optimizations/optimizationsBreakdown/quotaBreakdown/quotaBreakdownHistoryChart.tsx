@@ -9,8 +9,9 @@ import {
 } from '@patternfly/react-charts/victory';
 import type { QuotaRecommendationHistoryEntry } from 'api/ros/recommendations';
 import messages from 'locales/messages';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { getResizeObserver } from 'routes/components/charts/common/chartUtils';
 
 import {
   formatRecordedAt,
@@ -31,6 +32,23 @@ const QuotaBreakdownHistoryChart: React.FC<QuotaBreakdownHistoryChartOwnProps> =
   resourceLabel,
 }) => {
   const intl = useIntl();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      const unobserve = getResizeObserver(containerRef.current, () => {
+        if (containerRef.current) {
+          setWidth(containerRef.current.clientWidth);
+        }
+      });
+      return () => {
+        if (unobserve) {
+          unobserve();
+        }
+      };
+    }
+  }, []);
 
   const chartData = useMemo(() => {
     if (!entries.length) {
@@ -64,8 +82,10 @@ const QuotaBreakdownHistoryChart: React.FC<QuotaBreakdownHistoryChartOwnProps> =
   const yAxisLabel = getChartYAxisLabel(resource);
   const utilizationTitle = intl.formatMessage(messages.quotaHistoryUtilizationTitle);
 
+  const chartWidth = width > 0 ? width : 800;
+
   return (
-    <>
+    <div ref={containerRef}>
       <Card style={{ marginBottom: 24 }}>
         <CardTitle>{resourceLabel}</CardTitle>
         <CardBody>
@@ -85,7 +105,7 @@ const QuotaBreakdownHistoryChart: React.FC<QuotaBreakdownHistoryChartOwnProps> =
               height={260}
               padding={{ bottom: 60, left: 70, right: 30, top: 20 }}
               themeColor={ChartThemeColor.multiUnordered}
-              width={800}
+              width={chartWidth}
             >
               <ChartAxis tickFormat={tick => tick} />
               <ChartAxis dependentAxis showGrid tickFormat={tick => `${tick} ${yAxisLabel}`} />
@@ -125,7 +145,7 @@ const QuotaBreakdownHistoryChart: React.FC<QuotaBreakdownHistoryChartOwnProps> =
               height={200}
               padding={{ bottom: 60, left: 70, right: 30, top: 20 }}
               themeColor={ChartThemeColor.blue}
-              width={800}
+              width={chartWidth}
             >
               <ChartAxis tickFormat={tick => tick} />
               <ChartAxis dependentAxis showGrid tickFormat={tick => `${tick}%`} />
@@ -140,7 +160,7 @@ const QuotaBreakdownHistoryChart: React.FC<QuotaBreakdownHistoryChartOwnProps> =
           </div>
         </CardBody>
       </Card>
-    </>
+    </div>
   );
 };
 
