@@ -113,7 +113,7 @@ describe('FleetHeatmap', () => {
     const cell = container.querySelector('[role="button"]');
     fireEvent.click(cell!);
     expect(mockNavigate).toHaveBeenCalledWith(
-      '/optimizations/node-breakdown?node=my-node&cluster_uuid=my-cluster'
+      '/optimizations/node-breakdown?breakdown_title=my-node&id=my-node'
     );
   });
 

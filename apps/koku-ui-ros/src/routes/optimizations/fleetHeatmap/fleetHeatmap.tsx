@@ -16,6 +16,7 @@ import messages from 'locales/messages';
 import React, { useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
+import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { AccessibilityTable, bandColorTokens, bandOrder } from 'routes/optimizations/visualInsightsUtils';
 import type { UtilizationBand } from 'routes/optimizations/visualInsightsUtils';
 import { FetchStatus } from 'store/common';
@@ -57,7 +58,13 @@ export const FleetHeatmap: React.FC = () => {
   }, [data, showAll, metric, intl]);
 
   const handleNodeClick = (node: FleetHeatmapNode) => {
-    navigate(`/optimizations/node-breakdown?node=${encodeURIComponent(node.node)}&cluster_uuid=${node.cluster_uuid}`);
+    navigate(
+      getOptimizationsBreakdownPath({
+        basePath: '/optimizations/node-breakdown',
+        id: node.node,
+        title: node.node,
+      })
+    );
   };
 
   if (fetchStatus === FetchStatus.inProgress) {
