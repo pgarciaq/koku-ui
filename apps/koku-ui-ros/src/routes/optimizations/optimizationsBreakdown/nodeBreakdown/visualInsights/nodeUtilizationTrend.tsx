@@ -62,9 +62,11 @@ const NodeUtilizationTrend: React.FC<NodeUtilizationTrendProps> = ({
   const p95Label = intl.formatMessage(messages.visualInsightsNodeTrendP95);
   const p50Label = intl.formatMessage(messages.visualInsightsNodeTrendP50);
   const maxLabel = intl.formatMessage(messages.visualInsightsNodeTrendMax);
-  const thresholdLabel = intl.formatMessage(messages.visualInsightsNodeTrendThreshold);
 
   const thresholdPct = targetUtilizationBP != null ? targetUtilizationBP / 100 : null;
+  const thresholdLabel = intl.formatMessage(messages.visualInsightsNodeTrendThreshold, {
+    pct: thresholdPct != null ? thresholdPct : '—',
+  });
 
   const { p95Data, p50Data, maxData, thresholdData } = useMemo(() => {
     const sorted = [...dailyDigests].sort(

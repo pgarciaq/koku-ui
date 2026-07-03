@@ -2489,8 +2489,8 @@ export default defineMessages({
     id: 'visualInsightsNodeTrendP50',
   },
   visualInsightsNodeTrendThreshold: {
-    defaultMessage: 'Consolidation threshold',
-    description: 'Legend label for the consolidation threshold horizontal line in node trend charts',
+    defaultMessage: 'Target utilization ({pct}%)',
+    description: 'Legend label for the target utilization threshold line in node trend charts, with dynamic percentage',
     id: 'visualInsightsNodeTrendThreshold',
   },
   visualInsightsNodeTrendMax: {
