@@ -1,33 +1,35 @@
 import { useCallback, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export const OPTIMIZATION_TAB_KEYS = ['efficiency', 'container', 'namespace', 'node', 'storage', 'vm', 'quota', 'gpu', 'history', 'quality'] as const;
+export const OPTIMIZATION_TAB_KEYS = ['fleetSummary', 'efficiency', 'container', 'namespace', 'node', 'storage', 'vm', 'quota', 'gpu', 'history', 'quality'] as const;
 export type OptimizationTabKey = (typeof OPTIMIZATION_TAB_KEYS)[number];
 
 export const TAB_KEY_TO_INDEX: Record<OptimizationTabKey, number> = {
-  efficiency: 0,
-  container: 1,
-  namespace: 2,
-  node: 3,
-  storage: 4,
-  vm: 5,
-  quota: 6,
-  gpu: 7,
-  history: 8,
-  quality: 9,
+  fleetSummary: 0,
+  efficiency: 1,
+  container: 2,
+  namespace: 3,
+  node: 4,
+  storage: 5,
+  vm: 6,
+  quota: 7,
+  gpu: 8,
+  history: 9,
+  quality: 10,
 };
 
 const INDEX_TO_TAB_KEY: Record<number, OptimizationTabKey> = {
-  0: 'efficiency',
-  1: 'container',
-  2: 'namespace',
-  3: 'node',
-  4: 'storage',
-  5: 'vm',
-  6: 'quota',
-  7: 'gpu',
-  8: 'history',
-  9: 'quality',
+  0: 'fleetSummary',
+  1: 'efficiency',
+  2: 'container',
+  3: 'namespace',
+  4: 'node',
+  5: 'storage',
+  6: 'vm',
+  7: 'quota',
+  8: 'gpu',
+  9: 'history',
+  10: 'quality',
 };
 
 export type StorageSubKey = 'pvc' | 'snapshot';
@@ -64,7 +66,7 @@ export function useOptimizationsTabUrl(): UseOptimizationsTabUrlResult {
 
     return {
       activeTabKey: tabKey,
-      activeTab: INDEX_TO_TAB_KEY[tabKey] ?? 'efficiency',
+      activeTab: INDEX_TO_TAB_KEY[tabKey] ?? 'fleetSummary',
       storageSub: subParam === 'snapshot' ? ('snapshot' as StorageSubKey) : ('pvc' as StorageSubKey),
       quotaSub: subParam === 'cluster' ? ('cluster' as QuotaSubKey) : ('namespace' as QuotaSubKey),
       gpuSub: subParam === 'timeslicing' ? ('timeslicing' as GpuSubKey) : ('mig' as GpuSubKey),
@@ -73,7 +75,7 @@ export function useOptimizationsTabUrl(): UseOptimizationsTabUrlResult {
 
   const setActiveTab = useCallback(
     (tabIndex: number) => {
-      const tab = INDEX_TO_TAB_KEY[tabIndex] ?? 'efficiency';
+      const tab = INDEX_TO_TAB_KEY[tabIndex] ?? 'fleetSummary';
       const params = new URLSearchParams(location.search);
       params.set('tab', tab);
       if (tab !== 'storage' && tab !== 'quota' && tab !== 'gpu') {

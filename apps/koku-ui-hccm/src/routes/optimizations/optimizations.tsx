@@ -13,6 +13,7 @@ import { formatPath } from 'utils/paths';
 
 import { ContainerDetails } from './containerDetails';
 import { Efficiency } from './efficiency';
+import { FleetSummaryDetails } from './fleetSummaryDetails';
 import { GpuDetails } from './gpuDetails';
 import { HistoryDetails } from './historyDetails';
 import { NamespaceDetails } from './namespaceDetails';
@@ -59,9 +60,10 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
           </div>
           <div style={styles.tabs}>
             <Tabs activeKey={activeTabKey} onSelect={handleTabClick}>
-              <Tab eventKey={0} title={<TabTitleText>{intl.formatMessage(messages.efficiency)}</TabTitleText>} />
+              <Tab eventKey={0} title={<TabTitleText>{intl.formatMessage(messages.fleetSummaryTab)}</TabTitleText>} />
+              <Tab eventKey={1} title={<TabTitleText>{intl.formatMessage(messages.efficiency)}</TabTitleText>} />
               <Tab
-                eventKey={1}
+                eventKey={2}
                 title={
                   <TabTitleText>
                     {intl.formatMessage(messages.container)}{' '}
@@ -70,7 +72,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
                 }
               />
               <Tab
-                eventKey={2}
+                eventKey={3}
                 title={
                   <TabTitleText>
                     {intl.formatMessage(messages.namespace)}{' '}
@@ -79,7 +81,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
                 }
               />
               <Tab
-                eventKey={3}
+                eventKey={4}
                 title={
                   <TabTitleText>
                     {intl.formatMessage(messages.node)}{' '}
@@ -88,7 +90,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
                 }
               />
               <Tab
-                eventKey={4}
+                eventKey={5}
                 title={
                   <TabTitleText>
                     {intl.formatMessage(messages.storage)}{' '}
@@ -97,7 +99,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
                 }
               />
               <Tab
-                eventKey={5}
+                eventKey={6}
                 title={
                   <TabTitleText>
                     {intl.formatMessage(messages.virtualMachine)}{' '}
@@ -106,7 +108,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
                 }
               />
               <Tab
-                eventKey={6}
+                eventKey={7}
                 title={
                   <TabTitleText>
                     {intl.formatMessage(messages.quota)}{' '}
@@ -115,7 +117,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
                 }
               />
               <Tab
-                eventKey={7}
+                eventKey={8}
                 title={
                   <TabTitleText>
                     {intl.formatMessage(messages.gpuTitle)}{' '}
@@ -124,12 +126,12 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
                 }
               />
               <Tab
-                eventKey={8}
+                eventKey={9}
                 title={<TabTitleText>{intl.formatMessage(messages.historyTab)}</TabTitleText>}
               />
               {isQualityDashboardToggleEnabled && (
                 <Tab
-                  eventKey={9}
+                  eventKey={10}
                   title={<TabTitleText>{intl.formatMessage(messages.qualityTab)}</TabTitleText>}
                 />
               )}
@@ -138,16 +140,17 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
         </header>
       </PageSection>
       <PageSection>
-        {activeTabKey === 0 && <Efficiency />}
-        {activeTabKey === 1 && <ContainerDetails activeTabKey={1} />}
-        {activeTabKey === 2 && <NamespaceDetails activeTabKey={2} />}
-        {activeTabKey === 3 && <NodeDetails activeTabKey={3} />}
-        {activeTabKey === 4 && <StorageDetails activeTabKey={4} />}
-        {activeTabKey === 5 && <VmDetails activeTabKey={5} />}
-        {activeTabKey === 6 && <QuotaDetails activeTabKey={6} />}
-        {activeTabKey === 7 && <GpuDetails activeTabKey={7} />}
-        {activeTabKey === 8 && <HistoryDetails activeTabKey={8} />}
-        {activeTabKey === 9 && isQualityDashboardToggleEnabled && <QualityDetails activeTabKey={9} />}
+        {activeTabKey === 0 && <FleetSummaryDetails />}
+        {activeTabKey === 1 && <Efficiency />}
+        {activeTabKey === 2 && <ContainerDetails activeTabKey={2} />}
+        {activeTabKey === 3 && <NamespaceDetails activeTabKey={3} />}
+        {activeTabKey === 4 && <NodeDetails activeTabKey={4} />}
+        {activeTabKey === 5 && <StorageDetails activeTabKey={5} />}
+        {activeTabKey === 6 && <VmDetails activeTabKey={6} />}
+        {activeTabKey === 7 && <QuotaDetails activeTabKey={7} />}
+        {activeTabKey === 8 && <GpuDetails activeTabKey={8} />}
+        {activeTabKey === 9 && <HistoryDetails activeTabKey={9} />}
+        {activeTabKey === 10 && isQualityDashboardToggleEnabled && <QualityDetails activeTabKey={10} />}
       </PageSection>
     </>
   );

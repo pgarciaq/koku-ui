@@ -2446,6 +2446,11 @@ export default defineMessages({
     description: 'Finalization',
     id: 'finalization',
   },
+  fleetSummaryTab: {
+    defaultMessage: 'Fleet Summary',
+    description: 'Optimizations top-level Fleet Summary tab label',
+    id: 'fleetSummaryTab',
+  },
   forDate: {
     defaultMessage: '{value} for {dateRange}',
     description: '{value} for {Jan 1-31}',

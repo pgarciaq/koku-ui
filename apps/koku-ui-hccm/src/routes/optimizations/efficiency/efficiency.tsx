@@ -1,5 +1,4 @@
 import { Alert, AlertActionCloseButton, AlertActionLink, Grid, GridItem, PageSection } from '@patternfly/react-core';
-import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import type { Providers } from 'api/providers';
 import { ProviderType } from 'api/providers';
 import type { OcpQuery } from 'api/queries/ocpQuery';
@@ -267,9 +266,6 @@ const Efficiency: React.FC<EfficiencyProps> = () => {
             variant="info"
           />
         )}
-        <AsyncComponent scope="costManagementRos" module="./FleetSummaryCards" />
-        <AsyncComponent scope="costManagementRos" module="./FleetHeatmap" />
-        <AsyncComponent scope="costManagementRos" module="./SavingsWaterfallChart" />
         <Grid hasGutter>
           <GridItem xl={gridColumns}>
             <ComputeCard

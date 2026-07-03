@@ -1,0 +1,1 @@
+export { FleetSummaryDetails } from './fleetSummaryDetails';
