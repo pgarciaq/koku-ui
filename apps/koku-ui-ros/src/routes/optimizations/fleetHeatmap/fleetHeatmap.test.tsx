@@ -101,7 +101,29 @@ describe('FleetHeatmap', () => {
     expect(screen.getAllByText('Ungrouped').length).toBeGreaterThan(0);
   });
 
-  it('navigates to node breakdown on cell click', () => {
+  it('navigates to node breakdown on cell click with linkPath', () => {
+    const nodes = [makeNode({ node: 'my-node', cluster_uuid: 'my-cluster' })];
+
+    useFleetHeatmap.mockReturnValue({
+      data: { meta: { count: 1, metric: 'cpu', term: 'medium', engine: 'cost', latest_update: '2026-07-01', data_window: '7 days' }, data: nodes },
+      fetchStatus: 2,
+    });
+
+    const linkPath = '/openshift/cost-management/optimizations/node-breakdown';
+    const breadcrumbLabel = 'Back to optimizations';
+
+    const { container } = render(
+      <FleetHeatmap linkPath={linkPath} breadcrumbLabel={breadcrumbLabel} />,
+      { wrapper }
+    );
+    const cell = container.querySelector('[role="button"]');
+    fireEvent.click(cell!);
+    expect(mockNavigate).toHaveBeenCalledWith(
+      '/openshift/cost-management/optimizations/node-breakdown?breadcrumb_label=Back%20to%20optimizations&breakdown_title=my-node&id=my-node'
+    );
+  });
+
+  it('falls back to default path when linkPath is not provided', () => {
     const nodes = [makeNode({ node: 'my-node', cluster_uuid: 'my-cluster' })];
 
     useFleetHeatmap.mockReturnValue({

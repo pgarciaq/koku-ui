@@ -3,10 +3,15 @@ import { FleetHeatmap } from 'routes/optimizations/fleetHeatmap';
 
 import { OptimizationsWrapper } from './optimizationsWrapper';
 
-const FleetHeatmapWrapper: React.FC = () => {
+interface FleetHeatmapWrapperProps {
+  breadcrumbLabel?: string;
+  linkPath?: string;
+}
+
+const FleetHeatmapWrapper: React.FC<FleetHeatmapWrapperProps> = ({ breadcrumbLabel, linkPath }) => {
   return (
     <OptimizationsWrapper>
-      <FleetHeatmap />
+      <FleetHeatmap breadcrumbLabel={breadcrumbLabel} linkPath={linkPath} />
     </OptimizationsWrapper>
   );
 };

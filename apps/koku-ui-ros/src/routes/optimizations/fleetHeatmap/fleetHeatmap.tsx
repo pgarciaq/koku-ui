@@ -26,7 +26,14 @@ import { styles } from './fleetHeatmap.styles';
 
 const MAX_VISIBLE_NODES = 100;
 
-export const FleetHeatmap: React.FC = () => {
+interface FleetHeatmapOwnProps {
+  breadcrumbLabel?: string;
+  linkPath?: string;
+}
+
+type FleetHeatmapProps = FleetHeatmapOwnProps;
+
+export const FleetHeatmap: React.FC<FleetHeatmapProps> = ({ breadcrumbLabel, linkPath }) => {
   const intl = useIntl();
   const navigate = useNavigate();
   const [metric, setMetric] = useState<'cpu' | 'memory'>('cpu');
@@ -60,7 +67,8 @@ export const FleetHeatmap: React.FC = () => {
   const handleNodeClick = (node: FleetHeatmapNode) => {
     navigate(
       getOptimizationsBreakdownPath({
-        basePath: '/optimizations/node-breakdown',
+        basePath: linkPath || '/optimizations/node-breakdown',
+        breadcrumbLabel,
         id: node.node,
         title: node.node,
       })
