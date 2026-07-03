@@ -14,6 +14,15 @@ body {
   min-width: 0;
 }
 
+/*
+ * PF6 cards default to overflow:auto which creates nested scrollbars
+ * when the page layout already provides a primary scroll context.
+ * Override to visible so cards grow with their content instead.
+ */
+.costManagementRos .pf-v6-c-card {
+  overflow: visible;
+}
+
 /* Todo: Workaround for https://projects.engineering.redhat.com/browse/RHCLOUD-7970 */
 .Icon404 {
   height: 150px;
