@@ -99,13 +99,13 @@ const VmVisualInsightsSection: React.FC<VmVisualInsightsSectionProps> = ({
   const memRecommendedKib = recommended?.memory_gib != null ? recommended.memory_gib * 1024 * 1024 : null;
 
   return (
-    <Card>
+    <Card style={{ overflow: 'visible' }}>
       <CardTitle>
         <Title headingLevel="h2" size="lg">
           {intl.formatMessage(messages.visualInsights)}
         </Title>
       </CardTitle>
-      <CardBody>
+      <CardBody style={{ overflow: 'visible' }}>
         <Grid hasGutter>
           {hasSizingData && (
             <GridItem md={6} sm={12}>

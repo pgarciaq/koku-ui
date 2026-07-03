@@ -125,7 +125,7 @@ const VmBreakdown: React.FC<VmBreakdownProps> = ({ linkState, queryStateName }) 
           term={term}
         />
       </PageSection>
-      <PageSection>
+      <PageSection style={{ overflow: 'visible' }}>
         {isLoading ? (
           <LoadingState
             body={intl.formatMessage(messages.optimizationsLoadingStateDesc)}

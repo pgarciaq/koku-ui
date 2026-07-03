@@ -173,7 +173,7 @@ const OptimizationsSnapshotsTable: React.FC = () => {
   return (
     <>
       <OptimizationsTabSummaryBanner plugin="snapshot" variant="waste" />
-      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem', alignItems: 'flex-start' }}>
         <div style={{ flex: '1 1 400px' }}>
           <SnapshotAgeDistributionChart />
         </div>

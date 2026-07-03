@@ -115,13 +115,10 @@ const VmSizingChart: React.FC<VmSizingChartProps> = ({ current, recommended, est
             height={CHART_HEIGHT}
             legendComponent={<ChartLegend data={legendData} gutter={40} />}
             legendPosition="bottom"
-            padding={{ bottom: 100, left: 10, right: 30, top: 30 }}
+            padding={{ bottom: 70, left: 10, right: 30, top: 30 }}
             width={width > 0 ? width : 600}
           >
-            <ChartAxis
-              label={intl.formatMessage(messages.visualInsightsVmSizingResourceMetric)}
-              fixLabelOverlap
-            />
+            <ChartAxis fixLabelOverlap />
             <ChartAxis
               dependentAxis
               style={{ tickLabels: { fill: 'none' }, axis: { stroke: 'none' }, grid: { stroke: 'none' } }}
