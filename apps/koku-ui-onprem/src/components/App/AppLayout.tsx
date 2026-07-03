@@ -18,7 +18,7 @@ import {
 } from '@patternfly/react-core';
 import { ScalprumComponent } from '@scalprum/react-core';
 import openshiftLogo from 'assets/openshift-logo.svg';
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Link, Navigate, Route, Routes, useMatch } from 'react-router-dom';
 
 import AppToolbar from './AppToolbar';
@@ -76,6 +76,18 @@ const NavItem: React.FC<NavItemProps> = ({ to, children }) => {
 
 const AppLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
+
+  // PF6 <Page> renders two nested scroll containers:
+  //   .pf-v6-c-page__main-container (overflow-y: auto) — outer/primary scrollbar
+  //   .pf-v6-c-page__main (overflow: auto) — redundant inner scrollbar
+  // Remove the inner one so only the outer container scrolls.
+  useLayoutEffect(() => {
+    const mainEl = document.querySelector<HTMLElement>('.pf-v6-c-page__main');
+    if (mainEl) {
+      mainEl.style.overflow = 'visible';
+    }
+  }, []);
+
   const masthead = (
     <Masthead>
       <MastheadMain>
