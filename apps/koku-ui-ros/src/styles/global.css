@@ -15,11 +15,13 @@ body {
 }
 
 /*
- * PF6 cards default to overflow:auto which creates nested scrollbars
- * when the page layout already provides a primary scroll context.
- * Override to visible so cards grow with their content instead.
+ * PF6 cards and card bodies can create nested scrollbars when the page
+ * layout already provides a primary scroll context via
+ * .pf-v6-c-page__main-container (overflow-y: auto).
+ * Override to visible so inner containers grow with their content.
  */
-.costManagementRos .pf-v6-c-card {
+.costManagementRos .pf-v6-c-card,
+.costManagementRos .pf-v6-c-card__body {
   overflow: visible;
 }
 
