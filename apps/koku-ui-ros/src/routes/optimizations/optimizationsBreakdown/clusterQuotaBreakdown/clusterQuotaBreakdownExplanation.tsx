@@ -50,6 +50,35 @@ const hasTechnicalDetails = (explanation?: ClusterQuotaExplanationAPI): boolean 
   );
 };
 
+const getExplanationMessage = (
+  intl: ReturnType<typeof useIntl>,
+  explanation?: ClusterQuotaExplanationAPI
+): string | undefined => {
+  const reason = explanation?.recommendation_reason;
+  if (!reason) {
+    return undefined;
+  }
+  const utilization =
+    explanation?.max_utilization_basis_points != null
+      ? formatBasisPoints(explanation.max_utilization_basis_points)
+      : '—';
+  const headroom =
+    explanation?.headroom_basis_points != null
+      ? formatBasisPoints(explanation.headroom_basis_points - 10000)
+      : '—';
+
+  switch (reason) {
+    case 'raise':
+      return intl.formatMessage(messages.quotaExplanationReasonRaise, { utilization });
+    case 'tighten':
+      return intl.formatMessage(messages.quotaExplanationReasonTighten, { utilization, headroom });
+    case 'optimal':
+      return intl.formatMessage(messages.quotaExplanationReasonOptimal, { utilization });
+    default:
+      return reason;
+  }
+};
+
 const ClusterQuotaBreakdownExplanation: React.FC<ClusterQuotaBreakdownExplanationOwnProps> = ({ explanation }) => {
   const intl = useIntl();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -57,6 +86,8 @@ const ClusterQuotaBreakdownExplanation: React.FC<ClusterQuotaBreakdownExplanatio
   if (!explanation?.recommendation_reason && !hasTechnicalDetails(explanation)) {
     return null;
   }
+
+  const explanationText = getExplanationMessage(intl, explanation);
 
   const technicalItems: { label: string; value: string }[] = [];
 
@@ -93,16 +124,16 @@ const ClusterQuotaBreakdownExplanation: React.FC<ClusterQuotaBreakdownExplanatio
 
   return (
     <div style={{ marginBottom: 24 }}>
-      {explanation?.recommendation_reason && (
+      {explanationText && (
         <Alert isInline title={intl.formatMessage(messages.quotaExplanationTitle)} variant="info">
-          {explanation.recommendation_reason}
+          {explanationText}
         </Alert>
       )}
       {technicalItems.length > 0 && (
         <ExpandableSection
           isExpanded={isExpanded}
           onToggle={(_event, expanded) => setIsExpanded(expanded)}
-          style={{ marginTop: explanation?.recommendation_reason ? 16 : 0 }}
+          style={{ marginTop: explanationText ? 16 : 0 }}
           toggleText={intl.formatMessage(messages.quotaExplanationTechnicalDetails)}
         >
           <DescriptionList isCompact>

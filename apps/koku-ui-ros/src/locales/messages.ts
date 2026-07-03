@@ -950,6 +950,21 @@ export default defineMessages({
     description: 'Cluster quota explanation field for base CPU before headroom',
     id: 'quotaExplanationBaseCpu',
   },
+  quotaExplanationReasonRaise: {
+    defaultMessage: 'Current resource utilization ({utilization}) is approaching or exceeding the quota hard limit. Workloads may be throttled or fail to schedule. Raising the quota provides adequate headroom based on observed usage patterns.',
+    description: 'Explanation for raise-type quota recommendation',
+    id: 'quotaExplanationReasonRaise',
+  },
+  quotaExplanationReasonTighten: {
+    defaultMessage: 'Current resource utilization ({utilization}) is well below the quota hard limit. The quota can be safely reduced to match observed container resource recommendations (plus {headroom} headroom), freeing capacity for other namespaces.',
+    description: 'Explanation for tighten-type quota recommendation',
+    id: 'quotaExplanationReasonTighten',
+  },
+  quotaExplanationReasonOptimal: {
+    defaultMessage: 'Current resource utilization ({utilization}) is within an acceptable range of the quota hard limit. No changes are recommended at this time.',
+    description: 'Explanation for optimal-type quota recommendation',
+    id: 'quotaExplanationReasonOptimal',
+  },
   qualityDashboardTitle: {
     defaultMessage: 'Quality metrics',
     description: 'Title for the quality metrics dashboard',
@@ -2639,8 +2654,8 @@ export default defineMessages({
     id: 'visualInsightsVmActivityHeatmapDesc',
   },
   visualInsightsVmActivityHeatmapEmpty: {
-    defaultMessage: 'No hourly activity data available yet. Data begins collecting after deployment.',
-    description: 'Empty state when no hourly VM data is available',
+    defaultMessage: 'No hourly activity data available. Hourly granularity requires live metric collection from the cluster operator and is not included in historical data imports.',
+    description: 'Empty state when no hourly VM/node data is available',
     id: 'visualInsightsVmActivityHeatmapEmpty',
   },
   visualInsightsNodeActivityHeatmap: {

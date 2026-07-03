@@ -108,7 +108,7 @@ const SnapshotAgeDistributionChart: React.FC = () => {
     <Card>
       <CardTitle>{title}</CardTitle>
       <CardBody>
-        <div ref={containerRef}>
+        <div ref={containerRef} style={{ overflow: 'hidden' }}>
           <div style={{ height: chartHeight }}>
             <Chart
               ariaTitle={title}

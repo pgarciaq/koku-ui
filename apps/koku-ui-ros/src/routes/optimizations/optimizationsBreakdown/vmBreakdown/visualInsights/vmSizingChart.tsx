@@ -15,7 +15,7 @@ interface VmSizingChartProps {
 
 const CURRENT_COLOR = '#0066CC';
 const RECOMMENDED_COLOR = '#009596';
-const CHART_HEIGHT = 220;
+const CHART_HEIGHT = 260;
 
 const VmSizingChart: React.FC<VmSizingChartProps> = ({ current, recommended, estimatedMonthlySavings }) => {
   const intl = useIntl();
@@ -115,7 +115,7 @@ const VmSizingChart: React.FC<VmSizingChartProps> = ({ current, recommended, est
             height={CHART_HEIGHT}
             legendComponent={<ChartLegend data={legendData} gutter={40} />}
             legendPosition="bottom"
-            padding={{ bottom: 70, left: 10, right: 30, top: 30 }}
+            padding={{ bottom: 100, left: 10, right: 30, top: 30 }}
             width={width > 0 ? width : 600}
           >
             <ChartAxis
