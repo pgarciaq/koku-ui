@@ -1,11 +1,9 @@
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 // @ts-expect-error - pac-proxy-agent types may not resolve depending on moduleResolution settings
 import { PacProxyAgent } from 'pac-proxy-agent';
 import path from 'path';
-import TerserJSPlugin from 'terser-webpack-plugin';
 import type { Configuration } from 'webpack';
 import { container, DefinePlugin } from 'webpack';
 import type { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
@@ -80,6 +78,11 @@ const rbacProxyTarget = (() => {
   return match ? match[1] : proxyUrl;
 })();
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let refresher: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let createDevServerProxy: any;
+
 if (NODE_ENV !== 'production' && !process.env.CI) {
   if (!process.env.API_PROXY_URL) {
     throw new Error(
@@ -88,15 +91,37 @@ if (NODE_ENV !== 'production' && !process.env.CI) {
     );
   }
 
-  // When running the UI with a local koku API, API_TOKEN is omitted
-  if (!isOauth2ProxyMode && !process.env.API_TOKEN) {
-    throw new Error(
-      '[koku-ui-onprem] No authentication configured for the dev proxy.\n' +
-        'Provide one of:\n' +
-        '  1. API_TOKEN  (static bearer token)\n' +
-        '  2. OAUTH2_PROXY_MODE=true  (oauth2-proxy handles auth)\n' +
-        'See apps/koku-ui-onprem/README.md for details.'
-    );
+  if (!isOauth2ProxyMode) {
+    const hasKeycloak =
+      process.env.KEYCLOAK_TOKEN_URL && process.env.KEYCLOAK_CLIENT_ID && process.env.KEYCLOAK_CLIENT_SECRET;
+
+    // When running the UI with a local koku API, API_TOKEN is omitted
+    if (!hasKeycloak && !process.env.API_TOKEN) {
+      throw new Error(
+        '[koku-ui-onprem] No authentication configured for the dev proxy.\n' +
+          'Provide one of:\n' +
+          '  1. KEYCLOAK_TOKEN_URL + KEYCLOAK_CLIENT_ID + KEYCLOAK_CLIENT_SECRET  (auto-refresh)\n' +
+          '  2. API_TOKEN  (static bearer token)\n' +
+          '  3. OAUTH2_PROXY_MODE=true  (oauth2-proxy handles auth)\n' +
+          'See apps/koku-ui-onprem/README.md for details.'
+      );
+    }
+
+    if (hasKeycloak) {
+      // Dev-only: lazy-load token refresher to avoid TS resolution issues in production container builds
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const tr = require('@koku-ui/token-refresher');
+      createDevServerProxy = tr.createDevServerProxy;
+      refresher = new tr.TokenRefresher({
+        fetchToken: tr.createKeycloakFetcher({
+          tokenUrl: process.env.KEYCLOAK_TOKEN_URL!,
+          clientId: process.env.KEYCLOAK_CLIENT_ID!,
+          clientSecret: process.env.KEYCLOAK_CLIENT_SECRET!,
+        }),
+        fallbackToken: process.env.API_TOKEN,
+      });
+      refresher.start();
+    }
   }
 }
 
@@ -104,7 +129,7 @@ const config: Configuration & {
   devServer?: WebpackDevServerConfiguration;
 } = {
   mode: NODE_ENV,
-  devtool: 'eval-source-map',
+  devtool: 'source-map',
   devServer: {
     // In oauth2-proxy mode webpack must bind to all interfaces so the proxy
     // container can reach it via host.containers.internal / host.docker.internal.
@@ -146,32 +171,41 @@ const config: Configuration & {
     },
     setupMiddlewares,
     proxy: [
-      ...(process.env.API_PROXY_URL
-        ? [
-            {
-              context: ['/api/cost-management/v1'],
-              target: process.env.API_PROXY_URL,
-              changeOrigin: true,
-              secure: false,
-              pathRewrite: { '^/api/cost-management/v1': '' },
-              // Pass both HTTP and HTTPS traffic through the PAC agent
-              ...(pacAgent && { agent: pacAgent }),
-              // In oauth2-proxy mode proxyHeaders is undefined — the Authorization
-              // header injected by oauth2-proxy is forwarded as-is to the gateway.
-              ...(proxyHeaders && { headers: proxyHeaders }),
-            },
-          ]
-        : []),
+      refresher && !isOauth2ProxyMode
+        ? createDevServerProxy(refresher, {
+            context: ['/api/cost-management/v1'],
+            target: process.env.API_PROXY_URL!,
+            pathRewrite: { '^/api/cost-management/v1': '' },
+            secure: false,
+          })
+        : {
+            context: ['/api/cost-management/v1'],
+            target: process.env.API_PROXY_URL,
+            changeOrigin: true,
+            secure: false,
+            pathRewrite: { '^/api/cost-management/v1': '' },
+            // Pass both HTTP and HTTPS traffic through the PAC agent
+            ...(pacAgent && { agent: pacAgent }),
+            // In oauth2-proxy mode proxyHeaders is undefined — the Authorization
+            // header injected by oauth2-proxy is forwarded as-is to the gateway.
+            ...(proxyHeaders && { headers: proxyHeaders }),
+          },
       ...(rbacProxyTarget
         ? [
-            {
-              context: ['/api/rbac'],
-              target: rbacProxyTarget,
-              changeOrigin: true,
-              secure: false,
-              ...(pacAgent && { agent: pacAgent }),
-              ...(proxyHeaders && { headers: proxyHeaders }),
-            },
+            refresher && !isOauth2ProxyMode
+              ? createDevServerProxy(refresher, {
+                  context: ['/api/rbac'],
+                  target: rbacProxyTarget,
+                  secure: false,
+                })
+              : {
+                  context: ['/api/rbac'],
+                  target: rbacProxyTarget,
+                  changeOrigin: true,
+                  secure: false,
+                  ...(pacAgent && { agent: pacAgent }),
+                  ...(proxyHeaders && { headers: proxyHeaders }),
+                },
           ]
         : []),
     ],
@@ -246,13 +280,12 @@ const config: Configuration & {
     new container.ModuleFederationPlugin({
       name: 'onprem',
       shared: {
-        react: { singleton: true, requiredVersion: '*' },
-        'react-dom': { singleton: true, requiredVersion: '*' },
-        'react-redux': { singleton: true, requiredVersion: '*' },
-        'react-router-dom': { singleton: true, requiredVersion: '*' },
-        '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
-        '@scalprum/react-core': { singleton: true, requiredVersion: '*' },
-        '@koku-ui/ui-lib/': { singleton: true, requiredVersion: '*' },
+        react: { singleton: true, requiredVersion: '*', eager: true },
+        'react-dom': { singleton: true, requiredVersion: '*', eager: true },
+        'react-redux': { singleton: true, requiredVersion: '*', eager: true },
+        'react-router-dom': { singleton: true, requiredVersion: '*', eager: true },
+        '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*', eager: true },
+        '@scalprum/react-core': { singleton: true, requiredVersion: '*', eager: true },
       },
     }),
     new HtmlWebpackPlugin({
@@ -282,14 +315,6 @@ const config: Configuration & {
 
 /* Production settings */
 if (NODE_ENV === 'production') {
-  (config.optimization || {}).minimizer = [
-    new TerserJSPlugin({}),
-    new CssMinimizerPlugin({
-      minimizerOptions: {
-        preset: ['default', { mergeLonghand: false }],
-      },
-    }),
-  ];
   config.plugins?.push(
     new MiniCssExtractPlugin({
       filename: '[name]-[contenthash].css',

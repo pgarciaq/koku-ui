@@ -12,6 +12,14 @@
 <body>
   <noscript>Enabling JavaScript is required to run this app.</noscript>
   <div id="root"></div>
+  <script>
+    window.addEventListener('error', function(e) {
+      var pre = document.createElement('pre');
+      pre.style.cssText = 'background:#300;color:#fcc;padding:20px;margin:20px;font-size:12px;white-space:pre-wrap;word-break:break-all;';
+      pre.textContent = 'JS ERROR:\n' + e.message + '\n\nFile: ' + e.filename + ':' + e.lineno + ':' + e.colno + '\n\nStack:\n' + (e.error && e.error.stack ? e.error.stack : 'no stack');
+      document.body.insertBefore(pre, document.body.firstChild);
+    });
+  </script>
 </body>
 
 </html>
