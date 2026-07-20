@@ -9,14 +9,14 @@ import React, { lazy, Suspense } from 'react';
 
 const Iam = lazy(() => import('insights-rbac-frontend/src/federated-modules/Iam'));
 
-const fallback = (
-  <Bullseye>
-    <Spinner size="lg" />
-  </Bullseye>
-);
-
 const OnpremIamEntry: React.FC = () => (
-  <Suspense fallback={fallback}>
+  <Suspense
+    fallback={
+      <Bullseye>
+        <Spinner size="lg" />
+      </Bullseye>
+    }
+  >
     <Iam />
   </Suspense>
 );

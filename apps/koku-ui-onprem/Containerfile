@@ -16,22 +16,23 @@ COPY libs ./libs
 
 # Upstream insights-rbac-ui prepare (husky) fails without .git in image context
 ENV HUSKY=0
+ENV NODE_OPTIONS="--max-old-space-size=8192"
 RUN npm ci
 
 COPY apps/koku-ui-onprem ./apps/koku-ui-onprem/
-RUN npm run build --workspace=@koku-ui/koku-ui-onprem
+RUN rm -rf apps/koku-ui-onprem/dist && npm run build --workspace=@koku-ui/koku-ui-onprem
 
 COPY apps/koku-ui-hccm ./apps/koku-ui-hccm/
-RUN npm run build:onprem --workspace=@koku-ui/koku-ui-hccm
+RUN rm -rf apps/koku-ui-hccm/dist && npm run build:onprem --workspace=@koku-ui/koku-ui-hccm
 
 COPY apps/koku-ui-ros ./apps/koku-ui-ros/
-RUN npm run build:onprem --workspace=@koku-ui/koku-ui-ros
+RUN rm -rf apps/koku-ui-ros/dist && npm run build:onprem --workspace=@koku-ui/koku-ui-ros
 
 COPY apps/koku-ui-sources ./apps/koku-ui-sources/
-RUN npm run build:onprem --workspace=@koku-ui/koku-ui-sources
+RUN rm -rf apps/koku-ui-sources/dist && npm run build:onprem --workspace=@koku-ui/koku-ui-sources
 
 COPY apps/rbac-ui-onprem ./apps/rbac-ui-onprem/
-RUN npm run build:onprem --workspace=@koku-ui/rbac-ui-onprem
+RUN rm -rf apps/rbac-ui-onprem/dist && npm run build:onprem --workspace=@koku-ui/rbac-ui-onprem
 
 USER 1001
 

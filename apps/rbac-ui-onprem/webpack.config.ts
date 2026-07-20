@@ -137,10 +137,7 @@ const config: Configuration = {
     alias: {
       'insights-rbac-frontend': rbacPkgRoot,
       [path.join(rbacSrcDir, 'shared/hooks/useAppLink')]: useAppLinkShim,
-      '@redhat-cloud-services/frontend-components/useChrome': path.join(
-        onpremDepsSrc,
-        'frontend-components/useChrome.ts'
-      ),
+      '@redhat-cloud-services/frontend-components/useChrome': path.join(onpremDepsSrc, 'frontend-components/useChrome.ts'),
       '@redhat-cloud-services/frontend-components/AsyncComponent': path.join(
         onpremDepsSrc,
         'frontend-components/AsyncComponent.tsx'

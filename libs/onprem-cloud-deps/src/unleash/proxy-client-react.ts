@@ -1,28 +1,29 @@
 import type React from 'react';
 
-/**
- * Read build-time / runtime Unleash flags.
- *
- * Webpack DefinePlugin replaces `process.env.ONPREM_UNLEASH_FLAGS` with a string
- * literal. Do not gate on `typeof process === 'undefined'` — that skips the
- * replaced expression in the browser and ignores custom build-time flags.
- */
+const ONPREM_DEFAULT_FLAGS = [
+  'cost-management.koku-ui-hccm.efficiency',
+  'cost-management.koku-ui-hccm.gpu',
+  'cost-management.koku-ui-hccm.mig',
+  'cost-management.koku-ui-hccm.wasted-cost',
+  'cost-management.koku-ui-hccm.exact-filter',
+  'cost-management.koku-ui-hccm.aws-ec2-instances',
+  'cost-management.koku-ui-hccm.price-list',
+];
+
 const readUnleashFlagsEnv = (): string => {
-  try {
-    return process.env.ONPREM_UNLEASH_FLAGS ?? '';
-  } catch {
+  if (typeof process === 'undefined') {
     return '';
   }
+  return process.env.ONPREM_UNLEASH_FLAGS ?? '';
 };
 
 const parseEnabledFlags = (): Set<string> => {
   const raw = readUnleashFlagsEnv();
-  return new Set(
-    raw
-      .split(',')
-      .map(flag => flag.trim())
-      .filter(Boolean)
-  );
+  const envFlags = raw
+    .split(',')
+    .map(flag => flag.trim())
+    .filter(Boolean);
+  return new Set([...ONPREM_DEFAULT_FLAGS, ...envFlags]);
 };
 
 /** Lazy init avoids TDZ when this module loads early in federated HCCM chunks. */

@@ -8,12 +8,9 @@ import {
   Spinner,
 } from '@patternfly/react-core';
 import React from 'react';
-import { useIntl } from 'react-intl';
 
 import avatar from '#/assets/avatarimg.svg';
 import { fetchCurrentUser } from '#/data/api';
-import { MY_USER_ACCESS_PATH } from '#/data/routes';
-import messages from '#/locales/messages';
 
 function useCurrentUser(): string | undefined {
   const [username, setUsername] = React.useState<string>();
@@ -29,12 +26,7 @@ const handleLogout = () => {
   window.location.href = '/logout';
 };
 
-const handleMyUserAccess = () => {
-  window.location.href = MY_USER_ACCESS_PATH;
-};
-
 export const UserMenu: React.FC = () => {
-  const intl = useIntl();
   const username = useCurrentUser();
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
 
@@ -60,8 +52,7 @@ export const UserMenu: React.FC = () => {
   return (
     <Dropdown isOpen={isDropdownOpen} onSelect={closeDropdown} onOpenChange={setIsDropdownOpen} toggle={renderToggle}>
       <DropdownList>
-        <DropdownItem onClick={handleMyUserAccess}>{intl.formatMessage(messages.myUserAccess)}</DropdownItem>
-        <DropdownItem onClick={handleLogout}>{intl.formatMessage(messages.logout)}</DropdownItem>
+        <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
       </DropdownList>
     </Dropdown>
   );
