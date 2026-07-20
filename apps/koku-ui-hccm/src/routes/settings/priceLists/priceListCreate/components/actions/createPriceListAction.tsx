@@ -4,7 +4,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { formatPath } from 'utils/paths';
 
 interface CreatePriceListActionOwnProps {
@@ -44,7 +44,7 @@ const CreatePriceListAction: React.FC<CreatePriceListActionProps> = ({ canWrite,
   // Handlers
 
   const handleOnCreate = () => {
-    navigate(formatPath(routes.priceListCreate.path), {
+    navigate(formatPath(routePaths.priceListCreate.path), {
       replace: true,
       state: {
         ...(location?.state || {}),

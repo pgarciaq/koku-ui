@@ -8,7 +8,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { DataTable } from 'routes/components/dataTable';
 import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { EmptyValueState } from 'routes/components/state/emptyValueState';
@@ -173,7 +173,7 @@ class DetailsTableBase extends React.Component<DetailsTableProps, DetailsTableSt
       ) : (
         <Link
           to={getOrgBreakdownPath({
-            basePath: formatPath(routes.awsBreakdown.path),
+            basePath: formatPath(routePaths.awsBreakdown.path),
             breadcrumbPath,
             description: item.id,
             groupBy,

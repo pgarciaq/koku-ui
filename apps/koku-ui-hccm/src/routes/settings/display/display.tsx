@@ -4,7 +4,7 @@ import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { CostType } from 'routes/components/costType';
@@ -12,6 +12,7 @@ import { Currency } from 'routes/components/currency';
 import { useAccountSettingsNotifications } from 'routes/settings/utils/hooks';
 import type { RootState } from 'store';
 import { accountSettingsActions } from 'store/accountSettings';
+import { rbacSelectors } from 'store/rbac';
 import { getAccountCostType, getAccountCurrency } from 'utils/sessionStorage';
 
 import { DataRetention } from './dataRetention';
@@ -86,9 +87,6 @@ const Display: React.FC<DisplayProps> = ({ canWrite }) => {
   };
 
   const getDataRetention = () => {
-    if (!isSettingsDataRetentionPeriodEnabled) {
-      return null;
-    }
     return (
       <div style={styles.dataRetentionContainer}>
         <Title headingLevel="h2" style={styles.title} size={TitleSizes.md}>

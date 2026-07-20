@@ -1,5 +1,5 @@
 import type { Query } from 'api/queries/query';
-import { CriteriaType } from 'routes/components/dataToolbar/utils/criteria';
+import { CriteriaType } from 'routes/components/dataToolbar/utils/common';
 
 export interface Filter {
   excludeType?: CriteriaType;

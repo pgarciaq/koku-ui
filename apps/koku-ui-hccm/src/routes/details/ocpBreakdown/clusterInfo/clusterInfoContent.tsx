@@ -9,7 +9,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { CloudIntegration } from 'routes/details/ocpBreakdown/clusterInfo/components/cloudIntegration';
@@ -84,11 +84,11 @@ const ClusterInfoContent: React.FC<ClusterInfoContentProps> = ({ clusterId }: Cl
                 clusterProvider.cost_models.map((cm, index) => (
                   <React.Fragment key={index}>
                     <span style={styles.spacingRight}>{intl.formatMessage(messages.costModel)}</span>
-                    <a href={`${formatPath(routes.costModelBreakdown.basePath, true)}/${cm.uuid}`}>{cm.name}</a>
+                    <a href={`${formatPath(routePaths.costModelBreakdown.basePath, true)}/${cm.uuid}`}>{cm.name}</a>
                   </React.Fragment>
                 ))
               ) : (
-                <a href={formatPath(routes.settings.path, true)}>{intl.formatMessage(messages.assignCostModel)}</a>
+                <a href={formatPath(routePaths.settings.path, true)}>{intl.formatMessage(messages.assignCostModel)}</a>
               )}
             </Content>
           </Content>

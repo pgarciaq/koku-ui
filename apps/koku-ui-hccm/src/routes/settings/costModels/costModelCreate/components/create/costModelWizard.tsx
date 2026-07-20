@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import type { IntegrationContentHandle } from 'routes/settings/costModels/costModelBreakdown/integrations/components';
 import type { PriceListContentHandle } from 'routes/settings/costModels/costModelBreakdown/priceLists/components';
 import type { OrderPriceListContentHandle } from 'routes/settings/costModels/costModelBreakdown/priceLists/orderPriceListContent';
@@ -411,7 +411,7 @@ const CostModelWizard: React.FC<CostModelWizardProps> = ({ canWrite, onClose }: 
     reset();
     onClose?.();
 
-    navigate(formatPath(routes.settings.path), {
+    navigate(formatPath(routePaths.settings.path), {
       replace: true,
       state: {
         ...(location?.state || {}),

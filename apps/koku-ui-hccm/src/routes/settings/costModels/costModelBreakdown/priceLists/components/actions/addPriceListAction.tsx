@@ -4,7 +4,7 @@ import type { PriceListData } from 'api/priceList';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { AddPriceListModal } from 'routes/settings/costModels/costModelBreakdown/priceLists/components/add';
+import { AddPriceListModal } from 'routes/settings/costModels/costModelBreakdown/priceLists/components/add/addPriceListModal';
 import { ReviewChangeModal } from 'routes/settings/costModels/costModelBreakdown/priceLists/components/review';
 
 interface AddPriceListActionOwnProps {

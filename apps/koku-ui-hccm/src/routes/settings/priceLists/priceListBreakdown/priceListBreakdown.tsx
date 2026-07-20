@@ -6,7 +6,7 @@ import { getQuery } from 'api/queries/query';
 import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import { type UserAccess, UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
-import { useIsPriceListRatesToggleEnabled } from 'components/featureToggle';
+import { useIsPriceListToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { type RefObject, useCallback, useState } from 'react';
 import { useEffect } from 'react';
@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { usePriceListNotifications } from 'routes/settings/priceLists/utils';
@@ -198,7 +198,7 @@ const PriceListBreakdown: React.FC<PriceListBreakdownProps> = () => {
   };
 
   const handleOnDeletePriceList = () => {
-    navigate(`${formatPath(routes.settings.path)}`, {
+    navigate(`${formatPath(routePaths.settings.path)}`, {
       replace: true,
       state: {
         ...(location?.state || {}),
@@ -297,7 +297,7 @@ const useMapToProps = ({ query }: PriceListBreakdownMapProps): PriceListBreakdow
   usePriceListNotifications();
 
   return {
-    isPriceListRatesToggleEnabled: useIsPriceListRatesToggleEnabled(),
+    isPriceListRatesToggleEnabled: useIsPriceListToggleEnabled(),
     priceList,
     priceListError,
     priceListFetchStatus,

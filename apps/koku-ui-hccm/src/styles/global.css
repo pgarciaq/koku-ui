@@ -14,6 +14,24 @@ body {
   min-width: 0;
 }
 
+/*
+ * PF6 creates two nested scroll containers:
+ *   .pf-v6-c-page__main-container (overflow-y: auto)  — primary scrollbar
+ *   .pf-v6-c-page__main (overflow: auto)              — redundant inner scrollbar
+ *
+ * Remove the inner one so only the main-container scrolls.
+ * Also suppress overflow on cards and card bodies to prevent
+ * content sections from creating their own scrollbars.
+ */
+.pf-v6-c-page__main-container .pf-v6-c-page__main {
+  overflow: visible;
+}
+
+.pf-v6-c-card,
+.pf-v6-c-card__body {
+  overflow: visible;
+}
+
 /* Todo: Workaround for https://projects.engineering.redhat.com/browse/RHCLOUD-7970 */
 .Icon404 {
   height: 150px;

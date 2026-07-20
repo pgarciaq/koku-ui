@@ -22,7 +22,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { ComputedReportItemValueType } from 'routes/components/charts/common';
 import { ExportModal } from 'routes/components/export';
 import { Loading } from 'routes/components/page/loading';
@@ -274,8 +274,8 @@ class OcpDetails extends React.Component<OcpDetailsProps, OcpDetailsState> {
 
     return (
       <DetailsTable
-        basePath={formatPath(routes.ocpBreakdown.path)}
-        breadcrumbPath={formatPath(`${routes.ocpDetails.path}${location.search}`)}
+        basePath={formatPath(routePaths.ocpBreakdown.path)}
+        breadcrumbPath={formatPath(`${routePaths.ocpDetails.path}${location.search}`)}
         costDistribution={costDistribution}
         exclude={query.exclude}
         filterBy={query.filter_by}

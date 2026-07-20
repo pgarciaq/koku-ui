@@ -16,10 +16,6 @@ jest.mock('@redhat-cloud-services/frontend-components-notifications/hooks', () =
   useAddNotification: () => jest.fn(),
 }));
 
-jest.mock('components/featureToggle', () => ({
-  isSettingsDataRetentionPeriodEnabled: true,
-}));
-
 jest.mock('routes/components/page/notAvailable', () => ({
   NotAvailable: () => <div data-testid="not-available">Not available</div>,
 }));

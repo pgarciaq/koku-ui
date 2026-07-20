@@ -13,7 +13,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { getCurrencyLabel } from 'routes/components/currency';
 import { CostModelActions } from 'routes/settings/costModels/costModelBreakdown/components/actions';
 import { formatPath } from 'utils/paths';
@@ -49,7 +49,7 @@ const CostModelBreakdownHeader: React.FC<CostModelBreakdownHeaderProps> = ({
           <BreadcrumbItem
             render={() => (
               <Link
-                to={`${formatPath(routes.settings.path)}`}
+                to={`${formatPath(routePaths.settings.path)}`}
                 state={{
                   ...(location?.state || {}),
                   settingsState: {

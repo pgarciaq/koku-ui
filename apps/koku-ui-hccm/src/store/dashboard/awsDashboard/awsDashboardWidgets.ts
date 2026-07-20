@@ -1,7 +1,7 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import {
   ComputedReportItemType,
   ComputedReportItemValueType,
@@ -61,7 +61,7 @@ export const costSummaryWidget: DashboardWidget = {
   details: {
     costKey: messages.cost,
     showHorizontal: true,
-    viewAllPath: formatPath(routes.awsDetails.path),
+    viewAllPath: formatPath(routePaths.awsDetails.path),
   },
   tabsFilter: {
     limit: 3,

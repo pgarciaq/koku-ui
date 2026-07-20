@@ -12,9 +12,9 @@ import { Display } from './display';
 
 let mockIsSettingsDataRetentionPeriodEnabled = true;
 
-jest.mock('components/featureToggle', () => ({
-  get isSettingsDataRetentionPeriodEnabled() {
-    return mockIsSettingsDataRetentionPeriodEnabled;
+jest.mock('store/rbac', () => ({
+  rbacSelectors: {
+    selectRbacState: () => ({ isOrgAdmin: mockIsOrgAdmin() }),
   },
 }));
 

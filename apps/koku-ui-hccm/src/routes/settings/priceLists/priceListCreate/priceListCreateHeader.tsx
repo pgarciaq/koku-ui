@@ -4,7 +4,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { formatPath } from 'utils/paths';
 
 import { styles } from './priceListCreateHeader.styles';
@@ -36,7 +36,7 @@ const PriceListCreateHeader: React.FC<PriceListCreateHeaderProps> = ({
           <BreadcrumbItem
             render={() => (
               <Link
-                to={`${formatPath(routes.settings.path)}`}
+                to={`${formatPath(routePaths.settings.path)}`}
                 state={{
                   ...(location?.state || {}),
                   settingsState: {

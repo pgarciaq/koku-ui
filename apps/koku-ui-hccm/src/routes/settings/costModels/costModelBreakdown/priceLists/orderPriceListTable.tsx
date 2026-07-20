@@ -7,7 +7,7 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { DraggableTable } from 'routes/components/dataTable';
 import { RemovePriceListAction } from 'routes/settings/costModels/costModelBreakdown/priceLists/components/actions';
 import { formatDate } from 'utils/dates';
@@ -106,7 +106,7 @@ const OrderPriceListTable: React.FC<OrderPriceListTableProps> = ({
             style: styles.column,
             value: (
               <span>
-                <Link draggable={false} to={`${formatPath(routes.priceListBreakdown.basePath)}/${item.uuid}`}>
+                <Link draggable={false} to={`${formatPath(routePaths.priceListBreakdown.basePath)}/${item.uuid}`}>
                   {item.name}
                 </Link>
                 {enabled === false && (

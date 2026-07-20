@@ -18,7 +18,7 @@ import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { getCurrencyLabel } from 'routes/components/currency';
 import { PriceListActions } from 'routes/settings/priceLists/priceList/components/actions';
 import { EditDetailModal } from 'routes/settings/priceLists/priceList/components/details';
@@ -79,7 +79,7 @@ const PriceListBreakdownHeader: React.FC<PriceListBreakdownHeaderProps> = ({
           <BreadcrumbItem
             render={() => (
               <Link
-                to={`${formatPath(routes.settings.path)}`}
+                to={`${formatPath(routePaths.settings.path)}`}
                 state={{
                   ...(location?.state || {}),
                   settingsState: {

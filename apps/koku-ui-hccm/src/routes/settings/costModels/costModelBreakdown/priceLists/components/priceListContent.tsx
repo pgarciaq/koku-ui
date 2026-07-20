@@ -28,7 +28,7 @@ import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { priceListActions, priceListSelectors } from 'store/priceLists';
 
-import { TimelineChart } from './charts';
+import { TimelineChart } from './charts/timelineChart';
 import { styles } from './priceListContent.styles';
 import { PriceListContentTable } from './priceListContentTable';
 import { PriceListContentToolbar } from './priceListContentToolbar';

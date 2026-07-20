@@ -3,7 +3,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { formatPath } from 'utils/paths';
 
 interface NotAuthorizedStateOwnProps {
@@ -19,38 +19,38 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps, an
     let msg;
 
     switch (pathname) {
-      case formatPath(routes.awsBreakdown.path):
-      case formatPath(routes.awsDetails.path):
+      case formatPath(routePaths.awsBreakdown.path):
+      case formatPath(routePaths.awsDetails.path):
         msg = messages.notAuthorizedStateAws;
         break;
-      case formatPath(routes.azureBreakdown.path):
-      case formatPath(routes.azureDetails.path):
+      case formatPath(routePaths.azureBreakdown.path):
+      case formatPath(routePaths.azureDetails.path):
         msg = messages.notAuthorizedStateAzure;
         break;
-      case formatPath(routes.costModelBreakdown.basePath):
-      case formatPath(routes.costModelCreate.path):
+      case formatPath(routePaths.costModelBreakdown.basePath):
+      case formatPath(routePaths.costModelCreate.path):
         msg = messages.notAuthorizedStateCostModels;
         break;
-      case formatPath(routes.gcpBreakdown.path):
-      case formatPath(routes.gcpDetails.path):
+      case formatPath(routePaths.gcpBreakdown.path):
+      case formatPath(routePaths.gcpDetails.path):
         msg = messages.notAuthorizedStateGcp;
         break;
-      case formatPath(routes.ocpBreakdown.path):
-      case formatPath(routes.ocpDetails.path):
+      case formatPath(routePaths.ocpBreakdown.path):
+      case formatPath(routePaths.ocpDetails.path):
         msg = messages.notAuthorizedStateOcp;
         break;
-      case formatPath(routes.optimizationsBreakdown.path):
-      case formatPath(routes.optimizations.path):
+      case formatPath(routePaths.optimizationsBreakdown.path):
+      case formatPath(routePaths.optimizations.path):
         msg = messages.notAuthorizedStateOptimizations;
         break;
-      case formatPath(routes.priceListBreakdown.basePath):
-      case formatPath(routes.priceListCreate.path):
+      case formatPath(routePaths.priceListBreakdown.basePath):
+      case formatPath(routePaths.priceListCreate.path):
         msg = messages.notAuthorizedStatePriceLists;
         break;
-      case formatPath(routes.settings.path):
+      case formatPath(routePaths.settings.path):
         msg = messages.notAuthorizedStateSettings;
         break;
-      case formatPath(routes.explorer.path):
+      case formatPath(routePaths.explorer.path):
       default:
         msg = messages.costManagement;
         break;

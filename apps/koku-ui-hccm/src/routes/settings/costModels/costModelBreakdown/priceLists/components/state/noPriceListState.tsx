@@ -4,7 +4,7 @@ import type { PriceListData } from 'api/priceList';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { AddPriceListAction } from 'routes/settings/costModels/costModelBreakdown/priceLists/components/actions';
+import { AddPriceListAction } from 'routes/settings/costModels/costModelBreakdown/priceLists/components/actions/addPriceListAction';
 
 interface NoPriceListStateOwnProps {
   canWrite?: boolean;

@@ -3,7 +3,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { formatPath } from 'utils/paths';
 
 interface CreateCostModelActionOwnProps {
@@ -41,7 +41,7 @@ const CreateCostModelAction: React.FC<CreateCostModelActionProps> = ({ canWrite,
   // Handlers
 
   const handleOnCreate = () => {
-    navigate(formatPath(routes.costModelCreate.path), {
+    navigate(formatPath(routePaths.costModelCreate.path), {
       replace: true,
       state: {
         ...(location?.state || {}),
