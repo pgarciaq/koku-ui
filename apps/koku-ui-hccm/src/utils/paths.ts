@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 
 // Prefixes the given path with a basename
 //
@@ -7,7 +7,7 @@ import { routes } from 'routes';
 // @redhat-cloud-services/frontend-components-utilities/helpers
 export const formatPath = (path, isReleasePath = false) => {
   const basename = '/openshift/cost-management';
-  const newPath = path === routes.overview.path ? basename : `${basename}${path}`;
+  const newPath = path === routePaths.overview.path ? basename : `${basename}${path}`;
   return isReleasePath ? `${getReleasePath()}${newPath}` : newPath;
 };
 
@@ -29,11 +29,11 @@ export const usePathname = () => {
   const location = useLocation();
 
   // Cost models and price lists may include UUID in path
-  const costModelCreatePath = formatPath(routes.costModelCreate.path);
-  const costModelPath = formatPath(routes.costModelBreakdown.basePath);
+  const costModelCreatePath = formatPath(routePaths.costModelCreate.path);
+  const costModelPath = formatPath(routePaths.costModelBreakdown.basePath);
 
-  const priceListCreatePath = formatPath(routes.priceListCreate.path);
-  const priceListPath = formatPath(routes.priceListBreakdown.basePath);
+  const priceListCreatePath = formatPath(routePaths.priceListCreate.path);
+  const priceListPath = formatPath(routePaths.priceListBreakdown.basePath);
 
   if (location.pathname.startsWith(costModelCreatePath)) {
     return costModelCreatePath;

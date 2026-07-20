@@ -1,8 +1,26 @@
-import type { ProviderType } from 'api/providers';
+import type { Providers, ProviderType } from 'api/providers';
 import type { ProvidersQuery } from 'api/queries/providersQuery';
+import type { AxiosError } from 'axios';
+import type { FetchStatus } from 'store/common';
 
 export const stateKey = 'providers';
 export const addProviderKey = 'add-provider';
+
+export interface CachedProviders extends Providers {
+  timeRequested: number;
+}
+
+export type ProvidersState = Readonly<{
+  byId: Map<string, CachedProviders>;
+  errors: Map<string, AxiosError>;
+  fetchStatus: Map<string, FetchStatus>;
+}>;
+
+export const defaultState: ProvidersState = {
+  byId: new Map(),
+  errors: new Map(),
+  fetchStatus: new Map(),
+};
 
 export const awsProvidersQuery: ProvidersQuery = {
   limit: 100,

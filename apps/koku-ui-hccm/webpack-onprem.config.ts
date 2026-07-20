@@ -100,7 +100,6 @@ const config: Configuration = {
         'react-router-dom': { singleton: true, requiredVersion: '*' },
         '@scalprum/react-core': { singleton: true, requiredVersion: '*' },
         '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
-        '@koku-ui/ui-lib/': { singleton: true, requiredVersion: '*' },
       },
       pluginMetadata: {
         name: 'costManagement',

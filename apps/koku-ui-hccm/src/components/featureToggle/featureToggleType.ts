@@ -11,6 +11,7 @@ export const enum FeatureToggleType {
   namespace = 'cost-management.koku-ui-ros.namespace', // Namespace recommendations https://redhat.atlassian.net/browse/COST-6267
   priceList = 'cost-management.koku-ui-hccm.price-list', // Life cycle of price list https://redhat.atlassian.net/browse/COST-7330
   priceListRates = 'cost-management.koku-ui-hccm.price-list-rates', // Price list rates API https://redhat.atlassian.net/browse/COST-7786
+  qualityDashboard = 'cost-management.koku-ui-hccm.quality-dashboard', // Quality metrics dashboard
   systems = 'cost-management.koku-ui-hccm.systems', // Systems https://redhat.atlassian.net/browse/COST-5718
   wastedCost = 'cost-management.koku-ui-hccm.wasted-cost', // Wasted cost https://redhat.atlassian.net/browse/COST-7460
 }

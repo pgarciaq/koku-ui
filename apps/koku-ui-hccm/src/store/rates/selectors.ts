@@ -1,6 +1,6 @@
 import type { RootState } from 'store/rootReducer';
 
-import { stateKey } from './reducer';
+import { stateKey } from './ratesCommon';
 
 export const getRateTierTimeRange = (unit: string) => {
   const sep = unit.split('-');

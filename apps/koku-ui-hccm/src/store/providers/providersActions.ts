@@ -5,7 +5,6 @@ import type { ThunkAction } from 'store/common';
 import { FetchStatus } from 'store/common';
 import { createAction } from 'typesafe-actions';
 
-import type { RootState } from '../rootReducer';
 import { getFetchId } from './providersCommon';
 import { selectProviders, selectProvidersError, selectProvidersFetchStatus } from './providersSelectors';
 
@@ -41,7 +40,7 @@ export function fetchProviders(reportType: ProviderType, reportQueryString: stri
   };
 }
 
-function isReportExpired(state: RootState, reportType: ProviderType, reportQueryString: string) {
+function isReportExpired(state: Parameters<typeof selectProviders>[0], reportType: ProviderType, reportQueryString: string) {
   const providers = selectProviders(state, reportType, reportQueryString);
   const fetchError = selectProvidersError(state, reportType, reportQueryString);
   const fetchStatus = selectProvidersFetchStatus(state, reportType, reportQueryString);

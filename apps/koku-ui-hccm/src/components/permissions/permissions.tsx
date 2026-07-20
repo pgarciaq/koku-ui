@@ -4,7 +4,7 @@ import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { Loading } from 'routes/components/page/loading';
 import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { NotAvailable } from 'routes/components/page/notAvailable';
@@ -55,31 +55,39 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const settings = hasSettingsAccess(userAccess);
 
     switch (pathname) {
-      case formatPath(routes.explorer.path):
-      case formatPath(routes.overview.path):
+      case formatPath(routePaths.explorer.path):
+      case formatPath(routePaths.overview.path):
         return aws || azure || gcp || ocp;
-      case formatPath(routes.awsBreakdown.path):
-      case formatPath(routes.awsDetails.path):
+      case formatPath(routePaths.awsBreakdown.path):
+      case formatPath(routePaths.awsDetails.path):
         return aws;
-      case formatPath(routes.azureBreakdown.path):
-      case formatPath(routes.azureDetails.path):
+      case formatPath(routePaths.azureBreakdown.path):
+      case formatPath(routePaths.azureDetails.path):
         return azure;
-      case formatPath(routes.costModelBreakdown.basePath):
-      case formatPath(routes.costModelCreate.path):
+      case formatPath(routePaths.costModelBreakdown.basePath):
+      case formatPath(routePaths.costModelCreate.path):
         return costModel;
-      case formatPath(routes.gcpBreakdown.path):
-      case formatPath(routes.gcpDetails.path):
+      case formatPath(routePaths.gcpBreakdown.path):
+      case formatPath(routePaths.gcpDetails.path):
         return gcp;
-      case formatPath(routes.ocpBreakdown.path):
-      case formatPath(routes.ocpDetails.path):
-      case formatPath(routes.ocpOptimizationsBreakdown.path):
-      case formatPath(routes.optimizationsBreakdown.path):
-      case formatPath(routes.optimizations.path):
+      case formatPath(routePaths.ocpBreakdown.path):
+      case formatPath(routePaths.ocpDetails.path):
+      case formatPath(routePaths.ocpOptimizationsBreakdown.path):
+      case formatPath(routePaths.optimizationsBreakdown.path):
+      case formatPath(routePaths.optimizationsNamespaceBreakdown.path):
+      case formatPath(routePaths.optimizationsNodeBreakdown.path):
+      case formatPath(routePaths.optimizationsVmBreakdown.path):
+      case formatPath(routePaths.optimizationsPvcBreakdown.path):
+      case formatPath(routePaths.optimizationsQuotaBreakdown.path):
+      case formatPath(routePaths.optimizationsClusterQuotaBreakdown.path):
+      case formatPath(routePaths.optimizationsGpuTimeslicingBreakdown.path):
+      case formatPath(routePaths.optimizationsGpuMigBreakdown.path):
+      case formatPath(routePaths.optimizations.path):
         return ocp;
-      case formatPath(routes.priceListBreakdown.basePath):
-      case formatPath(routes.priceListCreate.path):
+      case formatPath(routePaths.priceListBreakdown.basePath):
+      case formatPath(routePaths.priceListCreate.path):
         return costModel;
-      case formatPath(routes.settings.path):
+      case formatPath(routePaths.settings.path):
         return settings || costModel;
       default:
         return false;

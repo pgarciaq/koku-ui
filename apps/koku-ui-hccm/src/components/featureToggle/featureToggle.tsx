@@ -80,6 +80,10 @@ export const useIsPriceListRatesToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggleType.priceListRates);
 };
 
+export const useIsQualityDashboardToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggleType.qualityDashboard);
+};
+
 export const useIsSystemsToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggleType.systems);
 };
@@ -95,15 +99,13 @@ export const useFeatureToggle = () => {
 
   const isAwsEc2InstancesToggleEnabled = useIsAwsEc2InstancesToggleEnabled();
   const isDebugToggleEnabled = useIsDebugToggleEnabled();
-  const isDisplayToggleEnabled = useIsDisplayToggleEnabled();
   const isEfficiencyToggleEnabled = useIsEfficiencyToggleEnabled();
   const isExactFilterToggleEnabled = useIsExactFilterToggleEnabled();
   const isExportsToggleEnabled = useIsExportsToggleEnabled();
   const isGpuToggleEnabled = useIsGpuToggleEnabled();
   const isMigToggleEnabled = useIsMigToggleEnabled();
-  const isNamespaceToggleEnabled = useIsNamespaceToggleEnabled();
   const isPriceListToggleEnabled = useIsPriceListToggleEnabled();
-  const isPriceListRatesToggleEnabled = useIsPriceListRatesToggleEnabled();
+  const isQualityDashboardToggleEnabled = useIsQualityDashboardToggleEnabled();
   const isSystemsToggleEnabled = useIsSystemsToggleEnabled();
   const isWastedCostToggleEnabled = useIsWastedCostToggleEnabled();
 
@@ -113,25 +115,19 @@ export const useFeatureToggle = () => {
     });
   };
 
-  // Flag indicating user has org admin permissions
-  const isOrgAdmin = useIsOrgAdmin();
-
   useLayoutEffect(() => {
     // Workaround for code that doesn't use hooks
     dispatch(
       FeatureToggleActions.setFeatureToggle({
         isAwsEc2InstancesToggleEnabled,
         isDebugToggleEnabled,
-        isDisplayToggleEnabled,
         isEfficiencyToggleEnabled,
         isExactFilterToggleEnabled,
         isExportsToggleEnabled,
         isGpuToggleEnabled,
         isMigToggleEnabled,
-        isNamespaceToggleEnabled,
-        isOrgAdmin,
         isPriceListToggleEnabled,
-        isPriceListRatesToggleEnabled,
+        isQualityDashboardToggleEnabled,
         isSystemsToggleEnabled,
         isWastedCostToggleEnabled,
       })
@@ -143,16 +139,13 @@ export const useFeatureToggle = () => {
   }, [
     isAwsEc2InstancesToggleEnabled,
     isDebugToggleEnabled,
-    isDisplayToggleEnabled,
     isEfficiencyToggleEnabled,
     isExactFilterToggleEnabled,
     isExportsToggleEnabled,
     isGpuToggleEnabled,
     isMigToggleEnabled,
-    isNamespaceToggleEnabled,
-    isOrgAdmin,
     isPriceListToggleEnabled,
-    isPriceListRatesToggleEnabled,
+    isQualityDashboardToggleEnabled,
     isSystemsToggleEnabled,
     isWastedCostToggleEnabled,
   ]);

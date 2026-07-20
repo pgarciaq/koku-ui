@@ -1,5 +1,5 @@
 import type { AxiosError } from 'axios';
-import { parseApiError } from 'routes/settings/utils';
+import { parseApiError } from 'routes/settings/utils/parseError';
 import { FetchStatus } from 'store/common';
 import { selectPagination } from 'store/djangoUtils/pagination';
 import { selectQuery } from 'store/djangoUtils/query';

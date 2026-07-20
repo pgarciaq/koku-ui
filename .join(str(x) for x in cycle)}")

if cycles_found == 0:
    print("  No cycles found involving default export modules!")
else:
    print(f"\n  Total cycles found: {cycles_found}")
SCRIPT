@@ -1,0 +1,5 @@
+bash: line 76: warning: here-document at line 1 delimited by end-of-file (wanted `SCRIPT')
+  File "<stdin>", line 75
+    print(f"  CYCLE: { -
+                     ^
+SyntaxError: '{' was never closed
