@@ -1,0 +1,1 @@
+export { QuotaDetails } from './quotaDetails';

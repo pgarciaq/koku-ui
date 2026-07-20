@@ -11,5 +11,5 @@ export const selectIsBoxPlotToggleEnabled = (state: RootState) =>
 export const selectIsDebugToggleEnabled = (state: RootState) => selectFeatureToggleState(state).isDebugToggleEnabled;
 export const selectIsProjectLinkToggleEnabled = (state: RootState) =>
   selectFeatureToggleState(state).isProjectLinkToggleEnabled;
-export const selectIsNamespaceToggleEnabled = (state: RootState) =>
-  selectFeatureToggleState(state).isNamespaceToggleEnabled;
+export const selectIsVisualInsightsToggleEnabled = (state: RootState) =>
+  selectFeatureToggleState(state).isVisualInsightsToggleEnabled;

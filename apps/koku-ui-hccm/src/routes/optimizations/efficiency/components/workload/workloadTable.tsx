@@ -99,8 +99,8 @@ const WorkloadTable: React.FC<WorkloadTableProps> = ({
               ...(location?.state?.efficiencyState || {}),
               activeTabKey: 1, // Optimizations tab should be active when navigating back
             },
-            optimizationsDetailsState: {
-              ...(location?.state?.optimizationsDetailsState || {}),
+            containerDetailsState: {
+              ...(location?.state?.containerDetailsState || {}),
               filter_by: {
                 [groupBy]: [label], // Filter by cluster or project name
               },

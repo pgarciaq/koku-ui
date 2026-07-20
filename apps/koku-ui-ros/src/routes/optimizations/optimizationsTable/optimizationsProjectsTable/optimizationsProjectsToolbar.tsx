@@ -4,7 +4,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { DataToolbar } from 'routes/components/dataToolbar';
+import { BasicToolbar } from 'routes/components/dataToolbar';
 import type { Filter } from 'routes/utils/filter';
 
 interface OptimizationsProjectsToolbarOwnProps {
@@ -17,6 +17,7 @@ interface OptimizationsProjectsToolbarOwnProps {
   onFilterRemoved(filter: Filter);
   pagination?: React.ReactNode;
   query?: RosQuery;
+  workloadTypeOptions?: { name: string; key: string }[];
 }
 
 interface OptimizationsProjectsToolbarState {
@@ -38,18 +39,38 @@ class OptimizationsProjectsToolbarBase extends React.Component<
     });
   }
 
-  private getCategoryOptions = (): ToolbarLabelGroup[] => {
-    const { intl, isClusterHidden, isProjectHidden } = this.props;
+  public componentDidUpdate(prevProps: OptimizationsProjectsToolbarProps) {
+    if (prevProps.workloadTypeOptions !== this.props.workloadTypeOptions) {
+      this.setState({ categoryOptions: this.getCategoryOptions() });
+    }
+  }
 
-    // Available values -- see https://github.com/RedHatInsights/ros-ocp-backend/blob/main/openapi.json
-    const options = [];
-    if (!isClusterHidden) {
-      options.push({ name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' });
-    }
-    if (!isProjectHidden) {
-      options.push({ name: intl.formatMessage(messages.filterByValues, { value: 'project' }), key: 'project' });
-    }
-    return options;
+  private getCategoryOptions = (): ToolbarLabelGroup[] => {
+    const { intl, isClusterHidden, isProjectHidden, workloadTypeOptions } = this.props;
+
+    const defaultWorkloadTypes = [
+      { name: 'daemonset', key: 'daemonset' },
+      { name: 'deployment', key: 'deployment' },
+      { name: 'deploymentconfig', key: 'deploymentconfig' },
+      { name: 'replicaset', key: 'replicaset' },
+      { name: 'replicationcontroller', key: 'replicationcontroller' },
+      { name: 'statefulset', key: 'statefulset' },
+    ];
+
+    const options = [
+      { name: intl.formatMessage(messages.filterByValues, { value: 'container' }), key: 'container' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'project' }), key: 'project' },
+      { name: intl.formatMessage(messages.filterByValues, { value: 'workload' }), key: 'workload' },
+      {
+        name: intl.formatMessage(messages.filterByValues, { value: 'workload_type' }),
+        key: 'workload_type',
+        selectClassName: 'selectOverride',
+        selectOptions: workloadTypeOptions && workloadTypeOptions.length > 0 ? workloadTypeOptions : defaultWorkloadTypes,
+      },
+    ];
+    const filteredOptions = isClusterHidden ? options.filter(option => option.key !== 'cluster') : options;
+    return isProjectHidden ? filteredOptions.filter(option => option.key !== 'project') : filteredOptions;
   };
 
   public render() {
@@ -57,9 +78,8 @@ class OptimizationsProjectsToolbarBase extends React.Component<
     const { categoryOptions } = this.state;
 
     return (
-      <DataToolbar
+      <BasicToolbar
         categoryOptions={categoryOptions}
-        groupBy={'project'}
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
         itemsTotal={itemsTotal}
@@ -67,9 +87,8 @@ class OptimizationsProjectsToolbarBase extends React.Component<
         onFilterRemoved={onFilterRemoved}
         pagination={pagination}
         query={query}
-        showCriteria
-        showExact
         showFilter
+        useActiveFilters
       />
     );
   }

@@ -1,0 +1,207 @@
+import { SearchInput } from '@patternfly/react-core';
+import { getQuery } from 'api/queries/query';
+import type { Tag, TagPathsType } from 'api/tags/tag';
+import { TagType } from 'api/tags/tag';
+import messages from 'locales/messages';
+import React from 'react';
+import type { WrappedComponentProps } from 'react-intl';
+import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
+import type { SelectWrapperOption } from 'routes/components/selectWrapper';
+import { SelectCheckboxWrapper } from 'routes/components/selectWrapper';
+import { FetchStatus, createMapStateToProps } from 'store/common';
+import { tagActions, tagSelectors } from 'store/tags';
+
+interface TagValueOwnProps extends WrappedComponentProps {
+  isDisabled?: boolean;
+  onTagValueSelect(event, selection);
+  onTagValueInput(event);
+  onTagValueInputChange(value: string);
+  selections?: SelectWrapperOption[];
+  tagKey: string;
+  tagKeyValue: string;
+  tagPathsType: TagPathsType;
+}
+
+interface TagValueStateProps {
+  tagQueryString?: string;
+  tagReport?: Tag;
+  tagReportFetchStatus?: FetchStatus;
+}
+
+interface TagValueDispatchProps {
+  fetchTag?: typeof tagActions.fetchTag;
+}
+
+interface TagValueState {
+  tagKeyValueInput?: string;
+}
+
+type TagValueProps = TagValueOwnProps & TagValueStateProps & TagValueDispatchProps;
+
+const tagType = TagType.tag;
+
+class TagValueBase extends React.Component<TagValueProps, TagValueState> {
+  protected defaultState: TagValueState = {};
+  public state: TagValueState = { ...this.defaultState };
+
+  public componentDidMount() {
+    this.updateReport();
+  }
+
+  public componentDidUpdate(prevProps: TagValueProps) {
+    const { tagKey, tagQueryString, tagPathsType } = this.props;
+
+    if (
+      tagKey &&
+      (prevProps.tagKey !== tagKey || prevProps.tagQueryString !== tagQueryString || prevProps.tagPathsType !== tagPathsType)
+    ) {
+      this.updateReport();
+    }
+  }
+
+  private getSelections() {
+    const { selections, tagKey, tagReport } = this.props;
+
+    const result = [];
+    if (!selections?.length) {
+      return result;
+    }
+
+    const tagKeyItem = tagReport?.data?.find(item => item.key === tagKey);
+    selections?.map(selection => {
+      if (tagKeyItem?.values?.length) {
+        for (const item of tagKeyItem.values) {
+          if (item === selection) {
+            result.push(selection);
+            break;
+          }
+        }
+      }
+    });
+    return result;
+  }
+
+  private getTagValueOptions(): SelectWrapperOption[] {
+    const { tagKey, tagReport } = this.props;
+
+    let data = [];
+    if (tagReport?.data) {
+      data = [...new Set([...tagReport.data])];
+    }
+
+    let options = [];
+    if (data.length > 0) {
+      for (const tag of data) {
+        if (tagKey === tag.key && tag.values) {
+          options = tag.values.map(val => {
+            return {
+              toString: () => val,
+              value: val,
+            };
+          });
+          break;
+        }
+      }
+    }
+    return options;
+  }
+
+  private onTagValueChange = (value: string) => {
+    const { onTagValueInputChange } = this.props;
+
+    this.setState({ tagKeyValueInput: value }, () => {
+      if (onTagValueInputChange) {
+        onTagValueInputChange(value);
+      }
+    });
+  };
+
+  private updateReport = () => {
+    const { fetchTag, tagKey, tagQueryString, tagPathsType } = this.props;
+    if (!tagKey || !tagQueryString) {
+      return;
+    }
+    fetchTag(tagPathsType, tagType, tagQueryString);
+  };
+
+  public render() {
+    const { intl, isDisabled, onTagValueInput, onTagValueSelect, tagKey, tagKeyValue, tagReportFetchStatus } =
+      this.props;
+
+    if (!tagKey) {
+      return null;
+    }
+
+    const selectOptions = this.getTagValueOptions();
+    const isLoading = tagReportFetchStatus === FetchStatus.inProgress && selectOptions.length === 0;
+
+    if (selectOptions.length > 0 || isLoading) {
+      return (
+        <SelectCheckboxWrapper
+          aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
+          id="tag-value-select"
+          isDisabled={isDisabled || isLoading}
+          onSelect={onTagValueSelect}
+          options={selectOptions}
+          placeholder={
+            isLoading
+              ? intl.formatMessage(messages.loadingStateTitle)
+              : intl.formatMessage(messages.chooseValuePlaceholder)
+          }
+          selections={this.getSelections()}
+        />
+      );
+    }
+    return (
+      <SearchInput
+        aria-label={intl.formatMessage(messages.filterByTagValueAriaLabel)}
+        id="tag-key-value-input"
+        isDisabled={isDisabled}
+        onChange={(_evt, value) => this.onTagValueChange(value)}
+        onClear={() => this.onTagValueChange('')}
+        onSearch={evt => onTagValueInput(evt)}
+        placeholder={intl.formatMessage(messages.filterByValuePlaceholder)}
+        value={tagKeyValue}
+      />
+    );
+  }
+}
+
+const mapStateToProps = createMapStateToProps<TagValueOwnProps, TagValueStateProps>(
+  (state, { tagKey, tagPathsType }) => {
+    if (!tagKey) {
+      return {
+        tagQueryString: undefined,
+        tagReport: undefined,
+        tagReportFetchStatus: FetchStatus.none,
+      };
+    }
+
+    const tagQueryString = getQuery({
+      filter: {
+        key: tagKey,
+        time_scope_value: -1,
+      },
+      limit: 1000,
+    });
+
+    const tagReport = tagSelectors.selectTag(state, tagPathsType, tagType, tagQueryString);
+    const tagReportFetchStatus = tagSelectors.selectTagFetchStatus(state, tagPathsType, tagType, tagQueryString);
+
+    return {
+      tagQueryString,
+      tagReport,
+      tagReportFetchStatus,
+    };
+  }
+);
+
+const mapDispatchToProps: TagValueDispatchProps = {
+  fetchTag: tagActions.fetchTag,
+};
+
+const TagValueConnect = connect(mapStateToProps, mapDispatchToProps)(TagValueBase);
+const TagValue = injectIntl(TagValueConnect);
+
+export { TagValue };

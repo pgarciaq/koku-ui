@@ -27,7 +27,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { getExportButton } from 'routes/components/dataToolbar/utils/actions';
 import { ExportModal } from 'routes/components/export';
 import { NotAvailable } from 'routes/components/page/notAvailable';
@@ -172,7 +172,7 @@ const ComputeCard: React.FC<ComputeCardProps> = ({ currency, exclude, filterBy, 
   const getTable = () => {
     return (
       <WorkloadTable
-        basePath={formatPath(routes.optimizations.path)}
+        basePath={formatPath(routePaths.optimizations.path)}
         exclude={exclude}
         filterBy={filterBy}
         groupBy={groupBy}

@@ -16,7 +16,7 @@ const OptimizationsSummaryWrapper: React.FC<OptimizationsSummaryProps> = ({
 }: OptimizationsSummaryOwnProps) => {
   return (
     <OptimizationsWrapper>
-      <OptimizationsSummary linkPath={linkPath} linkState={linkState} />
+      <OptimizationsSummary linkPath={linkPath} linkState={linkState} count={0} />
     </OptimizationsWrapper>
   );
 };

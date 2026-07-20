@@ -1,5 +1,4 @@
 import { parse, stringify } from 'qs';
-import type { Interval, OptimizationType } from 'utils/commonTypes';
 import { logicalAndPrefix, logicalOrPrefix } from 'utils/props';
 
 export interface Filters {
@@ -25,15 +24,14 @@ export interface Query {
   filter_by?: any;
   group_by?: any;
   id?: string;
-  interval?: Interval;
-  isContainers?: string | boolean;
-  isGroupByProject?: string | boolean;
+  isPlatformCosts?: boolean;
   key?: string;
   key_only?: boolean;
   limit?: number;
   offset?: number;
+  after?: string;
+  isOptimizationsDetails?: any;
   optimizationsTab?: any;
-  optimizationType?: OptimizationType;
   order_by?: any;
   order_how?: any;
   perspective?: any;

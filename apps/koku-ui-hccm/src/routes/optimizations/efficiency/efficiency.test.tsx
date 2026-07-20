@@ -67,6 +67,8 @@ jest.mock('utils/dates', () => ({
   getSinceDateRangeString: jest.fn(() => 'Jan 1 – Dec 31'),
 }));
 
+jest.mock('@redhat-cloud-services/frontend-components/AsyncComponent', () => () => null);
+
 jest.mock('./components/compute', () => ({
   ComputeCard: () => <div data-testid="compute-card" />,
 }));

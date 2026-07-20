@@ -1,6 +1,6 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { Icon } from '@patternfly/react-core';
+import { Icon, Tooltip } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { RecommendationReport } from 'api/ros/recommendations';
 import messages from 'locales/messages';
@@ -14,6 +14,8 @@ import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { getTimeFromNow } from 'utils/dates';
 import { hasNotificationsWarning } from 'utils/notifications';
 
+import { OptimizationStateCell } from './optimizationStateCell';
+
 interface OptimizationsDataTableOwnProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
@@ -21,8 +23,8 @@ interface OptimizationsDataTableOwnProps {
   isClusterHidden?: boolean;
   isLoading?: boolean;
   isProjectHidden?: boolean;
-  linkPath?: string; // Optimizations breakdown link path
-  linkState?: any; // Optimizations breakdown link state
+  linkPath?: string;
+  linkState?: any;
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
   report: RecommendationReport;
@@ -85,6 +87,14 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
         ...(hasData && { isSortable: true }),
       },
       {
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'state' }),
+      },
+      {
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'potential_savings' }),
+        orderBy: 'estimated_monthly_savings',
+        ...(hasData && { isSortable: true }),
+      },
+      {
         name: intl.formatMessage(messages.optimizationsNames, { value: 'last_reported' }),
         orderBy: 'last_reported',
         style: styles.lastItemColumn,
@@ -92,7 +102,7 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
       },
     ];
 
-    report?.data.map(item => {
+    report?.data?.map(item => {
       const cluster = item.cluster_alias ?? item.cluster_uuid ?? '';
       const container = item.container ?? '';
       const lastReported = getTimeFromNow(item.last_reported);
@@ -100,6 +110,12 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
       const workload = item.workload ?? '';
       const workloadType = item.workload_type ?? '';
       const showWarningIcon = hasNotificationsWarning(item?.recommendations, true);
+      const savings = item.recommendations?.estimated_monthly_savings;
+      const idleState = (item as any).idle_state;
+      const idleDays = (item as any).idle_duration_days;
+      const waste = (item as any).estimated_monthly_waste;
+      const analyticsIncomplete = (item as any).analytics_incomplete;
+      const ingestHooksFailed = (item as any).ingest_hooks_failed;
 
       const optimizationsBreakdownPath = getOptimizationsBreakdownPath({
         basePath: linkPath,
@@ -108,6 +124,19 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
         id: item.id,
         title: container,
       });
+
+      const isIdleOrZombie = idleState === 'idle' || idleState === 'zombie';
+      const potentialSavingsSource = isIdleOrZombie ? waste : savings;
+      const potentialSavingsCell = (() => {
+        if (potentialSavingsSource?.value != null) {
+          return `$${Number(potentialSavingsSource.value).toFixed(2)} ${potentialSavingsSource.units ?? 'USD'}`;
+        }
+        return (
+          <Tooltip content={intl.formatMessage(messages.savingsNoDataTooltip)}>
+            <span>—</span>
+          </Tooltip>
+        );
+      })();
 
       newRows.push({
         cells: [
@@ -136,6 +165,17 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
             ),
             hidden: isClusterHidden,
           },
+          {
+            value: (
+              <OptimizationStateCell
+                analyticsIncomplete={analyticsIncomplete}
+                idleDays={idleDays}
+                idleState={idleState}
+                ingestHooksFailed={ingestHooksFailed}
+              />
+            ),
+          },
+          { value: potentialSavingsCell },
           { value: lastReported, style: styles.lastItem },
         ],
         optimization: {

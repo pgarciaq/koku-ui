@@ -27,6 +27,10 @@ export const useIsNamespaceToggleEnabled = () => {
   return useIsToggleEnabled(FeatureToggleType.namespace);
 };
 
+export const useIsVisualInsightsToggleEnabled = () => {
+  return useIsToggleEnabled(FeatureToggleType.visualInsights);
+};
+
 // FeatureToggle saves feature toggles in store for places where the Unleash hook is not available
 const useFeatureToggle = () => {
   const dispatch = useDispatch();
@@ -34,8 +38,8 @@ const useFeatureToggle = () => {
 
   const isDebugToggleEnabled = useIsDebugToggleEnabled();
   const isBoxPlotToggleEnabled = useIsBoxPlotToggleEnabled();
-  const isNamespaceToggleEnabled = useIsNamespaceToggleEnabled();
   const isProjectLinkToggleEnabled = useIsProjectLinkToggleEnabled();
+  const isVisualInsightsToggleEnabled = useIsVisualInsightsToggleEnabled();
 
   const fetchUser = callback => {
     auth.getUser().then(user => {
@@ -49,15 +53,15 @@ const useFeatureToggle = () => {
       featureToggleActions.setFeatureToggle({
         isDebugToggleEnabled,
         isBoxPlotToggleEnabled,
-        isNamespaceToggleEnabled,
         isProjectLinkToggleEnabled,
+        isVisualInsightsToggleEnabled,
       })
     );
     if (isDebugToggleEnabled) {
       // eslint-disable-next-line no-console
       fetchUser(identity => console.log('User identity:', identity));
     }
-  }, [isDebugToggleEnabled, isBoxPlotToggleEnabled, isNamespaceToggleEnabled, isProjectLinkToggleEnabled]);
+  }, [isDebugToggleEnabled, isBoxPlotToggleEnabled, isProjectLinkToggleEnabled, isVisualInsightsToggleEnabled]);
 };
 
 export default useFeatureToggle;

@@ -82,20 +82,31 @@ module.exports = {
       // Shared component module path. Must include default export!
       './OptimizationsBadge': path.resolve(__dirname, './src/fed-modules/optimizationsBadgeWrapper.tsx'),
       './OptimizationsBreakdown': path.resolve(__dirname, './src/fed-modules/optimizationsBreakdownWrapper.tsx'),
-      './OptimizationsContainersTable': path.resolve(
-        __dirname,
-        './src/fed-modules/optimizationsContainersTableWrapper.tsx'
-      ),
-      './OptimizationsDetails': path.resolve(__dirname, './src/fed-modules/optimizationsDetailsWrapper.tsx'),
       './OptimizationsDetailsTitle': path.resolve(__dirname, './src/fed-modules/optimizationsDetailsTitleWrapper.tsx'),
       './OptimizationsLink': path.resolve(__dirname, './src/fed-modules/optimizationsLinkWrapper.tsx'),
-      './OptimizationsOcpBreakdown': path.resolve(__dirname, './src/fed-modules/optimizationsOcpBreakdownWrapper.tsx'),
-      './OptimizationsProjectsTable': path.resolve(
+      './OptimizationsNamespacesBadge': path.resolve(
         __dirname,
-        './src/fed-modules/optimizationsProjectsTableWrapper.tsx'
+        './src/fed-modules/optimizationsNamespacesBadgeWrapper.tsx'
       ),
-      './OptimizationsSummary': path.resolve(__dirname, './src/fed-modules/optimizationsSummaryWrapper.tsx'),
+      './OptimizationsNodesBadge': path.resolve(__dirname, './src/fed-modules/optimizationsNodesBadgeWrapper.tsx'),
+      './NodeBreakdown': path.resolve(__dirname, './src/fed-modules/nodeBreakdownWrapper.tsx'),
+      './OptimizationsStorageBadge': path.resolve(__dirname, './src/fed-modules/optimizationsStorageBadgeWrapper.tsx'),
+      './OptimizationsStorageDetails': path.resolve(
+        __dirname,
+        './src/fed-modules/optimizationsStorageDetailsWrapper.tsx'
+      ),
+      './OptimizationsQuotaBadge': path.resolve(__dirname, './src/fed-modules/optimizationsQuotaBadgeWrapper.tsx'),
+      './OptimizationsQuotaDetails': path.resolve(__dirname, './src/fed-modules/optimizationsQuotaDetailsWrapper.tsx'),
+      './QuotaBreakdown': path.resolve(__dirname, './src/fed-modules/quotaBreakdownWrapper.tsx'),
+      './ClusterQuotaBreakdown': path.resolve(__dirname, './src/fed-modules/clusterQuotaBreakdownWrapper.tsx'),
+      './OptimizationsTabSummaryBanner': path.resolve(
+        __dirname,
+        './src/fed-modules/optimizationsTabSummaryBannerWrapper.tsx'
+      ),
+      './PvcBreakdown': path.resolve(__dirname, './src/fed-modules/pvcBreakdownWrapper.tsx'),
+      './OptimizationsOcpBreakdown': path.resolve(__dirname, './src/fed-modules/optimizationsOcpBreakdownWrapper.tsx'),
       './OptimizationsTable': path.resolve(__dirname, './src/fed-modules/optimizationsTableWrapper.tsx'),
+      './OptimizationsSummary': path.resolve(__dirname, './src/fed-modules/optimizationsSummaryWrapper.tsx'),
     },
     shared: [
       { 'react-redux': { version: dependencies['react-redux'] } },

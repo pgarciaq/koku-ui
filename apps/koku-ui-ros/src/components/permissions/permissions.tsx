@@ -4,7 +4,7 @@ import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { Loading } from 'routes/components/page/loading';
 import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { NotAvailable } from 'routes/components/page/notAvailable';
@@ -43,16 +43,16 @@ const PermissionsBase: React.FC<PermissionsProps> = ({
     const ros = hasRosAccess(userAccess);
 
     switch (pathname) {
-      case formatPath(routes.ocpOptimizations.path):
-      case formatPath(routes.ocpOptimizationsBreakdown.path):
-      case formatPath(routes.optimizationsBadge.path):
-      case formatPath(routes.optimizationsContainersTable.path):
-      case formatPath(routes.optimizationsDetails.path):
-      case formatPath(routes.optimizationsDetailsBreakdown.path):
-      case formatPath(routes.optimizationsLink.path):
-      case formatPath(routes.optimizationsProjectsTable.path):
-      case formatPath(routes.optimizationsSummary.path):
-      case formatPath(routes.welcome.path):
+      case formatPath(routePaths.ocpOptimizations.path):
+      case formatPath(routePaths.ocpOptimizationsBreakdown.path):
+      case formatPath(routePaths.optimizationsBadge.path):
+      case formatPath(routePaths.optimizationsContainersTable.path):
+      case formatPath(routePaths.optimizationsDetails.path):
+      case formatPath(routePaths.optimizationsDetailsBreakdown.path):
+      case formatPath(routePaths.optimizationsLink.path):
+      case formatPath(routePaths.optimizationsProjectsTable.path):
+      case formatPath(routePaths.optimizationsSummary.path):
+      case formatPath(routePaths.welcome.path):
         return ros;
       default:
         return false;

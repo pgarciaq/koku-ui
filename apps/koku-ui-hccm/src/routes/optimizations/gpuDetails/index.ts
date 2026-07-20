@@ -1,0 +1,1 @@
+export { GpuDetails } from './gpuDetails';

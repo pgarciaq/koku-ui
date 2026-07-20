@@ -4,15 +4,15 @@ import {
   Chart,
   ChartArea,
   ChartAxis,
-  ChartBoxPlot,
   ChartLegend,
   ChartLegendTooltip,
+  ChartLine,
   ChartScatter,
   createContainer,
   getInteractiveLegendEvents,
 } from '@patternfly/react-charts/victory';
 import messages from 'locales/messages';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { getDateRangeString } from 'routes/components/charts/common';
 import type { ChartSeries } from 'routes/components/charts/common/chartUtils';
@@ -29,8 +29,12 @@ import { unitsLookupKey } from 'utils/format';
 
 import { chartStyles } from './optimizationsBreakdownChart.styles';
 
+const USAGE_CHILD_NAMES = ['usageP50P95', 'usageP95P99', 'usageP50', 'usageMax'] as const;
+const BH_CHILD_NAMES = ['bhP50P95', 'bhP50'] as const;
+
 interface OptimizationsBreakdownChartOwnProps {
   baseHeight?: number;
+  businessHoursUsageData?: any;
   limitData?: any;
   name?: string;
   padding?: any;
@@ -42,6 +46,7 @@ type OptimizationsBreakdownChartProps = OptimizationsBreakdownChartOwnProps;
 
 const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = ({
   baseHeight,
+  businessHoursUsageData,
   name,
   limitData,
   padding,
@@ -57,20 +62,24 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
   const [width, setWidth] = useState(0);
   const intl = useIntl();
 
+  const isUsageSeriesHidden = () =>
+    series?.some((s, i) => USAGE_CHILD_NAMES.includes(s.childName as (typeof USAGE_CHILD_NAMES)[number]) && hiddenSeries.has(i)) ??
+    false;
+
   // Clone original container. See https://redhat.atlassian.net/browse/COST-762
   const cloneContainer = () => {
     const legendData = getLegendData(series, hiddenSeries, true);
     // Force extra space for line wrapping
     legendData?.push(
       {
-        childName: 'usage',
+        childName: 'usageP50P95',
         name: '',
         symbol: {
           fill: 'none',
         },
       },
       {
-        childName: 'usage',
+        childName: 'usageP50P95',
         name: '',
         symbol: {
           fill: 'none',
@@ -117,28 +126,66 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
     });
   };
 
-  const getScatterChart = () => {
-    return series?.map((serie, index) => {
-      if (serie.childName === 'scatter') {
+  const getUsageCharts = () => {
+    const hidden = isUsageSeriesHidden();
+    return series?.map(serie => {
+      const emptyData = [{ y: null }];
+      const data = hidden ? emptyData : serie.data;
+
+      if (serie.childName === 'usageP50P95' || serie.childName === 'usageP95P99') {
         return (
-          <ChartScatter
-            data={!hiddenSeries.has(index - 1) ? serie.data : [{ y: null }]}
+          <ChartArea
+            data={data}
+            interpolation="monotoneX"
             key={serie.childName}
             name={serie.childName}
             style={serie.style}
           />
         );
       }
+      if (serie.childName === 'usageP50') {
+        return (
+          <ChartLine
+            data={data}
+            interpolation="monotoneX"
+            key={serie.childName}
+            name={serie.childName}
+            style={serie.style}
+          />
+        );
+      }
+      if (serie.childName === 'usageMax') {
+        return <ChartScatter data={data} key={serie.childName} name={serie.childName} style={serie.style} />;
+      }
     });
   };
 
-  const getUsageChart = () => {
-    return series?.map((serie, index) => {
-      if (serie.childName === 'usage') {
+  const isBhSeriesHidden = () =>
+    series?.some((s, i) => BH_CHILD_NAMES.includes(s.childName as (typeof BH_CHILD_NAMES)[number]) && hiddenSeries.has(i)) ??
+    false;
+
+  const getBusinessHoursCharts = () => {
+    const hidden = isBhSeriesHidden();
+    return series?.map(serie => {
+      const emptyData = [{ y: null }];
+      const data = hidden ? emptyData : serie.data;
+
+      if (serie.childName === 'bhP50P95') {
         return (
-          <ChartBoxPlot
-            boxWidth={width < 475 ? 15 : undefined}
-            data={!hiddenSeries.has(index) ? serie.data : [{ y: [null] }]}
+          <ChartArea
+            data={data}
+            interpolation="monotoneX"
+            key={serie.childName}
+            name={serie.childName}
+            style={serie.style}
+          />
+        );
+      }
+      if (serie.childName === 'bhP50') {
+        return (
+          <ChartLine
+            data={data}
+            interpolation="monotoneX"
             key={serie.childName}
             name={serie.childName}
             style={serie.style}
@@ -151,14 +198,21 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
   // Returns groups of chart names associated with each data series
   const getChartNames = () => {
     const result = [];
+    const usageGroup = [...USAGE_CHILD_NAMES];
+    const bhGroup = [...BH_CHILD_NAMES];
 
     if (series) {
       series.map(serie => {
-        // Each group of chart names are hidden / shown together
-        if (serie.childName === 'usage') {
-          result.push([serie.childName, 'scatter']);
-        } else if (serie.childName !== 'scatter') {
+        if (serie.childName === 'usageP50P95') {
+          result.push(usageGroup);
+        } else if (serie.childName === 'bhP50P95') {
+          result.push(bhGroup);
+        } else if (BH_CHILD_NAMES.includes(serie.childName as (typeof BH_CHILD_NAMES)[number])) {
+          result.push(bhGroup);
+        } else if (!USAGE_CHILD_NAMES.includes(serie.childName as (typeof USAGE_CHILD_NAMES)[number])) {
           result.push(serie.childName);
+        } else if (serie.childName !== 'usageP50P95') {
+          result.push(usageGroup);
         }
       });
     }
@@ -171,7 +225,7 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
     const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
     const labelFormatter = datum => {
-      const formatValue = val => (val !== undefined ? val : '');
+      const formatValue = val => (val !== undefined && val !== null ? val : '');
       let units = datum.units;
 
       /**
@@ -184,38 +238,35 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
        * 2.3 cores is represented as "2.3" (Note cores is not specified)
        */
       if (
-        (datum.childName === 'limit' || datum.childName === 'request' || datum.childName === 'usage') &&
+        (datum.childName === 'limit' || datum.childName === 'request' ||
+          USAGE_CHILD_NAMES.includes(datum.childName) || BH_CHILD_NAMES.includes(datum.childName)) &&
         datum.units === ''
       ) {
         units = unitsLookupKey('cores');
       }
 
-      if (datum.childName === 'scatter') {
-        return null;
-      } else if (
-        datum.childName === 'usage' &&
-        (datum._min !== undefined ||
-          datum._max !== undefined ||
-          datum._median !== undefined ||
-          datum._q1 !== undefined ||
-          datum._q3 !== undefined ||
-          datum.yVal !== null)
-      ) {
-        return intl.formatMessage(messages.chartUsageTooltip, {
-          br: '\n',
-          min: formatValue(datum._min !== undefined ? datum._min : datum.yVal),
-          max: formatValue(datum._max !== undefined ? datum._max : datum.yVal),
-          median: formatValue(datum._median !== undefined ? datum._median : datum.yVal),
-          q1: formatValue(datum._q1 !== undefined ? datum._q1 : datum.yVal),
-          q3: formatValue(datum._q3 !== undefined ? datum._q3 : datum.yVal),
-          units: intl.formatMessage(messages.units, { units: unitsLookupKey(units) }),
-        });
+      if (USAGE_CHILD_NAMES.includes(datum.childName) || BH_CHILD_NAMES.includes(datum.childName)) {
+        if (
+          datum.p50 !== undefined ||
+          datum.p95 !== undefined ||
+          datum.p99 !== undefined ||
+          datum.max !== undefined
+        ) {
+          return intl.formatMessage(messages.chartUsageTooltip, {
+            br: '\n',
+            p50: formatValue(datum.p50),
+            p95: formatValue(datum.p95),
+            p99: formatValue(datum.p99),
+            max: formatValue(datum.max),
+            units: intl.formatMessage(messages.units, { units: unitsLookupKey(units) }),
+          });
+        }
+        return intl.formatMessage(messages.chartNoData);
       }
 
-      // With box plot, datum.y will be an array
-      const yVal = Array.isArray(datum.y) ? datum.y[0] : datum.y;
+      const yVal = datum.y;
 
-      return yVal !== null
+      return yVal !== null && yVal !== undefined
         ? intl.formatMessage(messages.valueUnits, {
             value: yVal,
             units: intl.formatMessage(messages.units, { units: unitsLookupKey(units) }),
@@ -278,8 +329,31 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
     }
   };
 
-  // Hide each data series individually
+  const toggleGroup = (groupNames: readonly string[]) => (index: number) => {
+    const groupIndices =
+      series
+        ?.map((s, i) => (groupNames.includes(s.childName) ? i : null))
+        .filter((i): i is number => i !== null) ?? [];
+    const anyHidden = groupIndices.some(i => hiddenSeries.has(i));
+    const newHiddenSeries = new Set(hiddenSeries);
+    if (anyHidden) {
+      groupIndices.forEach(i => newHiddenSeries.delete(i));
+    } else {
+      groupIndices.forEach(i => newHiddenSeries.add(i));
+    }
+    setHiddenSeries(newHiddenSeries);
+  };
+
   const handleOnLegendClick = (index: number) => {
+    const clickedChild = series?.[index]?.childName;
+    if (clickedChild && USAGE_CHILD_NAMES.includes(clickedChild as (typeof USAGE_CHILD_NAMES)[number])) {
+      toggleGroup(USAGE_CHILD_NAMES)(index);
+      return;
+    }
+    if (clickedChild && BH_CHILD_NAMES.includes(clickedChild as (typeof BH_CHILD_NAMES)[number])) {
+      toggleGroup(BH_CHILD_NAMES)(index);
+      return;
+    }
     const newHiddenSeries = initHiddenSeries(series, hiddenSeries, index);
     setHiddenSeries(newHiddenSeries);
   };
@@ -336,63 +410,151 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
       });
     }
     if (usageData && usageData.length) {
-      const boxPlotData = [];
-      usageData.map((datum: any) => {
-        if (datum.y.every((val, i, arr) => val === arr[0])) {
-          boxPlotData.push({
-            ...datum,
-            yVal: datum.y[0],
-            y: [null],
-          });
-        } else {
-          boxPlotData.push(datum);
-        }
-      });
+      const p50P95Data = usageData.map(datum => ({
+        ...datum,
+        childName: 'usageP50P95',
+        y: datum.p95 ?? null,
+        y0: datum.p50 ?? null,
+      }));
+      const p95P99Data = usageData.map(datum => ({
+        ...datum,
+        childName: 'usageP95P99',
+        y: datum.p99 ?? null,
+        y0: datum.p95 ?? null,
+      }));
+      const p50LineData = usageData.map(datum => ({
+        ...datum,
+        childName: 'usageP50',
+        y: datum.p50 ?? null,
+      }));
+      const maxScatterData = usageData.map(datum => ({
+        ...datum,
+        childName: 'usageMax',
+        y: datum.max ?? null,
+      }));
+
       newSeries.push({
-        childName: 'usage',
-        data: boxPlotData as any,
+        childName: 'usageP50P95',
+        data: p50P95Data as any,
         legendItem: {
-          name: getDateRangeString(limitData, messages.actualUsage),
+          name: intl.formatMessage(messages.chartUsageP50P95Legend),
           symbol: {
-            fill: chartStyles.usageColorScale[1],
+            fill: chartStyles.usageP50P95ColorScale[0],
             type: 'square',
           },
-          tooltip: intl.formatMessage(messages.usage),
+          tooltip: intl.formatMessage(messages.chartUsageP50P95Legend),
         },
         style: {
-          median: {
-            stroke: chartStyles.usageColorScale[0],
+          data: {
+            fill: chartStyles.usageP50P95ColorScale[0],
+            stroke: chartStyles.usageP50P95ColorScale[0],
           },
-          q1: {
-            fill: chartStyles.usageColorScale[1],
-          },
-          q3: {
-            fill: chartStyles.usageColorScale[1],
-          },
-        } as any,
-      });
-
-      // Show dots in place of box plot when all values are equal
-      const scatterData = [];
-      usageData.map((datum: any) => {
-        if (datum.y.every((val, i, arr) => val === arr[0])) {
-          scatterData.push({
-            ...datum,
-            y: datum.y[0],
-          });
-        } else {
-          scatterData.push({
-            ...datum,
-            y: null,
-          });
-        }
+        },
       });
       newSeries.push({
-        childName: 'scatter',
-        data: scatterData as any,
+        childName: 'usageP95P99',
+        data: p95P99Data as any,
+        legendItem: {
+          name: intl.formatMessage(messages.chartUsageP95P99Legend),
+          symbol: {
+            fill: chartStyles.usageP95P99ColorScale[0],
+            type: 'square',
+          },
+          tooltip: intl.formatMessage(messages.chartUsageP95P99Legend),
+        },
         style: {
-          data: { fill: chartStyles.usageColorScale[1] },
-        } as any,
+          data: {
+            fill: chartStyles.usageP95P99ColorScale[0],
+            stroke: chartStyles.usageP95P99ColorScale[0],
+          },
+        },
+      });
+      newSeries.push({
+        childName: 'usageP50',
+        data: p50LineData as any,
+        legendItem: {
+          name: intl.formatMessage(messages.chartUsageMedianLegend),
+          symbol: {
+            fill: chartStyles.usageP50ColorScale[0],
+            type: 'minus',
+          },
+          tooltip: intl.formatMessage(messages.chartUsageMedianLegend),
+        },
+        style: {
+          data: {
+            stroke: chartStyles.usageP50ColorScale[0],
+            strokeWidth: 2,
+          },
+        },
+      });
+      newSeries.push({
+        childName: 'usageMax',
+        data: maxScatterData as any,
+        legendItem: {
+          name: intl.formatMessage(messages.chartUsageMaxLegend),
+          symbol: {
+            fill: chartStyles.usageMaxColorScale[0],
+            type: 'circle',
+          },
+          tooltip: intl.formatMessage(messages.chartUsageMaxLegend),
+        },
+        style: {
+          data: {
+            fill: chartStyles.usageMaxColorScale[0],
+          },
+        },
+      });
+    }
+    if (businessHoursUsageData && businessHoursUsageData.length) {
+      const bhP50P95Data = businessHoursUsageData.map(datum => ({
+        ...datum,
+        childName: 'bhP50P95',
+        y: datum.p95 ?? null,
+        y0: datum.p50 ?? null,
+      }));
+      const bhP50LineData = businessHoursUsageData.map(datum => ({
+        ...datum,
+        childName: 'bhP50',
+        y: datum.p50 ?? null,
+      }));
+
+      newSeries.push({
+        childName: 'bhP50P95',
+        data: bhP50P95Data as any,
+        legendItem: {
+          name: intl.formatMessage(messages.chartBhP50P95Legend),
+          symbol: {
+            fill: chartStyles.bhP50P95ColorScale[0],
+            type: 'square',
+          },
+          tooltip: intl.formatMessage(messages.chartBhP50P95Legend),
+        },
+        style: {
+          data: {
+            fill: chartStyles.bhP50P95ColorScale[0],
+            fillOpacity: 0.4,
+            stroke: chartStyles.bhP50P95ColorScale[0],
+          },
+        },
+      });
+      newSeries.push({
+        childName: 'bhP50',
+        data: bhP50LineData as any,
+        legendItem: {
+          name: intl.formatMessage(messages.chartBhP50Legend),
+          symbol: {
+            fill: chartStyles.bhP50ColorScale[0],
+            type: 'minus',
+          },
+          tooltip: intl.formatMessage(messages.chartBhP50Legend),
+        },
+        style: {
+          data: {
+            stroke: chartStyles.bhP50ColorScale[0],
+            strokeWidth: 2,
+            strokeDasharray: '6,3',
+          },
+        },
       });
     }
     setSeries(newSeries);
@@ -400,9 +562,9 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
     setHiddenSeries(new Set());
   };
 
-  useMemo(() => {
+  useEffect(() => {
     initDatum();
-  }, [limitData, requestData, usageData]);
+  }, [limitData, requestData, usageData, businessHoursUsageData]);
 
   useEffect(() => {
     if (containerRef?.current) {
@@ -422,7 +584,7 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
       <div style={{ height: chartHeight }}>
         <Chart
           containerComponent={cloneContainer()}
-          domain={getDomain(series, hiddenSeries, 1)}
+          domain={getDomain(series, hiddenSeries, USAGE_CHILD_NAMES.length - 1 + (businessHoursUsageData?.length ? BH_CHILD_NAMES.length - 1 : 0))}
           domainPadding={{ x: [30, 30] }}
           events={getEvents()}
           height={chartHeight}
@@ -438,8 +600,8 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
           <ChartAxis dependentAxis showGrid />
           {getRequestChart()}
           {getLimitChart()}
-          {getScatterChart()}
-          {getUsageChart()}
+          {getUsageCharts()}
+          {getBusinessHoursCharts()}
         </Chart>
       </div>
     </div>

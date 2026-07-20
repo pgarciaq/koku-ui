@@ -3,7 +3,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { formatPath } from 'utils/paths';
 
 interface NotAuthorizedStateOwnProps {
@@ -19,15 +19,15 @@ class NotAuthorizedStateBase extends React.Component<NotAuthorizedStateProps, an
     let msg;
 
     switch (pathname) {
-      case formatPath(routes.ocpOptimizations.path):
-      case formatPath(routes.ocpOptimizationsBreakdown.path):
-      case formatPath(routes.optimizationsBadge.path):
-      case formatPath(routes.optimizationsContainersTable.path):
-      case formatPath(routes.optimizationsDetails.path):
-      case formatPath(routes.optimizationsDetailsBreakdown.path):
-      case formatPath(routes.optimizationsLink.path):
-      case formatPath(routes.optimizationsProjectsTable.path):
-      case formatPath(routes.optimizationsSummary.path):
+      case formatPath(routePaths.ocpOptimizations.path):
+      case formatPath(routePaths.ocpOptimizationsBreakdown.path):
+      case formatPath(routePaths.optimizationsBadge.path):
+      case formatPath(routePaths.optimizationsContainersTable.path):
+      case formatPath(routePaths.optimizationsDetails.path):
+      case formatPath(routePaths.optimizationsDetailsBreakdown.path):
+      case formatPath(routePaths.optimizationsLink.path):
+      case formatPath(routePaths.optimizationsProjectsTable.path):
+      case formatPath(routePaths.optimizationsSummary.path):
       default:
         msg = messages.costManagement;
         break;

@@ -1,40 +1,76 @@
-// For API spec, see https://github.com/RedHatInsights/ros-ocp-backend/blob/main/openapi.json
-
 import type { PagedMetaData, PagedResponse } from 'api/api';
 
+export interface RosIdleRecommendation {
+  action?: string;
+  confidence?: string;
+  reason?: string;
+}
+
+export type RecommendationCategory = 'undersized' | 'oversized' | 'optimized';
+
 export interface RosData {
+  analytics_incomplete?: boolean;
+  category?: RecommendationCategory;
+  category_cpu?: RecommendationCategory;
+  category_memory?: RecommendationCategory;
   cluster_uuid?: string;
   cluster_alias?: string;
-  container?: string; // Not in namespace API
-  id?: number;
+  container?: string;
+  estimated_monthly_waste?: { value?: string; units?: string };
+  id?: string;
+  idle_duration_days?: number;
+  idle_recommendation?: RosIdleRecommendation;
+  idle_since?: string;
+  idle_state?: string;
+  ingest_hooks_failed?: boolean;
   last_reported?: string;
   project?: string;
   recommendations?: any;
   source_id?: string;
-  workload?: string; // Not in namespace API
-  workload_type?: string; // Not in namespace API
+  tags?: Record<string, string>;
+  workload?: string;
+  workload_type?: string;
 }
 
 export interface RosMeta extends PagedMetaData {
   count: number;
+  currency?: string;
+  data_days_available?: number;
+  has_next?: boolean;
   limit?: number;
+  min_data_days?: number;
+  next_cursor?: string;
   offset?: number;
 }
 
 export const enum RosNamespace {
-  projects = 'projects',
   containers = 'containers',
+  nodes = 'nodes',
+  projects = 'projects',
 }
 
 export type RosReport = PagedResponse<RosData, RosMeta>;
 
 export const enum RosType {
-  container = 'container',
   ros = 'ros',
-  namespace = 'namespace',
 }
 
 export const enum RosPathsType {
+  namespaceRecommendation = 'namespaceRecommendation',
+  namespaceRecommendations = 'namespaceRecommendations',
+  nodeRecommendation = 'nodeRecommendation',
+  nodeRecommendations = 'nodeRecommendations',
+  pvcRecommendation = 'pvcRecommendation',
+  pvcRecommendations = 'pvcRecommendations',
   recommendation = 'recommendation',
   recommendations = 'recommendations',
+  snapshotRecommendations = 'snapshotRecommendations',
+  quotaRecommendations = 'quotaRecommendations',
+  clusterQuotaRecommendations = 'clusterQuotaRecommendations',
+  quotaRecommendation = 'quotaRecommendation',
+  clusterQuotaRecommendation = 'clusterQuotaRecommendation',
+  vmRecommendation = 'vmRecommendation',
+  vmRecommendations = 'vmRecommendations',
+  gpuMigRecommendations = 'gpuMigRecommendations',
+  gpuTimeslicingRecommendations = 'gpuTimeslicingRecommendations',
 }

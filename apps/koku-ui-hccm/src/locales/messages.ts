@@ -465,6 +465,11 @@ export default defineMessages({
     description: 'Clusters',
     id: 'clusters',
   },
+  container: {
+    defaultMessage: 'Container',
+    description: 'Container',
+    id: 'container',
+  },
   continue: {
     defaultMessage: 'Continue',
     description: 'Continue',
@@ -2603,6 +2608,11 @@ export default defineMessages({
     description: 'Finalization',
     id: 'finalization',
   },
+  fleetSummaryTab: {
+    defaultMessage: 'Fleet Summary',
+    description: 'Optimizations top-level Fleet Summary tab label',
+    id: 'fleetSummaryTab',
+  },
   forDate: {
     defaultMessage: '{value} for {dateRange}',
     description: '{value} for {Jan 1-31}',
@@ -3088,6 +3098,16 @@ export default defineMessages({
     description: 'Name plural or singular',
     id: 'names',
   },
+  namespace: {
+    defaultMessage: 'Namespace',
+    description: 'Namespace',
+    id: 'namespace',
+  },
+  namespaceRecommendations: {
+    defaultMessage: 'Namespace recommendations',
+    description: 'Namespace recommendations',
+    id: 'namespaceRecommendations',
+  },
   networkUnattributedDistributed: {
     defaultMessage: 'Network unattributed',
     description: 'Network unattributed',
@@ -3136,6 +3156,11 @@ export default defineMessages({
     defaultMessage: 'No',
     description: 'No',
     id: 'no',
+  },
+  node: {
+    defaultMessage: 'Node',
+    description: 'Node',
+    id: 'node',
   },
   noCurrentData: {
     defaultMessage: 'No data available for {dateRange}. You are viewing data for the previous month.',
@@ -3497,6 +3522,11 @@ export default defineMessages({
     defaultMessage: 'Optimizations',
     description: 'Optimizations',
     id: 'optimizations',
+  },
+  optimizationsDecaySettings: {
+    defaultMessage: 'Decay weighting settings',
+    description: 'Decay weighting settings page title',
+    id: 'optimizationsDecaySettings',
   },
   orderPriceLists: {
     defaultMessage: 'Order price lists',
@@ -4355,6 +4385,21 @@ export default defineMessages({
     defaultMessage: 'Storage',
     description: 'Storage',
     id: 'storage',
+  },
+  quota: {
+    defaultMessage: 'Quota',
+    description: 'Optimizations top-level Quota tab label',
+    id: 'quota',
+  },
+  qualityTab: {
+    defaultMessage: 'Quality',
+    description: 'Optimizations top-level Quality metrics tab label',
+    id: 'qualityTab',
+  },
+  historyTab: {
+    defaultMessage: 'History',
+    description: 'Optimizations top-level History tab label',
+    id: 'historyTab',
   },
   storageClass: {
     defaultMessage: 'StorageClass',

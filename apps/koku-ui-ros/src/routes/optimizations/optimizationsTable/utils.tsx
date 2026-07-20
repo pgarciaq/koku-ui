@@ -3,23 +3,22 @@ import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/
 import { TrendDownIcon } from '@patternfly/react-icons/dist/esm/icons/trend-down-icon';
 import { TrendUpIcon } from '@patternfly/react-icons/dist/esm/icons/trend-up-icon';
 import type { Query } from 'api/queries/query';
-import type { RecommendationEngine, Recommendations } from 'api/ros/recommendations';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import React from 'react';
 import type { Location } from 'react-router-dom';
-import type { Interval, OptimizationType } from 'utils/commonTypes';
+import { ROS_LIST_ENGINE, ROS_LIST_TERM } from 'api/ros/rosListParams';
 import { formatOptimization, formatPercentage, unitsLookupKey } from 'utils/format';
 
 import { styles } from './optimizationsTable.styles';
 
 const formatValue = (value, units, isFormatted = true, isK8Units = false) => {
-  if (value === undefined || value === null || Number.isNaN(value)) {
+  if (!value) {
     return '';
   }
 
-  if (units === 'percent') {
-    const percentage = value ?? 0;
+  if (units === 'percent' || units === 'percentage') {
+    const percentage = value ? value : 0;
 
     return isFormatted
       ? intl.formatMessage(messages.percentPlus, {
@@ -42,66 +41,79 @@ const formatValue = (value, units, isFormatted = true, isK8Units = false) => {
   }
 };
 
-export const getConfiguration = (values: RecommendationEngine, isFormatted: boolean, isK8Units: boolean) => {
-  if (!values) {
-    return undefined;
+// Helper to determine if cpu and variation are empty objects
+const hasValues = (values: any, key: string) => {
+  let result = false;
+  if (values?.[key]) {
+    result = Object.keys(values[key]).length > 0;
   }
-
-  const cpuConfigAmount = values?.config?.requests?.cpu?.amount;
-  const cpuVariationAmount = values?.variation?.requests?.cpu?.amount;
-  const memoryConfigAmount = values?.config?.requests?.memory?.amount;
-  const memoryVariationAmount = values?.variation?.requests?.memory?.amount;
-
-  const hasCpuRequestConfig = typeof cpuConfigAmount === 'number' && !Number.isNaN(cpuConfigAmount);
-  const hasCpuRequestVariation = typeof cpuVariationAmount === 'number' && !Number.isNaN(cpuVariationAmount);
-  const hasMemoryRequestConfig = typeof memoryConfigAmount === 'number' && !Number.isNaN(memoryConfigAmount);
-  const hasMemoryRequestVariation = typeof memoryVariationAmount === 'number' && !Number.isNaN(memoryVariationAmount);
-
-  const cpuRequestConfigValue = hasCpuRequestConfig ? cpuConfigAmount : undefined;
-  const cpuRequestConfigUnits = hasCpuRequestConfig ? values?.config?.requests?.cpu?.format : undefined;
-  const cpuRequestVariationValue = hasCpuRequestVariation ? cpuVariationAmount : undefined;
-  const cpuRequestVariationUnits = hasCpuRequestVariation ? values?.variation?.requests?.cpu?.format : undefined;
-
-  const memoryRequestConfigValue = hasMemoryRequestConfig ? memoryConfigAmount : undefined;
-  const memoryRequestConfigUnits = hasMemoryRequestConfig ? values?.config?.requests?.memory?.format : undefined;
-  const memoryRequestVariationValue = hasMemoryRequestVariation ? memoryVariationAmount : undefined;
-  const memoryRequestVariationUnits = hasMemoryRequestVariation
-    ? values?.variation?.requests?.memory?.format
-    : undefined;
-
-  return {
-    cpuRequestConfig: formatValue(cpuRequestConfigValue, cpuRequestConfigUnits, isFormatted, isK8Units),
-    cpuRequestVariation: formatValue(cpuRequestVariationValue, cpuRequestVariationUnits, isFormatted, isK8Units),
-    memoryRequestConfig: formatValue(memoryRequestConfigValue, memoryRequestConfigUnits, isFormatted, isK8Units),
-    memoryRequestVariation: formatValue(
-      memoryRequestVariationValue,
-      memoryRequestVariationUnits,
-      isFormatted,
-      isK8Units
-    ),
-  };
+  return result;
 };
 
-export const getCurrentConfiguration = (values: Recommendations, isFormatted: boolean, isK8Units: boolean) => {
+// Normalize a native engine list item into the flat shape getConfiguration expects.
+// Native format: item.recommendations.current.requests.cpu.{amount,format}
+// Legacy format: item.cpu_request_current.{value,format}
+const normalizeNativeItem = (item: any, term: string = ROS_LIST_TERM, engine: string = ROS_LIST_ENGINE) => {
+  const current = item?.recommendations?.current;
+  if (!current) {
+    return null;
+  }
+
+  const variation = item?.recommendations?.recommendation_terms?.[term]?.recommendation_engines?.[engine]?.variation;
+
+  const result: any = {};
+
+  if (current?.requests?.cpu) {
+    result.cpu_request_current = { value: current.requests.cpu.amount, format: current.requests.cpu.format };
+  }
+  if (current?.requests?.memory) {
+    result.memory_request_current = { value: current.requests.memory.amount, format: current.requests.memory.format };
+  }
+  if (variation?.requests?.cpu) {
+    result.cpu_variation = { value: variation.requests.cpu.amount, format: variation.requests.cpu.format };
+  }
+  if (variation?.requests?.memory) {
+    result.memory_variation = { value: variation.requests.memory.amount, format: variation.requests.memory.format };
+  }
+
+  return result;
+};
+
+export const getConfiguration = (
+  values: any,
+  isFormatted: boolean,
+  isK8Units: boolean,
+  term: string = ROS_LIST_TERM,
+  engine: string = ROS_LIST_ENGINE
+) => {
   if (!values) {
     return undefined;
   }
 
-  const cpuAmount = values?.current?.requests?.cpu?.amount;
-  const memoryAmount = values?.current?.requests?.memory?.amount;
+  // Detect native format and normalize
+  const normalized = values?.recommendations?.current ? normalizeNativeItem(values, term, engine) : values;
+  if (!normalized) {
+    return undefined;
+  }
 
-  const hasCpuRequestCurrent = typeof cpuAmount === 'number' && !Number.isNaN(cpuAmount);
-  const hasMemoryRequestCurrent = typeof memoryAmount === 'number' && !Number.isNaN(memoryAmount);
+  const hasCpuRequestCurrent = hasValues(normalized, 'cpu_request_current');
+  const hasMemoryRequestCurrent = hasValues(normalized, 'memory_request_current');
 
-  const cpuRequestConfigValue = hasCpuRequestCurrent ? cpuAmount : undefined;
-  const cpuRequestConfigUnits = hasCpuRequestCurrent ? values?.current?.requests?.cpu?.format : undefined;
+  const cpuRequestCurrentValue = hasCpuRequestCurrent ? normalized.cpu_request_current.value : undefined;
+  const cpuRequestCurrentUnits = hasCpuRequestCurrent ? normalized.cpu_request_current.format : undefined;
+  const cpuVariationValue = hasCpuRequestCurrent ? normalized.cpu_variation?.value : undefined;
+  const cpuVariationUnits = hasCpuRequestCurrent ? normalized.cpu_variation?.format : undefined;
 
-  const memoryRequestConfigValue = hasMemoryRequestCurrent ? memoryAmount : undefined;
-  const memoryRequestConfigUnits = hasMemoryRequestCurrent ? values?.current?.requests?.memory?.format : undefined;
+  const memoryRequestCurrentValue = hasMemoryRequestCurrent ? normalized.memory_request_current.value : undefined;
+  const memoryRequestCurrentUnits = hasMemoryRequestCurrent ? normalized.memory_request_current.format : undefined;
+  const memoryVariationValue = hasMemoryRequestCurrent ? normalized.memory_variation?.value : undefined;
+  const memoryVariationUnits = hasMemoryRequestCurrent ? normalized.memory_variation?.format : undefined;
 
   return {
-    cpuRequestCurrent: formatValue(cpuRequestConfigValue, cpuRequestConfigUnits, isFormatted, isK8Units),
-    memoryRequestCurrent: formatValue(memoryRequestConfigValue, memoryRequestConfigUnits, isFormatted, isK8Units),
+    cpu_request_current: formatValue(cpuRequestCurrentValue, cpuRequestCurrentUnits, isFormatted, isK8Units),
+    cpu_variation: formatValue(cpuVariationValue, cpuVariationUnits, isFormatted, isK8Units),
+    memory_request_current: formatValue(memoryRequestCurrentValue, memoryRequestCurrentUnits, isFormatted, isK8Units),
+    memory_variation: formatValue(memoryVariationValue, memoryVariationUnits, isFormatted, isK8Units),
   };
 };
 
@@ -113,6 +125,7 @@ export const getLinkState = ({
   queryStateName,
 }: {
   breadcrumbPath?: string;
+  isOptimizationsDetails?: boolean;
   linkState?: any; // Optimizations breakdown link state
   location?: Location;
   query?: Query;
@@ -131,39 +144,20 @@ export const getLinkState = ({
   };
 };
 
-export const getRequestProps = (
-  recommendations: Recommendations,
-  interval: Interval,
-  optimizationType: OptimizationType
-) => {
-  const currentFormatted = getCurrentConfiguration(recommendations, true, false);
-  const configFormatted = getConfiguration(
-    recommendations?.recommendation_terms?.[interval]?.recommendation_engines?.[optimizationType],
-    true,
-    false
-  );
-  const configRaw = getConfiguration(
-    recommendations?.recommendation_terms?.[interval]?.recommendation_engines?.[optimizationType],
-    false,
-    false
-  );
+export const getRequestProps = (values: any, term?: string, engine?: string) => {
+  const configFormatted = getConfiguration(values, true, false, term, engine);
+  const configRaw = getConfiguration(values, false, false, term, engine);
 
   const getTrend = value => {
-    if (value > 0) {
-      return (
-        <Icon status="success" style={styles.trendIcon}>
-          <TrendUpIcon />
-        </Icon>
-      );
-    } else if (value < 0) {
-      return (
-        <Icon status="danger" style={styles.trendIcon}>
-          <TrendDownIcon />
-        </Icon>
-      );
-    } else {
-      return null;
-    }
+    return value > 0 ? (
+      <Icon status="success" style={styles.trendIcon}>
+        <TrendUpIcon />
+      </Icon>
+    ) : (
+      <Icon status="danger" style={styles.trendIcon}>
+        <TrendDownIcon />
+      </Icon>
+    );
   };
 
   const getWarningOrTrend = (value: string, raw: number) => {
@@ -190,25 +184,18 @@ export const getRequestProps = (
   };
 
   const isMissingValue = value => {
-    return value === undefined || value === null || `${value}`.trim().length === 0;
+    return !value || `${value}`.trim().length === 0;
   };
 
-  const cpuRequestConfig = getWarningOrValue(configFormatted?.cpuRequestConfig);
-  const cpuRequestCurrent = getWarningOrValue(currentFormatted?.cpuRequestCurrent);
-  const cpuRequestVariation = getWarningOrTrend(configFormatted?.cpuRequestVariation, configRaw?.cpuRequestVariation);
-  const memoryRequestConfig = getWarningOrValue(configFormatted?.memoryRequestConfig);
-  const memoryRequestCurrent = getWarningOrValue(currentFormatted?.memoryRequestCurrent);
-  const memoryRequestVariation = getWarningOrTrend(
-    configFormatted?.memoryRequestVariation,
-    configRaw?.memoryRequestVariation
-  );
+  const cpuRequestCurrent = getWarningOrValue(configFormatted?.cpu_request_current);
+  const cpuVariation = getWarningOrTrend(configFormatted?.cpu_variation, configRaw?.cpu_variation);
+  const memoryRequestCurrent = getWarningOrValue(configFormatted?.memory_request_current);
+  const memoryVariation = getWarningOrTrend(configFormatted?.memory_variation, configRaw?.memory_variation);
 
   return {
-    cpuRequestConfig,
     cpuRequestCurrent,
-    cpuRequestVariation,
-    memoryRequestConfig,
+    cpuVariation,
     memoryRequestCurrent,
-    memoryRequestVariation,
+    memoryVariation,
   };
 };

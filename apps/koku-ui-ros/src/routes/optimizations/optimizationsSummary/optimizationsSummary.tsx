@@ -10,21 +10,14 @@ import {
   TitleSizes,
 } from '@patternfly/react-core';
 import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
-import { getQuery } from 'api/queries/query';
-import type { RosReport } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
-import type { AxiosError } from 'axios';
+import { useRosCount } from 'hooks/useRosCount';
 import messages from 'locales/messages';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import type { AnyAction } from 'redux';
-import type { ThunkDispatch } from 'redux-thunk';
 import { skeletonWidth } from 'routes/utils/skeleton';
-import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
-import { rosActions, rosSelectors } from 'store/ros';
 
 import { styles } from './optimizations.styles';
 
@@ -34,10 +27,8 @@ export interface OptimizationsSummaryOwnProps {
 }
 
 export interface OptimizationsSummaryStateProps {
-  report?: RosReport;
-  reportError?: AxiosError;
+  count: number;
   reportFetchStatus?: FetchStatus;
-  reportQueryString?: string;
 }
 
 type OptimizationsSummaryProps = OptimizationsSummaryOwnProps & OptimizationsSummaryStateProps;
@@ -50,9 +41,7 @@ const OptimizationsSummary: React.FC<OptimizationsSummaryProps> = ({
   linkState,
 }: OptimizationsSummaryOwnProps) => {
   const intl = useIntl();
-  const { report, reportFetchStatus } = useMapToProps();
-
-  const count = report?.meta ? report.meta.count : 0;
+  const { count, reportFetchStatus } = useMapToProps();
   const description = intl.formatMessage(messages.optimizationsDetails, { count });
 
   return (
@@ -108,33 +97,14 @@ const OptimizationsSummary: React.FC<OptimizationsSummaryProps> = ({
 };
 
 const useMapToProps = (): OptimizationsSummaryStateProps => {
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
-
-  const reportQuery: any = {
-    // TBD...
-  };
-  const reportQueryString = getQuery(reportQuery);
-  const report: any = useSelector((state: RootState) =>
-    rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString)
-  );
-  const reportFetchStatus = useSelector((state: RootState) =>
-    rosSelectors.selectRosFetchStatus(state, reportPathsType, reportType, reportQueryString)
-  );
-  const reportError = useSelector((state: RootState) =>
-    rosSelectors.selectRosError(state, reportPathsType, reportType, reportQueryString)
-  );
-
-  useEffect(() => {
-    if (!reportError && reportFetchStatus !== FetchStatus.inProgress) {
-      dispatch(rosActions.fetchRosReport(reportPathsType, reportType, reportQueryString));
-    }
-  }, [reportQueryString]);
+  const { count, fetchStatus } = useRosCount({
+    rosPathsType: reportPathsType,
+    rosType: reportType,
+  });
 
   return {
-    report,
-    reportError,
-    reportFetchStatus,
-    reportQueryString,
+    count,
+    reportFetchStatus: fetchStatus,
   };
 };
 

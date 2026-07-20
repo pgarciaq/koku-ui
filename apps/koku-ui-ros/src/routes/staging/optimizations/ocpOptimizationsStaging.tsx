@@ -11,6 +11,7 @@ import { useLocation } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
 import { LoadingState } from 'routes/components/state/loadingState';
@@ -66,8 +67,8 @@ const OcpOptimizationsStaging: React.FC<OcpOptimizationsStagingProps> = () => {
     <PageSection>
       <OptimizationsOcpBreakdown
         breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
-        breadcrumbPath={`${formatPath(routes.ocpOptimizations.path)}${location.search}`}
-        linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
+        breadcrumbPath={`${formatPath(routePaths.ocpOptimizations.path)}${location.search}`}
+        linkPath={formatPath(routePaths.ocpOptimizationsBreakdown.path)}
         linkState={{
           ...(location?.state || {}),
         }}

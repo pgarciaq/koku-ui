@@ -16,7 +16,7 @@ const OptimizationsBadgeWrapper: React.FC<OptimizationsBadgeProps> = ({
 }: OptimizationsBadgeOwnProps) => {
   return (
     <OptimizationsWrapper>
-      <OptimizationsBadge cluster={cluster} project={project} />
+      <OptimizationsBadge cluster={cluster} project={project} count={0} />
     </OptimizationsWrapper>
   );
 };

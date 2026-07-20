@@ -1,0 +1,172 @@
+import { useCallback, useMemo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+export const OPTIMIZATION_TAB_KEYS = ['fleetSummary', 'efficiency', 'container', 'namespace', 'node', 'storage', 'vm', 'quota', 'gpu', 'history', 'quality'] as const;
+export type OptimizationTabKey = (typeof OPTIMIZATION_TAB_KEYS)[number];
+
+export const TAB_KEY_TO_INDEX: Record<OptimizationTabKey, number> = {
+  fleetSummary: 0,
+  efficiency: 1,
+  container: 2,
+  namespace: 3,
+  node: 4,
+  storage: 5,
+  vm: 6,
+  quota: 7,
+  gpu: 8,
+  history: 9,
+  quality: 10,
+};
+
+const INDEX_TO_TAB_KEY: Record<number, OptimizationTabKey> = {
+  0: 'fleetSummary',
+  1: 'efficiency',
+  2: 'container',
+  3: 'namespace',
+  4: 'node',
+  5: 'storage',
+  6: 'vm',
+  7: 'quota',
+  8: 'gpu',
+  9: 'history',
+  10: 'quality',
+};
+
+export type StorageSubKey = 'pvc' | 'snapshot';
+export type QuotaSubKey = 'namespace' | 'cluster';
+export type GpuSubKey = 'mig' | 'timeslicing';
+
+export interface UseOptimizationsTabUrlResult {
+  activeTab: OptimizationTabKey;
+  activeTabKey: number;
+  gpuSub: GpuSubKey;
+  quotaSub: QuotaSubKey;
+  setActiveTab: (tabIndex: number) => void;
+  setGpuSub: (sub: GpuSubKey) => void;
+  setQuotaSub: (sub: QuotaSubKey) => void;
+  setStorageSub: (sub: StorageSubKey) => void;
+  storageSub: StorageSubKey;
+}
+
+export function useOptimizationsTabUrl(): UseOptimizationsTabUrlResult {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const { activeTabKey, activeTab, storageSub, quotaSub, gpuSub } = useMemo(() => {
+    const params = new URLSearchParams(location.search);
+    const tabParam = params.get('tab') as OptimizationTabKey | null;
+    const subParam = params.get('sub');
+
+    let tabKey = 0;
+    if (tabParam && tabParam in TAB_KEY_TO_INDEX) {
+      tabKey = TAB_KEY_TO_INDEX[tabParam];
+    } else if (location?.state?.efficiencyState?.activeTabKey !== undefined) {
+      tabKey = location.state.efficiencyState.activeTabKey;
+    }
+
+    return {
+      activeTabKey: tabKey,
+      activeTab: INDEX_TO_TAB_KEY[tabKey] ?? 'fleetSummary',
+      storageSub: subParam === 'snapshot' ? ('snapshot' as StorageSubKey) : ('pvc' as StorageSubKey),
+      quotaSub: subParam === 'cluster' ? ('cluster' as QuotaSubKey) : ('namespace' as QuotaSubKey),
+      gpuSub: subParam === 'timeslicing' ? ('timeslicing' as GpuSubKey) : ('mig' as GpuSubKey),
+    };
+  }, [location.search, location.state]);
+
+  const setActiveTab = useCallback(
+    (tabIndex: number) => {
+      const tab = INDEX_TO_TAB_KEY[tabIndex] ?? 'fleetSummary';
+      const params = new URLSearchParams(location.search);
+      params.set('tab', tab);
+      if (tab !== 'storage' && tab !== 'quota' && tab !== 'gpu') {
+        params.delete('sub');
+      } else if (tab === 'storage') {
+        if (!params.get('sub') || params.get('sub') === 'namespace' || params.get('sub') === 'cluster' || params.get('sub') === 'mig' || params.get('sub') === 'timeslicing') {
+          params.set('sub', 'pvc');
+        }
+      } else if (tab === 'quota') {
+        if (!params.get('sub') || params.get('sub') === 'pvc' || params.get('sub') === 'snapshot' || params.get('sub') === 'mig' || params.get('sub') === 'timeslicing') {
+          params.set('sub', 'namespace');
+        }
+      } else if (tab === 'gpu') {
+        if (!params.get('sub') || params.get('sub') === 'pvc' || params.get('sub') === 'snapshot' || params.get('sub') === 'namespace' || params.get('sub') === 'cluster') {
+          params.set('sub', 'mig');
+        }
+      }
+
+      navigate(`${location.pathname}?${params.toString()}`, {
+        replace: true,
+        state: {
+          ...(location.state || {}),
+          efficiencyState: {
+            ...(location?.state?.efficiencyState || {}),
+            activeTabKey: tabIndex,
+          },
+        },
+      });
+    },
+    [location.pathname, location.search, location.state, navigate]
+  );
+
+  const setStorageSub = useCallback(
+    (sub: StorageSubKey) => {
+      const params = new URLSearchParams(location.search);
+      params.set('tab', 'storage');
+      params.set('sub', sub);
+
+      navigate(`${location.pathname}?${params.toString()}`, {
+        replace: true,
+        state: {
+          ...(location.state || {}),
+          efficiencyState: {
+            ...(location?.state?.efficiencyState || {}),
+            activeTabKey: TAB_KEY_TO_INDEX.storage,
+          },
+        },
+      });
+    },
+    [location.pathname, location.search, location.state, navigate]
+  );
+
+  const setQuotaSub = useCallback(
+    (sub: QuotaSubKey) => {
+      const params = new URLSearchParams(location.search);
+      params.set('tab', 'quota');
+      params.set('sub', sub);
+
+      navigate(`${location.pathname}?${params.toString()}`, {
+        replace: true,
+        state: {
+          ...(location.state || {}),
+          efficiencyState: {
+            ...(location?.state?.efficiencyState || {}),
+            activeTabKey: TAB_KEY_TO_INDEX.quota,
+          },
+        },
+      });
+    },
+    [location.pathname, location.search, location.state, navigate]
+  );
+
+  const setGpuSub = useCallback(
+    (sub: GpuSubKey) => {
+      const params = new URLSearchParams(location.search);
+      params.set('tab', 'gpu');
+      params.set('sub', sub);
+
+      navigate(`${location.pathname}?${params.toString()}`, {
+        replace: true,
+        state: {
+          ...(location.state || {}),
+          efficiencyState: {
+            ...(location?.state?.efficiencyState || {}),
+            activeTabKey: TAB_KEY_TO_INDEX.gpu,
+          },
+        },
+      });
+    },
+    [location.pathname, location.search, location.state, navigate]
+  );
+
+  return { activeTabKey, activeTab, gpuSub, storageSub, quotaSub, setActiveTab, setGpuSub, setStorageSub, setQuotaSub };
+}

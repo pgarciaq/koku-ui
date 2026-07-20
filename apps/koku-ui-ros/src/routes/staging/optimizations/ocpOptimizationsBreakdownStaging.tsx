@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { OptimizationsBreakdown } from 'routes/optimizations/optimizationsBreakdown';
 import { formatPath } from 'utils/paths';
 
@@ -15,7 +15,7 @@ const OcpOptimizationsBreakdownStaging: React.FC<OcpOptimizationsBreakdownStagin
 
   return (
     <OptimizationsBreakdown
-      breadcrumbPath={formatPath(`${routes.ocpOptimizations.path}${location.search}`)}
+      breadcrumbPath={formatPath(`${routePaths.ocpOptimizations.path}${location.search}`)}
       linkState={{
         ...(location?.state || {}),
       }}

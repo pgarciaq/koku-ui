@@ -19,7 +19,6 @@ interface DataTableOwnProps {
   columns?: any[];
   emptyState?: React.ReactNode;
   filterBy: any;
-  gridBreakPoint?: '' | 'grid-2xl' | 'grid' | 'grid-md' | 'grid-lg' | 'grid-xl';
   isActionsCell?: boolean;
   isLoading?: boolean;
   isSelectable?: boolean;
@@ -37,7 +36,6 @@ class DataTable extends React.Component<DataTableProps, any> {
   constructor(props: DataTableProps) {
     super(props);
     this.handleOnSelect = this.handleOnSelect.bind(this);
-    this.handleOnSort = this.handleOnSort.bind(this);
   }
 
   private getEmptyState = () => {
@@ -59,24 +57,18 @@ class DataTable extends React.Component<DataTableProps, any> {
     );
   };
 
-  private getSortBy = (index: number, isNested: boolean) => {
-    const { columns, nestedColumns, orderBy } = this.props;
+  private getSortParamsForColumn = (col: any, index: number): ThProps['sort'] => {
+    const { orderBy } = this.props;
+    const direction = orderBy && orderBy[col.orderBy];
 
-    const key = isNested ? nestedColumns?.[index]?.orderBy : columns?.[index]?.orderBy;
-    const direction = orderBy && key ? orderBy[key] : undefined;
-
-    return direction
-      ? {
-          index,
-          direction,
-        }
-      : {};
-  };
-
-  private getSortParams = (index: number, isNested: boolean): ThProps['sort'] => {
     return {
-      sortBy: this.getSortBy(index, isNested),
-      onSort: (_evt, i, direction) => this.handleOnSort(i, direction, isNested),
+      sortBy: direction ? { index, direction } : {},
+      onSort: (_evt, _i, dir) => {
+        const { onSort } = this.props;
+        if (onSort) {
+          onSort(col.orderBy, dir === SortByDirection.asc);
+        }
+      },
       columnIndex: index,
     };
   };
@@ -98,28 +90,8 @@ class DataTable extends React.Component<DataTableProps, any> {
     });
   };
 
-  private handleOnSort = (index: number, direction: string, isNested: boolean) => {
-    const { columns, nestedColumns, onSort } = this.props;
-
-    const orderBy = isNested ? nestedColumns?.[index]?.orderBy : columns?.[index]?.orderBy;
-
-    if (onSort && orderBy) {
-      const isSortAscending = direction === SortByDirection.asc;
-      onSort(orderBy, isSortAscending);
-    }
-  };
-
   public render() {
-    const {
-      columns,
-      gridBreakPoint = 'grid-2xl',
-      intl,
-      isActionsCell = false,
-      isLoading,
-      isSelectable,
-      nestedColumns,
-      rows,
-    } = this.props;
+    const { columns, intl, isActionsCell = false, isLoading, isSelectable, nestedColumns, rows } = this.props;
     const hasNestedHeader = nestedColumns?.length > 0;
 
     return (
@@ -127,7 +99,7 @@ class DataTable extends React.Component<DataTableProps, any> {
         <Table
           aria-label={intl.formatMessage(messages.dataTableAriaLabel)}
           className="tableOverride"
-          gridBreakPoint={gridBreakPoint}
+          gridBreakPoint="grid-2xl"
           variant={TableVariant.compact}
         >
           <Thead hasNestedHeader={hasNestedHeader}>
@@ -137,13 +109,12 @@ class DataTable extends React.Component<DataTableProps, any> {
                   <Th
                     colSpan={col.colSpan}
                     hasRightBorder={col.hasRightBorder}
-                    isSubheader={col.isSubheader}
                     key={`nested-col-${index}`}
                     modifier={col.modifier || 'nowrap'}
                     rowSpan={col.rowSpan}
-                    sort={col.isSortable ? this.getSortParams(index, true) : undefined}
-                    style={col.style}
-                  >
+                  sort={col.isSortable ? this.getSortParamsForColumn(col, index) : undefined}
+                  style={col.style}
+                >
                     {col.name}
                   </Th>
                 ))}
@@ -154,11 +125,10 @@ class DataTable extends React.Component<DataTableProps, any> {
                 <Th
                   colSpan={col.colSpan}
                   hasRightBorder={col.hasRightBorder}
-                  isSubheader={col.isSubheader}
                   key={`col-${index}-${col.value}`}
                   modifier={col.modifier || 'nowrap'}
                   rowSpan={col.rowSpan}
-                  sort={col.isSortable ? this.getSortParams(index, false) : undefined}
+                  sort={col.isSortable ? this.getSortParamsForColumn(col, index) : undefined}
                   style={col.style}
                 >
                   {col.name || ''}

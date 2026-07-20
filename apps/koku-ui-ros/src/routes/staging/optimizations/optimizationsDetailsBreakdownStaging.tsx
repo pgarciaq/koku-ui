@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { OptimizationsBreakdown } from 'routes/optimizations/optimizationsBreakdown';
 import { formatPath } from 'utils/paths';
 
@@ -15,13 +15,13 @@ const OptimizationsDetailsBreakdownStaging: React.FC<OptimizationsBreakdownStagi
 
   return (
     <OptimizationsBreakdown
-      breadcrumbPath={`${formatPath(routes.optimizationsDetails.path)}${location.search}`}
-      projectPath={formatPath(routes.ocpOptimizations.path)} // Path for optimizations breakdown project link
+      breadcrumbPath={`${formatPath(routePaths.optimizationsDetails.path)}${location.search}`}
+      projectPath={formatPath(routePaths.ocpOptimizations.path)} // Path for optimizations breakdown project link
       linkState={{
         ...(location?.state || {}),
         ocpOptimizationsState: undefined, // Clear state, to reinitialize optimizations tab in OCP breakdown
       }}
-      queryStateName="optimizationsDetailsState"
+      queryStateName="containerDetailsState"
     />
   );
 };

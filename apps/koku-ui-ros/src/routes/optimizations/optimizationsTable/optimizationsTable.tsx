@@ -3,6 +3,7 @@ import { getQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
 import type { RosReport } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
+import { withRosListProjection } from 'api/ros/rosListParams';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
@@ -15,6 +16,7 @@ import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
+import { expandTagFilters } from 'routes/utils/filter';
 import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import * as queryUtils from 'routes/utils/query';
 import { getQueryState } from 'routes/utils/queryState';
@@ -107,9 +109,9 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
   }, [query]);
 
   const getPagination = (isDisabled = false, isBottom = false) => {
-    const count = report?.meta ? report.meta.count : 0;
-    const limit = report?.meta ? report.meta.limit : baseQuery.limit;
-    const offset = report?.meta ? report.meta.offset : baseQuery.offset;
+    const count = report?.meta?.count ?? 0;
+    const limit = report?.meta?.limit ?? query.limit ?? baseQuery.limit;
+    const offset = report?.meta?.offset ?? query.offset ?? baseQuery.offset;
     const page = Math.trunc(offset / limit + 1);
 
     return (
@@ -153,8 +155,8 @@ const OptimizationsTable: React.FC<OptimizationsTableProps> = ({
   };
 
   const getToolbar = () => {
-    const itemsPerPage = report?.meta ? report.meta.limit : 0;
-    const itemsTotal = report?.meta ? report.meta.count : 0;
+    const itemsPerPage = report?.meta?.limit ?? query.limit ?? baseQuery.limit;
+    const itemsTotal = report?.meta?.count ?? 0;
     const isDisabled = itemsTotal === 0;
 
     return (
@@ -230,15 +232,17 @@ const useMapToProps = ({ cluster, project, query }: OptimizationsTableMapProps):
   const order_by = getOrderById(query) || getOrderById(baseQuery);
   const order_how = getOrderByValue(query) || getOrderByValue(baseQuery);
 
-  const reportQuery = {
-    ...(cluster && { cluster }), // Flattened cluster filter
-    ...(project && { project }), // Flattened project filter
-    ...query.filter_by, // Flattened filter by
+  const filterBy = expandTagFilters(query.filter_by);
+
+  const reportQuery = withRosListProjection({
+    ...(cluster && { cluster }),
+    ...(project && { project }),
+    ...filterBy,
     limit: query.limit,
-    offset: query.offset,
+    ...(query.after ? { after: query.after } : { offset: query.offset }),
     order_by, // Flattened order by
     order_how, // Flattened order how
-  };
+  });
   const reportQueryString = getQuery(reportQuery);
   const report = useSelector((state: RootState) =>
     rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString)
