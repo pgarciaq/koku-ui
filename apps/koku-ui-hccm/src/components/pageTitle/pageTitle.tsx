@@ -2,7 +2,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { formatPath, usePathname } from 'utils/paths';
 
 interface PageTitleOwnProps {
@@ -15,31 +15,31 @@ const PageTitleBase: React.FC<PageTitleProps> = ({ children = null, intl }) => {
   const usePageTitle = () => {
     const pathname = usePathname();
     switch (pathname) {
-      case formatPath(routes.awsBreakdown.path):
-      case formatPath(routes.awsDetails.path):
+      case formatPath(routePaths.awsBreakdown.path):
+      case formatPath(routePaths.awsDetails.path):
         return messages.pageTitleAws;
-      case formatPath(routes.azureBreakdown.path):
-      case formatPath(routes.azureDetails.path):
+      case formatPath(routePaths.azureBreakdown.path):
+      case formatPath(routePaths.azureDetails.path):
         return messages.pageTitleAzure;
-      case formatPath(routes.costModelBreakdown.basePath):
+      case formatPath(routePaths.costModelBreakdown.basePath):
         return messages.pageTitleCostModels;
-      case formatPath(routes.explorer.path):
+      case formatPath(routePaths.explorer.path):
         return messages.pageTitleExplorer;
-      case formatPath(routes.gcpBreakdown.path):
-      case formatPath(routes.gcpDetails.path):
+      case formatPath(routePaths.gcpBreakdown.path):
+      case formatPath(routePaths.gcpDetails.path):
         return messages.pageTitleGcp;
-      case formatPath(routes.ocpBreakdown.path):
-      case formatPath(routes.ocpDetails.path):
+      case formatPath(routePaths.ocpBreakdown.path):
+      case formatPath(routePaths.ocpDetails.path):
         return messages.pageTitleOcp;
-      case formatPath(routes.optimizations.path):
-      case formatPath(routes.optimizationsBreakdown.path):
+      case formatPath(routePaths.optimizations.path):
+      case formatPath(routePaths.optimizationsBreakdown.path):
         return messages.pageTitleOptimizations;
-      case formatPath(routes.overview.path):
+      case formatPath(routePaths.overview.path):
         return messages.pageTitleOverview;
-      case formatPath(routes.priceListBreakdown.basePath):
-      case formatPath(routes.priceListCreate.path):
+      case formatPath(routePaths.priceListBreakdown.basePath):
+      case formatPath(routePaths.priceListCreate.path):
         return messages.pageTitlePriceList;
-      case formatPath(routes.settings.path):
+      case formatPath(routePaths.settings.path):
         return messages.pageTitleSettings;
       default:
         return messages.pageTitleDefault;

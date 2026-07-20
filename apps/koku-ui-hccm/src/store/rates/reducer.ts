@@ -6,8 +6,9 @@ import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 
 import { fetchRateFailure, fetchRateRequest, fetchRateSuccess } from './actions';
+import { stateKey } from './ratesCommon';
 
-export const stateKey = 'rates';
+export { stateKey };
 
 export interface CachedRates extends Rates {
   timeRequested: number;

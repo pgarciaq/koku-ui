@@ -1,4 +1,4 @@
-import { routes } from 'routes'
+import { routePaths } from 'routePaths';
 import { formatPath, getReleasePath, usePathname } from './paths'
 import { useLocation } from 'react-router-dom'
 
@@ -19,9 +19,9 @@ describe('utils/paths', () => {
   })
 
   test('formatPath without release prefix', () => {
-    expect(formatPath(routes.overview.path)).toBe('/openshift/cost-management')
-    expect(formatPath(routes.costModelBreakdown.basePath))
-      .toBe(`/openshift/cost-management${routes.costModelBreakdown.basePath}`)
+    expect(formatPath(routePaths.overview.path)).toBe('/openshift/cost-management')
+    expect(formatPath(routePaths.costModelBreakdown.basePath))
+      .toBe(`/openshift/cost-management${routePaths.costModelBreakdown.basePath}`)
   })
 
   test.each([
@@ -35,11 +35,11 @@ describe('utils/paths', () => {
 
   test('formatPath with release prefix', () => {
     setWindowPathname('/beta/openshift/cost-management')
-    expect(formatPath(routes.costModelBreakdown.basePath, true).startsWith('/beta')).toBe(true)
+    expect(formatPath(routePaths.costModelBreakdown.basePath, true).startsWith('/beta')).toBe(true)
   })
 
   test('usePathname collapses cost model UUID path', () => {
-    const base = formatPath(routes.costModelBreakdown.basePath)
+    const base = formatPath(routePaths.costModelBreakdown.basePath)
     setWindowPathname(`${base}/123`)
     mockUseLocation.mockReturnValue({ pathname: `${base}/123` })
     expect(usePathname()).toBe(base)

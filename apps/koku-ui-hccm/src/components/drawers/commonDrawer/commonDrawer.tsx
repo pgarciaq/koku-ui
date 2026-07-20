@@ -1,5 +1,5 @@
 import { Drawer, DrawerContent } from '@patternfly/react-core';
-import { ExportsDrawer } from 'components/drawers';
+import { ExportsDrawer } from '../exports';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';

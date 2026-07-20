@@ -1,27 +1,13 @@
-import type { Providers } from 'api/providers';
-import type { AxiosError } from 'axios';
 import { FetchStatus } from 'store/common';
 import { resetState } from 'store/ui/uiActions';
 import type { ActionType } from 'typesafe-actions';
 import { getType } from 'typesafe-actions';
 
 import { fetchProvidersFailure, fetchProvidersRequest, fetchProvidersSuccess } from './providersActions';
+import { defaultState } from './providersCommon';
+import type { ProvidersState } from './providersCommon';
 
-export interface CachedProviders extends Providers {
-  timeRequested: number;
-}
-
-export type ProvidersState = Readonly<{
-  byId: Map<string, CachedProviders>;
-  errors: Map<string, AxiosError>;
-  fetchStatus: Map<string, FetchStatus>;
-}>;
-
-export const defaultState: ProvidersState = {
-  byId: new Map(),
-  errors: new Map(),
-  fetchStatus: new Map(),
-};
+export type { CachedProviders, ProvidersState } from './providersCommon';
 
 export type ProvidersAction = ActionType<
   typeof fetchProvidersFailure | typeof fetchProvidersRequest | typeof fetchProvidersSuccess | typeof resetState

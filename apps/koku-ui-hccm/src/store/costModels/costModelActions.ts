@@ -13,7 +13,7 @@ import type { AxiosError } from 'axios';
 import { intl } from 'components/i18n';
 import messages from 'locales/messages';
 import type { Dispatch } from 'redux';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import type { ThunkAction } from 'store/common';
 import { createAction } from 'typesafe-actions';
 import { formatPath } from 'utils/paths';
@@ -114,7 +114,7 @@ export const deleteCostModel = (uuid: string, dialog: string = null, router: Rou
         if (dialog !== null) {
           fetchCostModels()(dispatch);
           if (dialog === 'deleteCostModel' && router) {
-            router.navigate(formatPath(routes.settings.path));
+            router.navigate(formatPath(routePaths.settings.path));
           }
           dispatch(setCostModelDialog({ name: dialog, isOpen: false }));
         }
@@ -212,7 +212,7 @@ export const redirectToCostModelFromSourceUuid = (source_uuid: string, router: R
     return apiGetCostModels(`source_uuid=${source_uuid}`)
       .then(res => {
         const uuid = res.data.data[0].uuid;
-        router.navigate(`${formatPath(routes.costModelBreakdown.basePath)}/${uuid}`);
+        router.navigate(`${formatPath(routePaths.costModelBreakdown.basePath)}/${uuid}`);
         dispatch(redirectSuccess());
       })
       .catch(err => {
