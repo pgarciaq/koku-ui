@@ -5,14 +5,9 @@ import React from 'react';
 import type { SelectWrapperOption } from 'routes/components/selectWrapper';
 import { SelectWrapper } from 'routes/components/selectWrapper';
 
-import type { Filters } from './common';
-import { hasFilters } from './common';
+import { type Filters, hasFilters, CriteriaType } from './common';
 
-export const enum CriteriaType {
-  exact = 'exact',
-  exclude = 'exclude',
-  include = 'include',
-}
+export { CriteriaType };
 
 // Criteria select
 

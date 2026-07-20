@@ -6,7 +6,7 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { DataTable } from 'routes/components/dataTable';
 import { PriceListActions } from 'routes/settings/priceLists/priceList/components/actions';
 import { formatDate } from 'utils/dates';
@@ -99,7 +99,7 @@ const PriceListContentTable: React.FC<PriceListContentTableProps> = ({
             value: (
               <span>
                 {item?.name && (
-                  <Link to={`${formatPath(routes.priceListBreakdown.basePath)}/${item?.uuid}`}>{item.name}</Link>
+                  <Link to={`${formatPath(routePaths.priceListBreakdown.basePath)}/${item?.uuid}`}>{item.name}</Link>
                 )}
                 {item?.enabled === false && (
                   <Label isCompact style={styles.label}>

@@ -1,7 +1,7 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import {
   ComputedReportItemType,
   ComputedReportItemValueType,
@@ -33,7 +33,7 @@ export const costSummaryWidget: DashboardWidget = {
     costKey: messages.cost,
     showHorizontal: true,
     showTooltip: true,
-    viewAllPath: formatPath(routes.ocpDetails.path),
+    viewAllPath: formatPath(routePaths.ocpDetails.path),
   },
   trend: {
     computedForecastItem: ComputedForecastItemType.cost,

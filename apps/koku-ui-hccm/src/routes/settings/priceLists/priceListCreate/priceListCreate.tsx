@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { LoadingState } from 'routes/components/state/loadingState';
 import type { DetailContentHandle } from 'routes/settings/priceLists/priceList/components/details';
@@ -102,7 +102,7 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
   };
 
   const navigateToPriceListDetail = () => {
-    navigate(formatPath(routes.settings.path), {
+    navigate(formatPath(routePaths.settings.path), {
       replace: true,
       state: {
         ...(location?.state || {}),
@@ -137,7 +137,7 @@ const PriceListCreate: React.FC<PriceListCreateProps> = () => {
     );
   }
   if (!canWrite()) {
-    return <NotAuthorized pathname={formatPath(routes.priceListCreate.path)} />;
+    return <NotAuthorized pathname={formatPath(routePaths.priceListCreate.path)} />;
   }
   return (
     <>

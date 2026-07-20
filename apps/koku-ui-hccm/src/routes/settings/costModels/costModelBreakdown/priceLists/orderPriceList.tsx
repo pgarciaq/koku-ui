@@ -1,7 +1,5 @@
 import { Alert, AlertActionCloseButton, Card, CardBody } from '@patternfly/react-core';
 import type { CostModel } from 'api/costModels';
-import type { PriceListData } from 'api/priceList';
-import type { Query } from 'api/queries/query';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -9,8 +7,14 @@ import * as queryUtils from 'routes/utils/query';
 
 import { NoPriceListState } from './components/state';
 import { styles } from './orderPriceList.styles';
+import type { OrderPriceListMapProps, OrderPriceListStateProps, PriceListDataExt } from './orderPriceListCommon';
+import { baseQuery } from './orderPriceListCommon';
 import { OrderPriceListContent } from './orderPriceListContent';
 import { getFilteredPriceLists, getPaginatedPriceLists } from './utils';
+
+export type { PriceListDataExt, OrderPriceListMapProps, OrderPriceListStateProps };
+export { baseQuery };
+export type { OrderPriceListHandle } from './orderPriceListCommon';
 
 interface OrderPriceListOwnProps {
   canWrite?: boolean;
@@ -23,37 +27,7 @@ interface OrderPriceListOwnProps {
   showDraggable?: boolean;
 }
 
-export interface PriceListDataExt extends PriceListData {
-  priority?: number;
-}
-
-export interface OrderPriceListMapProps {
-  costModel?: CostModel;
-  pageNumber?: number;
-  perPage?: number;
-  query?: Query;
-}
-
-export interface OrderPriceListStateProps {
-  priceLists: PriceListDataExt[]; // Price lists without filters and pagination for editing
-  priceListsTotal: number; // Total number of filtered (unpaginated) price lists
-}
-
-export interface OrderPriceListHandle {
-  /** Persists the current selection to the parent via onAdd. Returns the number of selected rows. */
-  save: () => void;
-}
-
 type OrderPriceListProps = OrderPriceListOwnProps;
-
-export const baseQuery: Query = {
-  limit: 10,
-  offset: 0,
-  filter_by: {},
-  order_by: {
-    name: 'asc',
-  },
-};
 
 const OrderPriceList: React.FC<OrderPriceListProps> = ({
   canWrite,

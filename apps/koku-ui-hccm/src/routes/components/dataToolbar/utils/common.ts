@@ -15,7 +15,11 @@ import {
   tagPrefix,
 } from 'utils/props';
 
-import { CriteriaType } from './criteria';
+export const enum CriteriaType {
+  exact = 'exact',
+  exclude = 'exclude',
+  include = 'include',
+}
 
 export interface Filters {
   [key: string]: Filter[] | { [key: string]: Filter[] };

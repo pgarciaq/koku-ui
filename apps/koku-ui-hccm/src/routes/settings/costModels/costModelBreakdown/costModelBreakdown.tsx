@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { getSourceType } from 'routes/settings/costModels/costModel/utils';
@@ -214,7 +214,7 @@ const CostModelBreakdown: React.FC<CostModelBreakdownProps> = () => {
   // Handlers
 
   const handleOnDelete = () => {
-    navigate(`${formatPath(routes.settings.path)}`, {
+    navigate(`${formatPath(routePaths.settings.path)}`, {
       replace: true,
       state: {
         ...(location?.state || {}),

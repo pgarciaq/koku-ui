@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { getFilteredCostModels } from 'routes/settings/priceLists/priceListBreakdown/rates/utils';
@@ -88,7 +88,7 @@ const CostModels: React.FC<CostModelsProps> = () => {
   };
 
   const handleGoToCostModels = () => {
-    navigate(`${formatPath(routes.settings.path)}`, {
+    navigate(`${formatPath(routePaths.settings.path)}`, {
       replace: true,
     });
   };

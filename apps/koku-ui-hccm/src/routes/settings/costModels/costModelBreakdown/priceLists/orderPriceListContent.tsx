@@ -18,7 +18,7 @@ import { FetchStatus } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 
 import { TimelineChart } from './components/charts';
-import { baseQuery, type PriceListDataExt } from './orderPriceList';
+import { baseQuery, type PriceListDataExt } from './orderPriceListCommon';
 import { styles } from './orderPriceList.styles';
 import { OrderPriceListTable } from './orderPriceListTable';
 import { OrderPriceListToolbar } from './orderPriceListToolbar';

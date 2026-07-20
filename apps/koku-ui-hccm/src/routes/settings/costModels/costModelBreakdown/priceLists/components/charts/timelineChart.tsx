@@ -19,7 +19,7 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { getResizeObserver } from 'routes/components/charts/common/chartUtils';
-import { NoSelectionsState } from 'routes/settings/costModels/costModelBreakdown/priceLists/components/state';
+import { NoSelectionsState } from 'routes/settings/costModels/costModelBreakdown/priceLists/components/state/noSelectionsState';
 import { useFetchPriceLists } from 'routes/settings/costModels/costModelBreakdown/priceLists/utils';
 import { getEffectiveDate, getEffectiveStartDate } from 'routes/settings/priceLists/priceList/components/details/utils';
 

@@ -21,7 +21,7 @@ import { injectIntl } from 'react-intl';
 import { useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { createMapStateToProps } from 'store/common';
 import { costModelsActions, costModelsSelectors } from 'store/costModels';
 import { rbacSelectors } from 'store/rbac';
@@ -117,7 +117,7 @@ const Header: React.FC<Props> = ({
           <Breadcrumb style={styles.breadcrumb}>
             <BreadcrumbItem
               render={() => (
-                <Link to={`${formatPath(routes.settings.path)}`}>{intl.formatMessage(messages.costModels)}</Link>
+                <Link to={`${formatPath(routePaths.settings.path)}`}>{intl.formatMessage(messages.costModels)}</Link>
               )}
             />
             <BreadcrumbItem isActive>{current.name}</BreadcrumbItem>

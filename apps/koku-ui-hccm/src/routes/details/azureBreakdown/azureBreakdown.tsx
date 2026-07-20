@@ -9,7 +9,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import type { BreakdownStateProps } from 'routes/details/components/breakdown';
 import { BreakdownBase } from 'routes/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
@@ -34,7 +34,7 @@ interface AzureBreakdownDispatchProps {
 
 type AzureBreakdownOwnProps = RouterComponentProps & WrappedComponentProps;
 
-const detailsURL = formatPath(routes.azureDetails.path);
+const detailsURL = formatPath(routePaths.azureDetails.path);
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.azure;
 
@@ -98,7 +98,7 @@ const mapStateToProps = createMapStateToProps<AzureBreakdownOwnProps, BreakdownS
     const title = queryFromRoute[breakdownTitleKey] ? queryFromRoute[breakdownTitleKey] : groupByValue;
 
     return {
-      breadcrumbPath: queryFromRoute?.[breadcrumbPathKey] || formatPath(routes.azureDetails.path),
+      breadcrumbPath: queryFromRoute?.[breadcrumbPathKey] || formatPath(routePaths.azureDetails.path),
       costOverviewComponent: (
         <CostOverview currency={currency} groupBy={groupBy} queryStateName={queryStateName} report={report} />
       ),

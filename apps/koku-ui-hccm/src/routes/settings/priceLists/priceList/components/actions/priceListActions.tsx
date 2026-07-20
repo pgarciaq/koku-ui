@@ -3,7 +3,7 @@ import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import type { DropdownWrapperItem } from 'routes/components/dropdownWrapper';
 import { DropdownWrapper } from 'routes/components/dropdownWrapper';
 import { DeletePriceListModal } from 'routes/settings/priceLists/priceList/components/delete';
@@ -145,7 +145,7 @@ const PriceListActions: React.FC<PriceListActionsProps> = ({
   };
 
   const handleOnViewPriceList = () => {
-    navigate(`${formatPath(routes.priceListBreakdown.basePath)}/${priceList?.uuid}`, {
+    navigate(`${formatPath(routePaths.priceListBreakdown.basePath)}/${priceList?.uuid}`, {
       replace: true,
       state: {
         ...(location?.state || {}),

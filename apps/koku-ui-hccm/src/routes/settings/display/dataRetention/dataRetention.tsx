@@ -1,7 +1,6 @@
 import { DataRetention, DataRetentionType } from 'api/dataRetention';
 import { getQuery } from 'api/queries/query';
 import type { AxiosError } from 'axios';
-import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -172,8 +171,7 @@ const useMapToProps = (): DataRetentionStateProps => {
     }
   }, [dispatch, dataRetentionError, dataRetentionQueryString]);
 
-  // Notifications disabled for on-prem
-  useDataRetentionNotifications(isSettingsDataRetentionPeriodEnabled);
+  useDataRetentionNotifications(true);
 
   return {
     dataRetention,

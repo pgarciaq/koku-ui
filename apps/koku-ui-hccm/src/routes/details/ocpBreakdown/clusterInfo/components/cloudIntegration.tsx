@@ -3,7 +3,7 @@ import type { Provider } from 'api/providers';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { SourceLink } from 'routes/details/components/providerStatus/components/sourceLink';
 import { formatPath } from 'utils/paths';
 
@@ -34,11 +34,11 @@ const CloudIntegration: React.FC<CloudIntegrationProps> = ({ provider }: CloudIn
             provider.cost_models.map(cm => (
               <>
                 <span style={styles.spacingRight}>{intl.formatMessage(messages.costModel)}</span>
-                <a href={`${formatPath(routes.costModelBreakdown.basePath, true)}/${cm.uuid}`}>{cm.name}</a>
+                <a href={`${formatPath(routePaths.costModelBreakdown.basePath, true)}/${cm.uuid}`}>{cm.name}</a>
               </>
             ))
           ) : (
-            <a href={formatPath(routes.settings.path, true)}>{intl.formatMessage(messages.assignCostModel)}</a>
+            <a href={formatPath(routePaths.settings.path, true)}>{intl.formatMessage(messages.assignCostModel)}</a>
           )}
         </Content>
       </Content>

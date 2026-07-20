@@ -12,7 +12,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { ExportModal } from 'routes/components/export';
 import { Loading } from 'routes/components/page/loading';
 import { NoData } from 'routes/components/page/noData';
@@ -210,7 +210,7 @@ class AzureDetails extends React.Component<AzureDetailsProps, AzureDetailsState>
 
     return (
       <DetailsTable
-        breadcrumbPath={formatPath(`${routes.azureDetails.path}${location.search}`)}
+        breadcrumbPath={formatPath(`${routePaths.azureDetails.path}${location.search}`)}
         exclude={query.exclude}
         filterBy={query.filter_by}
         groupBy={groupByTagKey ? `${tagPrefix}${groupByTagKey}` : groupById}

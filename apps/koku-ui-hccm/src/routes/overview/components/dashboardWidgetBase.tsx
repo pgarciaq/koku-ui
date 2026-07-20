@@ -9,7 +9,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { ComputedReportItemType, DatumType, transformReport } from 'routes/components/charts/common/chartDatum';
 import {
   getComputedForecast,
@@ -414,7 +414,7 @@ class DashboardWidgetBase extends React.Component<DashboardWidgetProps, Dashboar
       <AsyncComponent
         scope="costManagementRos"
         module="./OptimizationsSummary"
-        linkPath={formatPath(routes.optimizations.path)}
+        linkPath={formatPath(routePaths.optimizations.path)}
       />
     );
   };

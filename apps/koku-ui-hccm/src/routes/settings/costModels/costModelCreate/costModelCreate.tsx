@@ -12,7 +12,7 @@ import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { LoadingState } from 'routes/components/state/loadingState';
 import type { RootState } from 'store';
@@ -63,7 +63,7 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
   };
 
   const navigateToCostModels = () => {
-    navigate(formatPath(routes.settings.path), {
+    navigate(formatPath(routePaths.settings.path), {
       replace: true,
       state: {
         ...(location?.state || {}),
@@ -98,7 +98,7 @@ const CostModelCreate: React.FC<CostModelCreateProps> = () => {
     );
   }
   if (!canWrite()) {
-    return <NotAuthorized pathname={formatPath(routes.costModelCreate.path)} />;
+    return <NotAuthorized pathname={formatPath(routePaths.costModelCreate.path)} />;
   }
   return (
     <>

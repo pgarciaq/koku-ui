@@ -5,7 +5,7 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { DataTable } from 'routes/components/dataTable';
 import { formatPath } from 'utils/paths';
 
@@ -47,7 +47,7 @@ const CostModelsTable: React.FC<CostModelsTableProps> = ({ costModels, filterBy,
             value: (
               <>
                 {item?.name && (
-                  <Link to={`${formatPath(routes.costModelBreakdown.basePath)}/${item?.uuid}`}>{item.name}</Link>
+                  <Link to={`${formatPath(routePaths.costModelBreakdown.basePath)}/${item?.uuid}`}>{item.name}</Link>
                 )}
                 {desc}
               </>

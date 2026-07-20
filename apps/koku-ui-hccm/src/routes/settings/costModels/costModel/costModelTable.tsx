@@ -5,7 +5,7 @@ import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { DataTable } from 'routes/components/dataTable';
 import { DeleteCostModelAction } from 'routes/settings/costModels/costModel/components/actions';
 import { formatPath } from 'utils/paths';
@@ -81,7 +81,7 @@ const CostModelTable: React.FC<CostModelTableProps> = ({
         cells: [
           {
             style: styles.column,
-            value: <Link to={`${formatPath(routes.costModelBreakdown.basePath)}/${item.uuid}`}>{item.name}</Link>,
+            value: <Link to={`${formatPath(routePaths.costModelBreakdown.basePath)}/${item.uuid}`}>{item.name}</Link>,
           },
           {
             style: styles.column,

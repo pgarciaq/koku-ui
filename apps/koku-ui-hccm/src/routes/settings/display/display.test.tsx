@@ -10,14 +10,12 @@ import { useAccountSettingsNotifications } from 'routes/settings/utils/hooks';
 
 import { Display } from './display';
 
-const mockUseIsOrgAdmin = jest.fn(() => false);
-let mockIsSettingsDataRetentionPeriodEnabled = true;
+const mockIsOrgAdmin = jest.fn(() => false);
 
-jest.mock('components/featureToggle', () => ({
-  get isSettingsDataRetentionPeriodEnabled() {
-    return mockIsSettingsDataRetentionPeriodEnabled;
+jest.mock('store/rbac', () => ({
+  rbacSelectors: {
+    selectRbacState: () => ({ isOrgAdmin: mockIsOrgAdmin() }),
   },
-  useIsOrgAdmin: () => mockUseIsOrgAdmin(),
 }));
 
 jest.mock('utils/sessionStorage', () => ({
@@ -92,8 +90,7 @@ jest.mock('./dataRetention', () => ({
 describe('Display', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUseIsOrgAdmin.mockReturnValue(false);
-    mockIsSettingsDataRetentionPeriodEnabled = true;
+    mockIsOrgAdmin.mockReturnValue(false);
   });
 
   const renderDisplay = (canWrite = true) => {
@@ -146,13 +143,13 @@ describe('Display', () => {
   });
 
   test('disables data retention for non-org-admin users', () => {
-    mockUseIsOrgAdmin.mockReturnValue(false);
+    mockIsOrgAdmin.mockReturnValue(false);
     renderDisplay();
     expect(screen.getByTestId('data-retention')).toHaveAttribute('data-disabled', 'true');
   });
 
   test('enables data retention for org admin users', () => {
-    mockUseIsOrgAdmin.mockReturnValue(true);
+    mockIsOrgAdmin.mockReturnValue(true);
     renderDisplay();
     expect(screen.getByTestId('data-retention')).toHaveAttribute('data-disabled', 'false');
   });

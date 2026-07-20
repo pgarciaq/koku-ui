@@ -9,7 +9,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import type { BreakdownStateProps } from 'routes/details/components/breakdown';
 import { BreakdownBase } from 'routes/details/components/breakdown';
 import { getGroupById, getGroupByOrgValue, getGroupByValue } from 'routes/utils/groupBy';
@@ -44,7 +44,7 @@ interface AwsBreakdownDispatchProps {
 
 type AwsBreakdownOwnProps = RouterComponentProps & WrappedComponentProps;
 
-const detailsURL = formatPath(routes.awsDetails.path);
+const detailsURL = formatPath(routePaths.awsDetails.path);
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.aws;
 
@@ -118,7 +118,7 @@ const mapStateToProps = createMapStateToProps<AwsBreakdownOwnProps, BreakdownSta
   const isAwsEc2InstancesToggleEnabled = FeatureToggleSelectors.selectIsAwsEc2InstancesToggleEnabled(state);
 
   return {
-    breadcrumbPath: queryFromRoute?.[breadcrumbPathKey] || formatPath(routes.awsDetails.path),
+    breadcrumbPath: queryFromRoute?.[breadcrumbPathKey] || formatPath(routePaths.awsDetails.path),
     costOverviewComponent: (
       <CostOverview
         costType={costType}

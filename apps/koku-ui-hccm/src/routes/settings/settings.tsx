@@ -4,18 +4,14 @@ import { getUserAccessQuery } from 'api/queries/userAccessQuery';
 import type { UserAccess } from 'api/userAccess';
 import { UserAccessType } from 'api/userAccess';
 import type { AxiosError } from 'axios';
-import { useIsDisplayToggleEnabled, useIsPriceListToggleEnabled } from 'components/featureToggle';
-import {
-  isSettingsDataRetentionPeriodEnabled,
-  isSettingsSourcesTabEnabled,
-} from 'components/featureToggle/featureToggle';
+import { isSettingsSourcesTabEnabled, useIsPriceListToggleEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import type { RefObject } from 'react';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { NotAuthorized } from 'routes/components/page/notAuthorized';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { Calculations } from 'routes/settings/calculations';
@@ -89,7 +85,6 @@ export interface SettingsMapProps {
 
 export interface SettingsStateProps {
   activeTabKey?: number;
-  isDisplayToggleEnabled: boolean;
   isPriceListToggleEnabled: boolean;
   userAccess: UserAccess;
   userAccessError: AxiosError;
@@ -105,7 +100,6 @@ const Settings: React.FC<SettingsProps> = () => {
 
   const {
     activeTabKey: activeTabKeyState,
-    isDisplayToggleEnabled,
     isPriceListToggleEnabled,
     userAccess,
     userAccessFetchStatus,
@@ -116,7 +110,7 @@ const Settings: React.FC<SettingsProps> = () => {
   }, [activeTabKeyState]);
 
   const getAvailableTabs = () => {
-    const showDisplayTab = isDisplayToggleEnabled || isSettingsDataRetentionPeriodEnabled;
+    const showDisplayTab = true;
 
     const availableTabs: AvailableTab[] = [
       {
@@ -199,7 +193,7 @@ const Settings: React.FC<SettingsProps> = () => {
   };
 
   const getTabItem = (tab: SettingsTab, index: number) => {
-    const notAuthorized = <NotAuthorized pathname={formatPath(routes.settings.path)} />;
+    const notAuthorized = <NotAuthorized pathname={formatPath(routePaths.settings.path)} />;
     const emptyTab = <></>; // Lazily load tabs
 
     if (activeTabKey !== index || userAccessFetchStatus !== FetchStatus.complete) {
@@ -218,7 +212,7 @@ const Settings: React.FC<SettingsProps> = () => {
           <CostModelsDetails />
         )
       ) : (
-        <NotAuthorized pathname={formatPath(routes.costModelBreakdown.basePath)} />
+        <NotAuthorized pathname={formatPath(routePaths.costModelBreakdown.basePath)} />
       );
     } else if (currentTab === SettingsTab.calculations) {
       return hasSettingsAccess(userAccess) ? <Calculations canWrite={canWriteSettings} /> : notAuthorized;
@@ -325,7 +319,6 @@ const useMapToProps = (): SettingsStateProps => {
 
   return {
     activeTabKey: queryState?.activeTabKey,
-    isDisplayToggleEnabled: useIsDisplayToggleEnabled(),
     isPriceListToggleEnabled: useIsPriceListToggleEnabled(),
     userAccess,
     userAccessError,

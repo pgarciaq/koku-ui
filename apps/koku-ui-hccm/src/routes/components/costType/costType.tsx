@@ -11,6 +11,9 @@ import { createMapStateToProps } from 'store/common';
 import { setCostType } from 'utils/sessionStorage';
 
 import { styles } from './costType.styles';
+import { CostTypes } from './costTypes';
+
+export { CostTypes };
 
 interface CostTypeOwnProps {
   costType?: string;
@@ -33,12 +36,6 @@ interface CostTypeState {
 }
 
 type CostTypeProps = CostTypeOwnProps & CostTypeDispatchProps & CostTypeStateProps & WrappedComponentProps;
-
-export const enum CostTypes {
-  amortized = 'calculated_amortized_cost',
-  blended = 'blended_cost',
-  unblended = 'unblended_cost',
-}
 
 const costTypeOptions: {
   description: MessageDescriptor;

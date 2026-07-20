@@ -1,7 +1,7 @@
 import { ForecastPathsType, ForecastType } from 'api/forecasts/forecast';
 import { ReportPathsType, ReportType } from 'api/reports/report';
 import messages from 'locales/messages';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import {
   ComputedReportItemType,
   ComputedReportItemValueType,
@@ -35,7 +35,7 @@ export const costSummaryWidget: DashboardWidget = {
   details: {
     costKey: messages.cost,
     showHorizontal: true,
-    viewAllPath: formatPath(routes.azureDetails.path),
+    viewAllPath: formatPath(routePaths.azureDetails.path),
   },
   tabsFilter: {
     limit: 3,

@@ -9,7 +9,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import type { BreakdownStateProps } from 'routes/details/components/breakdown';
 import { BreakdownBase } from 'routes/details/components/breakdown';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
@@ -34,7 +34,7 @@ interface GcpBreakdownDispatchProps {
 
 type GcpBreakdownOwnProps = RouterComponentProps & WrappedComponentProps;
 
-const detailsURL = formatPath(routes.gcpDetails.path);
+const detailsURL = formatPath(routePaths.gcpDetails.path);
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.gcp;
 
@@ -95,7 +95,7 @@ const mapStateToProps = createMapStateToProps<GcpBreakdownOwnProps, BreakdownSta
   );
 
   return {
-    breadcrumbPath: queryFromRoute?.[breadcrumbPathKey] || formatPath(routes.gcpDetails.path),
+    breadcrumbPath: queryFromRoute?.[breadcrumbPathKey] || formatPath(routePaths.gcpDetails.path),
     costOverviewComponent: (
       <CostOverview currency={currency} groupBy={groupBy} queryStateName={queryStateName} report={report} />
     ),

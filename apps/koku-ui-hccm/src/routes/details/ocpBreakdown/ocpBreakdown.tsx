@@ -9,7 +9,7 @@ import React from 'react';
 import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import type { BreakdownStateProps } from 'routes/details/components/breakdown';
 import { BreakdownBase } from 'routes/details/components/breakdown';
 import { ProviderBreakdownModal } from 'routes/details/components/providerStatus';
@@ -46,7 +46,7 @@ interface OcpBreakdownDispatchProps {
 
 type OcpBreakdownOwnProps = RouterComponentProps & WrappedComponentProps;
 
-const detailsURL = formatPath(routes.ocpDetails.path);
+const detailsURL = formatPath(routePaths.ocpDetails.path);
 const reportType = ReportType.cost;
 const reportPathsType = ReportPathsType.ocp;
 
@@ -118,7 +118,7 @@ const mapStateToProps = createMapStateToProps<OcpBreakdownOwnProps, BreakdownSta
 
   return {
     breadcrumbLabel: queryFromRoute[breadcrumbLabelKey],
-    breadcrumbPath: queryFromRoute?.[breadcrumbPathKey] || formatPath(routes.ocpDetails.path),
+    breadcrumbPath: queryFromRoute?.[breadcrumbPathKey] || formatPath(routePaths.ocpDetails.path),
     clusterInfoComponent: groupBy === 'cluster' ? <ClusterInfoModal clusterId={groupByValue} /> : undefined,
     dataDetailsComponent:
       groupBy === 'cluster' ? (
