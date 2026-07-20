@@ -1,46 +1,48 @@
-import React from 'react';
-import { OptimizationsTable } from 'routes/optimizations/optimizationsTable';
+import React, { Suspense } from 'react';
 
 import { OptimizationsWrapper } from './optimizationsWrapper';
 
-export interface OptimizationsTableOwnProps {
-  breadcrumbLabel?: string; // Breadcrumb label displayed in the page header
-  breadcrumbPath?: string; // Breadcrumb path used in the page header
-  cluster?: string | string[]; // Cluster name to filter by
-  isClusterHidden?: boolean; // Hides cluster filter and column
-  isProjectHidden?: boolean; // Hides project filter and column
-  linkPath?: string; // Path used by the link displayed in each table row
-  linkState?: any; // Link state used by the link displayed in each table row
-  project?: string | string[]; // Project name to filter by
-  queryStateName: string; // Name used to store query state
+const ContainersTable = React.lazy(
+  () => import('routes/optimizations/optimizationsTable/optimizationsContainersTable/optimizationsContainersTable')
+);
+const NamespacesTable = React.lazy(
+  () => import('routes/optimizations/optimizationsTable/optimizationsNamespacesTable/optimizationsNamespacesTable')
+);
+const NodesTable = React.lazy(
+  () => import('routes/optimizations/optimizationsTable/optimizationsNodesTable/optimizationsNodesTable')
+);
+const ProjectsTable = React.lazy(
+  () => import('routes/optimizations/optimizationsTable/optimizationsProjectsTable/optimizationsProjectsTable')
+);
+const VmsTable = React.lazy(
+  () => import('routes/optimizations/optimizationsTable/optimizationsVmsTable/optimizationsVmsTable')
+);
+
+const componentMap: Record<string, React.LazyExoticComponent<React.ComponentType<any>>> = {
+  containers: ContainersTable,
+  namespaces: NamespacesTable,
+  nodes: NodesTable,
+  projects: ProjectsTable,
+  vms: VmsTable,
+};
+
+export interface OptimizationsTableWrapperProps {
+  type?: string;
+  [key: string]: any;
 }
 
-type OptimizationsTableProps = OptimizationsTableOwnProps;
+const OptimizationsTableWrapper: React.FC<OptimizationsTableWrapperProps> = ({ type = 'containers', ...rest }) => {
+  const Component = componentMap[type];
 
-const OptimizationsTableWrapper: React.FC<OptimizationsTableProps> = ({
-  breadcrumbLabel,
-  breadcrumbPath,
-  cluster,
-  isClusterHidden,
-  isProjectHidden,
-  linkPath,
-  linkState,
-  project,
-  queryStateName,
-}: OptimizationsTableOwnProps) => {
+  if (!Component) {
+    return null;
+  }
+
   return (
     <OptimizationsWrapper>
-      <OptimizationsTable
-        breadcrumbLabel={breadcrumbLabel}
-        breadcrumbPath={breadcrumbPath}
-        cluster={cluster}
-        isClusterHidden={isClusterHidden}
-        isProjectHidden={isProjectHidden}
-        linkPath={linkPath}
-        linkState={linkState}
-        project={project}
-        queryStateName={queryStateName}
-      />
+      <Suspense fallback={null}>
+        <Component {...rest} />
+      </Suspense>
     </OptimizationsWrapper>
   );
 };

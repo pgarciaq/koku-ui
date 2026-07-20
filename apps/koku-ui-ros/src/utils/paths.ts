@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 
 // Prefixes the given path with a basename
 //
@@ -7,7 +7,7 @@ import { routes } from 'routes';
 // @redhat-cloud-services/frontend-components-utilities/helpers
 export const formatPath = path => {
   const basePath = '/staging/cost-management/ros';
-  return path === routes.welcome.path ? basePath : `${basePath}${path}`;
+  return path === routePaths.welcome.path ? basePath : `${basePath}${path}`;
 };
 
 // export const getBaseName = pathname => {

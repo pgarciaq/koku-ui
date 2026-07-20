@@ -3,7 +3,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { formatPath } from 'utils/paths';
 
 interface OptimizationsDetailsOwnProps {
@@ -25,9 +25,9 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({
       scope="costManagementRos"
       module="./OptimizationsDetails"
       breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
-      breadcrumbPath={`${formatPath(routes.optimizations.path)}${location.search}`}
+      breadcrumbPath={`${formatPath(routePaths.optimizations.path)}${location.search}`}
       isHeaderHidden={isHeaderHidden}
-      linkPath={formatPath(routes.optimizationsBreakdown.path)}
+      linkPath={formatPath(routePaths.optimizationsBreakdown.path)}
       linkState={{
         ...(location?.state || {}),
         efficiencyState: {

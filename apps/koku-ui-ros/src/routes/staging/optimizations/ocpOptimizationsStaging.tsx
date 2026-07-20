@@ -3,7 +3,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { OptimizationsOcpBreakdown } from 'routes/optimizations/optimizationsOcpBreakdown';
 import { formatPath } from 'utils/paths';
 
@@ -24,8 +24,8 @@ const OcpOptimizationsStaging: React.FC<OcpOptimizationsStagingProps> = () => {
     <PageSection>
       <OptimizationsOcpBreakdown
         breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
-        breadcrumbPath={`${formatPath(routes.ocpOptimizations.path)}${location.search}`}
-        linkPath={formatPath(routes.ocpOptimizationsBreakdown.path)}
+        breadcrumbPath={`${formatPath(routePaths.ocpOptimizations.path)}${location.search}`}
+        linkPath={formatPath(routePaths.ocpOptimizationsBreakdown.path)}
         linkState={{
           ...(location?.state || {}),
         }}

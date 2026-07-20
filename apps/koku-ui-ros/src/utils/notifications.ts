@@ -1,4 +1,9 @@
-import type { Notification, RecommendationEngine, Recommendations } from 'api/ros/recommendations';
+import type {
+  Notification,
+  RecommendationEngine,
+  Recommendations,
+  RecommendationTerm,
+} from 'api/ros/recommendations';
 import { Interval, OptimizationType } from 'utils/commonTypes';
 
 // Filter notifications (e.g., optimized notices) that should not be associated with a warning icon
@@ -8,6 +13,8 @@ import { Interval, OptimizationType } from 'utils/commonTypes';
 //
 // ROS OCP-Kruize notifications to pass through to users
 // https://docs.google.com/document/d/1oNB-RIb35biFpH7PLEZTJxqhceyipSv18td6-PfeOWs/edit
+const OPTIMIZED_NOTIFICATION_CODES = new Set([323004, 323005, 324003, 324004]);
+
 export const filterNotifications = (notifications: Notification[]) => {
   return notifications?.filter(notification => {
     switch (notification.code) {
@@ -34,7 +41,17 @@ export const filterDuplicateNotifications = (notifications: Notification[]) => {
   return newNotifications;
 };
 
-// Returns notifications for the given interval, including any parent notifications
+const hasNotificationCodesWarning = (codes: number[] | undefined, isFilterNotifications = false) => {
+  if (!codes?.length) {
+    return false;
+  }
+  if (!isFilterNotifications) {
+    return true;
+  }
+  return codes.some(code => !OPTIMIZED_NOTIFICATION_CODES.has(code));
+};
+
+// Returns notifications for the given interval from the selected engine only.
 export const getNotifications = (
   recommendations: Recommendations,
   interval: Interval,
@@ -42,63 +59,27 @@ export const getNotifications = (
   isFilterDups = true
 ) => {
   const term = recommendations?.recommendation_terms?.[interval];
-  const notifications = [
-    // ...getRecommendationNotifications(recommendations?.notifications),
-    // ...getRecommendationTermNotifications(term),
-    ...getRecommendationEngineNotifications(term?.recommendation_engines?.[optimizationType]),
-  ];
+  const notifications = getRecommendationEngineNotifications(term?.recommendation_engines?.[optimizationType]);
   return isFilterDups ? filterDuplicateNotifications(notifications) : notifications;
 };
 
-// Note: This appears to have been removed from API response
-//
-// Recommendations notifications
-//
-// data: [
-//   {
-//     recommendations: {
-//       notifications: {}, <<<
-//
-// export const getRecommendationNotifications = (recommendations: Recommendations): Notification[] => {
-//   if (!recommendations?.notifications) {
-//     return [];
-//   }
-//   return Object.keys(recommendations.notifications).map(key => recommendations.notifications[key]);
-// };
+// Recommendations notifications (legacy aggregate — no longer emitted by native API)
+export const getRecommendationNotifications = (recommendations: Recommendations): Notification[] => {
+  if (!recommendations?.notifications) {
+    return [];
+  }
+  return Object.keys(recommendations.notifications).map(key => recommendations.notifications[key]);
+};
 
-// Note: This appears to have been removed from API response
-//
-// Recommendations term notifications
-//
-// data: [
-//   {
-//     recommendations: {
-//       recommendation_terms: {
-//         short_term: {
-//           notifications: {}, <<<
-//
-// export const getRecommendationTermNotifications = (term: RecommendationTerm): Notification[] => {
-//   if (!term?.notifications) {
-//     return [];
-//   }
-//   return Object.keys(term.notifications).map(key => term.notifications[key]);
-// };
+// Recommendations term notifications (legacy aggregate — no longer emitted by native API)
+export const getRecommendationTermNotifications = (term: RecommendationTerm): Notification[] => {
+  if (!term?.notifications) {
+    return [];
+  }
+  return Object.keys(term.notifications).map(key => term.notifications[key]);
+};
 
-// Recommendations engine notifications
-//
-// data: [
-//   {
-//     recommendations: {
-//       notifications: {
-//       recommendation_terms: {
-//         short_term: {
-//           recommendation_engines: {
-//             cost: {
-//               notifications: {}, <<<
-//             },
-//             performance: {
-//               notifications: {}, <<<
-//             },
+// Recommendations engine notifications (authoritative on detail responses)
 export const getRecommendationEngineNotifications = (engine: RecommendationEngine): Notification[] => {
   if (!engine?.notifications) {
     return [];
@@ -120,6 +101,11 @@ export const hasNotificationsWarning = (recommendations: Recommendations, isFilt
   if (!recommendations) {
     return false;
   }
+
+  if (hasNotificationCodesWarning(recommendations.notification_codes, isFilterNotifications)) {
+    return true;
+  }
+
   const notifications = filterDuplicateNotifications([
     ...getNotifications(recommendations, Interval.short_term, OptimizationType.cost, false),
     ...getNotifications(recommendations, Interval.short_term, OptimizationType.performance, false),

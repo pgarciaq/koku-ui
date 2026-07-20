@@ -4,6 +4,10 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
 import { OptimizationsContainersTable, OptimizationsProjectsTable } from 'routes/optimizations/optimizationsTable';
+import {
+  optimizationsNamespacesBaseQuery,
+  useOptimizationsNamespacesReport,
+} from 'routes/optimizations/optimizationsTable/useOptimizationsNamespacesReport';
 import { getQueryState } from 'routes/utils/queryState';
 import { Interval, OptimizationType } from 'utils/commonTypes';
 
@@ -11,18 +15,14 @@ import { styles } from './optimizationsOcpBreakdown.styles';
 import { OptimizationsOcpBreakdownToolbar } from './optimizationsOcpBreakdownToolbar';
 
 interface OptimizationsOcpBreakdownOwnProps {
-  breadcrumbLabel?: string; // Breadcrumb label displayed in the page header
-  breadcrumbPath?: string; // Breadcrumb path used in the page header
+  breadcrumbLabel?: string; // Breadcrumb label displayed in the page defined by linkPath
+  breadcrumbPath?: string; // Breadcrumb path used in the page defined by linkPath
+  cluster?: string | string[]; // Cluster name to filter by
   isClusterHidden?: boolean; // Hides cluster filter and column
   linkPath?: string; // Path used by the link displayed in each table row
   linkState?: any; // Link state used by the link displayed in each table row
-  project?: string; // Project name to filter by
+  project?: string | string[]; // Project name to filter by
   queryStateName: string; // Name used to store query state
-}
-
-interface RosDetailsQuery {
-  interval?: Interval;
-  optimizationType?: OptimizationType;
 }
 
 type OptimizationsOcpBreakdownProps = OptimizationsOcpBreakdownOwnProps;
@@ -30,36 +30,49 @@ type OptimizationsOcpBreakdownProps = OptimizationsOcpBreakdownOwnProps;
 const OptimizationsOcpBreakdown: React.FC<OptimizationsOcpBreakdownProps> = ({
   breadcrumbLabel,
   breadcrumbPath,
+  cluster,
   isClusterHidden,
   linkPath,
   linkState,
   project,
   queryStateName,
 }) => {
-  const location = useLocation();
   const intl = useIntl();
-
+  const location = useLocation();
+  const [currentInterval, setCurrentInterval] = useState(Interval.short_term);
+  const [optimizationType, setOptimizationType] = useState(OptimizationType.performance);
   const queryState = getQueryState(location, queryStateName);
-  const [query, setQuery] = useState<RosDetailsQuery>({
-    interval: queryState?.interval ?? Interval.short_term,
-    optimizationType: queryState?.optimizationType ?? OptimizationType.performance,
+  const [query, setQuery] = useState({ ...optimizationsNamespacesBaseQuery, ...(queryState && queryState) });
+  const { report, reportError, reportFetchStatus, reportQueryString } = useOptimizationsNamespacesReport({
+    cluster,
+    project,
+    query,
   });
 
+  const sharedTableProps = {
+    onQueryChange: setQuery,
+    query,
+    report,
+    reportError,
+    reportFetchStatus,
+    reportQueryString,
+  };
+
   const handleOnIntervalSelect = (value: Interval) => {
-    setQuery({ ...query, interval: value });
+    setCurrentInterval(value);
   };
 
   const handleOnOptimizationTypeSelect = (value: OptimizationType) => {
-    setQuery({ ...query, optimizationType: value });
+    setOptimizationType(value);
   };
 
   return (
     <>
       <OptimizationsOcpBreakdownToolbar
-        currentInterval={query?.interval}
+        currentInterval={currentInterval}
         onIntervalSelect={handleOnIntervalSelect}
         onOptimizationTypeSelect={handleOnOptimizationTypeSelect}
-        optimizationType={query?.optimizationType}
+        optimizationType={optimizationType}
       />
       <Divider style={styles.divider} />
       <div style={styles.title}>{intl.formatMessage(messages.optimizationsProject)}</div>
@@ -68,16 +81,15 @@ const OptimizationsOcpBreakdown: React.FC<OptimizationsOcpBreakdownProps> = ({
           <OptimizationsProjectsTable
             breadcrumbLabel={breadcrumbLabel}
             breadcrumbPath={breadcrumbPath}
-            interval={query?.interval}
+            cluster={cluster}
             isClusterHidden={isClusterHidden}
             isPaginationHidden
             isToolbarHidden
             linkPath={linkPath}
             linkState={linkState}
-            optimizationType={query?.optimizationType}
             project={project}
-            query={query}
             queryStateName={queryStateName}
+            {...sharedTableProps}
           />
         </CardBody>
       </Card>
@@ -88,15 +100,14 @@ const OptimizationsOcpBreakdown: React.FC<OptimizationsOcpBreakdownProps> = ({
           <OptimizationsContainersTable
             breadcrumbLabel={breadcrumbLabel}
             breadcrumbPath={breadcrumbPath}
-            interval={query?.interval}
+            cluster={cluster}
             isClusterHidden={isClusterHidden}
             isProjectHidden
             linkPath={linkPath}
             linkState={linkState}
-            optimizationType={query?.optimizationType}
             project={project}
-            query={query}
             queryStateName={queryStateName}
+            {...sharedTableProps}
           />
         </CardBody>
       </Card>

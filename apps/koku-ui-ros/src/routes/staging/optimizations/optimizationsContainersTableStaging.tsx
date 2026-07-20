@@ -5,7 +5,7 @@ import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { OptimizationsContainersTable } from 'routes/optimizations/optimizationsTable';
 import { getGroupById, getGroupByValue } from 'routes/utils/groupBy';
 import { formatPath } from 'utils/paths';
@@ -23,11 +23,16 @@ const useQueryFromRoute = () => {
 
 const OptimizationsContainersTableStaging: React.FC<OptimizationsContainersTableStagingProps> = () => {
   const intl = useIntl();
+  const location = useLocation();
   const queryFromRoute = useQueryFromRoute();
 
   // The groupBy and groupByValue is the project, cluster, node, or tag name shown in the OCP Details breakdown page
   const groupBy = queryFromRoute?.group_by ? getGroupById(queryFromRoute) : undefined;
   const groupByValue = queryFromRoute?.group_by ? getGroupByValue(queryFromRoute) : 'openshift-kube-apiserver';
+
+  // Test filters
+  const clusterFilter = 'aws';
+  const projectFilter = 'openshift';
 
   return (
     <PageSection>
@@ -35,10 +40,13 @@ const OptimizationsContainersTableStaging: React.FC<OptimizationsContainersTable
         breadcrumbLabel={
           intl.formatMessage(messages.breakdownBackToOptimizationsProject, { value: groupByValue }) as string
         }
+        breadcrumbPath={formatPath(`${routePaths.optimizationsContainersTable.path}${location.search}`)}
+        cluster={clusterFilter}
         isClusterHidden={groupBy === 'cluster'}
         isProjectHidden={groupBy === 'project'}
-        linkPath={formatPath(routes.optimizationsDetailsBreakdown.path)}
-        queryStateName="optimizationsDetailsState"
+        linkPath={formatPath(routePaths.optimizationsDetailsBreakdown.path)}
+        project={projectFilter}
+        queryStateName="containerDetailsState"
       />
     </PageSection>
   );

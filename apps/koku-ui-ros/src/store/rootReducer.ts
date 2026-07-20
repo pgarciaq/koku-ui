@@ -4,6 +4,7 @@ import { forecastReducer, forecastStateKey } from 'store/forecasts';
 import { reportReducer, reportStateKey } from 'store/reports';
 import { resourceReducer, resourceStateKey } from 'store/resources';
 import { rosReducer, rosStateKey } from 'store/ros';
+import { tagReducer, tagStateKey } from 'store/tags';
 import type { StateType } from 'typesafe-actions';
 
 import { featureToggleReducer, featureToggleStateKey } from './featureToggle';
@@ -21,6 +22,7 @@ export const rootReducer = combineReducers({
   [reportStateKey]: reportReducer,
   [resourceStateKey]: resourceReducer,
   [rosStateKey]: rosReducer,
+  [tagStateKey]: tagReducer,
   [uiStateKey]: uiReducer,
   [userAccessStateKey]: userAccessReducer,
 });

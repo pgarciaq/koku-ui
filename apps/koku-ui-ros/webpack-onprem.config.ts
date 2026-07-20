@@ -18,12 +18,28 @@ const srcDir = path.resolve(__dirname, './src');
 const distDir = path.resolve(__dirname, './dist');
 
 const exposedModules = {
+  './DecaySettings': './src/fed-modules/decaySettingsWrapper.tsx',
+  './FleetHeatmap': './src/fed-modules/fleetHeatmapWrapper.tsx',
+  './FleetSummaryCards': './src/fed-modules/fleetSummaryCardsWrapper.tsx',
+  './HistoryExplorer': './src/fed-modules/historyExplorerWrapper.tsx',
   './OptimizationsBadge': './src/fed-modules/optimizationsBadgeWrapper.tsx',
   './OptimizationsBreakdown': './src/fed-modules/optimizationsBreakdownWrapper.tsx',
-  './OptimizationsDetails': './src/fed-modules/optimizationsDetailsWrapper.tsx',
+  './OptimizationsDetailsTitle': './src/fed-modules/optimizationsDetailsTitleWrapper.tsx',
+  './OptimizationsGpuBadge': './src/fed-modules/optimizationsGpuBadgeWrapper.tsx',
+  './OptimizationsGpuDetails': './src/fed-modules/optimizationsGpuDetailsWrapper.tsx',
   './OptimizationsLink': './src/fed-modules/optimizationsLinkWrapper.tsx',
+  './OptimizationsNamespacesBadge': './src/fed-modules/optimizationsNamespacesBadgeWrapper.tsx',
+  './OptimizationsNodesBadge': './src/fed-modules/optimizationsNodesBadgeWrapper.tsx',
+  './OptimizationsQuotaBadge': './src/fed-modules/optimizationsQuotaBadgeWrapper.tsx',
+  './OptimizationsQuotaDetails': './src/fed-modules/optimizationsQuotaDetailsWrapper.tsx',
+  './OptimizationsStorageBadge': './src/fed-modules/optimizationsStorageBadgeWrapper.tsx',
+  './OptimizationsStorageDetails': './src/fed-modules/optimizationsStorageDetailsWrapper.tsx',
   './OptimizationsSummary': './src/fed-modules/optimizationsSummaryWrapper.tsx',
+  './OptimizationsTabSummaryBanner': './src/fed-modules/optimizationsTabSummaryBannerWrapper.tsx',
   './OptimizationsTable': './src/fed-modules/optimizationsTableWrapper.tsx',
+  './OptimizationsVmsBadge': './src/fed-modules/optimizationsVmsBadgeWrapper.tsx',
+  './QualityDashboard': './src/fed-modules/qualityDashboardWrapper.tsx',
+  './SavingsWaterfallChart': './src/fed-modules/savingsWaterfallChartWrapper.tsx',
 };
 
 const config: Configuration = {
@@ -106,7 +122,6 @@ const config: Configuration = {
         'react-router-dom': { singleton: true, requiredVersion: '*' },
         '@scalprum/react-core': { singleton: true, requiredVersion: '*' },
         '@openshift/dynamic-plugin-sdk': { singleton: true, requiredVersion: '*' },
-        '@koku-ui/ui-lib/': { singleton: true, requiredVersion: '*' },
       },
       pluginMetadata: {
         name: 'costManagementRos',

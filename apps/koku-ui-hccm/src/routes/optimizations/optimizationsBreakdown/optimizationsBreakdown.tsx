@@ -1,7 +1,7 @@
 import AsyncComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { formatPath } from 'utils/paths';
 
 interface OptimizationsBreakdownOwnProps {
@@ -18,12 +18,17 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = () => {
       scope="costManagementRos"
       appName="cost-management-ros"
       module="./OptimizationsBreakdown"
+      type="container"
       linkState={{
         ...(location?.state || {}),
-        ocpOptimizationsState: undefined, // Clear state to initialize optimizations tab
+        detailsState: {
+          ...(location?.state?.detailsState || {}),
+          breadcrumbPath: formatPath(`${routePaths.optimizationsBreakdown.path}${location.search}`),
+        },
+        ocpOptimizationsState: undefined,
       }}
-      projectPath={formatPath(routes.ocpBreakdown.path)} // Base path only, query params will be added via ProjectLink
-      queryStateName="optimizationsDetailsState"
+      projectPath={formatPath(routePaths.ocpBreakdown.path)}
+      queryStateName="containerDetailsState"
     />
   );
 };

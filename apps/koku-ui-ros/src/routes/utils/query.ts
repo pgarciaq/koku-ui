@@ -22,6 +22,9 @@ export const initQuery = (query: Query, reset: boolean = false, props = {}) => {
     if (newQuery.offset !== undefined) {
       newQuery.offset = 0;
     }
+    if (newQuery.after !== undefined) {
+      newQuery.after = undefined;
+    }
   }
   return newQuery;
 };
@@ -61,6 +64,7 @@ export const handleOnPerPageSelect = (query: Query, perPage: number, isLimit = f
       ? {
           limit: perPage,
           offset: 0,
+          after: undefined,
         }
       : {
           filter: {
@@ -68,6 +72,7 @@ export const handleOnPerPageSelect = (query: Query, perPage: number, isLimit = f
             limit: perPage,
             offset: 0,
           },
+          after: undefined,
         }),
   });
 };
@@ -81,6 +86,47 @@ export const handleOnSetPage = (query: Query, report, pageNumber, isLimit = fals
       limit = report.meta.filter.limit;
     }
   }
+
+  if (pageNumber === 1) {
+    return initQuery(query, false, {
+      ...(isLimit
+        ? {
+            limit,
+            offset: 0,
+            after: undefined,
+          }
+        : {
+            filter: {
+              ...query.filter,
+              limit,
+              offset: 0,
+            },
+            after: undefined,
+          }),
+    });
+  }
+
+  // Use cursor-based pagination when the API provides a next_cursor
+  if (report?.meta?.has_next && report?.meta?.next_cursor) {
+    return initQuery(query, false, {
+      ...(isLimit
+        ? {
+            limit,
+            after: report.meta.next_cursor,
+            offset: undefined,
+          }
+        : {
+            filter: {
+              ...query.filter,
+              limit,
+            },
+            after: report.meta.next_cursor,
+            offset: undefined,
+          }),
+    });
+  }
+
+  // For non-sequential jumps (backward, skip pages, last page), use offset
   const offset = pageNumber * limit - limit;
 
   return initQuery(query, false, {
@@ -88,6 +134,7 @@ export const handleOnSetPage = (query: Query, report, pageNumber, isLimit = fals
       ? {
           limit,
           offset,
+          after: undefined,
         }
       : {
           filter: {
@@ -95,6 +142,7 @@ export const handleOnSetPage = (query: Query, report, pageNumber, isLimit = fals
             limit,
             offset,
           },
+          after: undefined,
         }),
   });
 };

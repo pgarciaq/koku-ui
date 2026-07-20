@@ -66,25 +66,20 @@ export function getMaxMinValues(datums: ChartDatum[]) {
   let min = null;
   if (datums && datums.length) {
     datums.forEach(datum => {
+      const percentileValues = [(datum as any).p50, (datum as any).p95, (datum as any).p99, (datum as any).max].filter(
+        val => val !== undefined && val !== null
+      );
       const maxY =
         datum.y0 !== undefined
           ? Math.max(datum.y, datum.y0)
-          : Array.isArray(datum.y)
-            ? datum.y[0] !== null
-              ? Math.max(...datum.y)
-              : (datum as any).yVal !== null // For boxplot, which is hidden via `datum.y[0] = null` when all values are equal
-                ? (datum as any).yVal
-                : null
+          : percentileValues.length > 0
+            ? Math.max(...percentileValues, ...(datum.y !== null && datum.y !== undefined ? [datum.y] : []))
             : datum.y;
       const minY =
         datum.y0 !== undefined
           ? Math.min(datum.y, datum.y0)
-          : Array.isArray(datum.y)
-            ? datum.y[0] !== null
-              ? Math.min(...datum.y)
-              : (datum as any).yVal // For boxplot, which is hidden via `datum.y[0] = null` when all values are equal
-                ? (datum as any).yVal
-                : null
+          : percentileValues.length > 0
+            ? Math.min(...percentileValues, ...(datum.y !== null && datum.y !== undefined ? [datum.y] : []))
             : datum.y;
       if ((max === null || maxY > max) && maxY !== null) {
         max = maxY;

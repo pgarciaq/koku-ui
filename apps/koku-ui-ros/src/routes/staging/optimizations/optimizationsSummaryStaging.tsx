@@ -1,6 +1,6 @@
 import { PageSection } from '@patternfly/react-core';
 import React from 'react';
-import { routes } from 'routes';
+import { routePaths } from 'routePaths';
 import { OptimizationsSummary } from 'routes/optimizations/optimizationsSummary';
 import { formatPath } from 'utils/paths';
 
@@ -13,7 +13,7 @@ type OptimizationsSummaryStagingProps = OptimizationsSummaryStagingOwnProps;
 const OptimizationsSummaryStaging: React.FC<OptimizationsSummaryStagingProps> = () => {
   return (
     <PageSection>
-      <OptimizationsSummary linkPath={formatPath(routes.optimizationsDetails.path)} />
+      <OptimizationsSummary linkPath={formatPath(routePaths.optimizationsDetails.path)} count={0} />
     </PageSection>
   );
 };

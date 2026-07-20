@@ -79,7 +79,7 @@ const Efficiency: React.FC<EfficiencyProps> = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
 
-  const queryStateName = 'efficiencyState';
+  const queryStateName = 'efficiencyQueryState';
   const queryState = getQueryState(location, queryStateName);
   const [query, setQuery] = useState({ ...baseQuery, ...(queryState && queryState) });
 

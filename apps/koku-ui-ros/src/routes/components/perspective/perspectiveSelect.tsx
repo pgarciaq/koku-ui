@@ -10,16 +10,26 @@ import { SelectWrapper } from 'routes/components/selectWrapper';
 
 import { styles } from './perspective.styles';
 
+export type PerspectiveSelectOptionLabel = MessageDescriptor | string;
+
 interface PerspectiveSelectOwnProps {
   currentItem: string;
   isDisabled?: boolean;
   onSelect(value: string);
   options?: {
     isDisabled?: boolean;
-    label: MessageDescriptor;
+    label: PerspectiveSelectOptionLabel;
     value: string;
   }[];
   title?: MessageDescriptor;
+}
+
+function formatPerspectiveOptionLabel(
+  intl: WrappedComponentProps['intl'],
+  label: PerspectiveSelectOptionLabel,
+  value: string
+): string {
+  return typeof label === 'string' ? label : intl.formatMessage(label, { value });
 }
 
 interface PerspectiveSelectState {
@@ -42,7 +52,7 @@ class PerspectiveSelectBase extends React.Component<PerspectiveSelectProps, Pers
     options.map(option => {
       selections.push({
         isDisabled: option.isDisabled,
-        toString: () => intl.formatMessage(option.label, { value: option.value }),
+        toString: () => formatPerspectiveOptionLabel(intl, option.label, option.value),
         value: option.value,
       });
     });
@@ -55,7 +65,7 @@ class PerspectiveSelectBase extends React.Component<PerspectiveSelectProps, Pers
     if (options.length === 1) {
       return (
         <div style={styles.perspectiveOptionLabel}>
-          {intl.formatMessage(options[0].label, { value: options[0].value })}
+          {formatPerspectiveOptionLabel(intl, options[0].label, options[0].value)}
         </div>
       );
     }

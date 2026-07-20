@@ -8,18 +8,22 @@ type RosGroupByValue = string | string[];
 
 interface RosGroupBys {
   cluster?: RosGroupByValue;
+  namespace?: RosGroupByValue;
   node?: RosGroupByValue;
   project?: RosGroupByValue;
 }
 
 export interface RosQuery extends utils.Query {
+  after?: string;
   category?: string;
   delta?: string;
+  engine?: string;
   filter?: RosFilters;
   group_by?: RosGroupBys;
   limit?: number;
   offset?: number;
   order_by?: any;
+  term?: string;
 }
 
 // filter_by props are converted and returned with logical OR/AND prefix
