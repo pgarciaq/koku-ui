@@ -22,7 +22,6 @@ const OptimizationsDetails: React.FC<OptimizationsDetailsProps> = ({ activeTabKe
       module="./OptimizationsDetails"
       breadcrumbLabel={intl.formatMessage(messages.breakdownBackToOptimizations)}
       breadcrumbPath={`${formatPath(routePaths.optimizations.path)}${location.search}`}
-      isHeaderHidden={isHeaderHidden}
       linkPath={formatPath(routePaths.optimizationsBreakdown.path)}
       linkState={{
         ...(location?.state || {}),

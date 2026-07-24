@@ -1,10 +1,9 @@
 import { Card, CardBody, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import { AccountSettingsType } from 'api/accountSettings';
-import { isSettingsDataRetentionPeriodEnabled } from 'components/featureToggle';
 import messages from 'locales/messages';
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { CostType } from 'routes/components/costType';
@@ -12,7 +11,6 @@ import { Currency } from 'routes/components/currency';
 import { useAccountSettingsNotifications } from 'routes/settings/utils/hooks';
 import type { RootState } from 'store';
 import { accountSettingsActions } from 'store/accountSettings';
-import { rbacSelectors } from 'store/rbac';
 import { getAccountCostType, getAccountCurrency } from 'utils/sessionStorage';
 
 import { DataRetention } from './dataRetention';

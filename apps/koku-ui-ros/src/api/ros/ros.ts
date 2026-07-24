@@ -52,6 +52,8 @@ export const enum RosNamespace {
 export type RosReport = PagedResponse<RosData, RosMeta>;
 
 export const enum RosType {
+  container = 'container',
+  namespace = 'namespace',
   ros = 'ros',
 }
 
