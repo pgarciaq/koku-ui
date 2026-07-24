@@ -143,6 +143,11 @@ export default defineMessages({
     description: 'Current configuration',
     id: 'currentConfiguration',
   },
+  currentConfigurationTooltip: {
+    defaultMessage: 'Resource values currently deployed in the cluster',
+    description: 'Tooltip for current configuration card',
+    id: 'currentConfigurationTooltip',
+  },
   dataTableAriaLabel: {
     defaultMessage: 'Details table',
     description: 'Details table',
@@ -1606,6 +1611,11 @@ export default defineMessages({
     description: 'Recommended configuration',
     id: 'recommendedConfiguration',
   },
+  recommendedConfigurationTooltip: {
+    defaultMessage: 'Recommended values based on continuous 24/7 workload analysis',
+    description: 'Tooltip for recommended configuration card',
+    id: 'recommendedConfigurationTooltip',
+  },
   recommendedLimit: {
     defaultMessage: 'Recommended limit ({dateRange})',
     description: 'Recommended limit (Jan 1-31)',
@@ -2122,6 +2132,11 @@ export default defineMessages({
     defaultMessage: 'Peak hours sizing',
     description: 'Card title for peak hours sizing recommendations',
     id: 'peakHoursSizing',
+  },
+  peakHoursSizingTooltip: {
+    defaultMessage: 'Recommended values based on your defined business hours schedule',
+    description: 'Tooltip for peak hours sizing card',
+    id: 'peakHoursSizingTooltip',
   },
   vmStatusIdle: {
     defaultMessage: 'Idle',

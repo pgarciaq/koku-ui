@@ -13,8 +13,10 @@ import {
   Icon,
   Title,
   TitleSizes,
+  Tooltip,
 } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
+import { OutlinedQuestionCircleIcon } from '@patternfly/react-icons/dist/esm/icons/outlined-question-circle-icon';
 import type { RecommendationTerm } from 'api/ros/recommendations';
 import type { Recommendations } from 'api/ros/recommendations';
 import type { RecommendationValues } from 'api/ros/recommendations';
@@ -350,7 +352,10 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
         <Card>
           <CardTitle>
             <Title headingLevel="h2" size={TitleSizes.lg}>
-              {intl.formatMessage(messages.peakHoursSizing)}
+              {intl.formatMessage(messages.peakHoursSizing)}{' '}
+              <Tooltip content={intl.formatMessage(messages.peakHoursSizingTooltip)}>
+                <OutlinedQuestionCircleIcon />
+              </Tooltip>
             </Title>
           </CardTitle>
           <CardBody>
@@ -372,7 +377,10 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
         <Card>
           <CardTitle>
             <Title headingLevel="h2" size={TitleSizes.lg}>
-              {intl.formatMessage(messages.currentConfiguration)}
+              {intl.formatMessage(messages.currentConfiguration)}{' '}
+              <Tooltip content={intl.formatMessage(messages.currentConfigurationTooltip)}>
+                <OutlinedQuestionCircleIcon />
+              </Tooltip>
             </Title>
           </CardTitle>
           <CardBody>{getCurrentConfigCodeBlock()}</CardBody>
@@ -388,7 +396,10 @@ const OptimizationsBreakdownConfiguration: React.FC<OptimizationsBreakdownConfig
             <>
               <CardTitle>
                 <Title headingLevel="h2" size={TitleSizes.lg}>
-                  {intl.formatMessage(messages.recommendedConfiguration)}
+                  {intl.formatMessage(messages.recommendedConfiguration)}{' '}
+                  <Tooltip content={intl.formatMessage(messages.recommendedConfigurationTooltip)}>
+                    <OutlinedQuestionCircleIcon />
+                  </Tooltip>
                 </Title>
               </CardTitle>
               <CardBody>{getRecommendedConfigCodeBlock()}</CardBody>
