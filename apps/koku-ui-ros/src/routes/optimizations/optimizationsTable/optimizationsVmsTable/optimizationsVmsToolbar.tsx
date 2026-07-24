@@ -80,38 +80,29 @@ class OptimizationsVmsToolbarBase extends React.Component<
       { name: intl.formatMessage(messages.no), key: 'false' },
     ];
 
+    const categoryOptions = [
+      { name: intl.formatMessage(messages.vmStatusAbandoned), key: 'abandoned' },
+      { name: intl.formatMessage(messages.vmStatusPowerOff), key: 'power_off_candidate' },
+      { name: intl.formatMessage(messages.vmStatusIdle), key: 'idle' },
+      { name: intl.formatMessage(messages.vmStatusOversized), key: 'oversized' },
+      { name: intl.formatMessage(messages.vmStatusUndersized), key: 'undersized' },
+      { name: intl.formatMessage(messages.vmStatusOptimized), key: 'optimized' },
+    ];
+
     return [
       { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'namespace' }), key: 'namespace' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'vm_name' }), key: 'vm_name' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'node' }), key: 'node' },
       {
-        name: intl.formatMessage(messages.vmFilterIsIdle),
-        key: 'is_idle',
+        name: intl.formatMessage(messages.vmFilterCategory),
+        key: 'category',
         selectClassName: 'selectOverride',
-        selectOptions: boolOptions,
-      },
-      {
-        name: intl.formatMessage(messages.vmFilterIsAbandoned),
-        key: 'is_abandoned',
-        selectClassName: 'selectOverride',
-        selectOptions: boolOptions,
-      },
-      {
-        name: intl.formatMessage(messages.vmFilterIsOversized),
-        key: 'is_oversized',
-        selectClassName: 'selectOverride',
-        selectOptions: boolOptions,
+        selectOptions: categoryOptions,
       },
       {
         name: intl.formatMessage(messages.vmFilterIsNetworkBound),
         key: 'is_network_bound',
-        selectClassName: 'selectOverride',
-        selectOptions: boolOptions,
-      },
-      {
-        name: intl.formatMessage(messages.vmFilterIsPowerOffCandidate),
-        key: 'is_power_off_candidate',
         selectClassName: 'selectOverride',
         selectOptions: boolOptions,
       },

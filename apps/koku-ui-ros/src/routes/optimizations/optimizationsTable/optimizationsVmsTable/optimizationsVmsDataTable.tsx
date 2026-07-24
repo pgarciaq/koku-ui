@@ -32,54 +32,39 @@ interface OptimizationsVmsDataTableOwnProps {
 
 type OptimizationsVmsDataTableProps = OptimizationsVmsDataTableOwnProps;
 
-const getStatusBadges = (item: VmRecommendationData, intl: any) => {
-  const badges: React.ReactNode[] = [];
-  const meta = item.metadata;
-  if (!meta) {
-    return null;
-  }
+const vmCategoryBadgeMap: Record<string, { messageKey: keyof typeof messages; color: string }> = {
+  abandoned: { messageKey: 'vmStatusAbandoned', color: 'red' },
+  power_off_candidate: { messageKey: 'vmStatusPowerOff', color: 'orange' },
+  idle: { messageKey: 'vmStatusIdle', color: 'orange' },
+  oversized: { messageKey: 'vmStatusOversized', color: 'blue' },
+  undersized: { messageKey: 'vmStatusUndersized', color: 'purple' },
+  optimized: { messageKey: 'vmStatusOptimized', color: 'green' },
+};
 
-  if (meta.is_abandoned) {
-    badges.push(
-      <Label key="abandoned" color="red" isCompact>
-        {intl.formatMessage(messages.vmStatusAbandoned)}
+const getStatusBadge = (item: VmRecommendationData, intl: any) => {
+  const category = item.category;
+  if (!category) {
+    return (
+      <Label color="green" isCompact>
+        {intl.formatMessage(messages.vmStatusOptimized)}
       </Label>
     );
   }
 
-  if (meta.is_idle) {
-    badges.push(
-      <Label key="idle" color="orange" isCompact style={badges.length > 0 ? { marginLeft: 4 } : undefined}>
-        {intl.formatMessage(messages.vmStatusIdle)}
+  const badge = vmCategoryBadgeMap[category];
+  if (!badge) {
+    return (
+      <Label color="green" isCompact>
+        {intl.formatMessage(messages.vmStatusOptimized)}
       </Label>
     );
   }
 
-  if (meta.is_power_off_candidate) {
-    badges.push(
-      <Label key="poweroff" color="orange" isCompact style={badges.length > 0 ? { marginLeft: 4 } : undefined}>
-        {intl.formatMessage(messages.vmStatusPowerOff)}
-      </Label>
-    );
-  }
-
-  if (meta.is_oversized) {
-    badges.push(
-      <Label key="oversized" color="blue" isCompact style={badges.length > 0 ? { marginLeft: 4 } : undefined}>
-        {intl.formatMessage(messages.vmStatusOversized)}
-      </Label>
-    );
-  }
-
-  if (badges.length === 0) {
-    badges.push(
-      <Label key="ok" color="green" isCompact>
-        {intl.formatMessage(messages.vmStatusOk)}
-      </Label>
-    );
-  }
-
-  return <>{badges}</>;
+  return (
+    <Label color={badge.color as any} isCompact>
+      {intl.formatMessage(messages[badge.messageKey])}
+    </Label>
+  );
 };
 
 const getSavingsCell = (item: VmRecommendationData, intl: any) => {
@@ -276,7 +261,7 @@ const OptimizationsVmsDataTable: React.FC<OptimizationsVmsDataTableProps> = ({
           { value: item.current?.memory_gib != null ? `${item.current.memory_gib} GiB` : '—' },
           { value: item.recommended?.vcpu ?? '—' },
           { value: item.recommended?.memory_gib != null ? `${item.recommended.memory_gib} GiB` : '—' },
-          { value: getStatusBadges(item, intl) },
+          { value: getStatusBadge(item, intl) },
           { value: getSavingsCell(item, intl) },
           { value: lastReported },
         ],

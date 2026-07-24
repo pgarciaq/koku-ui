@@ -481,6 +481,7 @@ export interface VmRecommendationData {
   namespace?: string;
   cluster_uuid?: string;
   guest_os?: string;
+  category?: string;
   current?: VmSizingBlock;
   recommended?: VmRecommendedSizing;
   metadata?: VmRecMetadata;

@@ -2158,10 +2158,25 @@ export default defineMessages({
     description: 'VM status badge for power-off candidate VMs',
     id: 'vmStatusPowerOff',
   },
+  vmStatusUndersized: {
+    defaultMessage: 'Undersized',
+    description: 'VM status badge for undersized VMs needing more resources',
+    id: 'vmStatusUndersized',
+  },
+  vmStatusOptimized: {
+    defaultMessage: 'Optimized',
+    description: 'VM status badge for optimally sized VMs',
+    id: 'vmStatusOptimized',
+  },
   vmStatusOk: {
     defaultMessage: 'OK',
-    description: 'VM status badge for healthy VMs',
+    description: 'VM status badge for healthy VMs (deprecated, use vmStatusOptimized)',
     id: 'vmStatusOk',
+  },
+  vmFilterCategory: {
+    defaultMessage: 'Category',
+    description: 'VM filter label for the category multi-select dropdown',
+    id: 'vmFilterCategory',
   },
   vmFilterIsIdle: {
     defaultMessage: 'Is idle',

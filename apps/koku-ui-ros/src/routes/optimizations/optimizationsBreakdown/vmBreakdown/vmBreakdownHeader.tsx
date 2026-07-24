@@ -41,38 +41,25 @@ const VmBreakdownHeader: React.FC<VmBreakdownHeaderProps> = ({
   };
 
   const getStatusBadge = () => {
-    const metadata = report?.metadata;
-    if (!metadata) return null;
+    const category = report?.category;
+    if (!category || category === 'optimized') return null;
 
-    if (metadata.is_idle) {
-      return (
-        <Label color="orange" isCompact style={{ marginLeft: 8 }}>
-          {intl.formatMessage(messages.vmStatusIdle)}
-        </Label>
-      );
-    }
-    if (metadata.is_abandoned) {
-      return (
-        <Label color="red" isCompact style={{ marginLeft: 8 }}>
-          {intl.formatMessage(messages.vmStatusAbandoned)}
-        </Label>
-      );
-    }
-    if (metadata.is_oversized) {
-      return (
-        <Label color="blue" isCompact style={{ marginLeft: 8 }}>
-          {intl.formatMessage(messages.vmStatusOversized)}
-        </Label>
-      );
-    }
-    if (metadata.is_power_off_candidate) {
-      return (
-        <Label color="orange" isCompact style={{ marginLeft: 8 }}>
-          {intl.formatMessage(messages.vmStatusPowerOff)}
-        </Label>
-      );
-    }
-    return null;
+    const badgeMap: Record<string, { messageKey: keyof typeof messages; color: string }> = {
+      abandoned: { messageKey: 'vmStatusAbandoned', color: 'red' },
+      power_off_candidate: { messageKey: 'vmStatusPowerOff', color: 'orange' },
+      idle: { messageKey: 'vmStatusIdle', color: 'orange' },
+      oversized: { messageKey: 'vmStatusOversized', color: 'blue' },
+      undersized: { messageKey: 'vmStatusUndersized', color: 'purple' },
+    };
+
+    const badge = badgeMap[category];
+    if (!badge) return null;
+
+    return (
+      <Label color={badge.color as any} isCompact style={{ marginLeft: 8 }}>
+        {intl.formatMessage(messages[badge.messageKey])}
+      </Label>
+    );
   };
 
   const getDescription = () => {
