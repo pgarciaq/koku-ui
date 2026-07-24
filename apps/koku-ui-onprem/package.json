@@ -26,7 +26,7 @@
     "test:cypress": "cypress run --config-file ./cypress/cypress.config.ts",
     "test:cypress:open": "cypress open --config-file ./cypress/cypress.config.ts",
     "test:cypress:live": "cypress run --config-file ./cypress/cypress.config.ts --config specPattern='cypress/e2e/live/**/*.cy.ts'",
-    "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'",
+    "ts-node": "ts-node --transpile-only -O '{\"module\":\"commonjs\"}'",
     "ts-webpack": "npm run ts-node -- ../../node_modules/.bin/webpack"
   },
   "dependencies": {

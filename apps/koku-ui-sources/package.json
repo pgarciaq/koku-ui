@@ -25,7 +25,7 @@
     "test": "jest --no-cache",
     "test:clean": "jest --clearCache",
     "test:update": "npm run test:clean && jest --updateSnapshot",
-    "ts-node": "ts-node -O '{\"module\":\"commonjs\"}'"
+    "ts-node": "ts-node --transpile-only -O '{\"module\":\"commonjs\"}'"
   },
   "dependencies": {
     "@data-driven-forms/common": "^4.2.0",
