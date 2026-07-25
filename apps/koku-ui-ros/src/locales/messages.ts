@@ -1963,6 +1963,21 @@ export default defineMessages({
     description: 'Duration in hours suffix',
     id: 'durationHours',
   },
+  categoryOptimized: {
+    defaultMessage: 'Optimized',
+    description: 'Optimized category badge label',
+    id: 'categoryOptimized',
+  },
+  categoryOversized: {
+    defaultMessage: 'Oversized',
+    description: 'Oversized category badge label',
+    id: 'categoryOversized',
+  },
+  categoryUndersized: {
+    defaultMessage: 'Undersized',
+    description: 'Undersized category badge label',
+    id: 'categoryUndersized',
+  },
   idleStateActive: {
     defaultMessage: 'Active',
     description: 'Active idle state filter label',

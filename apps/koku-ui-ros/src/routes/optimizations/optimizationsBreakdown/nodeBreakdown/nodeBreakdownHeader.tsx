@@ -43,32 +43,25 @@ const NodeBreakdownHeader: React.FC<NodeBreakdownHeaderProps> = ({
     );
   };
 
-  const getClassificationBadge = () => {
-    const c = report?.classification;
-    if (!c) return null;
+  const nodeCategoryBadgeMap: Record<string, { messageKey: string; color: 'red' | 'orange' | 'blue' | 'green' }> = {
+    idle: { messageKey: 'nodeClassificationIdle', color: 'orange' },
+    overcommitted: { messageKey: 'nodeClassificationOvercommitted', color: 'orange' },
+    stranded_cpu: { messageKey: 'nodeClassificationStrandedCpu', color: 'blue' },
+    stranded_memory: { messageKey: 'nodeClassificationStrandedMemory', color: 'blue' },
+    underutilized: { messageKey: 'nodeClassificationUnderutilized', color: 'blue' },
+    optimized: { messageKey: 'nodeClassificationWellUtilized', color: 'green' },
+  };
 
-    if (c.idle_state === 'idle' || c.idle_state === 'zombie') {
-      return (
-        <Label color={c.idle_state === 'zombie' ? 'red' : 'orange'} isCompact style={{ marginLeft: 8 }}>
-          {c.idle_state === 'zombie' ? 'Zombie' : 'Idle'}
-        </Label>
-      );
-    }
-    if (c.is_underutilized) {
-      return (
-        <Label color="blue" isCompact style={{ marginLeft: 8 }}>
-          {intl.formatMessage(messages.nodeClassificationUnderutilized)}
-        </Label>
-      );
-    }
-    if (c.is_overcommitted) {
-      return (
-        <Label color="orange" isCompact style={{ marginLeft: 8 }}>
-          {intl.formatMessage(messages.nodeClassificationOvercommitted)}
-        </Label>
-      );
-    }
-    return null;
+  const getClassificationBadge = () => {
+    const category = report?.classification?.category;
+    if (!category) return null;
+    const badge = nodeCategoryBadgeMap[category];
+    if (!badge) return null;
+    return (
+      <Label color={badge.color} isCompact style={{ marginLeft: 8 }}>
+        {intl.formatMessage(messages[badge.messageKey])}
+      </Label>
+    );
   };
 
   const getDescription = () => {

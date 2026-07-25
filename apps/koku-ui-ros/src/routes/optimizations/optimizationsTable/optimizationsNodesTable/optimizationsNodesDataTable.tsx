@@ -39,58 +39,26 @@ interface OptimizationsNodesDataTableOwnProps {
 
 type OptimizationsNodesDataTableProps = OptimizationsNodesDataTableOwnProps;
 
-const getClassificationBadges = (item: NodeRecommendationData, intl: any) => {
-  const badges: React.ReactNode[] = [];
-  const c = item.classification;
-  if (!c) {
+const nodeCategoryBadgeMap: Record<string, { messageKey: string; color: 'red' | 'orange' | 'blue' | 'purple' | 'green' }> = {
+  idle: { messageKey: 'nodeClassificationIdle', color: 'orange' },
+  overcommitted: { messageKey: 'nodeClassificationOvercommitted', color: 'orange' },
+  stranded_cpu: { messageKey: 'nodeClassificationStrandedCpu', color: 'blue' },
+  stranded_memory: { messageKey: 'nodeClassificationStrandedMemory', color: 'blue' },
+  underutilized: { messageKey: 'nodeClassificationUnderutilized', color: 'blue' },
+  optimized: { messageKey: 'nodeClassificationWellUtilized', color: 'green' },
+};
+
+const getCategoryBadge = (item: NodeRecommendationData, intl: any) => {
+  const category = item.classification?.category;
+  if (!category) {
     return null;
   }
-
-  if (c.idle_state === 'idle' || c.idle_state === 'zombie') {
-    badges.push(
-      <Label key="idle" color={c.idle_state === 'zombie' ? 'red' : 'orange'} isCompact>
-        {intl.formatMessage(messages.idleStateBadge, {
-          state: c.idle_state === 'zombie' ? 'Zombie' : 'Idle',
-          days: 0,
-        })}
-      </Label>
-    );
-  }
-
-  if (c.is_underutilized) {
-    badges.push(
-      <Label key="underutil" color="blue" isCompact style={badges.length > 0 ? { marginLeft: 4 } : undefined}>
-        {intl.formatMessage(messages.nodeClassificationUnderutilized)}
-      </Label>
-    );
-  }
-
-  if (c.is_overcommitted) {
-    badges.push(
-      <Label key="overcommit" color="orange" isCompact style={badges.length > 0 ? { marginLeft: 4 } : undefined}>
-        {intl.formatMessage(messages.nodeClassificationOvercommitted)}
-      </Label>
-    );
-  }
-
-  if (c.stranded_resource) {
-    const resource = c.stranded_resource.charAt(0).toUpperCase() + c.stranded_resource.slice(1);
-    badges.push(
-      <Label key="stranded" color="blue" isCompact style={badges.length > 0 ? { marginLeft: 4 } : undefined}>
-        {intl.formatMessage(messages.nodeClassificationStrandedResource, { resource })}
-      </Label>
-    );
-  }
-
-  if (badges.length === 0) {
-    badges.push(
-      <Label key="well" color="green" isCompact>
-        {intl.formatMessage(messages.nodeClassificationWellUtilized)}
-      </Label>
-    );
-  }
-
-  return <>{badges}</>;
+  const badge = nodeCategoryBadgeMap[category] ?? nodeCategoryBadgeMap['optimized'];
+  return (
+    <Label color={badge.color} isCompact>
+      {intl.formatMessage(messages[badge.messageKey])}
+    </Label>
+  );
 };
 
 const getSavingsCell = (item: NodeRecommendationData, intl: any, term: string, engine: string) => {
@@ -265,7 +233,7 @@ const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = 
           {
             value: formatUtilPercentRange(item.metrics?.mem_util_p50, item.metrics?.mem_util_p95),
           },
-          { value: getClassificationBadges(item, intl) },
+          { value: getCategoryBadge(item, intl) },
           { value: getFleetReductionCell(item, term, engine) },
           { value: getSavingsCell(item, intl, term, engine) },
           { value: lastReported },

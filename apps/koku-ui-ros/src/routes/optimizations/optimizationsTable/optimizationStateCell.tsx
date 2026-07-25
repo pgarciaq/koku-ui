@@ -5,27 +5,44 @@ import { useIntl } from 'react-intl';
 
 interface OptimizationStateCellProps {
   analyticsIncomplete?: boolean;
+  category?: string;
   idleDays?: number;
-  idleState?: string;
   ingestHooksFailed?: boolean;
 }
 
+const categoryBadgeMap: Record<string, { messageKey: keyof typeof messages; color: string }> = {
+  zombie: { messageKey: 'idleStateZombie', color: 'red' },
+  idle: { messageKey: 'idleStateIdle', color: 'orange' },
+  undersized: { messageKey: 'categoryUndersized', color: 'purple' },
+  oversized: { messageKey: 'categoryOversized', color: 'blue' },
+  optimized: { messageKey: 'categoryOptimized', color: 'green' },
+};
+
 const OptimizationStateCell: React.FC<OptimizationStateCellProps> = ({
   analyticsIncomplete,
+  category,
   idleDays,
-  idleState,
   ingestHooksFailed,
 }) => {
   const intl = useIntl();
 
   const stateBadge = (() => {
-    if (idleState === 'idle' || idleState === 'zombie') {
+    if (category === 'zombie' || category === 'idle') {
       return (
-        <Label color={idleState === 'zombie' ? 'red' : 'orange'} isCompact>
+        <Label color={category === 'zombie' ? 'red' : 'orange'} isCompact>
           {intl.formatMessage(messages.idleStateBadge, {
-            state: idleState === 'zombie' ? 'Zombie' : 'Idle',
+            state: category === 'zombie' ? 'Zombie' : 'Idle',
             days: idleDays ?? 0,
           })}
+        </Label>
+      );
+    }
+
+    const badge = category ? categoryBadgeMap[category] : undefined;
+    if (badge) {
+      return (
+        <Label color={badge.color as any} isCompact>
+          {intl.formatMessage(messages[badge.messageKey])}
         </Label>
       );
     }

@@ -45,29 +45,10 @@ export const useNodeRecommendationsReport = ({
   const order_by = getOrderById(query) || getOrderById(nodeRecommendationsBaseQuery);
   const order_how = getOrderByValue(query) || getOrderByValue(nodeRecommendationsBaseQuery);
 
-  const classificationParams: Record<string, any> = {};
-  const classificationValue = query.filter_by?.classification;
-  if (classificationValue) {
-    switch (classificationValue) {
-      case 'underutilized':
-        classificationParams['filter[is_underutilized]'] = 'true';
-        break;
-      case 'overcommitted':
-        classificationParams['filter[is_overcommitted]'] = 'true';
-        break;
-      case 'idle':
-        classificationParams['filter[idle_state]'] = 'idle';
-        break;
-      case 'stranded_cpu':
-        classificationParams['filter[stranded_resource]'] = 'cpu';
-        break;
-      case 'stranded_memory':
-        classificationParams['filter[stranded_resource]'] = 'memory';
-        break;
-      case 'well_utilized':
-        classificationParams['filter[is_underutilized]'] = 'false';
-        break;
-    }
+  const categoryParams: Record<string, any> = {};
+  const categoryValue = query.filter_by?.category;
+  if (categoryValue) {
+    categoryParams['filter[category]'] = categoryValue;
   }
 
   const tagFilterEntries: Record<string, any> = {};
@@ -83,7 +64,7 @@ export const useNodeRecommendationsReport = ({
   const reportQuery = withRosListProjection({
     ...(query.filter_by?.cluster && { cluster_uuid: query.filter_by.cluster }),
     ...(query.filter_by?.node && { node: query.filter_by.node }),
-    ...classificationParams,
+    ...categoryParams,
     ...tagFilters,
     limit: query.limit,
     ...(query.after ? { after: query.after } : { offset: query.offset ?? 0 }),

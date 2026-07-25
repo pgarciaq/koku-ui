@@ -76,13 +76,15 @@ class OptimizationsNamespacesToolbarBase extends React.Component<
       { name: intl.formatMessage(messages.filterByValues, { value: 'cluster' }), key: 'cluster' },
       { name: intl.formatMessage(messages.filterByValues, { value: 'project' }), key: 'project' },
       {
-        name: intl.formatMessage(messages.filterByValues, { value: 'idle_state' }),
-        key: 'idle_state',
+        name: intl.formatMessage(messages.filterByValues, { value: 'category' }),
+        key: 'category',
         selectClassName: 'selectOverride',
         selectOptions: [
-          { name: intl.formatMessage(messages.idleStateActive), key: 'active' },
-          { name: intl.formatMessage(messages.idleStateIdle), key: 'idle' },
           { name: intl.formatMessage(messages.idleStateZombie), key: 'zombie' },
+          { name: intl.formatMessage(messages.idleStateIdle), key: 'idle' },
+          { name: intl.formatMessage(messages.categoryUndersized), key: 'undersized' },
+          { name: intl.formatMessage(messages.categoryOversized), key: 'oversized' },
+          { name: intl.formatMessage(messages.categoryOptimized), key: 'optimized' },
         ],
       },
       {

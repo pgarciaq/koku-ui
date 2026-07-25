@@ -163,10 +163,10 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
       const requestProps = getRequestProps(item, term, engine);
       const savings = item.recommendations?.estimated_monthly_savings;
       const waste = item.estimated_monthly_waste;
-      const idleState = item.idle_state;
+      const category = item.category;
       const idleDays = item.idle_duration_days;
 
-      const isIdleOrZombie = idleState === 'idle' || idleState === 'zombie';
+      const isIdleOrZombie = category === 'idle' || category === 'zombie';
       const potentialSavingsSource = isIdleOrZombie ? waste : savings;
       const potentialSavingsCell = (() => {
         if (potentialSavingsSource?.value != null) {
@@ -229,8 +229,8 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
             value: (
               <OptimizationStateCell
                 analyticsIncomplete={analyticsIncomplete}
+                category={category}
                 idleDays={idleDays}
-                idleState={idleState}
                 ingestHooksFailed={ingestHooksFailed}
               />
             ),

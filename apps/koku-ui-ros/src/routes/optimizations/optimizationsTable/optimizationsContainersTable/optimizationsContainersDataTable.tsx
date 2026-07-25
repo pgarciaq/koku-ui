@@ -181,13 +181,13 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
 
       const requestProps = getRequestProps(item, term, engine);
       const savings = item.recommendations?.estimated_monthly_savings;
-      const idleState = (item as any).idle_state;
+      const category = (item as any).category;
       const idleDays = (item as any).idle_duration_days;
       const waste = (item as any).estimated_monthly_waste;
       const analyticsIncomplete = (item as any).analytics_incomplete;
       const ingestHooksFailed = (item as any).ingest_hooks_failed;
 
-      const isIdleOrZombie = idleState === 'idle' || idleState === 'zombie';
+      const isIdleOrZombie = category === 'idle' || category === 'zombie';
       const potentialSavingsSource = isIdleOrZombie ? waste : savings;
       const potentialSavingsCell = (() => {
         if (potentialSavingsSource?.value != null) {
@@ -238,8 +238,8 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
             value: (
               <OptimizationStateCell
                 analyticsIncomplete={analyticsIncomplete}
+                category={category}
                 idleDays={idleDays}
-                idleState={idleState}
                 ingestHooksFailed={ingestHooksFailed}
               />
             ),

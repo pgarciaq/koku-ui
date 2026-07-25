@@ -188,10 +188,7 @@ export function runNamespaceRosReports(reportType: RosType, query: string) {
 // --- Node recommendation types ---
 
 export interface NodeClassification {
-  is_underutilized?: boolean;
-  is_overcommitted?: boolean;
-  idle_state?: string;
-  stranded_resource?: string;
+  category?: string;
 }
 
 export interface NodeMetrics {
