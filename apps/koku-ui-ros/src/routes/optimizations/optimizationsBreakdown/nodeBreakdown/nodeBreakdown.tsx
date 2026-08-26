@@ -22,6 +22,8 @@ import { breadcrumbLabelKey } from 'utils/props';
 
 import { styles } from '../optimizationsBreakdown.styles';
 import { BreakdownDecayInfoCard } from '../shared/breakdownDecayInfoCard';
+import { PeakHoursMetricTable, PeakHoursSizingCard } from '../shared/peakHoursSizing';
+import { hasNodeBhSizing, nestWarningMessage } from '../shared/peakHoursUtils';
 import { useBreakdownProjection } from '../useBreakdownProjection';
 import { NodeBreakdownExplanation } from './nodeBreakdownExplanation';
 import { NodeBreakdownHeader } from './nodeBreakdownHeader';
@@ -107,6 +109,7 @@ const NodeBreakdown: React.FC<NodeBreakdownProps> = ({ linkState, queryStateName
         <div style={{ marginBottom: 24 }}>
           <NodeEngineDetails engine={recommendationEngine} intl={intl} />
         </div>
+        <NodePeakHoursCard engine={recommendationEngine} />
         <div style={{ marginBottom: 24 }}>
           <NodeBreakdownUtilization metrics={report?.metrics} />
         </div>
@@ -160,6 +163,33 @@ const NodeBreakdown: React.FC<NodeBreakdownProps> = ({ linkState, queryStateName
         )}
       </PageSection>
     </>
+  );
+};
+
+const formatPeakHoursValue = (value: number | undefined, unit: string) => {
+  if (value == null) {
+    return '—';
+  }
+  return `${value.toFixed(2)} ${unit}`;
+};
+
+const NodePeakHoursCard: React.FC<{ engine: any }> = ({ engine }) => {
+  const bh = engine?.business_hours;
+  if (!hasNodeBhSizing(bh)) {
+    return null;
+  }
+
+  return (
+    <div style={{ marginBottom: 24 }}>
+      <PeakHoursSizingCard warning={nestWarningMessage(bh.notifications)}>
+        <PeakHoursMetricTable
+          rows={[
+            { metric: 'CPU Cores', value: formatPeakHoursValue(bh.recommended_cpu_cores, 'cores') },
+            { metric: 'Memory', value: formatPeakHoursValue(bh.recommended_memory_gib, 'GiB') },
+          ]}
+        />
+      </PeakHoursSizingCard>
+    </div>
   );
 };
 

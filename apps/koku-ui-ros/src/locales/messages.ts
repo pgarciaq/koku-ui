@@ -492,6 +492,16 @@ export default defineMessages({
     description: 'GPU MIG table recommended profile column',
     id: 'gpuMigColumnRecommendedProfile',
   },
+  gpuMigColumnPeakHoursClassification: {
+    defaultMessage: 'Peak hours classification',
+    description: 'GPU MIG table peak hours classification column',
+    id: 'gpuMigColumnPeakHoursClassification',
+  },
+  gpuMigColumnPeakHoursProfile: {
+    defaultMessage: 'Peak hours profile',
+    description: 'GPU MIG table peak hours recommended profile column',
+    id: 'gpuMigColumnPeakHoursProfile',
+  },
   gpuMigColumnTerm: {
     defaultMessage: 'Term',
     description: 'GPU MIG table term column',

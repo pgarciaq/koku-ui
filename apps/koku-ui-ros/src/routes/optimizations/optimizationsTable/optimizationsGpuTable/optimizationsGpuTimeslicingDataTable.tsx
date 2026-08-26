@@ -15,6 +15,7 @@ interface OptimizationsGpuTimeslicingDataTableOwnProps {
   filterBy?: any;
   groupBy?: StorageGroupBy;
   isLoading?: boolean;
+  listTerm?: string;
   onDrillDownFromGroup?(filter: { key: string; value: string });
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
@@ -42,6 +43,24 @@ const getClassificationBadge = (classification: string) => {
   );
 };
 
+/** Query string for timeslicing breakdown: cluster, node, gpu_model, and list term. */
+export function buildGpuTimeslicingBreakdownSearch(
+  item: Pick<GPUTimeslicingRecommendationData, 'cluster_uuid' | 'node_name' | 'gpu_model' | 'term'>,
+  listTerm?: string
+): string {
+  const termParam = item.term ?? listTerm ?? '';
+  const params = new URLSearchParams();
+  params.set('cluster_uuid', item.cluster_uuid ?? '');
+  params.set('node_name', item.node_name ?? '');
+  if (item.gpu_model) {
+    params.set('gpu_model', item.gpu_model);
+  }
+  if (termParam) {
+    params.set('term', termParam);
+  }
+  return params.toString();
+}
+
 const getSavingsCell = (item: GPUTimeslicingRecommendationData, intl: ReturnType<typeof useIntl>) => {
   const savings = item.estimated_monthly_savings;
   if (savings?.value != null) {
@@ -59,6 +78,7 @@ const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicing
   filterBy,
   groupBy = '',
   isLoading,
+  listTerm,
   onDrillDownFromGroup,
   onSort,
   orderBy,
@@ -137,11 +157,14 @@ const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicing
     const newRows = [];
     report?.data?.map(item => {
       const nodeName = item.node_name ?? '—';
+      const termParam = item.term ?? listTerm ?? '';
       const detailState = {
         ...(location?.state || {}),
         gpuTimeslicingDetailsState: {
           cluster_uuid: item.cluster_uuid,
           node_name: item.node_name,
+          gpu_model: item.gpu_model,
+          term: termParam,
           breadcrumbPath: `${location.pathname}${location.search}`,
         },
       };
@@ -151,7 +174,7 @@ const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicing
       const clusterCell = item.cluster_uuid ?? '';
 
       const breakdownUrl = breakdownPath
-        ? `${breakdownPath}?cluster_uuid=${encodeURIComponent(item.cluster_uuid ?? '')}&node_name=${encodeURIComponent(item.node_name ?? '')}`
+        ? `${breakdownPath}?${buildGpuTimeslicingBreakdownSearch(item, listTerm)}`
         : undefined;
 
       const gpuModelCell =
@@ -187,7 +210,7 @@ const OptimizationsGpuTimeslicingDataTable: React.FC<OptimizationsGpuTimeslicing
 
   useEffect(() => {
     initDatum();
-  }, [groupBy, onDrillDownFromGroup, report]);
+  }, [groupBy, listTerm, onDrillDownFromGroup, report]);
 
   return (
     <DataTable

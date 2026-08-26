@@ -74,5 +74,6 @@ export const enum RosPathsType {
   vmRecommendation = 'vmRecommendation',
   vmRecommendations = 'vmRecommendations',
   gpuMigRecommendations = 'gpuMigRecommendations',
+  gpuTimeslicingRecommendation = 'gpuTimeslicingRecommendation',
   gpuTimeslicingRecommendations = 'gpuTimeslicingRecommendations',
 }

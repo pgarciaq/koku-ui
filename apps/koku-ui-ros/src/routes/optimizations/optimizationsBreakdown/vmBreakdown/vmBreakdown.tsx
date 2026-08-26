@@ -22,6 +22,8 @@ import { breadcrumbLabelKey } from 'utils/props';
 
 import { styles } from '../optimizationsBreakdown.styles';
 import { BreakdownDecayInfoCard } from '../shared/breakdownDecayInfoCard';
+import { PeakHoursMetricTable, PeakHoursSizingCard } from '../shared/peakHoursSizing';
+import { hasVmBhSizing, nestWarningMessage } from '../shared/peakHoursUtils';
 import { useBreakdownProjection } from '../useBreakdownProjection';
 import { VmVisualInsightsSection } from './visualInsights';
 import { VmBreakdownHeader } from './vmBreakdownHeader';
@@ -94,6 +96,7 @@ const VmBreakdown: React.FC<VmBreakdownProps> = ({ linkState, queryStateName }) 
     return (
       <div style={{ padding: '16px 0' }}>
         <VmSizingTable current={current} recommended={recommended} intl={intl} />
+        <VmPeakHoursCard report={report} />
         <VmMetadataFlags report={report} intl={intl} />
         <div style={{ marginTop: 24 }}>
           <VmVisualInsightsSection
@@ -139,6 +142,33 @@ const VmBreakdown: React.FC<VmBreakdownProps> = ({ linkState, queryStateName }) 
         )}
       </PageSection>
     </>
+  );
+};
+
+const formatPeakHoursValue = (value: number | undefined, unit: string) => {
+  if (value == null) {
+    return '—';
+  }
+  return unit ? `${value.toFixed(2)} ${unit}` : value.toFixed(2);
+};
+
+const VmPeakHoursCard: React.FC<{ report?: VmRecommendationData }> = ({ report }) => {
+  const bh = report?.business_hours;
+  if (!hasVmBhSizing(bh)) {
+    return null;
+  }
+
+  return (
+    <div style={{ marginTop: 24 }}>
+      <PeakHoursSizingCard warning={nestWarningMessage(bh.notifications)}>
+        <PeakHoursMetricTable
+          rows={[
+            { metric: 'vCPU', value: formatPeakHoursValue(bh.recommended_vcpu, '') },
+            { metric: 'Memory', value: formatPeakHoursValue(bh.recommended_memory_gib, 'GiB') },
+          ]}
+        />
+      </PeakHoursSizingCard>
+    </div>
   );
 };
 

@@ -1,7 +1,10 @@
 import '../optimizationsBreakdown.scss';
 
 import { Alert, Content, ContentVariants, Label, PageSection, Title, TitleSizes } from '@patternfly/react-core';
-import type { GPUTimeslicingRecommendationReport } from 'api/ros/recommendations';
+import {
+  encodeGpuTimeslicingDetailFetchQuery,
+  type GPUTimeslicingRecommendationReport,
+} from 'api/ros/recommendations';
 import { RosPathsType, RosType } from 'api/ros/ros';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
@@ -20,6 +23,8 @@ import { breadcrumbLabelKey } from 'utils/props';
 import { GpuVisualInsightsSection } from '../gpuVisualInsights';
 import { styles as headerStyles } from '../optimizationsBreakdownHeader.styles';
 import { styles } from '../optimizationsBreakdown.styles';
+import { PeakHoursMetricTable, PeakHoursSizingCard } from '../shared/peakHoursSizing';
+import { hasTimeslicingBhSizing, nestWarningMessage, pickGpuTimeslicingItem } from '../shared/peakHoursUtils';
 
 interface GpuTimeslicingBreakdownOwnProps {
   linkState?: any;
@@ -34,9 +39,11 @@ interface GpuTimeslicingBreakdownMapProps {
 interface GpuTimeslicingBreakdownStateProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
+  gpuModel?: string;
   report?: GPUTimeslicingRecommendationReport;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
+  term?: string;
 }
 
 type GpuTimeslicingBreakdownProps = GpuTimeslicingBreakdownOwnProps;
@@ -49,10 +56,12 @@ const classificationColorMap: Record<string, 'blue' | 'green' | 'orange' | 'red'
 };
 
 const GpuTimeslicingBreakdown: React.FC<GpuTimeslicingBreakdownProps> = ({ linkState, queryStateName }) => {
-  const { breadcrumbLabel, breadcrumbPath, report, reportFetchStatus } = useMapToProps({ queryStateName });
+  const { breadcrumbLabel, breadcrumbPath, gpuModel, report, reportFetchStatus, term } = useMapToProps({
+    queryStateName,
+  });
   const intl = useIntl();
 
-  const item = report?.data?.[0];
+  const item = pickGpuTimeslicingItem(report?.data, gpuModel, term);
 
   const getHeader = () => {
     const nodeName = item?.node_name ?? '—';
@@ -202,6 +211,23 @@ const GpuTimeslicingBreakdown: React.FC<GpuTimeslicingBreakdownProps> = ({ linkS
           <Alert isInline variant="info" title={intl.formatMessage(messages.optimizationsNoRecommendations)} />
         ) : (
           <>
+            {hasTimeslicingBhSizing(item.business_hours) ? (
+              <div style={{ marginBottom: 24 }}>
+                <PeakHoursSizingCard warning={nestWarningMessage(item.business_hours.notifications)}>
+                  <PeakHoursMetricTable
+                    rows={[
+                      {
+                        metric: intl.formatMessage(messages.gpuTimeslicingColumnRecommendedReplicas),
+                        value:
+                          item.business_hours.recommended_replicas != null
+                            ? String(item.business_hours.recommended_replicas)
+                            : '—',
+                      },
+                    ]}
+                  />
+                </PeakHoursSizingCard>
+              </div>
+            ) : null}
             {getCandidateContainersTable()}
             <GpuVisualInsightsSection
               dramActiveAvg={item?.dram_active_avg}
@@ -225,38 +251,30 @@ const useMapToProps = ({ queryStateName }: GpuTimeslicingBreakdownMapProps): Gpu
   const queryFromRoute = new URLSearchParams(location.search);
   const clusterUuid = queryFromRoute.get('cluster_uuid') ?? listQueryState.cluster_uuid ?? '';
   const nodeName = queryFromRoute.get('node_name') ?? listQueryState.node_name ?? '';
+  const gpuModel = queryFromRoute.get('gpu_model') ?? listQueryState.gpu_model ?? '';
+  const term = queryFromRoute.get('term') ?? listQueryState.term ?? '';
 
-  const queryString = `filter[cluster]=${encodeURIComponent(clusterUuid)}&filter[node]=${encodeURIComponent(nodeName)}&limit=1`;
+  const queryString = encodeGpuTimeslicingDetailFetchQuery({
+    node_name: nodeName,
+    cluster_uuid: clusterUuid || undefined,
+    gpu_model: gpuModel || undefined,
+    term: term || undefined,
+  });
+  const reportPathsType = RosPathsType.gpuTimeslicingRecommendation as any;
 
   const report = useSelector((state: RootState) =>
-    rosSelectors.selectRos(state, RosPathsType.gpuTimeslicingRecommendations as any, RosType.ros as any, queryString)
+    rosSelectors.selectRos(state, reportPathsType, RosType.ros as any, queryString)
   ) as GPUTimeslicingRecommendationReport | undefined;
   const reportFetchStatus = useSelector((state: RootState) =>
-    rosSelectors.selectRosFetchStatus(
-      state,
-      RosPathsType.gpuTimeslicingRecommendations as any,
-      RosType.ros as any,
-      queryString
-    )
+    rosSelectors.selectRosFetchStatus(state, reportPathsType, RosType.ros as any, queryString)
   );
   const reportError = useSelector((state: RootState) =>
-    rosSelectors.selectRosError(
-      state,
-      RosPathsType.gpuTimeslicingRecommendations as any,
-      RosType.ros as any,
-      queryString
-    )
+    rosSelectors.selectRosError(state, reportPathsType, RosType.ros as any, queryString)
   );
 
   useEffect(() => {
     if (clusterUuid && nodeName && !reportError && reportFetchStatus !== FetchStatus.inProgress) {
-      dispatch(
-        rosActions.fetchRosReport(
-          RosPathsType.gpuTimeslicingRecommendations as any,
-          RosType.ros as any,
-          queryString
-        )
-      );
+      dispatch(rosActions.fetchRosReport(reportPathsType, RosType.ros as any, queryString));
     }
   }, [queryString]);
 
@@ -265,9 +283,11 @@ const useMapToProps = ({ queryStateName }: GpuTimeslicingBreakdownMapProps): Gpu
   return {
     breadcrumbLabel: query.get(breadcrumbLabelKey) ?? listQueryState.breadcrumbLabel,
     breadcrumbPath: listQueryState.breadcrumbPath,
+    gpuModel: gpuModel || undefined,
     report,
     reportError,
     reportFetchStatus,
+    term: term || undefined,
   };
 };
 

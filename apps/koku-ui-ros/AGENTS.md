@@ -105,6 +105,20 @@ Quota and ClusterResourceQuota list tables intentionally **omit** estimated mont
 returns `estimated_savings` only for `tighten` rows; most rows are `raise`/`optimal` with null values.
 Detail views and API clients may still display savings when present.
 
+### Peak hours sizing (node / GPU / timeslicing / VM)
+
+Path: `optimizationsBreakdown/shared/peakHoursSizing.tsx`, `peakHoursUtils.ts`
+
+- **Do not** reuse container YAML Peak hours (`optimizationsBreakdownConfiguration` request/limit).
+- Show Peak hours only when the nest has **sizing fields**. Reason-only `{reason}` (no 79–82) → hide.
+- Warning text is the nest `message` for **79** (node), **80** (GPU), **81** (timeslicing), **82** (VM).
+  Do not merge those codes into parent `notifications` / `notification_codes` arrays.
+- Lists stay all-hours (no BH columns). No BH charts here (that is backend/UI issue #494).
+- **Node / VM:** card on the existing breakdown from the detail payload.
+- **Timeslicing:** `GET .../gpu/timeslicing/{node}` with `gpu_model` + `term` in the URL; pick the matching row.
+- **MIG:** extra-fetch container detail `gpu.{short|medium|long}.business_hours` (GPU keys are not `short_term`).
+  If lookup is not exactly one container `id`, omit Peak hours. After backend #495, use row `id`.
+
 ## Backend pairing (ros-ocp-backend)
 
 List and detail endpoints must accept `filter[term]` and `filter[engine]`.

@@ -2,6 +2,7 @@ import {
   runClusterQuotaRosReport as runClusterQuotaRecommendation,
   runClusterQuotaRosReports as runClusterQuotaRecommendations,
   runGpuMigRosReports as runGpuMigRecommendations,
+  runGpuTimeslicingRosReport as runGpuTimeslicingRecommendation,
   runGpuTimeslicingRosReports as runGpuTimeslicingRecommendations,
   runNamespaceRosReport as runNamespaceRecommendation,
   runNamespaceRosReports as runNamespaceRecommendations,
@@ -69,6 +70,9 @@ export function runRosReport(rosPathsType: RosPathsType, rosType: RosType, query
       break;
     case RosPathsType.gpuMigRecommendations:
       result = runGpuMigRecommendations(rosType, query);
+      break;
+    case RosPathsType.gpuTimeslicingRecommendation:
+      result = runGpuTimeslicingRecommendation(rosType, query);
       break;
     case RosPathsType.gpuTimeslicingRecommendations:
       result = runGpuTimeslicingRecommendations(rosType, query);

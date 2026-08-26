@@ -90,6 +90,7 @@ const OptimizationsGpuTimeslicingTable: React.FC<OptimizationsGpuTimeslicingTabl
         filterBy={query.filter_by}
         groupBy={gpuTsGroupBy}
         isLoading={reportFetchStatus === FetchStatus.inProgress}
+        listTerm={query.term ?? ROS_LIST_TERM}
         onDrillDownFromGroup={handleDrillDownFromGroup}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}

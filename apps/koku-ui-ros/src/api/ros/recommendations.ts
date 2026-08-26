@@ -133,7 +133,43 @@ export interface RecommendationExplanation {
   is_idle?: boolean;
 }
 
+export interface GpuBhRecommendation {
+  current_gpu_model?: string;
+  current_gpu_profile?: string;
+  dram_active_avg?: number;
+  fb_usage_max_mib?: number;
+  gpu_classification?: string;
+  gpu_confidence?: number;
+  gpu_idle_state?: string;
+  memory_bound_detected?: boolean;
+  notifications?: Record<string, Notification>;
+  reason?: string;
+  recommended_gpu_profile?: string;
+  sm_active_avg?: number;
+  tensor_pipe_active_avg?: number;
+}
+
+export interface ContainerGpuRecommendation {
+  business_hours?: GpuBhRecommendation;
+  current_gpu_model?: string;
+  current_gpu_profile?: string;
+  dram_active_avg?: number;
+  estimated_monthly_gpu_savings?: MoneyAmount;
+  fb_usage_max_mib?: number;
+  gpu_classification?: string;
+  gpu_confidence?: number;
+  gpu_idle_state?: string;
+  memory_bound_detected?: boolean;
+  notifications?: number[];
+  recommended_gpu_profile?: string;
+  sm_active_avg?: number;
+  tensor_pipe_active_avg?: number;
+  time_slicing_node?: string;
+  time_slicing_replicas?: number;
+}
+
 export interface RecommendationReportData extends RosData {
+  gpu?: Record<string, ContainerGpuRecommendation>;
   recommendations?: Recommendations;
 }
 
@@ -212,7 +248,15 @@ export interface NodeExplanation {
   target_utilization_basis_points?: number;
 }
 
+export interface NodeBhRecommendation {
+  notifications?: Record<string, Notification>;
+  reason?: string;
+  recommended_cpu_cores?: number;
+  recommended_memory_gib?: number;
+}
+
 export interface NodeEngineRecommendation {
+  business_hours?: NodeBhRecommendation;
   recommended_cpu_cores?: number;
   recommended_memory_gib?: number;
   node_count_reduction?: number;
@@ -471,7 +515,15 @@ export interface VmDailyDigestItem {
   disk_write_bps_p95?: number | null;
 }
 
+export interface VmBhRecommendation {
+  notifications?: Record<string, Notification>;
+  reason?: string;
+  recommended_memory_gib?: number;
+  recommended_vcpu?: number;
+}
+
 export interface VmRecommendationData {
+  business_hours?: VmBhRecommendation;
   count?: number;
   id?: string;
   vm_name?: string;
@@ -784,6 +836,7 @@ export function runClusterQuotaRosReport(reportType: RosType, fetchQuery: string
 // --- GPU MIG recommendation types ---
 
 export interface GPUMIGRecommendationData {
+  id?: string;
   cluster_uuid?: string;
   count?: number;
   namespace?: string;
@@ -831,7 +884,17 @@ export function runGpuMigRosReports(reportType: RosType, query: string) {
 
 // --- GPU Timeslicing recommendation types ---
 
+export interface TimeslicingBhRecommendation {
+  candidate_count?: number;
+  confidence?: number;
+  impacted_count?: number;
+  notifications?: Record<string, Notification>;
+  reason?: string;
+  recommended_replicas?: number;
+}
+
 export interface GPUTimeslicingRecommendationData {
+  business_hours?: TimeslicingBhRecommendation;
   cluster_uuid?: string;
   count?: number;
   node_name?: string;
@@ -881,6 +944,82 @@ export function runGpuTimeslicingRosReports(reportType: RosType, query: string) 
   const path = RosTypePaths[reportType];
   const queryString = query ? `?${query}` : '';
   return axiosInstance.get<GPUTimeslicingRecommendationReport>(`${path}/gpu/timeslicing${queryString}`);
+}
+
+export interface GpuTimeslicingDetailFetchParams {
+  cluster_uuid?: string;
+  gpu_model?: string;
+  node_name: string;
+  term?: string;
+}
+
+export interface ContainerGpuLookupParams {
+  cluster_uuid: string;
+  container: string;
+  project: string;
+  workload?: string;
+}
+
+/** Encode timeslicing detail cache key: `{node}?cluster_uuid=&filter[gpu_model]=&filter[term]=` */
+export function encodeGpuTimeslicingDetailFetchQuery(params: GpuTimeslicingDetailFetchParams): string {
+  const search = new URLSearchParams();
+  if (params.cluster_uuid) {
+    search.set('cluster_uuid', params.cluster_uuid);
+  }
+  if (params.gpu_model) {
+    search.set('filter[gpu_model]', params.gpu_model);
+  }
+  if (params.term) {
+    search.set('filter[term]', params.term);
+  }
+  const suffix = search.toString();
+  return suffix ? `${params.node_name}?${suffix}` : params.node_name;
+}
+
+export function decodeGpuTimeslicingDetailFetchQuery(fetchQuery: string): GpuTimeslicingDetailFetchParams {
+  const qIdx = fetchQuery.indexOf('?');
+  if (qIdx === -1) {
+    return { node_name: fetchQuery };
+  }
+  const params = new URLSearchParams(fetchQuery.slice(qIdx + 1));
+  return {
+    node_name: fetchQuery.slice(0, qIdx),
+    cluster_uuid: params.get('cluster_uuid') ?? undefined,
+    gpu_model: params.get('filter[gpu_model]') ?? undefined,
+    term: params.get('filter[term]') ?? undefined,
+  };
+}
+
+export function runGpuTimeslicingRosReport(reportType: RosType, fetchQuery: string) {
+  const path = RosTypePaths[reportType];
+  const { node_name, cluster_uuid, gpu_model, term } = decodeGpuTimeslicingDetailFetchQuery(fetchQuery);
+  const search = new URLSearchParams();
+  if (cluster_uuid) {
+    search.set('cluster_uuid', cluster_uuid);
+  }
+  if (gpu_model) {
+    search.set('filter[gpu_model]', gpu_model);
+  }
+  if (term) {
+    search.set('filter[term]', term);
+  }
+  const qs = search.toString();
+  return axiosInstance.get<GPUTimeslicingRecommendationReport>(
+    `${path}/gpu/timeslicing/${encodeURIComponent(node_name)}${qs ? `?${qs}` : ''}`
+  );
+}
+
+/** List lookup until MIG rows include container `id` (ros-ocp-backend #495). */
+export function encodeContainerGpuLookupQuery(params: ContainerGpuLookupParams): string {
+  const search = new URLSearchParams();
+  search.set('filter[cluster]', params.cluster_uuid);
+  search.set('filter[project]', params.project);
+  if (params.workload) {
+    search.set('filter[workload]', params.workload);
+  }
+  search.set('filter[container]', params.container);
+  search.set('limit', '2');
+  return search.toString();
 }
 
 // --- OOM Timeline types ---

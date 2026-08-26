@@ -1,8 +1,10 @@
 import '../optimizationsBreakdown.scss';
 
 import { Alert, Content, ContentVariants, Label, PageSection, Title, TitleSizes } from '@patternfly/react-core';
-import type { GPUMIGRecommendationReport } from 'api/ros/recommendations';
+import type { GPUMIGRecommendationReport, RecommendationReportData } from 'api/ros/recommendations';
+import { encodeContainerGpuLookupQuery } from 'api/ros/recommendations';
 import { RosPathsType, RosType } from 'api/ros/ros';
+import { encodeRosDetailFetchQuery } from 'api/ros/rosListParams';
 import type { AxiosError } from 'axios';
 import messages from 'locales/messages';
 import React, { useEffect } from 'react';
@@ -20,6 +22,7 @@ import { breadcrumbLabelKey } from 'utils/props';
 import { GpuVisualInsightsSection } from '../gpuVisualInsights';
 import { styles as headerStyles } from '../optimizationsBreakdownHeader.styles';
 import { styles } from '../optimizationsBreakdown.styles';
+import { gpuBhForTerm, hasAnyGpuBhSizing, hasGpuBhSizing, nestWarningMessage, uniqueContainerId } from '../shared/peakHoursUtils';
 
 interface GpuMigBreakdownOwnProps {
   linkState?: any;
@@ -34,6 +37,7 @@ interface GpuMigBreakdownMapProps {
 interface GpuMigBreakdownStateProps {
   breadcrumbLabel?: string;
   breadcrumbPath?: string;
+  containerDetail?: RecommendationReportData;
   report?: GPUMIGRecommendationReport;
   reportError?: AxiosError;
   reportFetchStatus?: FetchStatus;
@@ -54,7 +58,9 @@ const formatTerm = (term: string) => {
 };
 
 const GpuMigBreakdown: React.FC<GpuMigBreakdownProps> = ({ linkState, queryStateName }) => {
-  const { breadcrumbLabel, breadcrumbPath, report, reportFetchStatus } = useMapToProps({ queryStateName });
+  const { breadcrumbLabel, breadcrumbPath, containerDetail, report, reportFetchStatus } = useMapToProps({
+    queryStateName,
+  });
   const intl = useIntl();
 
   const items = report?.data ?? [];
@@ -109,6 +115,14 @@ const GpuMigBreakdown: React.FC<GpuMigBreakdownProps> = ({ linkState, queryState
       );
     }
 
+    const gpu = containerDetail?.gpu;
+    const showPeakHours = hasAnyGpuBhSizing(gpu);
+    const peakHoursWarning = showPeakHours
+      ? items
+          .map(item => nestWarningMessage(gpuBhForTerm(gpu, item.term)?.notifications))
+          .find(Boolean)
+      : undefined;
+
     const cellStyle = {
       padding: '8px',
       borderBottom: '1px solid var(--pf-t--global--border--color--default)',
@@ -120,6 +134,9 @@ const GpuMigBreakdown: React.FC<GpuMigBreakdownProps> = ({ linkState, queryState
 
     return (
       <>
+        {peakHoursWarning ? (
+          <Alert isInline variant="warning" title={peakHoursWarning} style={{ marginBottom: 12, marginTop: 16 }} />
+        ) : null}
         <Title headingLevel="h3" size={TitleSizes.lg} style={{ marginBottom: 12, marginTop: 24 }}>
           {intl.formatMessage(messages.gpuMigProfileRecommendations)}
         </Title>
@@ -138,44 +155,72 @@ const GpuMigBreakdown: React.FC<GpuMigBreakdownProps> = ({ linkState, queryState
               <th style={{ ...headerCellStyle, textAlign: 'left' }}>
                 {intl.formatMessage(messages.gpuMigColumnClassification)}
               </th>
+              {showPeakHours ? (
+                <>
+                  <th style={{ ...headerCellStyle, textAlign: 'left' }}>
+                    {intl.formatMessage(messages.gpuMigColumnPeakHoursProfile)}
+                  </th>
+                  <th style={{ ...headerCellStyle, textAlign: 'left' }}>
+                    {intl.formatMessage(messages.gpuMigColumnPeakHoursClassification)}
+                  </th>
+                </>
+              ) : null}
               <th style={{ ...headerCellStyle, textAlign: 'left' }}>
                 {intl.formatMessage(messages.gpuMigColumnConfidence)}
               </th>
             </tr>
           </thead>
           <tbody>
-            {items.map((item, idx) => (
-              <tr key={idx}>
-                <td style={cellStyle}>{formatTerm(item.term)}</td>
-                <td style={cellStyle}>{item.current_gpu_profile ?? '—'}</td>
-                <td style={cellStyle}>
-                  <strong>{item.recommended_gpu_profile ?? '—'}</strong>
-                </td>
-                <td style={cellStyle}>
-                  {item.gpu_classification ? (
-                    <Label color={classificationColorMap[item.gpu_classification] ?? 'grey'} isCompact>
-                      {item.gpu_classification}
-                    </Label>
-                  ) : (
-                    '—'
-                  )}
-                </td>
-                <td style={cellStyle}>
-                  {item.confidence_level != null ? (
-                    <Label
-                      color={
-                        item.confidence_level >= 0.7 ? 'green' : item.confidence_level >= 0.4 ? 'orange' : 'red'
-                      }
-                      isCompact
-                    >
-                      {String(item.confidence_level)}
-                    </Label>
-                  ) : (
-                    '—'
-                  )}
-                </td>
-              </tr>
-            ))}
+            {items.map((item, idx) => {
+              const bh = gpuBhForTerm(gpu, item.term);
+              const bhSizing = hasGpuBhSizing(bh);
+              return (
+                <tr key={idx}>
+                  <td style={cellStyle}>{formatTerm(item.term)}</td>
+                  <td style={cellStyle}>{item.current_gpu_profile ?? '—'}</td>
+                  <td style={cellStyle}>
+                    <strong>{item.recommended_gpu_profile ?? '—'}</strong>
+                  </td>
+                  <td style={cellStyle}>
+                    {item.gpu_classification ? (
+                      <Label color={classificationColorMap[item.gpu_classification] ?? 'grey'} isCompact>
+                        {item.gpu_classification}
+                      </Label>
+                    ) : (
+                      '—'
+                    )}
+                  </td>
+                  {showPeakHours ? (
+                    <>
+                      <td style={cellStyle}>{bhSizing ? bh.recommended_gpu_profile : '—'}</td>
+                      <td style={cellStyle}>
+                        {bhSizing && bh.gpu_classification ? (
+                          <Label color={classificationColorMap[bh.gpu_classification] ?? 'grey'} isCompact>
+                            {bh.gpu_classification}
+                          </Label>
+                        ) : (
+                          '—'
+                        )}
+                      </td>
+                    </>
+                  ) : null}
+                  <td style={cellStyle}>
+                    {item.confidence_level != null ? (
+                      <Label
+                        color={
+                          item.confidence_level >= 0.7 ? 'green' : item.confidence_level >= 0.4 ? 'orange' : 'red'
+                        }
+                        isCompact
+                      >
+                        {String(item.confidence_level)}
+                      </Label>
+                    ) : (
+                      '—'
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </>
@@ -222,6 +267,7 @@ const useMapToProps = ({ queryStateName }: GpuMigBreakdownMapProps): GpuMigBreak
   const namespace = queryFromRoute.get('namespace') ?? listQueryState.namespace ?? '';
   const container = queryFromRoute.get('container') ?? listQueryState.container ?? '';
   const gpuModel = queryFromRoute.get('gpu_model') ?? listQueryState.gpu_model ?? '';
+  const workload = queryFromRoute.get('workload') ?? listQueryState.workload ?? '';
 
   const params = new URLSearchParams();
   if (clusterUuid) params.set('filter[cluster]', clusterUuid);
@@ -251,6 +297,75 @@ const useMapToProps = ({ queryStateName }: GpuMigBreakdownMapProps): GpuMigBreak
     )
   );
 
+  const migContainerId = report?.data?.[0]?.id;
+  const lookupQueryString =
+    clusterUuid && container
+      ? encodeContainerGpuLookupQuery({
+          cluster_uuid: clusterUuid,
+          project: namespace,
+          workload: workload || undefined,
+          container,
+        })
+      : '';
+  const lookupReport = useSelector((state: RootState) =>
+    lookupQueryString && !migContainerId
+      ? (rosSelectors.selectRos(
+          state,
+          RosPathsType.recommendations as any,
+          RosType.ros as any,
+          lookupQueryString
+        ) as { data?: Array<{ id?: string }> } | undefined)
+      : undefined
+  );
+  const lookupFetchStatus = useSelector((state: RootState) =>
+    lookupQueryString && !migContainerId
+      ? rosSelectors.selectRosFetchStatus(
+          state,
+          RosPathsType.recommendations as any,
+          RosType.ros as any,
+          lookupQueryString
+        )
+      : FetchStatus.complete
+  );
+  const lookupError = useSelector((state: RootState) =>
+    lookupQueryString && !migContainerId
+      ? rosSelectors.selectRosError(
+          state,
+          RosPathsType.recommendations as any,
+          RosType.ros as any,
+          lookupQueryString
+        )
+      : undefined
+  );
+
+  const containerId = migContainerId || uniqueContainerId(lookupReport);
+  const detailQueryString = containerId ? encodeRosDetailFetchQuery({ id: containerId }) : '';
+  const containerDetail = useSelector((state: RootState) =>
+    detailQueryString
+      ? (rosSelectors.selectRos(
+          state,
+          RosPathsType.recommendation as any,
+          RosType.ros as any,
+          detailQueryString
+        ) as RecommendationReportData | undefined)
+      : undefined
+  );
+  const detailFetchStatus = useSelector((state: RootState) =>
+    detailQueryString
+      ? rosSelectors.selectRosFetchStatus(
+          state,
+          RosPathsType.recommendation as any,
+          RosType.ros as any,
+          detailQueryString
+        )
+      : FetchStatus.complete
+  );
+  const detailError = useSelector((state: RootState) =>
+    detailQueryString
+      ? rosSelectors.selectRosError(state, RosPathsType.recommendation as any, RosType.ros as any, detailQueryString)
+      : undefined
+  );
+
   useEffect(() => {
     if (clusterUuid && container && !reportError && reportFetchStatus !== FetchStatus.inProgress) {
       dispatch(
@@ -259,11 +374,33 @@ const useMapToProps = ({ queryStateName }: GpuMigBreakdownMapProps): GpuMigBreak
     }
   }, [queryString]);
 
+  useEffect(() => {
+    if (
+      !migContainerId &&
+      lookupQueryString &&
+      !lookupError &&
+      lookupFetchStatus !== FetchStatus.inProgress
+    ) {
+      dispatch(
+        rosActions.fetchRosReport(RosPathsType.recommendations as any, RosType.ros as any, lookupQueryString)
+      );
+    }
+  }, [lookupQueryString, migContainerId]);
+
+  useEffect(() => {
+    if (detailQueryString && !detailError && detailFetchStatus !== FetchStatus.inProgress) {
+      dispatch(
+        rosActions.fetchRosReport(RosPathsType.recommendation as any, RosType.ros as any, detailQueryString)
+      );
+    }
+  }, [detailQueryString]);
+
   const query = new URLSearchParams(location.search);
 
   return {
     breadcrumbLabel: query.get(breadcrumbLabelKey) ?? listQueryState.breadcrumbLabel,
     breadcrumbPath: listQueryState.breadcrumbPath,
+    containerDetail,
     report,
     reportError,
     reportFetchStatus,

@@ -1323,6 +1323,18 @@
         "value": "Recommended profile"
       }
     ],
+    "gpuMigColumnPeakHoursClassification": [
+      {
+        "type": 0,
+        "value": "Peak hours classification"
+      }
+    ],
+    "gpuMigColumnPeakHoursProfile": [
+      {
+        "type": 0,
+        "value": "Peak hours profile"
+      }
+    ],
     "gpuMigColumnTerm": [
       {
         "type": 0,

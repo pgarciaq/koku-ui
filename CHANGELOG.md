@@ -8,6 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** Peak hours sizing on node, GPU MIG, GPU time-slicing, and VM
+  breakdown pages. Detail stays all-hours by default; a Peak hours card (or MIG
+  columns) appears only when the nest has sizing fields. Warning text comes from
+  nest `message` for codes **79–82** and is not merged into parent notification
+  lists. Lists stay all-hours. Timeslicing breakdown fetches
+  `GET .../gpu/timeslicing/{node}`. MIG extra-fetches container detail for
+  `gpu.{term}.business_hours` until list rows include container `id`.
+  ([Issue #493](https://github.com/pgarciaq/ros-ocp-backend/issues/493))
+
 - **ROS:** Container Recommendation History Chart in Visual Insights section. Renders
   two multi-line trend charts (CPU/Memory) showing how recommended request and limit
   values drift over time. CPU chart uses millicores, Memory chart uses MiB (converted

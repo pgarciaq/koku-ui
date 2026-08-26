@@ -82,6 +82,8 @@
   "gpuMigColumnGpuModel": "GPU model",
   "gpuMigColumnNamespace": "Namespace",
   "gpuMigColumnRecommendedProfile": "Recommended profile",
+  "gpuMigColumnPeakHoursClassification": "Peak hours classification",
+  "gpuMigColumnPeakHoursProfile": "Peak hours profile",
   "gpuMigColumnTerm": "Term",
   "gpuMigColumnWorkload": "Workload",
   "gpuTimeslicing": "Time-Slicing",

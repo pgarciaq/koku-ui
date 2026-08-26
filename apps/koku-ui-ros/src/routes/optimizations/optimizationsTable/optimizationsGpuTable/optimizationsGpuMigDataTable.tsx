@@ -165,7 +165,7 @@ const OptimizationsGpuMigDataTable: React.FC<OptimizationsGpuMigDataTableProps> 
       };
 
       const breakdownUrl = breakdownPath
-        ? `${breakdownPath}?cluster_uuid=${encodeURIComponent(item.cluster_uuid ?? '')}&namespace=${encodeURIComponent(item.namespace ?? '')}&container=${encodeURIComponent(item.container ?? '')}&gpu_model=${encodeURIComponent(item.gpu_model ?? '')}`
+        ? `${breakdownPath}?cluster_uuid=${encodeURIComponent(item.cluster_uuid ?? '')}&namespace=${encodeURIComponent(item.namespace ?? '')}&container=${encodeURIComponent(item.container ?? '')}&gpu_model=${encodeURIComponent(item.gpu_model ?? '')}&workload=${encodeURIComponent(item.workload ?? '')}`
         : undefined;
 
       const containerCell =
