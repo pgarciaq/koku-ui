@@ -18,7 +18,6 @@
   "clusterQuotaName": "ClusterResourceQuota",
   "copyToClipboard": "Copy to clipboard",
   "copyToClipboardSuccessfull": "Successfully copied to clipboard!",
-  "containerUtilizationPeakHoursCaption": "Solid request and limit lines are the 24×7 recommendation. The dashed series is peak-hours usage (office window only). The Peak hours card is the daytime recommendation.",
   "cost": "Cost",
   "costManagement": "Cost Management ROS",
   "cpu": "CPU",

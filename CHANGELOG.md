@@ -8,12 +8,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** Container and namespace utilization Peak hours **chart mode**.
+  All-hours charts stay 24×7 usage + 24×7 request/limit. A second Peak hours
+  chart uses `business_hours_plots` with BH request/limit. Hide Peak hours
+  charts when the nest is reason-only or BH plots are empty. Do not overlay
+  dashed BH usage or BH rec on the all-hours series.
+  ([Issue #496](https://github.com/pgarciaq/ros-ocp-backend/issues/496))
+
 - **ROS:** Peak hours Visual Insights on node, GPU MIG, GPU time-slicing, VM, and
   container breakdown. Node/VM Peak hours usage charts use sibling
   `daily_digests_business_hours` with the Peak hours rec on that series only.
   MIG dual radar uses container `gpu.{term}.business_hours` (VRAM from parent
-  `total_fb_mib`). Timeslicing Peak hours radar uses nest SM/VRAM. Container
-  utilization keeps 24×7 request/limit thresholds and a caption. Hide Peak hours
+  `total_fb_mib`). Timeslicing Peak hours radar uses nest SM/VRAM. Hide Peak hours
   charts when the nest is reason-only. Do not draw BH recs on all-hours charts.
   ([Issue #494](https://github.com/pgarciaq/ros-ocp-backend/issues/494))
 

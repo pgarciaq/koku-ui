@@ -31,7 +31,7 @@ export interface RecommendationValues {
 }
 
 export interface RecommendationEngine {
-  business_hours?: RecommendationValues;
+  business_hours?: RecommendationValues & { reason?: string };
   config: RecommendationValues;
   explanation?: RecommendationExplanation;
   notifications?: {

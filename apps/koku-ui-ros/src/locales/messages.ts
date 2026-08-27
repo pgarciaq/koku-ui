@@ -61,16 +61,6 @@ export default defineMessages({
     description: 'P95-P99 (peak range)',
     id: 'chartUsageP95P99Legend',
   },
-  chartBhP50Legend: {
-    defaultMessage: 'Business hours median (P50)',
-    description: 'Business hours median (P50)',
-    id: 'chartBhP50Legend',
-  },
-  chartBhP50P95Legend: {
-    defaultMessage: 'Business hours P50-P95',
-    description: 'Business hours P50-P95 range',
-    id: 'chartBhP50P95Legend',
-  },
   chooseKeyPlaceholder: {
     defaultMessage: 'Choose key',
     description: 'Choose key',
@@ -105,12 +95,6 @@ export default defineMessages({
     defaultMessage: 'CPU',
     description: 'CPU',
     id: 'cpu',
-  },
-  containerUtilizationPeakHoursCaption: {
-    defaultMessage:
-      'Solid request and limit lines are the 24×7 recommendation. The dashed series is peak-hours usage (office window only). The Peak hours card is the daytime recommendation.',
-    description: 'Caption on container utilization charts explaining 24x7 thresholds vs peak-hours usage',
-    id: 'containerUtilizationPeakHoursCaption',
   },
   cpuUtilization: {
     defaultMessage: 'CPU utilization',
@@ -2167,7 +2151,7 @@ export default defineMessages({
   visualInsightsPeakHoursChartCaption: {
     defaultMessage:
       'This series excludes hours outside the office window, including overnight windows.',
-    description: 'Caption under Peak hours usage charts on node, VM, and GPU Visual Insights',
+    description: 'Caption under Peak hours usage charts on node, VM, GPU, and container/namespace utilization',
     id: 'visualInsightsPeakHoursChartCaption',
   },
   visualInsightsPeakHoursSectionTitle: {

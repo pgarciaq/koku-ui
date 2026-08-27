@@ -23,7 +23,7 @@ export const getRecommendationTerm = (recommendations: Recommendations, interval
   return result;
 };
 
-export const hasRecommendation = (values: RecommendationValues) => {
+export const hasRecommendation = (values?: Pick<RecommendationValues, 'limits' | 'requests'> | null) => {
   if (!values) {
     return false;
   }

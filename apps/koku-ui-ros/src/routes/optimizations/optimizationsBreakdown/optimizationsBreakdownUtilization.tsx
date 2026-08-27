@@ -8,7 +8,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import type { OptimizationType } from 'utils/commonTypes';
 import { Interval, RecommendationType, ResourceType, UsageType } from 'utils/commonTypes';
-import { getRecommendationTerm } from 'utils/recomendations';
+import { getRecommendationTerm, hasRecommendation } from 'utils/recomendations';
 
 import { OptimizationsBreakdownChart } from './optimizationsBreakdownChart';
 import { chartStyles, styles } from './optimizationsBreakdownUtilization.styles';
@@ -22,6 +22,8 @@ interface OptimizationsBreakdownUtilizationOwnProps {
 
 type OptimizationsBreakdownUtilizationProps = OptimizationsBreakdownUtilizationOwnProps;
 
+type RecSource = 'config' | 'business_hours';
+
 const OptimizationsBreakdownUtilization: React.FC<OptimizationsBreakdownUtilizationProps> = ({
   currentInterval,
   optimizationType,
@@ -32,10 +34,13 @@ const OptimizationsBreakdownUtilization: React.FC<OptimizationsBreakdownUtilizat
   const createRecommendationDatum = (
     recommendationType: RecommendationType,
     resourceType: ResourceType,
-    usageDatum
+    usageDatum,
+    recSource: RecSource
   ) => {
     const term = getRecommendationTerm(recommendations, currentInterval);
-    const values = term?.recommendation_engines?.[optimizationType]?.config?.[resourceType]?.[recommendationType];
+    const engine = term?.recommendation_engines?.[optimizationType];
+    const rec = recSource === 'business_hours' ? engine?.business_hours : engine?.config;
+    const values = rec?.[resourceType]?.[recommendationType];
 
     const datum = [];
     usageDatum.forEach(data => {
@@ -124,29 +129,43 @@ const OptimizationsBreakdownUtilization: React.FC<OptimizationsBreakdownUtilizat
     return buildPlotDatum(term?.business_hours_plots?.plots_data, usageType);
   };
 
-  const getChart = (usageType: UsageType, recommendationType: RecommendationType) => {
-    const usageDatum = createUsageDatum(usageType);
-    const bhUsageDatum = createBusinessHoursUsageDatum(usageType);
-    const limitDatum = createRecommendationDatum(recommendationType, ResourceType.limits, usageDatum);
-    const requestDatum = createRecommendationDatum(recommendationType, ResourceType.requests, usageDatum);
+  const term = getRecommendationTerm(recommendations, currentInterval);
+  const bh = term?.recommendation_engines?.[optimizationType]?.business_hours;
+  const hasBhPlots = Boolean(
+    term?.business_hours_plots?.plots_data && Object.keys(term.business_hours_plots.plots_data).length > 0
+  );
+  const showPeakHoursCharts = hasRecommendation(bh) && hasBhPlots;
 
-    return (
-      <OptimizationsBreakdownChart
-        baseHeight={chartStyles.chartHeight}
-        businessHoursUsageData={bhUsageDatum.length > 0 ? bhUsageDatum : undefined}
-        limitData={limitDatum}
-        name={`utilization-${usageType}`}
-        requestData={requestDatum}
-        usageData={usageDatum}
-      />
+  const renderChart = (
+    name: string,
+    usageType: UsageType,
+    recommendationType: RecommendationType,
+    usageDatum,
+    recSource: RecSource
+  ) => (
+    <OptimizationsBreakdownChart
+      baseHeight={chartStyles.chartHeight}
+      limitData={createRecommendationDatum(recommendationType, ResourceType.limits, usageDatum, recSource)}
+      name={name}
+      requestData={createRecommendationDatum(recommendationType, ResourceType.requests, usageDatum, recSource)}
+      usageData={usageDatum}
+    />
+  );
+
+  const getAllHoursChart = (usageType: UsageType, recommendationType: RecommendationType) =>
+    renderChart(`utilization-${usageType}`, usageType, recommendationType, createUsageDatum(usageType), 'config');
+
+  const getPeakHoursChart = (usageType: UsageType, recommendationType: RecommendationType) =>
+    renderChart(
+      `utilization-peak-hours-${usageType}`,
+      usageType,
+      recommendationType,
+      createBusinessHoursUsageDatum(usageType),
+      'business_hours'
     );
-  };
 
   return (
     <Card>
-      <div style={{ padding: '16px 16px 0' }}>
-        <PeakHoursChartCaption variant="container" />
-      </div>
       <Grid hasGutter>
         <GridItem xl={6}>
           <div style={styles.container}>
@@ -157,7 +176,7 @@ const OptimizationsBreakdownUtilization: React.FC<OptimizationsBreakdownUtilizat
                     {intl.formatMessage(messages.cpuUtilization)}
                   </Title>
                 </CardTitle>
-                <CardBody>{getChart(UsageType.cpuUsage, RecommendationType.cpu)}</CardBody>
+                <CardBody>{getAllHoursChart(UsageType.cpuUsage, RecommendationType.cpu)}</CardBody>
               </Card>
             </div>
             <Divider
@@ -175,10 +194,32 @@ const OptimizationsBreakdownUtilization: React.FC<OptimizationsBreakdownUtilizat
                 {intl.formatMessage(messages.memoryUtilization)}
               </Title>
             </CardTitle>
-            <CardBody>{getChart(UsageType.memoryUsage, RecommendationType.memory)}</CardBody>
+            <CardBody>{getAllHoursChart(UsageType.memoryUsage, RecommendationType.memory)}</CardBody>
           </Card>
         </GridItem>
       </Grid>
+      {showPeakHoursCharts && (
+        <div data-testid="utilization-peak-hours" style={{ padding: '0 16px 16px' }}>
+          <Title headingLevel="h3" size="md" style={{ marginBottom: 8 }}>
+            {intl.formatMessage(messages.visualInsightsPeakHoursSectionTitle)}
+          </Title>
+          <PeakHoursChartCaption />
+          <Grid hasGutter>
+            <GridItem xl={6}>
+              <Title headingLevel="h4" size="md">
+                {intl.formatMessage(messages.cpuUtilization)}
+              </Title>
+              {getPeakHoursChart(UsageType.cpuUsage, RecommendationType.cpu)}
+            </GridItem>
+            <GridItem xl={6}>
+              <Title headingLevel="h4" size="md">
+                {intl.formatMessage(messages.memoryUtilization)}
+              </Title>
+              {getPeakHoursChart(UsageType.memoryUsage, RecommendationType.memory)}
+            </GridItem>
+          </Grid>
+        </div>
+      )}
     </Card>
   );
 };

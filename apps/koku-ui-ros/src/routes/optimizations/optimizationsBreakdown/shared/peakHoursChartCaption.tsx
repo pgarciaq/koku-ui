@@ -8,19 +8,11 @@ const captionStyle: React.CSSProperties = {
   marginBottom: 8,
 };
 
-interface PeakHoursChartCaptionProps {
-  variant?: 'container' | 'charts';
-}
-
-const PeakHoursChartCaption: React.FC<PeakHoursChartCaptionProps> = ({ variant = 'charts' }) => {
+const PeakHoursChartCaption: React.FC = () => {
   const intl = useIntl();
   return (
     <div data-testid="peak-hours-chart-caption" style={captionStyle}>
-      {intl.formatMessage(
-        variant === 'container'
-          ? messages.containerUtilizationPeakHoursCaption
-          : messages.visualInsightsPeakHoursChartCaption
-      )}
+      {intl.formatMessage(messages.visualInsightsPeakHoursChartCaption)}
     </div>
   );
 };

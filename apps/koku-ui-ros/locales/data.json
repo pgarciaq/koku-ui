@@ -270,12 +270,6 @@
         "value": "CPU utilization"
       }
     ],
-    "containerUtilizationPeakHoursCaption": [
-      {
-        "type": 0,
-        "value": "Solid request and limit lines are the 24×7 recommendation. The dashed series is peak-hours usage (office window only). The Peak hours card is the daytime recommendation."
-      }
-    ],
     "currencyAbbreviations": [
       {
         "type": 5,

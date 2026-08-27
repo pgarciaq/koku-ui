@@ -115,9 +115,11 @@ Path: `optimizationsBreakdown/shared/peakHoursSizing.tsx`, `peakHoursUtils.ts`
   Do not merge those codes into parent `notifications` / `notification_codes` arrays.
 - Lists stay all-hours (no BH columns). Peak hours **charts** live in Visual Insights on detail
   ([#494](https://github.com/pgarciaq/ros-ocp-backend/issues/494)): node/VM usage (BH rec on that
-  series only), MIG/timeslicing dual radar. Container utilization keeps 24×7 request/limit
-  thresholds and a caption; BH rec lines on that chart are [#496](https://github.com/pgarciaq/ros-ocp-backend/issues/496).
-  Hide Peak hours charts when the nest is reason-only. Do not draw BH recs on all-hours charts.
+  series only), MIG/timeslicing dual radar. Container/namespace utilization
+  ([#496](https://github.com/pgarciaq/ros-ocp-backend/issues/496)) uses a **second** Peak hours
+  chart (`business_hours_plots` + BH request/limit). All-hours charts stay 24×7 usage + 24×7 rec.
+  Hide Peak hours charts when the nest is reason-only or BH plots are empty. Do not draw BH recs
+  or dashed BH usage on all-hours charts.
 - **Node / VM:** card on the existing breakdown from the detail payload.
 - **Timeslicing:** `GET .../gpu/timeslicing/{node}` with `gpu_model` + `term` in the URL; pick the matching row.
 - **MIG:** prefer list row `id` for container detail Peak hours (`gpu.{short|medium|long}.business_hours`).
