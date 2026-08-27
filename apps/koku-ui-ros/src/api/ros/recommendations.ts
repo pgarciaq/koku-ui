@@ -841,6 +841,7 @@ export interface GPUMIGRecommendationData {
   count?: number;
   namespace?: string;
   workload?: string;
+  workload_type?: string;
   container?: string;
   term?: string;
   gpu_model?: string;

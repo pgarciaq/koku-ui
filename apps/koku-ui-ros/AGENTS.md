@@ -116,8 +116,9 @@ Path: `optimizationsBreakdown/shared/peakHoursSizing.tsx`, `peakHoursUtils.ts`
 - Lists stay all-hours (no BH columns). No BH charts here (that is backend/UI issue #494).
 - **Node / VM:** card on the existing breakdown from the detail payload.
 - **Timeslicing:** `GET .../gpu/timeslicing/{node}` with `gpu_model` + `term` in the URL; pick the matching row.
-- **MIG:** extra-fetch container detail `gpu.{short|medium|long}.business_hours` (GPU keys are not `short_term`).
-  If lookup is not exactly one container `id`, omit Peak hours. After backend #495, use row `id`.
+- **MIG:** prefer list row `id` for container detail Peak hours (`gpu.{short|medium|long}.business_hours`).
+  Extra-fetch the container list to resolve `id` when the row lacks it (pre-#495 backends).
+  If lookup is not exactly one container `id`, omit Peak hours.
 
 ## Backend pairing (ros-ocp-backend)
 

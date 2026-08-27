@@ -13,8 +13,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   columns) appears only when the nest has sizing fields. Warning text comes from
   nest `message` for codes **79–82** and is not merged into parent notification
   lists. Lists stay all-hours. Timeslicing breakdown fetches
-  `GET .../gpu/timeslicing/{node}`. MIG extra-fetches container detail for
-  `gpu.{term}.business_hours` until list rows include container `id`.
+  `GET .../gpu/timeslicing/{node}`. MIG prefers list row `id` for Peak hours
+  container detail ([#495](https://github.com/pgarciaq/ros-ocp-backend/issues/495));
+  extra-fetch remains a fallback when `id` is absent.
   ([Issue #493](https://github.com/pgarciaq/ros-ocp-backend/issues/493))
 
 - **ROS:** Container Recommendation History Chart in Visual Insights section. Renders
