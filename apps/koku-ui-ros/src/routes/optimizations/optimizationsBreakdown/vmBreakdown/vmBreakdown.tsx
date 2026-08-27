@@ -103,9 +103,15 @@ const VmBreakdown: React.FC<VmBreakdownProps> = ({ linkState, queryStateName }) 
             clusterUuid={clusterUuid}
             current={current}
             dailyDigests={report?.daily_digests}
+            dailyDigestsBusinessHours={report?.daily_digests_business_hours}
             estimatedMonthlySavings={report?.estimated_monthly_savings}
             namespace={namespace}
+            peakHoursMemoryGib={hasVmBhSizing(report?.business_hours)
+              ? report.business_hours.recommended_memory_gib
+              : undefined}
+            peakHoursVcpu={hasVmBhSizing(report?.business_hours) ? report.business_hours.recommended_vcpu : undefined}
             recommended={recommended}
+            showPeakHoursCharts={hasVmBhSizing(report?.business_hours)}
             vmName={vmName}
           />
         </div>

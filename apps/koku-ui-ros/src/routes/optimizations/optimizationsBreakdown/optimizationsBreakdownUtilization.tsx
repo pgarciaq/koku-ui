@@ -12,6 +12,7 @@ import { getRecommendationTerm } from 'utils/recomendations';
 
 import { OptimizationsBreakdownChart } from './optimizationsBreakdownChart';
 import { chartStyles, styles } from './optimizationsBreakdownUtilization.styles';
+import { PeakHoursChartCaption } from './shared/peakHoursChartCaption';
 
 interface OptimizationsBreakdownUtilizationOwnProps {
   currentInterval?: Interval.short_term | Interval.medium_term | Interval.long_term;
@@ -143,6 +144,9 @@ const OptimizationsBreakdownUtilization: React.FC<OptimizationsBreakdownUtilizat
 
   return (
     <Card>
+      <div style={{ padding: '16px 16px 0' }}>
+        <PeakHoursChartCaption variant="container" />
+      </div>
       <Grid hasGutter>
         <GridItem xl={6}>
           <div style={styles.container}>

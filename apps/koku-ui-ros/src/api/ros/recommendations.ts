@@ -299,6 +299,7 @@ export interface NodeRecommendationData {
     long_term?: NodeRecommendationTerm;
   };
   daily_digests?: NodeDailyDigestItem[];
+  daily_digests_business_hours?: NodeDailyDigestItem[];
 }
 
 export interface NodeDailyDigestItem {
@@ -538,6 +539,7 @@ export interface VmRecommendationData {
   last_recommended_at?: string;
   notifications?: any[];
   daily_digests?: VmDailyDigestItem[];
+  daily_digests_business_hours?: VmDailyDigestItem[];
 }
 
 export interface VmRecommendationReport {
@@ -888,10 +890,15 @@ export function runGpuMigRosReports(reportType: RosType, query: string) {
 export interface TimeslicingBhRecommendation {
   candidate_count?: number;
   confidence?: number;
+  dram_active_avg?: number;
+  fb_usage_max_mib?: number;
   impacted_count?: number;
   notifications?: Record<string, Notification>;
   reason?: string;
   recommended_replicas?: number;
+  sm_active_avg?: number;
+  tensor_pipe_active_avg?: number;
+  total_fb_mib?: number | null;
 }
 
 export interface GPUTimeslicingRecommendationData {

@@ -303,4 +303,41 @@ describe('GpuTimeslicingBreakdown', () => {
     expect(screen.getByText('8')).toBeInTheDocument();
     expect(screen.queryByText('V100')).not.toBeInTheDocument();
   });
+
+  test('renders Peak hours GPU radar from nest SM/VRAM', () => {
+    const { rosSelectors } = require('store/ros');
+    rosSelectors.selectRosFetchStatus.mockReturnValue(2);
+    rosSelectors.selectRos.mockReturnValue({
+      data: [
+        {
+          node_name: 'gpu-node-1',
+          cluster_uuid: 'abc-123',
+          gpu_model: 'A100-SXM4-40GB',
+          term: 'short',
+          recommended_replicas: 4,
+          business_hours: {
+            recommended_replicas: 2,
+            sm_active_avg: 0.2,
+            dram_active_avg: 0.1,
+            tensor_pipe_active_avg: 0.15,
+            fb_usage_max_mib: 2048,
+            total_fb_mib: 16384,
+          },
+          candidate_containers: [],
+        },
+      ],
+    });
+
+    renderWithProviders(<GpuTimeslicingBreakdown queryStateName="gpuTs" />, {
+      gpuTs: {
+        cluster_uuid: 'abc-123',
+        node_name: 'gpu-node-1',
+        gpu_model: 'A100-SXM4-40GB',
+        term: 'short_term',
+        breadcrumbPath: '/optimizations',
+      },
+    });
+
+    expect(screen.getByTestId('gpu-peak-hours-visual-insights')).toBeInTheDocument();
+  });
 });

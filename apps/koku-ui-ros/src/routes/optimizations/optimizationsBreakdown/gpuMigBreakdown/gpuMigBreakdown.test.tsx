@@ -368,4 +368,53 @@ describe('GpuMigBreakdown', () => {
 
     expect(screen.queryByText('Peak hours profile')).not.toBeInTheDocument();
   });
+
+  test('renders Peak hours GPU radar from nest SM/VRAM and parent total_fb_mib', () => {
+    const { rosSelectors } = require('store/ros');
+    rosSelectors.selectRosFetchStatus.mockReturnValue(2);
+    rosSelectors.selectRos.mockImplementation((_state, pathsType) => {
+      if (pathsType === 'gpuMigRecommendations') {
+        return {
+          data: [
+            {
+              id: 'ctr-1',
+              container: 'trainer',
+              term: 'short_term',
+              recommended_gpu_profile: '2g.10gb',
+              total_fb_mib: 81920,
+              fb_usage_max_mib: 40960,
+            },
+          ],
+        };
+      }
+      if (pathsType === 'recommendation') {
+        return {
+          gpu: {
+            short: {
+              business_hours: {
+                recommended_gpu_profile: '1g.5gb',
+                sm_active_avg: 0.8,
+                dram_active_avg: 0.3,
+                tensor_pipe_active_avg: 0.2,
+                fb_usage_max_mib: 20480,
+              },
+            },
+          },
+        };
+      }
+      return undefined;
+    });
+
+    renderWithProviders(<GpuMigBreakdown queryStateName="gpuMig" />, {
+      gpuMig: {
+        cluster_uuid: 'abc-123',
+        namespace: 'ml-training',
+        container: 'trainer',
+        gpu_model: 'A100',
+        breadcrumbPath: '/optimizations',
+      },
+    });
+
+    expect(screen.getByTestId('gpu-peak-hours-visual-insights')).toBeInTheDocument();
+  });
 });

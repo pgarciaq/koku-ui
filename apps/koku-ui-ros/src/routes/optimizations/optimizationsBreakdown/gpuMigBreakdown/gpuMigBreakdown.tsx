@@ -65,6 +65,8 @@ const GpuMigBreakdown: React.FC<GpuMigBreakdownProps> = ({ linkState, queryState
 
   const items = report?.data ?? [];
   const first = items[0];
+  const gpuBh = gpuBhForTerm(containerDetail?.gpu, first?.term);
+  const showPeakHoursCharts = hasGpuBhSizing(gpuBh);
 
   const getHeader = () => {
     const container = first?.container ?? '—';
@@ -246,6 +248,18 @@ const GpuMigBreakdown: React.FC<GpuMigBreakdownProps> = ({ linkState, queryState
             <GpuVisualInsightsSection
               dramActiveAvg={first?.dram_active_avg}
               fbUsageMaxMib={first?.fb_usage_max_mib}
+              peakHours={
+                showPeakHoursCharts
+                  ? {
+                      dramActiveAvg: gpuBh?.dram_active_avg,
+                      fbUsageMaxMib: gpuBh?.fb_usage_max_mib,
+                      smActiveAvg: gpuBh?.sm_active_avg,
+                      tensorPipeActiveAvg: gpuBh?.tensor_pipe_active_avg,
+                      totalFbMib: first?.total_fb_mib,
+                    }
+                  : undefined
+              }
+              showPeakHoursCharts={showPeakHoursCharts}
               smActiveAvg={first?.sm_active_avg}
               tensorPipeActiveAvg={first?.tensor_pipe_active_avg}
               totalFbMib={first?.total_fb_mib}

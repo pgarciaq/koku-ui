@@ -4,6 +4,7 @@ import { useVmHourlyActivity } from 'hooks/useVmHourlyActivity';
 import messages from 'locales/messages';
 import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
+import { PeakHoursChartCaption } from 'routes/optimizations/optimizationsBreakdown/shared/peakHoursChartCaption';
 import type { HeatmapDataPoint } from 'routes/optimizations/visualInsightsUtils';
 import { UtilizationHeatmap } from 'routes/optimizations/visualInsightsUtils';
 import { FetchStatus } from 'store/common';
@@ -16,9 +17,13 @@ interface VmVisualInsightsSectionProps {
   clusterUuid?: string;
   current?: VmSizingBlock;
   dailyDigests?: VmDailyDigestItem[];
+  dailyDigestsBusinessHours?: VmDailyDigestItem[];
   estimatedMonthlySavings?: MoneyAmount;
   namespace?: string;
+  peakHoursMemoryGib?: number | null;
+  peakHoursVcpu?: number | null;
   recommended?: VmRecommendedSizing;
+  showPeakHoursCharts?: boolean;
   vmName?: string;
 }
 
@@ -26,9 +31,13 @@ const VmVisualInsightsSection: React.FC<VmVisualInsightsSectionProps> = ({
   clusterUuid,
   current,
   dailyDigests,
+  dailyDigestsBusinessHours,
   estimatedMonthlySavings,
   namespace,
+  peakHoursMemoryGib,
+  peakHoursVcpu,
   recommended,
+  showPeakHoursCharts,
   vmName,
 }) => {
   const intl = useIntl();
@@ -91,12 +100,21 @@ const VmVisualInsightsSection: React.FC<VmVisualInsightsSectionProps> = ({
     return dailyDigests.some(d => d.cpu_usage_p95_mc != null || d.mem_usage_p95_kib != null);
   }, [dailyDigests]);
 
-  if (!hasAnyIoData && !hasSizingData && !hasUtilizationData && !hourlyParams) {
+  const hasPeakHoursUtilization = useMemo(() => {
+    if (!showPeakHoursCharts || !dailyDigestsBusinessHours || dailyDigestsBusinessHours.length === 0) {
+      return false;
+    }
+    return dailyDigestsBusinessHours.some(d => d.cpu_usage_p95_mc != null || d.mem_usage_p95_kib != null);
+  }, [dailyDigestsBusinessHours, showPeakHoursCharts]);
+
+  if (!hasAnyIoData && !hasSizingData && !hasUtilizationData && !hasPeakHoursUtilization && !hourlyParams) {
     return null;
   }
 
   const cpuRecommendedMc = recommended?.vcpu != null ? recommended.vcpu * 1000 : null;
   const memRecommendedKib = recommended?.memory_gib != null ? recommended.memory_gib * 1024 * 1024 : null;
+  const peakHoursCpuMc = peakHoursVcpu != null ? peakHoursVcpu * 1000 : null;
+  const peakHoursMemKib = peakHoursMemoryGib != null ? peakHoursMemoryGib * 1024 * 1024 : null;
 
   return (
     <Card>
@@ -167,6 +185,44 @@ const VmVisualInsightsSection: React.FC<VmVisualInsightsSectionProps> = ({
                         dailyDigests={dailyDigests}
                         metricKey="memory"
                         recommendedValue={memRecommendedKib}
+                      />
+                    </GridItem>
+                  </Grid>
+                </StackItem>
+              </Stack>
+            </GridItem>
+          )}
+          {hasPeakHoursUtilization && (
+            <GridItem sm={12} data-testid="vm-peak-hours-usage">
+              <Stack hasGutter>
+                <StackItem>
+                  <Title headingLevel="h3" size="md">
+                    {intl.formatMessage(messages.visualInsightsPeakHoursSectionTitle)}
+                  </Title>
+                  <PeakHoursChartCaption />
+                </StackItem>
+                <StackItem>
+                  <Grid hasGutter>
+                    <GridItem md={6} sm={12}>
+                      <Title headingLevel="h4" size="md">
+                        {intl.formatMessage(messages.visualInsightsVmPeakHoursCpuTitle)}
+                      </Title>
+                      <VmUtilizationTrendChart
+                        dailyDigests={dailyDigestsBusinessHours ?? []}
+                        metricKey="cpu"
+                        recommendedValue={peakHoursCpuMc}
+                        testId="vm-peak-hours-trend-cpu"
+                      />
+                    </GridItem>
+                    <GridItem md={6} sm={12}>
+                      <Title headingLevel="h4" size="md">
+                        {intl.formatMessage(messages.visualInsightsVmPeakHoursMemoryTitle)}
+                      </Title>
+                      <VmUtilizationTrendChart
+                        dailyDigests={dailyDigestsBusinessHours ?? []}
+                        metricKey="memory"
+                        recommendedValue={peakHoursMemKib}
+                        testId="vm-peak-hours-trend-memory"
                       />
                     </GridItem>
                   </Grid>

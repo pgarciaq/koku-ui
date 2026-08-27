@@ -7,30 +7,30 @@ import {
   ChartThreshold,
   createContainer,
 } from '@patternfly/react-charts/victory';
-import type { VmDailyDigestItem } from 'api/ros/recommendations';
+import type { NodeDailyDigestItem } from 'api/ros/recommendations';
 import messages from 'locales/messages';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { getResizeObserver } from 'routes/components/charts/common/chartUtils';
 
-interface VmUtilizationTrendChartProps {
-  dailyDigests: VmDailyDigestItem[];
+interface NodePeakHoursUsageChartProps {
+  dailyDigests: NodeDailyDigestItem[];
   metricKey: 'cpu' | 'memory';
-  recommendedValue: number | null;
-  testId?: string;
+  /** Absolute cores (CPU) or GiB (memory) — Peak hours recommendation only. */
+  recommendedValue?: number | null;
 }
 
-const USAGE_COLOR = '#0066CC';
+const P95_COLOR = '#0066CC';
+const P50_COLOR = '#8BC1F7';
 const RECOMMENDED_COLOR = '#EC7A08';
-const CHART_HEIGHT = 200;
+const CHART_HEIGHT = 220;
 
 const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
-const VmUtilizationTrendChart: React.FC<VmUtilizationTrendChartProps> = ({
+const NodePeakHoursUsageChart: React.FC<NodePeakHoursUsageChartProps> = ({
   dailyDigests,
   metricKey,
   recommendedValue,
-  testId,
 }) => {
   const intl = useIntl();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -53,55 +53,55 @@ const VmUtilizationTrendChart: React.FC<VmUtilizationTrendChartProps> = ({
 
   const isCpu = metricKey === 'cpu';
   const title = intl.formatMessage(
-    isCpu ? messages.visualInsightsVmCpuTrendTitle : messages.visualInsightsVmMemoryTrendTitle
+    isCpu ? messages.visualInsightsNodePeakHoursCpuTitle : messages.visualInsightsNodePeakHoursMemoryTitle
   );
   const ariaDesc = intl.formatMessage(
-    isCpu ? messages.visualInsightsVmCpuTrendDesc : messages.visualInsightsVmMemoryTrendDesc
+    isCpu ? messages.visualInsightsNodePeakHoursCpuDesc : messages.visualInsightsNodePeakHoursMemoryDesc
   );
   const p95Label = intl.formatMessage(messages.visualInsightsVmTrendP95Usage);
+  const p50Label = intl.formatMessage(messages.visualInsightsPeakHoursP50Usage);
   const recLabel = intl.formatMessage(messages.visualInsightsVmTrendRecommended);
   const unitLabel = isCpu ? 'cores' : 'GiB';
 
-  const { usageData, thresholdData, maxValue } = useMemo(() => {
+  const { p95Data, p50Data, thresholdData, maxValue } = useMemo(() => {
     const sorted = [...dailyDigests].sort(
       (a, b) => new Date(a.bucket_date).getTime() - new Date(b.bucket_date).getTime()
     );
 
-    const usage: { x: string; y: number }[] = [];
+    const p95: { x: string; y: number }[] = [];
+    const p50: { x: string; y: number }[] = [];
     let peak = 0;
 
     for (const d of sorted) {
       const label = new Date(d.bucket_date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-      const raw = isCpu ? d.cpu_usage_p95_mc : d.mem_usage_p95_kib;
-      const displayValue = isCpu ? (raw ?? 0) / 1000 : (raw ?? 0) / 1024 / 1024;
-      usage.push({ x: label, y: parseFloat(displayValue.toFixed(4)) });
-      if (displayValue > peak) {
-        peak = displayValue;
-      }
+      const rawP95 = isCpu ? d.cpu_usage_p95_mc : d.mem_usage_p95_kib;
+      const rawP50 = isCpu ? d.cpu_usage_p50_mc : d.mem_usage_p50_kib;
+      const displayP95 = isCpu ? (rawP95 ?? 0) / 1000 : (rawP95 ?? 0) / 1024 / 1024;
+      const displayP50 = isCpu ? (rawP50 ?? 0) / 1000 : (rawP50 ?? 0) / 1024 / 1024;
+      p95.push({ x: label, y: parseFloat(displayP95.toFixed(4)) });
+      p50.push({ x: label, y: parseFloat(displayP50.toFixed(4)) });
+      peak = Math.max(peak, displayP95, displayP50);
     }
-
-    const recDisplay =
-      recommendedValue != null ? (isCpu ? recommendedValue / 1000 : recommendedValue / 1024 / 1024) : null;
 
     const threshold: { x: string; y: number }[] = [];
-    if (recDisplay != null) {
-      for (const pt of usage) {
-        threshold.push({ x: pt.x, y: parseFloat(recDisplay.toFixed(4)) });
+    if (recommendedValue != null) {
+      const recDisplay = parseFloat(recommendedValue.toFixed(4));
+      for (const pt of p95) {
+        threshold.push({ x: pt.x, y: recDisplay });
       }
-      if (recDisplay > peak) {
-        peak = recDisplay;
-      }
+      peak = Math.max(peak, recDisplay);
     }
 
-    return { usageData: usage, thresholdData: threshold, maxValue: peak };
+    return { p95Data: p95, p50Data: p50, thresholdData: threshold, maxValue: peak };
   }, [dailyDigests, recommendedValue, isCpu]);
 
-  if (!usageData.length) {
+  if (!p95Data.length) {
     return null;
   }
 
   const legendData = [
-    { childName: 'usage', name: p95Label, symbol: { fill: USAGE_COLOR, type: 'minus' } },
+    { childName: 'p95', name: p95Label, symbol: { fill: P95_COLOR, type: 'minus' } },
+    { childName: 'p50', name: p50Label, symbol: { fill: P50_COLOR, type: 'minus' } },
     ...(thresholdData.length
       ? [{ childName: 'threshold', name: recLabel, symbol: { fill: RECOMMENDED_COLOR, type: 'minus' } }]
       : []),
@@ -110,7 +110,7 @@ const VmUtilizationTrendChart: React.FC<VmUtilizationTrendChartProps> = ({
   const formatValue = (v: number) => `${v.toFixed(2)} ${unitLabel}`;
 
   return (
-    <div data-testid={testId ?? `vm-utilization-trend-${metricKey}`} ref={containerRef}>
+    <div data-testid={`node-peak-hours-usage-${metricKey}`} ref={containerRef}>
       <div style={{ height: CHART_HEIGHT }}>
         <Chart
           ariaTitle={title}
@@ -126,18 +126,24 @@ const VmUtilizationTrendChart: React.FC<VmUtilizationTrendChartProps> = ({
           }
           domain={{ y: [0, maxValue * 1.2 || 1] }}
           height={CHART_HEIGHT}
-          legendComponent={<ChartLegend data={legendData} gutter={20} />}
+          legendComponent={<ChartLegend data={legendData} height={20} gutter={20} responsive={false} />}
           legendPosition="bottom"
-          padding={{ bottom: 70, left: 60, right: 20, top: 10 }}
+          padding={{ bottom: 60, left: 60, right: 20, top: 10 }}
           width={width}
         >
           <ChartAxis fixLabelOverlap />
           <ChartAxis dependentAxis showGrid tickFormat={t => `${t}`} />
           <ChartLine
-            data={usageData}
+            data={p95Data}
             interpolation="monotoneX"
-            name="usage"
-            style={{ data: { stroke: USAGE_COLOR, strokeWidth: 2 } }}
+            name="p95"
+            style={{ data: { stroke: P95_COLOR, strokeWidth: 2 } }}
+          />
+          <ChartLine
+            data={p50Data}
+            interpolation="monotoneX"
+            name="p50"
+            style={{ data: { stroke: P50_COLOR, strokeWidth: 1.5, strokeDasharray: '6,3' } }}
           />
           {thresholdData.length > 0 && (
             <ChartThreshold
@@ -154,14 +160,16 @@ const VmUtilizationTrendChart: React.FC<VmUtilizationTrendChartProps> = ({
         <thead>
           <tr>
             <th>Date</th>
+            <th>{p50Label}</th>
             <th>{p95Label}</th>
             {thresholdData.length > 0 && <th>{recLabel}</th>}
           </tr>
         </thead>
         <tbody>
-          {usageData.map((pt, idx) => (
+          {p95Data.map((pt, idx) => (
             <tr key={idx}>
               <td>{pt.x}</td>
+              <td>{formatValue(p50Data[idx]?.y ?? 0)}</td>
               <td>{formatValue(pt.y)}</td>
               {thresholdData.length > 0 && <td>{formatValue(thresholdData[idx]?.y ?? 0)}</td>}
             </tr>
@@ -172,4 +180,4 @@ const VmUtilizationTrendChart: React.FC<VmUtilizationTrendChartProps> = ({
   );
 };
 
-export { VmUtilizationTrendChart };
+export { NodePeakHoursUsageChart };

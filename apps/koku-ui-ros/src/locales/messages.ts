@@ -106,6 +106,12 @@ export default defineMessages({
     description: 'CPU',
     id: 'cpu',
   },
+  containerUtilizationPeakHoursCaption: {
+    defaultMessage:
+      'Solid request and limit lines are the 24×7 recommendation. The dashed series is peak-hours usage (office window only). The Peak hours card is the daytime recommendation.',
+    description: 'Caption on container utilization charts explaining 24x7 thresholds vs peak-hours usage',
+    id: 'containerUtilizationPeakHoursCaption',
+  },
   cpuUtilization: {
     defaultMessage: 'CPU utilization',
     description: 'CPU utilization',
@@ -2158,6 +2164,17 @@ export default defineMessages({
     description: 'Card title for peak hours sizing recommendations',
     id: 'peakHoursSizing',
   },
+  visualInsightsPeakHoursChartCaption: {
+    defaultMessage:
+      'This series excludes hours outside the office window, including overnight windows.',
+    description: 'Caption under Peak hours usage charts on node, VM, and GPU Visual Insights',
+    id: 'visualInsightsPeakHoursChartCaption',
+  },
+  visualInsightsPeakHoursSectionTitle: {
+    defaultMessage: 'Peak hours usage',
+    description: 'Section title for Peak hours utilization charts in Visual Insights',
+    id: 'visualInsightsPeakHoursSectionTitle',
+  },
   peakHoursSizingTooltip: {
     defaultMessage: 'Recommended values based on your defined business hours schedule',
     description: 'Tooltip for peak hours sizing card',
@@ -2508,6 +2525,21 @@ export default defineMessages({
     description: 'Accessible description for the VM memory utilization trend chart',
     id: 'visualInsightsVmMemoryTrendDesc',
   },
+  visualInsightsPeakHoursP50Usage: {
+    defaultMessage: 'P50 usage',
+    description: 'Legend label for P50 usage on Peak hours node charts',
+    id: 'visualInsightsPeakHoursP50Usage',
+  },
+  visualInsightsVmPeakHoursCpuTitle: {
+    defaultMessage: 'Peak hours CPU usage',
+    description: 'Title for the VM Peak hours CPU utilization trend',
+    id: 'visualInsightsVmPeakHoursCpuTitle',
+  },
+  visualInsightsVmPeakHoursMemoryTitle: {
+    defaultMessage: 'Peak hours memory usage',
+    description: 'Title for the VM Peak hours memory utilization trend',
+    id: 'visualInsightsVmPeakHoursMemoryTitle',
+  },
   visualInsightsVmTrendP95Usage: {
     defaultMessage: 'P95 usage',
     description: 'Legend label for p95 usage trend line in VM utilization charts',
@@ -2517,6 +2549,26 @@ export default defineMessages({
     defaultMessage: 'Recommended',
     description: 'Legend label for recommended threshold reference line in VM utilization charts',
     id: 'visualInsightsVmTrendRecommended',
+  },
+  visualInsightsNodePeakHoursCpuTitle: {
+    defaultMessage: 'Peak hours CPU usage',
+    description: 'Title for the node Peak hours CPU usage chart (absolute cores)',
+    id: 'visualInsightsNodePeakHoursCpuTitle',
+  },
+  visualInsightsNodePeakHoursCpuDesc: {
+    defaultMessage: 'Daily P50 and P95 CPU usage in cores during the office window, with the Peak hours recommendation',
+    description: 'Accessible description for the node Peak hours CPU usage chart',
+    id: 'visualInsightsNodePeakHoursCpuDesc',
+  },
+  visualInsightsNodePeakHoursMemoryTitle: {
+    defaultMessage: 'Peak hours memory usage',
+    description: 'Title for the node Peak hours memory usage chart (absolute GiB)',
+    id: 'visualInsightsNodePeakHoursMemoryTitle',
+  },
+  visualInsightsNodePeakHoursMemoryDesc: {
+    defaultMessage: 'Daily P50 and P95 memory usage in GiB during the office window, with the Peak hours recommendation',
+    description: 'Accessible description for the node Peak hours memory usage chart',
+    id: 'visualInsightsNodePeakHoursMemoryDesc',
   },
   visualInsightsNodeCpuTrendTitle: {
     defaultMessage: 'CPU Utilization Trend',
@@ -2612,6 +2664,16 @@ export default defineMessages({
     defaultMessage: '{usage} / {capacity} MiB',
     description: 'Subtitle below the VRAM utilization gauge showing usage vs capacity',
     id: 'visualInsightsVramUtilizationSubtitle',
+  },
+  visualInsightsGpuPeakHoursRadarTitle: {
+    defaultMessage: 'Peak hours GPU subsystem utilization',
+    description: 'Title for the Peak hours GPU subsystem utilization radar chart',
+    id: 'visualInsightsGpuPeakHoursRadarTitle',
+  },
+  visualInsightsGpuPeakHoursSectionTitle: {
+    defaultMessage: 'Peak hours GPU utilization',
+    description: 'Section title for Peak hours GPU radar and VRAM charts',
+    id: 'visualInsightsGpuPeakHoursSectionTitle',
   },
   visualInsightsGpuRadarTitle: {
     defaultMessage: 'GPU Subsystem Utilization',

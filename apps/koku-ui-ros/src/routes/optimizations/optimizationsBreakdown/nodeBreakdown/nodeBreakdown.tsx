@@ -113,15 +113,26 @@ const NodeBreakdown: React.FC<NodeBreakdownProps> = ({ linkState, queryStateName
         <div style={{ marginBottom: 24 }}>
           <NodeBreakdownUtilization metrics={report?.metrics} />
         </div>
-        {(report?.pod_capacity > 0 || (report as any)?.daily_digests?.length > 0 || report?.cluster_uuid) && (
+        {(report?.pod_capacity > 0 ||
+          report?.daily_digests?.length > 0 ||
+          report?.daily_digests_business_hours?.length > 0 ||
+          report?.cluster_uuid) && (
           <div style={{ marginBottom: 24 }}>
             <NodeVisualInsightsSection
               clusterUuid={report?.cluster_uuid}
-              dailyDigests={(report as any)?.daily_digests}
+              dailyDigests={report?.daily_digests}
+              dailyDigestsBusinessHours={report?.daily_digests_business_hours}
               lastReported={(report as any)?.last_reported}
               nodeName={report?.node}
+              peakHoursCpuCores={hasNodeBhSizing(recommendationEngine?.business_hours)
+                ? recommendationEngine.business_hours.recommended_cpu_cores
+                : undefined}
+              peakHoursMemoryGib={hasNodeBhSizing(recommendationEngine?.business_hours)
+                ? recommendationEngine.business_hours.recommended_memory_gib
+                : undefined}
               podCapacity={report.pod_capacity}
               podCount={report?.pod_count ?? 0}
+              showPeakHoursCharts={hasNodeBhSizing(recommendationEngine?.business_hours)}
               targetUtilizationBP={recommendationEngine?.explanation?.target_utilization_basis_points}
             />
           </div>

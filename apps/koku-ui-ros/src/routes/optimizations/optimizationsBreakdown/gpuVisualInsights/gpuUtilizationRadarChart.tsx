@@ -12,10 +12,12 @@ import {
 } from 'victory';
 
 interface GpuUtilizationRadarChartOwnProps {
+  desc?: string;
   dramActiveAvg?: number;
   fbUsageMaxMib?: number;
   smActiveAvg?: number;
   tensorPipeActiveAvg?: number;
+  title?: string;
   totalFbMib?: number | null;
 }
 
@@ -26,10 +28,12 @@ const fillColor = chart_color_blue_300?.var ?? 'var(--pf-t--chart--color--blue--
 const strokeColor = chart_color_blue_400?.var ?? 'var(--pf-t--chart--color--blue--400, #004080)';
 
 const GpuUtilizationRadarChart: React.FC<GpuUtilizationRadarChartOwnProps> = ({
+  desc: descProp,
   dramActiveAvg,
   fbUsageMaxMib,
   smActiveAvg,
   tensorPipeActiveAvg,
+  title: titleProp,
   totalFbMib,
 }) => {
   const intl = useIntl();
@@ -65,8 +69,8 @@ const GpuUtilizationRadarChart: React.FC<GpuUtilizationRadarChartOwnProps> = ({
     [fractions]
   );
 
-  const title = intl.formatMessage(messages.visualInsightsGpuRadarTitle);
-  const desc = intl.formatMessage(messages.visualInsightsGpuRadarDesc);
+  const title = titleProp ?? intl.formatMessage(messages.visualInsightsGpuRadarTitle);
+  const desc = descProp ?? intl.formatMessage(messages.visualInsightsGpuRadarDesc);
 
   return (
     <div>

@@ -270,6 +270,12 @@
         "value": "CPU utilization"
       }
     ],
+    "containerUtilizationPeakHoursCaption": [
+      {
+        "type": 0,
+        "value": "Solid request and limit lines are the 24×7 recommendation. The dashed series is peak-hours usage (office window only). The Peak hours card is the daytime recommendation."
+      }
+    ],
     "currencyAbbreviations": [
       {
         "type": 5,
@@ -2576,6 +2582,60 @@
       {
         "type": 0,
         "value": "Peak hours sizing"
+      }
+    ],
+    "visualInsightsPeakHoursChartCaption": [
+      {
+        "type": 0,
+        "value": "This series excludes hours outside the office window, including overnight windows."
+      }
+    ],
+    "visualInsightsPeakHoursSectionTitle": [
+      {
+        "type": 0,
+        "value": "Peak hours usage"
+      }
+    ],
+    "visualInsightsPeakHoursP50Usage": [
+      {
+        "type": 0,
+        "value": "P50 usage"
+      }
+    ],
+    "visualInsightsGpuPeakHoursRadarTitle": [
+      {
+        "type": 0,
+        "value": "Peak hours GPU subsystem utilization"
+      }
+    ],
+    "visualInsightsGpuPeakHoursSectionTitle": [
+      {
+        "type": 0,
+        "value": "Peak hours GPU utilization"
+      }
+    ],
+    "visualInsightsNodePeakHoursCpuTitle": [
+      {
+        "type": 0,
+        "value": "Peak hours CPU usage"
+      }
+    ],
+    "visualInsightsNodePeakHoursMemoryTitle": [
+      {
+        "type": 0,
+        "value": "Peak hours memory usage"
+      }
+    ],
+    "visualInsightsVmPeakHoursCpuTitle": [
+      {
+        "type": 0,
+        "value": "Peak hours CPU usage"
+      }
+    ],
+    "visualInsightsVmPeakHoursMemoryTitle": [
+      {
+        "type": 0,
+        "value": "Peak hours memory usage"
       }
     ],
     "percentPlus": [

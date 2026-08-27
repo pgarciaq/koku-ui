@@ -4,30 +4,39 @@ import { useNodeHourlyUtilization } from 'hooks/useNodeHourlyUtilization';
 import messages from 'locales/messages';
 import React, { useMemo } from 'react';
 import { useIntl } from 'react-intl';
+import { PeakHoursChartCaption } from 'routes/optimizations/optimizationsBreakdown/shared/peakHoursChartCaption';
 import type { HeatmapDataPoint } from 'routes/optimizations/visualInsightsUtils';
 import { UtilizationHeatmap } from 'routes/optimizations/visualInsightsUtils';
 import { FetchStatus } from 'store/common';
 
 import { NodePodHeadroomGauge } from './nodePodHeadroomGauge';
-import { NodeRequestGapChart, NodeUtilizationTrend } from './visualInsights';
+import { NodePeakHoursUsageChart, NodeRequestGapChart, NodeUtilizationTrend } from './visualInsights';
 
 interface NodeVisualInsightsSectionOwnProps {
   clusterUuid?: string;
   dailyDigests?: NodeDailyDigestItem[];
+  dailyDigestsBusinessHours?: NodeDailyDigestItem[];
   lastReported?: string;
   nodeName?: string;
+  peakHoursCpuCores?: number | null;
+  peakHoursMemoryGib?: number | null;
   podCapacity: number;
   podCount: number;
+  showPeakHoursCharts?: boolean;
   targetUtilizationBP?: number;
 }
 
 const NodeVisualInsightsSection: React.FC<NodeVisualInsightsSectionOwnProps> = ({
   clusterUuid,
   dailyDigests,
+  dailyDigestsBusinessHours,
   lastReported,
   nodeName,
+  peakHoursCpuCores,
+  peakHoursMemoryGib,
   podCapacity,
   podCount,
+  showPeakHoursCharts,
   targetUtilizationBP,
 }) => {
   const intl = useIntl();
@@ -61,9 +70,11 @@ const NodeVisualInsightsSection: React.FC<NodeVisualInsightsSectionOwnProps> = (
 
   const hasPodHeadroom = podCapacity > 0;
   const hasDigests = dailyDigests && dailyDigests.length > 0;
+  const hasBhDigests = Boolean(dailyDigestsBusinessHours && dailyDigestsBusinessHours.length > 0);
+  const showPeakHoursUsage = Boolean(showPeakHoursCharts) && hasBhDigests;
   const hasRequestData = hasDigests && dailyDigests.some(d => d.max_cpu_requests_mc > 0 || d.max_mem_requests_kib > 0);
 
-  if (!hasPodHeadroom && !hasDigests && !hourlyParams) {
+  if (!hasPodHeadroom && !hasDigests && !showPeakHoursUsage && !hourlyParams) {
     return null;
   }
 
@@ -103,6 +114,36 @@ const NodeVisualInsightsSection: React.FC<NodeVisualInsightsSectionOwnProps> = (
               />
             </GridItem>
           </Grid>
+        )}
+        {showPeakHoursUsage && (
+          <div data-testid="node-peak-hours-usage" style={{ marginTop: hasDigests ? 24 : 0 }}>
+            <Title headingLevel="h3" size="md" style={{ marginBottom: 8 }}>
+              {intl.formatMessage(messages.visualInsightsPeakHoursSectionTitle)}
+            </Title>
+            <PeakHoursChartCaption />
+            <Grid hasGutter>
+              <GridItem md={6}>
+                <Title headingLevel="h4" size="md">
+                  {intl.formatMessage(messages.visualInsightsNodePeakHoursCpuTitle)}
+                </Title>
+                <NodePeakHoursUsageChart
+                  dailyDigests={dailyDigestsBusinessHours ?? []}
+                  metricKey="cpu"
+                  recommendedValue={peakHoursCpuCores}
+                />
+              </GridItem>
+              <GridItem md={6}>
+                <Title headingLevel="h4" size="md">
+                  {intl.formatMessage(messages.visualInsightsNodePeakHoursMemoryTitle)}
+                </Title>
+                <NodePeakHoursUsageChart
+                  dailyDigests={dailyDigestsBusinessHours ?? []}
+                  metricKey="memory"
+                  recommendedValue={peakHoursMemoryGib}
+                />
+              </GridItem>
+            </Grid>
+          </div>
         )}
         {hasDigests && hasRequestData && (
           <div style={{ marginTop: 24 }}>

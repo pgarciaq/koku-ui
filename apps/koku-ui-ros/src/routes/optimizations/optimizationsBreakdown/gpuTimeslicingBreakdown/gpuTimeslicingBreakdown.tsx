@@ -232,6 +232,18 @@ const GpuTimeslicingBreakdown: React.FC<GpuTimeslicingBreakdownProps> = ({ linkS
             <GpuVisualInsightsSection
               dramActiveAvg={item?.dram_active_avg}
               fbUsageMaxMib={item?.fb_usage_max_mib}
+              peakHours={
+                hasTimeslicingBhSizing(item.business_hours)
+                  ? {
+                      dramActiveAvg: item.business_hours?.dram_active_avg,
+                      fbUsageMaxMib: item.business_hours?.fb_usage_max_mib,
+                      smActiveAvg: item.business_hours?.sm_active_avg,
+                      tensorPipeActiveAvg: item.business_hours?.tensor_pipe_active_avg,
+                      totalFbMib: item.business_hours?.total_fb_mib ?? item.total_fb_mib,
+                    }
+                  : undefined
+              }
+              showPeakHoursCharts={hasTimeslicingBhSizing(item.business_hours)}
               smActiveAvg={item?.sm_active_avg}
               tensorPipeActiveAvg={item?.tensor_pipe_active_avg}
               totalFbMib={item?.total_fb_mib}
