@@ -8,6 +8,10 @@ const ONPREM_DEFAULT_FLAGS = [
   'cost-management.koku-ui-hccm.exact-filter',
   'cost-management.koku-ui-hccm.aws-ec2-instances',
   'cost-management.koku-ui-hccm.price-list',
+  // ROS federated module flags (host shell initializes the shared @unleash singleton).
+  'cost-management.koku-ui-ros.box-plot',
+  'cost-management.koku-ui-ros.project-link',
+  'cost-management.koku-ui-ros.namespace',
 ];
 
 const readUnleashFlagsEnv = (): string => {

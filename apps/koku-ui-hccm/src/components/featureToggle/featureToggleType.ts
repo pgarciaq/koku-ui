@@ -9,6 +9,8 @@ export const enum FeatureToggleType {
   gpu = 'cost-management.koku-ui-hccm.gpu', // Cost model GPU metrics https://redhat.atlassian.net/browse/COST-5334
   mig = 'cost-management.koku-ui-hccm.mig', // Cost of MIG support https://redhat.atlassian.net/browse/COST-7239
   namespace = 'cost-management.koku-ui-ros.namespace', // Namespace recommendations https://redhat.atlassian.net/browse/COST-6267
+  boxPlot = 'cost-management.koku-ui-ros.box-plot', // Utilization box plots https://redhat.atlassian.net/browse/COST-4619
+  projectLink = 'cost-management.koku-ui-ros.project-link', // Optimizations breakdown project link https://redhat.atlassian.net/browse/COST-4527
   priceList = 'cost-management.koku-ui-hccm.price-list', // Life cycle of price list https://redhat.atlassian.net/browse/COST-7330
   priceListRates = 'cost-management.koku-ui-hccm.price-list-rates', // Price list rates API https://redhat.atlassian.net/browse/COST-7786
   qualityDashboard = 'cost-management.koku-ui-hccm.quality-dashboard', // Quality metrics dashboard

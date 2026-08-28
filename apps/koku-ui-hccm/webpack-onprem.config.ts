@@ -123,6 +123,10 @@ const config: Configuration = {
             FeatureToggleType.priceList,
             FeatureToggleType.systems,
             FeatureToggleType.wastedCost,
+            // ROS federated module reads flags from the host's shared @unleash singleton.
+            FeatureToggleType.boxPlot,
+            FeatureToggleType.projectLink,
+            FeatureToggleType.namespace,
           ].join(',')
       ),
     }),
