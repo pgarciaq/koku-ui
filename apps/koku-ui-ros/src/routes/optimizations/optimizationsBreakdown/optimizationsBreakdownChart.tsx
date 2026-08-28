@@ -297,7 +297,7 @@ const OptimizationsBreakdownChart: React.FC<OptimizationsBreakdownChartProps> = 
   const handleOnLegendClick = (index: number) => {
     const clickedChild = series?.[index]?.childName;
     if (clickedChild && USAGE_CHILD_NAMES.includes(clickedChild as (typeof USAGE_CHILD_NAMES)[number])) {
-      toggleGroup(USAGE_CHILD_NAMES)(index);
+      toggleGroup(USAGE_CHILD_NAMES)();
       return;
     }
     const newHiddenSeries = initHiddenSeries(series, hiddenSeries, index);

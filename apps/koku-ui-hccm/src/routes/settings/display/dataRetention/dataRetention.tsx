@@ -168,13 +168,7 @@ const useMapToProps = (): DataRetentionStateProps => {
     if (!accountSettingsError && accountSettingsFetchStatus !== FetchStatus.inProgress) {
       dispatch(accountSettingsActions.fetchAccountSettings(AccountSettingsType.dataRetention));
     }
-<<<<<<< HEAD
   }, [accountSettingsError, accountSettingsFetchStatus, dispatch]);
-=======
-  }, [dispatch, dataRetentionError, dataRetentionQueryString]);
-
-  useDataRetentionNotifications(true);
->>>>>>> 44dbb0ae7 (HCCM UX improvements: scrollbars, heatmap navigation, node trends)
 
   return {
     accountSettings,

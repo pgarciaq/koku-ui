@@ -163,7 +163,7 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
       const requestProps = getRequestProps(item, term, engine);
       const savings = item.recommendations?.estimated_monthly_savings;
       const waste = item.estimated_monthly_waste;
-      const category = item.category;
+      const category = (item as any).category;
       const idleDays = item.idle_duration_days;
 
       const isIdleOrZombie = category === 'idle' || category === 'zombie';
