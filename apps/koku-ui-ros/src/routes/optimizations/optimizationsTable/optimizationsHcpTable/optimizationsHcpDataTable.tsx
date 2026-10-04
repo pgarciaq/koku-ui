@@ -265,13 +265,27 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
             ),
           },
           {
+            value: onFilterAdded ? (
+              <a
+                href="#"
+                onClick={e => {
+                  e.preventDefault();
+                  onFilterAdded({ type: 'project', value: namespace });
+                }}
+              >
+                {namespace}
+              </a>
+            ) : (
+              namespace
+            ),
+          },
+          {
             value: (
               <Link to={optimizationsBreakdownPath} state={linkState}>
-                {namespace}
+                {container}
               </Link>
             ),
           },
-          { value: container },
           {
             value: (
               <>
