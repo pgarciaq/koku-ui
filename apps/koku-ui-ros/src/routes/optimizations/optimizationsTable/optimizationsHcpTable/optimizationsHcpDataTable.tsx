@@ -118,7 +118,9 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
 
     const newNestedColumns = [
       {
-        colSpan: 3 + (isClusterHidden ? 0 : 1),
+        // Covers hosted, namespace, container, cluster, tags (tags lives in
+        // this group on sibling tabs too — not under Memory requests).
+        colSpan: 4 + (isClusterHidden ? 0 : 1),
         hasRightBorder: true,
       },
       {
