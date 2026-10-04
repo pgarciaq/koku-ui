@@ -158,6 +158,7 @@ const OptimizationsContainersTable: React.FC<OptimizationsContainersTableProps> 
         isProjectHidden={isProjectHidden}
         linkPath={linkPath}
         linkState={newLinkState}
+        onFilterAdded={filter => handleOnFilterAdded(filter)}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}
         orderBy={query.order_by}
         report={report}

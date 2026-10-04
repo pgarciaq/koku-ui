@@ -27,6 +27,7 @@ interface OptimizationsContainersDataTableOwnProps {
   isProjectHidden?: boolean;
   linkPath?: string;
   linkState?: any;
+  onFilterAdded?(filter: { type: string; value: string });
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
   report: RecommendationReport;
@@ -45,6 +46,7 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
   isProjectHidden,
   linkPath,
   linkState,
+  onFilterAdded,
   onSort,
   orderBy,
   report,
@@ -209,13 +211,40 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
               </Link>
             ),
           },
-          { value: project, hidden: isProjectHidden },
+          {
+            value: onFilterAdded ? (
+              <a
+                href="#"
+                onClick={e => {
+                  e.preventDefault();
+                  onFilterAdded({ type: 'project', value: project });
+                }}
+              >
+                {project}
+              </a>
+            ) : (
+              project
+            ),
+            hidden: isProjectHidden,
+          },
           { value: workload },
           { value: workloadType },
           {
             value: (
               <>
-                {cluster}
+                {onFilterAdded ? (
+                  <a
+                    href="#"
+                    onClick={e => {
+                      e.preventDefault();
+                      onFilterAdded({ type: 'cluster', value: cluster });
+                    }}
+                  >
+                    {cluster}
+                  </a>
+                ) : (
+                  cluster
+                )}
                 {showWarningIcon && (
                   <span style={styles.warningIcon}>
                     <Icon status="warning">
