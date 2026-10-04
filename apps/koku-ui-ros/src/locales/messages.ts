@@ -1476,6 +1476,7 @@ export default defineMessages({
       'current  {Current} ' +
       'hosted_cluster {Hosted cluster} ' +
       'incomplete {Incomplete} ' +
+      'management_cluster {Management cluster} ' +
       'last_reported {Last reported} ' +
       'memory  {Memory requests} ' +
       'instance_type {Instance type} ' +

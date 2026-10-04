@@ -176,7 +176,7 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
         isSubheader: true,
         hasRightBorder: true,
         hidden: isClusterHidden,
-        name: intl.formatMessage(messages.optimizationsNames, { value: 'cluster' }),
+        name: intl.formatMessage(messages.optimizationsNames, { value: 'management_cluster' }),
         orderBy: 'cluster',
         ...(hasData && { isSortable: true }),
       },

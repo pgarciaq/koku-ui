@@ -1991,6 +1991,14 @@
               }
             ]
           },
+          "management_cluster": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Management cluster"
+              }
+            ]
+          },
           "last_reported": {
             "value": [
               {
