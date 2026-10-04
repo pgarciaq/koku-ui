@@ -29,7 +29,7 @@ interface OptimizationsHcpDataTableOwnProps {
   linkPath?: string;
   linkState?: any;
   onDrillDown?(filter: { key: string; value: string });
-  onFilterAdded?(filter: { key: string; value: string });
+  onFilterAdded?(filter: { type: string; value: string });
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
   report: RecommendationReport;
@@ -247,11 +247,13 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
                 <span>{intl.formatMessage(messages.hcpIncomplete)}</span>
               </Tooltip>
             ) : onFilterAdded ? (
+              // NOTE: Filter takes `type`, not `key` — addFilterToQuery reads
+              // filter.type. Sibling tables pass `key` (no-op repo-wide).
               <a
                 href="#"
                 onClick={e => {
                   e.preventDefault();
-                  onFilterAdded({ key: 'hosted_cluster_id', value: item.hosted_cluster_id });
+                  onFilterAdded({ type: 'hosted_cluster_id', value: item.hosted_cluster_id });
                 }}
               >
                 {item.hosted_cluster_id}
@@ -276,7 +278,7 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
                     href="#"
                     onClick={e => {
                       e.preventDefault();
-                      onFilterAdded({ key: 'cluster', value: cluster });
+                      onFilterAdded({ type: 'cluster', value: cluster });
                     }}
                   >
                     {cluster}
