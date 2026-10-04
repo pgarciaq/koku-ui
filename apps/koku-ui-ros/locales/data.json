@@ -1975,6 +1975,22 @@
               }
             ]
           },
+          "hosted_cluster": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Hosted cluster"
+              }
+            ]
+          },
+          "incomplete": {
+            "value": [
+              {
+                "type": 0,
+                "value": "Incomplete"
+              }
+            ]
+          },
           "last_reported": {
             "value": [
               {
@@ -3949,6 +3965,36 @@
       {
         "type": 0,
         "value": "Cost Management ROS UI"
+      }
+    ],
+    "hcpGroupBy": [
+      {
+        "type": 0,
+        "value": "Group by"
+      }
+    ],
+    "hcpGroupByNone": [
+      {
+        "type": 0,
+        "value": "None"
+      }
+    ],
+    "hcpGroupByHostedCluster": [
+      {
+        "type": 0,
+        "value": "Hosted cluster"
+      }
+    ],
+    "hostedControlPlane": [
+      {
+        "type": 0,
+        "value": "Hosted control plane"
+      }
+    ],
+    "hcpIncomplete": [
+      {
+        "type": 0,
+        "value": "Incomplete"
       }
     ]
   }

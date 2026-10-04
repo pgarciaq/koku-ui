@@ -15065,6 +15065,12 @@
         "type": 0,
         "value": "Yes"
       }
+    ],
+    "hostedControlPlane": [
+      {
+        "type": 0,
+        "value": "Hosted control plane"
+      }
     ]
   }
 }

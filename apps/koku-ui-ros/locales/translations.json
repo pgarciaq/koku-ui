@@ -315,5 +315,10 @@
   "vmStatusPowerOff": "Power-off candidate",
   "wasteEstimatedMonthly": "Estimated monthly waste",
   "welcomeInfo": "For more information visit {url}",
-  "welcomeTitle": "Cost Management ROS UI"
+  "welcomeTitle": "Cost Management ROS UI",
+  "hcpGroupBy": "Group by",
+  "hcpGroupByNone": "None",
+  "hcpGroupByHostedCluster": "Hosted cluster",
+  "hostedControlPlane": "Hosted control plane",
+  "hcpIncomplete": "Incomplete"
 }

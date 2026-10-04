@@ -810,5 +810,6 @@
   "workerUnallocated": "Worker unallocated",
   "workerUnallocatedDesc": "Distribute unused and non-reserved resource costs to projects",
   "workloadEfficiency": "Workload efficiency",
-  "yes": "Yes"
+  "yes": "Yes",
+  "hostedControlPlane": "Hosted control plane"
 }
