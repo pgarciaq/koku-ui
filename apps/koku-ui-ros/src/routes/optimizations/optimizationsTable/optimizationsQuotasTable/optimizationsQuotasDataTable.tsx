@@ -20,7 +20,7 @@ interface OptimizationsQuotasDataTableOwnProps {
   linkPath?: string;
   linkState?: any;
   onDrillDownFromGroup?(filter: { key: string; value: string });
-  onFilterAdded?(filter: { key: string; value: string });
+  onFilterAdded?(filter: { type: string; value: string });
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
   queryStateName?: string;
@@ -174,7 +174,7 @@ const OptimizationsQuotasDataTable: React.FC<OptimizationsQuotasDataTableOwnProp
                 href="#"
                 onClick={e => {
                   e.preventDefault();
-                  onFilterAdded({ key: 'project', value: item.namespace ?? '' });
+                  onFilterAdded({ type: 'project', value: item.namespace ?? '' });
                 }}
               >
                 {item.namespace ?? ''}

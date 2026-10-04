@@ -19,7 +19,7 @@ interface OptimizationsClusterQuotasDataTableOwnProps {
   linkPath?: string;
   linkState?: any;
   onDrillDownFromGroup?(filter: { key: string; value: string });
-  onFilterAdded?(filter: { key: string; value: string });
+  onFilterAdded?(filter: { type: string; value: string });
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
   queryStateName?: string;
@@ -164,7 +164,7 @@ const OptimizationsClusterQuotasDataTable: React.FC<OptimizationsClusterQuotasDa
                 href="#"
                 onClick={e => {
                   e.preventDefault();
-                  onFilterAdded({ key: 'cluster', value: item.cluster_uuid ?? '' });
+                  onFilterAdded({ type: 'cluster', value: item.cluster_uuid ?? '' });
                 }}
               >
                 {item.cluster_uuid ?? ''}

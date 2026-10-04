@@ -26,7 +26,7 @@ interface OptimizationsNamespacesDataTableOwnProps {
   isLoading?: boolean;
   linkPath?: string;
   linkState?: any;
-  onFilterAdded?(filter: { key: string; value: string });
+  onFilterAdded?(filter: { type: string; value: string });
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
   report: RecommendationReport;
@@ -199,7 +199,7 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
                     href="#"
                     onClick={e => {
                       e.preventDefault();
-                      onFilterAdded({ key: 'cluster', value: cluster });
+                      onFilterAdded({ type: 'cluster', value: cluster });
                     }}
                   >
                     {cluster}

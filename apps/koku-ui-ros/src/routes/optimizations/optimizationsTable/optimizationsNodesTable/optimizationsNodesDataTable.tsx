@@ -29,7 +29,7 @@ interface OptimizationsNodesDataTableOwnProps {
   linkPath?: string;
   linkState?: any;
   onDrillDownFromGroup?(filter: { key: string; value: string });
-  onFilterAdded?(filter: { key: string; value: string });
+  onFilterAdded?(filter: { type: string; value: string });
   onSort(value: string, isSortAscending: boolean);
   orderBy?: any;
   report: NodeRecommendationReport;
@@ -218,7 +218,7 @@ const OptimizationsNodesDataTable: React.FC<OptimizationsNodesDataTableProps> = 
                 href="#"
                 onClick={e => {
                   e.preventDefault();
-                  onFilterAdded({ key: 'cluster', value: clusterLabel });
+                  onFilterAdded({ type: 'cluster', value: clusterLabel });
                 }}
               >
                 {clusterLabel}

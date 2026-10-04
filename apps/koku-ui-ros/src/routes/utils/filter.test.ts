@@ -1,4 +1,5 @@
 import { expandTagFilters } from './filter';
+import { handleOnFilterAdded } from './query';
 
 describe('expandTagFilters', () => {
   it('returns empty object for undefined input', () => {
@@ -79,5 +80,17 @@ describe('expandTagFilters', () => {
       'filter[tag:region]': 'us-east',
       'filter[tag:env]': 'prod',
     });
+  });
+});
+
+describe('handleOnFilterAdded (#653)', () => {
+  it('applies type-shaped cell filters to filter_by', () => {
+    const next = handleOnFilterAdded({ limit: 10 }, { type: 'cluster', value: 'c1' } as any);
+    expect(next.filter_by).toEqual({ cluster: ['c1'] });
+  });
+
+  it('applies hosted_cluster_id cell filters to filter_by', () => {
+    const next = handleOnFilterAdded({ limit: 10 }, { type: 'hosted_cluster_id', value: 'hc-1' } as any);
+    expect(next.filter_by).toEqual({ hosted_cluster_id: ['hc-1'] });
   });
 });
