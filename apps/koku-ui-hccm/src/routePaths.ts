@@ -39,6 +39,9 @@ export const routePaths = {
   optimizationsBreakdown: {
     path: '/optimizations/breakdown',
   },
+  optimizationsHcpBreakdown: {
+    path: '/optimizations/hcp-breakdown',
+  },
   optimizationsNamespaceBreakdown: {
     path: '/optimizations/namespace-breakdown',
   },

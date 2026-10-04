@@ -15,6 +15,7 @@ import { ContainerDetails } from './containerDetails';
 import { Efficiency } from './efficiency';
 import { FleetSummaryDetails } from './fleetSummaryDetails';
 import { GpuDetails } from './gpuDetails';
+import { HcpDetails } from './hcpDetails';
 import { HistoryDetails } from './historyDetails';
 import { NamespaceDetails } from './namespaceDetails';
 import { NodeDetails } from './nodeDetails';
@@ -131,6 +132,15 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
                 eventKey={10}
                 title={<TabTitleText>{intl.formatMessage(messages.qualityTab)}</TabTitleText>}
               />
+              <Tab
+                eventKey={11}
+                title={
+                  <TabTitleText>
+                    {intl.formatMessage(messages.hostedControlPlane)}{' '}
+                    <AsyncComponent scope="costManagementRos" module="./OptimizationsHcpBadge" />
+                  </TabTitleText>
+                }
+              />
             </Tabs>
           </div>
         </header>
@@ -147,6 +157,7 @@ const Optimizations: React.FC<OptimizationsProps> = () => {
         {activeTabKey === 8 && <GpuDetails activeTabKey={8} />}
         {activeTabKey === 9 && <HistoryDetails activeTabKey={9} />}
         {activeTabKey === 10 && <QualityDetails activeTabKey={10} />}
+        {activeTabKey === 11 && <HcpDetails activeTabKey={11} />}
       </PageSection>
     </>
   );

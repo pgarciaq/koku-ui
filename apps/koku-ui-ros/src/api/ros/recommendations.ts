@@ -221,6 +221,20 @@ export function runNamespaceRosReports(reportType: RosType, query: string) {
   return axiosInstance.get<RecommendationReport>(`${path}/namespaces${queryString}`);
 }
 
+// HCP recommendation by ID (hosted control-plane surface)
+export function runHcpRosReport(reportType: RosType, id: string, term?: string, engine?: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = id ? `/hcp/${id}?${getDetailQueryParams(term, engine)}` : '';
+  return axiosInstance.get<RecommendationReport>(`${path}${queryString}`);
+}
+
+// HCP recommendations list
+export function runHcpRosReports(reportType: RosType, query: string) {
+  const path = RosTypePaths[reportType];
+  const queryString = query ? `?${query}` : '';
+  return axiosInstance.get<RecommendationReport>(`${path}/hcp${queryString}`);
+}
+
 // --- Node recommendation types ---
 
 export interface NodeClassification {

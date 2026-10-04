@@ -27,6 +27,7 @@ const exposedModules = {
   './OptimizationsDetailsTitle': './src/fed-modules/optimizationsDetailsTitleWrapper.tsx',
   './OptimizationsGpuBadge': './src/fed-modules/optimizationsGpuBadgeWrapper.tsx',
   './OptimizationsGpuDetails': './src/fed-modules/optimizationsGpuDetailsWrapper.tsx',
+  './OptimizationsHcpBadge': './src/fed-modules/optimizationsHcpBadgeWrapper.tsx',
   './OptimizationsLink': './src/fed-modules/optimizationsLinkWrapper.tsx',
   './OptimizationsNamespacesBadge': './src/fed-modules/optimizationsNamespacesBadgeWrapper.tsx',
   './OptimizationsNodesBadge': './src/fed-modules/optimizationsNodesBadgeWrapper.tsx',

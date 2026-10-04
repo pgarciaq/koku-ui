@@ -5,6 +5,9 @@ import { OptimizationsWrapper } from './optimizationsWrapper';
 const ContainersTable = React.lazy(
   () => import('routes/optimizations/optimizationsTable/optimizationsContainersTable/optimizationsContainersTable')
 );
+const HcpTable = React.lazy(
+  () => import('routes/optimizations/optimizationsTable/optimizationsHcpTable/optimizationsHcpTable')
+);
 const NamespacesTable = React.lazy(
   () => import('routes/optimizations/optimizationsTable/optimizationsNamespacesTable/optimizationsNamespacesTable')
 );
@@ -20,6 +23,7 @@ const VmsTable = React.lazy(
 
 const componentMap: Record<string, React.LazyExoticComponent<React.ComponentType<any>>> = {
   containers: ContainersTable,
+  hcp: HcpTable,
   namespaces: NamespacesTable,
   nodes: NodesTable,
   projects: ProjectsTable,

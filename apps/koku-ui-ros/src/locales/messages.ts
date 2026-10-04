@@ -1170,6 +1170,31 @@ export default defineMessages({
     description: 'Storage list group-by toolbar label',
     id: 'storageGroupBy',
   },
+  hcpGroupBy: {
+    defaultMessage: 'Group by',
+    description: 'HCP list group-by toolbar label',
+    id: 'hcpGroupBy',
+  },
+  hcpGroupByNone: {
+    defaultMessage: 'None',
+    description: 'HCP list group-by option for ungrouped rows',
+    id: 'hcpGroupByNone',
+  },
+  hcpGroupByHostedCluster: {
+    defaultMessage: 'Hosted cluster',
+    description: 'HCP list group-by hosted-cluster option',
+    id: 'hcpGroupByHostedCluster',
+  },
+  hostedControlPlane: {
+    defaultMessage: 'Hosted control plane',
+    description: 'HCP recommendations tab title',
+    id: 'hostedControlPlane',
+  },
+  hcpIncomplete: {
+    defaultMessage: 'Incomplete',
+    description: 'HCP row state for unassociated control-plane namespaces',
+    id: 'hcpIncomplete',
+  },
   storageGroupByNone: {
     defaultMessage: 'None',
     description: 'Storage list group-by option for ungrouped rows',
@@ -1449,6 +1474,8 @@ export default defineMessages({
       'container {Container names} ' +
       'cpu  {CPU requests} ' +
       'current  {Current} ' +
+      'hosted_cluster {Hosted cluster} ' +
+      'incomplete {Incomplete} ' +
       'last_reported {Last reported} ' +
       'memory  {Memory requests} ' +
       'instance_type {Instance type} ' +

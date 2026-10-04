@@ -20,4 +20,8 @@ describe('useOptimizationsTabUrl constants', () => {
   it('maps gpu tab to index 8', () => {
     expect(TAB_KEY_TO_INDEX.gpu).toBe(8);
   });
+
+  it('maps hcp tab to index 11', () => {
+    expect(TAB_KEY_TO_INDEX.hcp).toBe(11);
+  });
 });

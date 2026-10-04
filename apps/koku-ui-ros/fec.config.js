@@ -82,6 +82,7 @@ module.exports = {
       // Shared component module path. Must include default export!
       './OptimizationsBadge': path.resolve(__dirname, './src/fed-modules/optimizationsBadgeWrapper.tsx'),
       './OptimizationsBreakdown': path.resolve(__dirname, './src/fed-modules/optimizationsBreakdownWrapper.tsx'),
+      './OptimizationsHcpBadge': path.resolve(__dirname, './src/fed-modules/optimizationsHcpBadgeWrapper.tsx'),
       './OptimizationsDetailsTitle': path.resolve(__dirname, './src/fed-modules/optimizationsDetailsTitleWrapper.tsx'),
       './OptimizationsLink': path.resolve(__dirname, './src/fed-modules/optimizationsLinkWrapper.tsx'),
       './OptimizationsNamespacesBadge': path.resolve(

@@ -15,7 +15,7 @@ export interface RecommendationTermSettingsResponse {
   terms: RecommendationTermSetting[];
 }
 
-export type RecommendationTermSettingsType = 'pvc' | 'container' | 'namespace' | 'node' | 'gpu' | 'vm';
+export type RecommendationTermSettingsType = 'pvc' | 'container' | 'namespace' | 'node' | 'gpu' | 'vm' | 'hcp';
 
 /** Term field values for PUT requests. min_data_days is auto-derived if omitted. */
 export interface RecommendationTermSettingUpdate {

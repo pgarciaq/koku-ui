@@ -55,6 +55,7 @@ const MAX_WINDOW_DAYS: Record<RecommendationTermSettingsType, number> = {
   gpu: 90,
   pvc: 365,
   vm: 90,
+  hcp: 90,
 };
 
 const MAX_HALFLIFE_HOURS = 8760;

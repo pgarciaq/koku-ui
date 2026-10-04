@@ -1,4 +1,5 @@
 export * from './optimizationsContainersTable';
+export * from './optimizationsHcpTable';
 export * from './optimizationsNamespacesTable';
 export * from './optimizationsNodesTable';
 export * from './optimizationsProjectsTable';

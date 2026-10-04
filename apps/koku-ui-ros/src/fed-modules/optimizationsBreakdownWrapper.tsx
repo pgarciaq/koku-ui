@@ -17,6 +17,9 @@ const GpuTimeslicingBreakdown = React.lazy(
 const NamespaceBreakdown = React.lazy(
   () => import('routes/optimizations/optimizationsBreakdown/namespaceBreakdown/namespaceBreakdown')
 );
+const HcpBreakdown = React.lazy(
+  () => import('routes/optimizations/optimizationsBreakdown/hcpBreakdown/hcpBreakdown')
+);
 const NodeBreakdown = React.lazy(
   () => import('routes/optimizations/optimizationsBreakdown/nodeBreakdown/nodeBreakdown')
 );
@@ -36,6 +39,7 @@ const componentMap: Record<string, React.LazyExoticComponent<React.ComponentType
   'cluster-quota': ClusterQuotaBreakdown,
   'gpu-mig': GpuMigBreakdown,
   'gpu-timeslicing': GpuTimeslicingBreakdown,
+  hcp: HcpBreakdown,
   namespace: NamespaceBreakdown,
   node: NodeBreakdown,
   ocp: OcpBreakdown,

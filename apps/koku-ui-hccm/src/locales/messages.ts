@@ -4396,6 +4396,11 @@ export default defineMessages({
     description: 'Optimizations top-level Quality metrics tab label',
     id: 'qualityTab',
   },
+  hostedControlPlane: {
+    defaultMessage: 'Hosted control plane',
+    description: 'Optimizations top-level Hosted control plane tab label',
+    id: 'hostedControlPlane',
+  },
   historyTab: {
     defaultMessage: 'History',
     description: 'Optimizations top-level History tab label',

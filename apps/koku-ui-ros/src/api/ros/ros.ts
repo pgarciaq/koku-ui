@@ -16,12 +16,16 @@ export interface RosData {
   cluster_uuid?: string;
   cluster_alias?: string;
   container?: string;
+  count?: number;
   estimated_monthly_waste?: { value?: string; units?: string };
+  estimated_savings?: { value?: string; units?: string };
+  hosted_cluster_id?: string;
   id?: string;
   idle_duration_days?: number;
   idle_recommendation?: RosIdleRecommendation;
   idle_since?: string;
   idle_state?: string;
+  incomplete?: boolean;
   ingest_hooks_failed?: boolean;
   last_reported?: string;
   project?: string;
@@ -58,6 +62,8 @@ export const enum RosType {
 }
 
 export const enum RosPathsType {
+  hcpRecommendation = 'hcpRecommendation',
+  hcpRecommendations = 'hcpRecommendations',
   namespaceRecommendation = 'namespaceRecommendation',
   namespaceRecommendations = 'namespaceRecommendations',
   nodeRecommendation = 'nodeRecommendation',

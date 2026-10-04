@@ -4,6 +4,8 @@ import {
   runGpuMigRosReports as runGpuMigRecommendations,
   runGpuTimeslicingRosReport as runGpuTimeslicingRecommendation,
   runGpuTimeslicingRosReports as runGpuTimeslicingRecommendations,
+  runHcpRosReport as runHcpRecommendation,
+  runHcpRosReports as runHcpRecommendations,
   runNamespaceRosReport as runNamespaceRecommendation,
   runNamespaceRosReports as runNamespaceRecommendations,
   runNodeRosReport as runNodeRecommendation,
@@ -25,6 +27,14 @@ import { RosPathsType } from './ros';
 export function runRosReport(rosPathsType: RosPathsType, rosType: RosType, query: string) {
   let result;
   switch (rosPathsType) {
+    case RosPathsType.hcpRecommendation: {
+      const { id, term, engine } = decodeRosDetailFetchQuery(query);
+      result = runHcpRecommendation(rosType, id, term, engine);
+      break;
+    }
+    case RosPathsType.hcpRecommendations:
+      result = runHcpRecommendations(rosType, query);
+      break;
     case RosPathsType.namespaceRecommendation: {
       const { id, term, engine } = decodeRosDetailFetchQuery(query);
       result = runNamespaceRecommendation(rosType, id, term, engine);

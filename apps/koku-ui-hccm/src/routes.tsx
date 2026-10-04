@@ -40,6 +40,9 @@ const OcpOptimizationsBreakdown = lazy(
 const NamespaceBreakdown = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/namespaceBreakdown')
 );
+const HcpBreakdown = lazy(
+  () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/hcpBreakdown')
+);
 const NodeBreakdown = lazy(
   () => import(/* webpackChunkName: "recommendations" */ 'routes/optimizations/nodeBreakdown')
 );
@@ -134,6 +137,10 @@ export const routes = {
   optimizationsNamespaceBreakdown: {
     element: userAccess(NamespaceBreakdown),
     ...routePaths.optimizationsNamespaceBreakdown,
+  },
+  optimizationsHcpBreakdown: {
+    element: userAccess(HcpBreakdown),
+    ...routePaths.optimizationsHcpBreakdown,
   },
   optimizationsNodeBreakdown: {
     element: userAccess(NodeBreakdown),
