@@ -53,6 +53,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Check translations
+        run: npm run check:translations --workspace=@koku-ui/koku-ui-ros --workspace=@koku-ui/koku-ui-hccm
+
       - name: Build OnPrem
         id: build-onprem
         uses: redhat-actions/buildah-build@v2
