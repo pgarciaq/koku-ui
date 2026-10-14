@@ -17,6 +17,8 @@ import { hasNotificationsWarning } from 'utils/notifications';
 import { getRequestProps } from '../utils';
 import { OptimizationStateCell } from '../optimizationStateCell';
 import { RecommendationTagsLink } from '../recommendationTagsLink';
+import { formatSavingsCellValue } from '../savingsCellUtils';
+
 
 interface OptimizationsContainersDataTableOwnProps {
   breadcrumbLabel?: string;
@@ -192,8 +194,9 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
       const isIdleOrZombie = category === 'idle' || category === 'zombie';
       const potentialSavingsSource = isIdleOrZombie ? waste : savings;
       const potentialSavingsCell = (() => {
-        if (potentialSavingsSource?.value != null) {
-          return `$${Number(potentialSavingsSource.value).toFixed(2)} ${potentialSavingsSource.units ?? 'USD'}`;
+        const formatted = formatSavingsCellValue(potentialSavingsSource?.value, potentialSavingsSource?.units);
+        if (formatted != null) {
+          return formatted;
         }
         return (
           <Tooltip content={intl.formatMessage(messages.savingsNoDataTooltip)}>

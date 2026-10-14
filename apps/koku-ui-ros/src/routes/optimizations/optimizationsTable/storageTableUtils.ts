@@ -1,5 +1,6 @@
 import type { RosQuery } from 'api/queries/rosQuery';
 import type { PvcRecommendationData } from 'api/ros/recommendations';
+import { formatSignedMoney } from './savingsCellUtils';
 
 export type StorageGroupBy = '' | 'cluster' | 'project';
 
@@ -47,7 +48,7 @@ export function formatMoneyCell(value?: { value?: string; units?: string }): str
   if (value?.value == null || value.value === '' || Number(value.value) === 0) {
     return null;
   }
-  return `$${Number(value.value).toFixed(2)} ${value.units ?? 'USD'}`;
+  return formatSignedMoney(Number(value.value), value.units ?? undefined);
 }
 
 export function getPvcRowKey(item: PvcRecommendationData): string {

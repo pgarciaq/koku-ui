@@ -1,5 +1,6 @@
 import type { RosQuery } from 'api/queries/rosQuery';
 import type { QuotaUtilizationPercents } from 'api/ros/recommendations';
+import { formatSignedMoney } from './savingsCellUtils';
 
 export type QuotaGroupBy = '' | 'cluster' | 'project';
 
@@ -17,7 +18,7 @@ export function formatMoneyCell(value?: { value?: string; units?: string }): str
   if (value?.value == null || value.value === '' || Number(value.value) === 0) {
     return null;
   }
-  return `$${Number(value.value).toFixed(2)} ${value.units ?? 'USD'}`;
+  return formatSignedMoney(Number(value.value), value.units ?? undefined);
 }
 
 export function formatCpuMillicores(millicores?: number): string {

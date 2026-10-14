@@ -9,6 +9,7 @@ import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { DataTable } from 'routes/components/dataTable';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
+import { formatSavingsCellValue } from 'routes/optimizations/optimizationsTable/savingsCellUtils';
 import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { getTimeFromNow } from 'utils/dates';
 
@@ -64,8 +65,9 @@ const getCategoryBadge = (item: NodeRecommendationData, intl: any) => {
 const getSavingsCell = (item: NodeRecommendationData, intl: any, term: string, engine: string) => {
   const savings = getNodeEngineRec(item, term, engine)?.estimated_monthly_savings;
 
-  if (savings?.value != null) {
-    return `$${Number(savings.value).toFixed(2)} ${savings.units ?? 'USD'}`;
+  const formatted = formatSavingsCellValue(savings?.value, savings?.units);
+  if (formatted != null) {
+    return formatted;
   }
   return (
     <Tooltip content={intl.formatMessage(messages.savingsNoDataTooltip)}>

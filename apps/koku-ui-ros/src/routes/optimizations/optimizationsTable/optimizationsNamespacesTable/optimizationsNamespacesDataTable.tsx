@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { DataTable } from 'routes/components/dataTable';
 import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
+import { formatSavingsCellValue } from 'routes/optimizations/optimizationsTable/savingsCellUtils';
 import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { getTimeFromNow } from 'utils/dates';
 import { hasNotificationsWarning } from 'utils/notifications';
@@ -169,8 +170,12 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
       const isIdleOrZombie = category === 'idle' || category === 'zombie';
       const potentialSavingsSource = isIdleOrZombie ? waste : savings;
       const potentialSavingsCell = (() => {
-        if (potentialSavingsSource?.value != null) {
-          return `$${Number(potentialSavingsSource.value).toFixed(2)} ${potentialSavingsSource.units ?? 'USD'}`;
+        const formatted = formatSavingsCellValue(
+          potentialSavingsSource?.value,
+          potentialSavingsSource?.units
+        );
+        if (formatted != null) {
+          return formatted;
         }
         return (
           <Tooltip content={intl.formatMessage(messages.savingsNoDataTooltip)}>

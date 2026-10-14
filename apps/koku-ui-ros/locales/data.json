@@ -48,6 +48,24 @@
         "value": ")"
       }
     ],
+    "categoryOptimized": [
+      {
+        "type": 0,
+        "value": "Optimized"
+      }
+    ],
+    "categoryOversized": [
+      {
+        "type": 0,
+        "value": "Oversized"
+      }
+    ],
+    "categoryUndersized": [
+      {
+        "type": 0,
+        "value": "Undersized"
+      }
+    ],
     "change": [
       {
         "type": 0,
@@ -228,6 +246,58 @@
         "value": "ClusterResourceQuota recommendation"
       }
     ],
+    "clusterQuotaGaugeAriaDesc": [
+      {
+        "type": 1,
+        "value": "resource"
+      },
+      {
+        "type": 0,
+        "value": " utilization as a percentage of the cluster quota hard limit"
+      }
+    ],
+    "clusterQuotaGaugeAriaTitle": [
+      {
+        "type": 1,
+        "value": "resource"
+      },
+      {
+        "type": 0,
+        "value": " Utilization"
+      }
+    ],
+    "clusterQuotaGaugeCpuTitle": [
+      {
+        "type": 0,
+        "value": "CPU"
+      }
+    ],
+    "clusterQuotaGaugeMemoryTitle": [
+      {
+        "type": 0,
+        "value": "Memory"
+      }
+    ],
+    "clusterQuotaGaugePodsTitle": [
+      {
+        "type": 0,
+        "value": "Pods"
+      }
+    ],
+    "clusterQuotaGaugeSubtitle": [
+      {
+        "type": 1,
+        "value": "used"
+      },
+      {
+        "type": 0,
+        "value": " / "
+      },
+      {
+        "type": 1,
+        "value": "hard"
+      }
+    ],
     "clusterQuotaName": [
       {
         "type": 0,
@@ -268,6 +338,41 @@
       {
         "type": 0,
         "value": "CPU utilization"
+      }
+    ],
+    "criteriaValues": [
+      {
+        "type": 5,
+        "value": "value",
+        "options": {
+          "exact": {
+            "value": [
+              {
+                "type": 0,
+                "value": "exact"
+              }
+            ]
+          },
+          "exclude": {
+            "value": [
+              {
+                "type": 0,
+                "value": "excludes"
+              }
+            ]
+          },
+          "include": {
+            "value": [
+              {
+                "type": 0,
+                "value": "includes"
+              }
+            ]
+          },
+          "other": {
+            "value": []
+          }
+        }
       }
     ],
     "currencyAbbreviations": [
@@ -353,6 +458,12 @@
         "value": "Current configuration"
       }
     ],
+    "currentConfigurationTooltip": [
+      {
+        "type": 0,
+        "value": "Resource values currently deployed in the cluster"
+      }
+    ],
     "dataQualityIncomplete": [
       {
         "type": 0,
@@ -375,6 +486,222 @@
       {
         "type": 0,
         "value": "Data through"
+      }
+    ],
+    "decayCurveChartDaysAgo": [
+      {
+        "type": 0,
+        "value": "Days ago"
+      }
+    ],
+    "decayCurveChartDesc": [
+      {
+        "type": 0,
+        "value": "Shows how data weight decreases as data ages within the observation window"
+      }
+    ],
+    "decayCurveChartHalfLife": [
+      {
+        "type": 0,
+        "value": "50% line"
+      }
+    ],
+    "decayCurveChartTitle": [
+      {
+        "type": 0,
+        "value": "Decay curve"
+      }
+    ],
+    "decayCurveChartWeight": [
+      {
+        "type": 0,
+        "value": "Weight"
+      }
+    ],
+    "decayCurveNoDecay": [
+      {
+        "type": 0,
+        "value": "No decay (uniform weighting)"
+      }
+    ],
+    "decayInfoCardHalfLifeDesc": [
+      {
+        "type": 0,
+        "value": "Data from "
+      },
+      {
+        "type": 1,
+        "value": "halfLifeDays"
+      },
+      {
+        "type": 0,
+        "value": " days ago contributes 50% weight"
+      }
+    ],
+    "decayInfoCardTitle": [
+      {
+        "type": 0,
+        "value": "Decay weighting"
+      }
+    ],
+    "decayInfoCardViewSettings": [
+      {
+        "type": 0,
+        "value": "View full settings"
+      }
+    ],
+    "decaySettingsDefault": [
+      {
+        "type": 0,
+        "value": "Default"
+      }
+    ],
+    "decaySettingsDesc": [
+      {
+        "type": 0,
+        "value": "Configure the observation window and exponential decay half-life for each recommendation term. Changes apply on the next recommendation cycle."
+      }
+    ],
+    "decaySettingsHalfLifeHours": [
+      {
+        "type": 0,
+        "value": "Decay half-life (hours)"
+      }
+    ],
+    "decaySettingsLockedTooltip": [
+      {
+        "type": 0,
+        "value": "Set by administrator"
+      }
+    ],
+    "decaySettingsMinDataDays": [
+      {
+        "type": 0,
+        "value": "Min data days"
+      }
+    ],
+    "decaySettingsPluginContainer": [
+      {
+        "type": 0,
+        "value": "Container"
+      }
+    ],
+    "decaySettingsPluginGpu": [
+      {
+        "type": 0,
+        "value": "GPU"
+      }
+    ],
+    "decaySettingsPluginNamespace": [
+      {
+        "type": 0,
+        "value": "Namespace"
+      }
+    ],
+    "decaySettingsPluginNode": [
+      {
+        "type": 0,
+        "value": "Node"
+      }
+    ],
+    "decaySettingsPluginPvc": [
+      {
+        "type": 0,
+        "value": "PVC"
+      }
+    ],
+    "decaySettingsPluginVm": [
+      {
+        "type": 0,
+        "value": "VM"
+      }
+    ],
+    "decaySettingsResetDefaults": [
+      {
+        "type": 0,
+        "value": "Reset to defaults"
+      }
+    ],
+    "decaySettingsResetError": [
+      {
+        "type": 0,
+        "value": "Failed to reset term settings."
+      }
+    ],
+    "decaySettingsResetSuccess": [
+      {
+        "type": 0,
+        "value": "Term settings reset to defaults."
+      }
+    ],
+    "decaySettingsSave": [
+      {
+        "type": 0,
+        "value": "Save"
+      }
+    ],
+    "decaySettingsSaveError": [
+      {
+        "type": 0,
+        "value": "Failed to save term settings."
+      }
+    ],
+    "decaySettingsSaveSuccess": [
+      {
+        "type": 0,
+        "value": "Term settings saved. Changes apply on the next recommendation cycle."
+      }
+    ],
+    "decaySettingsTermLong": [
+      {
+        "type": 0,
+        "value": "Long"
+      }
+    ],
+    "decaySettingsTermMedium": [
+      {
+        "type": 0,
+        "value": "Medium"
+      }
+    ],
+    "decaySettingsTermShort": [
+      {
+        "type": 0,
+        "value": "Short"
+      }
+    ],
+    "decaySettingsTitle": [
+      {
+        "type": 0,
+        "value": "Term & decay settings"
+      }
+    ],
+    "decaySettingsValidationHalfLifeRange": [
+      {
+        "type": 0,
+        "value": "Half-life must be between 0 and 8760"
+      }
+    ],
+    "decaySettingsValidationWindowRange": [
+      {
+        "type": 0,
+        "value": "Window must be between 1 and "
+      },
+      {
+        "type": 1,
+        "value": "max"
+      }
+    ],
+    "decaySettingsWindowDays": [
+      {
+        "type": 0,
+        "value": "Window (days)"
+      }
+    ],
+    "detailsColumnManagementTitle": [
+      {
+        "type": 0,
+        "value": "Manage columns"
       }
     ],
     "detailsEmptyState": [
@@ -433,6 +760,16 @@
       {
         "type": 0,
         "value": "Oops!"
+      }
+    ],
+    "exactLabel": [
+      {
+        "type": 0,
+        "value": "Exact: "
+      },
+      {
+        "type": 1,
+        "value": "value"
       }
     ],
     "excludeLabel": [
@@ -1255,6 +1592,208 @@
         "value": "Values"
       }
     ],
+    "fleetHeatmapAccessibilityCaption": [
+      {
+        "type": 0,
+        "value": "Node fleet utilization data"
+      }
+    ],
+    "fleetHeatmapBandHealthy": [
+      {
+        "type": 0,
+        "value": "Healthy"
+      }
+    ],
+    "fleetHeatmapBandHot": [
+      {
+        "type": 0,
+        "value": "Hot"
+      }
+    ],
+    "fleetHeatmapBandIdle": [
+      {
+        "type": 0,
+        "value": "Idle"
+      }
+    ],
+    "fleetHeatmapBandLow": [
+      {
+        "type": 0,
+        "value": "Low"
+      }
+    ],
+    "fleetHeatmapBandModerate": [
+      {
+        "type": 0,
+        "value": "Moderate"
+      }
+    ],
+    "fleetHeatmapLegendLabel": [
+      {
+        "type": 0,
+        "value": "Utilization band legend"
+      }
+    ],
+    "fleetHeatmapMetricCpu": [
+      {
+        "type": 0,
+        "value": "CPU utilization"
+      }
+    ],
+    "fleetHeatmapMetricMemory": [
+      {
+        "type": 0,
+        "value": "Memory utilization"
+      }
+    ],
+    "fleetHeatmapMetricToggleLabel": [
+      {
+        "type": 0,
+        "value": "Select utilization metric"
+      }
+    ],
+    "fleetHeatmapNoData": [
+      {
+        "type": 0,
+        "value": "No node data available"
+      }
+    ],
+    "fleetHeatmapNoDataDesc": [
+      {
+        "type": 0,
+        "value": "Node utilization data has not been collected yet. Data will appear after the operator reports node metrics."
+      }
+    ],
+    "fleetHeatmapShowAll": [
+      {
+        "type": 0,
+        "value": "Show all "
+      },
+      {
+        "type": 1,
+        "value": "count"
+      },
+      {
+        "type": 0,
+        "value": " nodes"
+      }
+    ],
+    "fleetHeatmapShowTop": [
+      {
+        "type": 0,
+        "value": "Show top "
+      },
+      {
+        "type": 1,
+        "value": "count"
+      },
+      {
+        "type": 0,
+        "value": " nodes"
+      }
+    ],
+    "fleetHeatmapTitle": [
+      {
+        "type": 0,
+        "value": "Node fleet utilization"
+      }
+    ],
+    "fleetHeatmapTooltip": [
+      {
+        "type": 1,
+        "value": "node"
+      },
+      {
+        "type": 0,
+        "value": " — "
+      },
+      {
+        "type": 1,
+        "value": "utilization"
+      },
+      {
+        "type": 0,
+        "value": " ("
+      },
+      {
+        "type": 1,
+        "value": "band"
+      },
+      {
+        "type": 0,
+        "value": ") MachineSet: "
+      },
+      {
+        "type": 1,
+        "value": "machineSet"
+      },
+      {
+        "type": 0,
+        "value": " Instance: "
+      },
+      {
+        "type": 1,
+        "value": "instanceType"
+      }
+    ],
+    "fleetHeatmapUngrouped": [
+      {
+        "type": 0,
+        "value": "Ungrouped"
+      }
+    ],
+    "fleetSummaryAbandonedContainers": [
+      {
+        "type": 0,
+        "value": "Abandoned containers"
+      }
+    ],
+    "fleetSummaryClusters": [
+      {
+        "type": 0,
+        "value": "Clusters"
+      }
+    ],
+    "fleetSummaryIdleContainers": [
+      {
+        "type": 0,
+        "value": "Idle containers"
+      }
+    ],
+    "fleetSummaryNoData": [
+      {
+        "type": 0,
+        "value": "No fleet data available"
+      }
+    ],
+    "fleetSummaryPercentOfTotal": [
+      {
+        "type": 1,
+        "value": "percent"
+      },
+      {
+        "type": 0,
+        "value": "% of total"
+      }
+    ],
+    "fleetSummaryPotentialSavings": [
+      {
+        "type": 0,
+        "value": "Potential monthly savings"
+      }
+    ],
+    "fleetSummaryTitle": [
+      {
+        "type": 0,
+        "value": "Fleet overview"
+      }
+    ],
+    "fleetSummaryTotalContainers": [
+      {
+        "type": 0,
+        "value": "Total containers"
+      }
+    ],
     "forDate": [
       {
         "type": 1,
@@ -1317,12 +1856,6 @@
         "value": "Namespace"
       }
     ],
-    "gpuMigColumnRecommendedProfile": [
-      {
-        "type": 0,
-        "value": "Recommended profile"
-      }
-    ],
     "gpuMigColumnPeakHoursClassification": [
       {
         "type": 0,
@@ -1333,6 +1866,12 @@
       {
         "type": 0,
         "value": "Peak hours profile"
+      }
+    ],
+    "gpuMigColumnRecommendedProfile": [
+      {
+        "type": 0,
+        "value": "Recommended profile"
       }
     ],
     "gpuMigColumnTerm": [
@@ -1347,10 +1886,22 @@
         "value": "Workload"
       }
     ],
+    "gpuMigProfileRecommendations": [
+      {
+        "type": 0,
+        "value": "MIG profile recommendations by term"
+      }
+    ],
     "gpuTimeslicing": [
       {
         "type": 0,
         "value": "Time-Slicing"
+      }
+    ],
+    "gpuTimeslicingCandidateContainers": [
+      {
+        "type": 0,
+        "value": "Candidate containers"
       }
     ],
     "gpuTimeslicingColumnClassification": [
@@ -1399,6 +1950,404 @@
       {
         "type": 0,
         "value": "Estimated monthly savings"
+      }
+    ],
+    "gpuTimeslicingNoCandidates": [
+      {
+        "type": 0,
+        "value": "No candidate containers found for this node"
+      }
+    ],
+    "gpuTimeslicingSmActiveAvg": [
+      {
+        "type": 0,
+        "value": "SM active avg"
+      }
+    ],
+    "hcpGroupBy": [
+      {
+        "type": 0,
+        "value": "Group by"
+      }
+    ],
+    "hcpGroupByHostedCluster": [
+      {
+        "type": 0,
+        "value": "Hosted cluster"
+      }
+    ],
+    "hcpGroupByNone": [
+      {
+        "type": 0,
+        "value": "None"
+      }
+    ],
+    "hcpIncomplete": [
+      {
+        "type": 0,
+        "value": "Incomplete"
+      }
+    ],
+    "historyAllEngines": [
+      {
+        "type": 0,
+        "value": "All engines"
+      }
+    ],
+    "historyAllTerms": [
+      {
+        "type": 0,
+        "value": "All terms"
+      }
+    ],
+    "historyChartCpuDesc": [
+      {
+        "type": 0,
+        "value": "Line chart showing CPU request and limit recommendation values over time in millicores"
+      }
+    ],
+    "historyChartCpuLimit": [
+      {
+        "type": 0,
+        "value": "CPU Limit"
+      }
+    ],
+    "historyChartCpuRequest": [
+      {
+        "type": 0,
+        "value": "CPU Request"
+      }
+    ],
+    "historyChartCpuTitle": [
+      {
+        "type": 0,
+        "value": "CPU Recommendation Trend"
+      }
+    ],
+    "historyChartCpuYAxis": [
+      {
+        "type": 0,
+        "value": "Millicores"
+      }
+    ],
+    "historyChartEmpty": [
+      {
+        "type": 0,
+        "value": "No recommendation history available for this container."
+      }
+    ],
+    "historyChartMemDesc": [
+      {
+        "type": 0,
+        "value": "Line chart showing memory request and limit recommendation values over time in MiB"
+      }
+    ],
+    "historyChartMemLimit": [
+      {
+        "type": 0,
+        "value": "Memory Limit"
+      }
+    ],
+    "historyChartMemRequest": [
+      {
+        "type": 0,
+        "value": "Memory Request"
+      }
+    ],
+    "historyChartMemTitle": [
+      {
+        "type": 0,
+        "value": "Memory Recommendation Trend"
+      }
+    ],
+    "historyChartMemYAxis": [
+      {
+        "type": 0,
+        "value": "MiB"
+      }
+    ],
+    "historyChartTitle": [
+      {
+        "type": 0,
+        "value": "Recommendation History"
+      }
+    ],
+    "historyColCluster": [
+      {
+        "type": 0,
+        "value": "Cluster"
+      }
+    ],
+    "historyColConfidence": [
+      {
+        "type": 0,
+        "value": "Confidence"
+      }
+    ],
+    "historyColContainer": [
+      {
+        "type": 0,
+        "value": "Container"
+      }
+    ],
+    "historyColCpuLimit": [
+      {
+        "type": 0,
+        "value": "CPU Limit"
+      }
+    ],
+    "historyColCpuP95": [
+      {
+        "type": 0,
+        "value": "CPU P95"
+      }
+    ],
+    "historyColCpuRequest": [
+      {
+        "type": 0,
+        "value": "CPU Request"
+      }
+    ],
+    "historyColDataDays": [
+      {
+        "type": 0,
+        "value": "Data Days"
+      }
+    ],
+    "historyColDate": [
+      {
+        "type": 0,
+        "value": "Date"
+      }
+    ],
+    "historyColDecayHalfLife": [
+      {
+        "type": 0,
+        "value": "Decay Half-Life"
+      }
+    ],
+    "historyColEngine": [
+      {
+        "type": 0,
+        "value": "Engine"
+      }
+    ],
+    "historyColIsIdle": [
+      {
+        "type": 0,
+        "value": "Idle"
+      }
+    ],
+    "historyColMemLimit": [
+      {
+        "type": 0,
+        "value": "Mem Limit"
+      }
+    ],
+    "historyColMemP95": [
+      {
+        "type": 0,
+        "value": "Mem P95"
+      }
+    ],
+    "historyColMemRequest": [
+      {
+        "type": 0,
+        "value": "Mem Request"
+      }
+    ],
+    "historyColOomCount": [
+      {
+        "type": 0,
+        "value": "OOM Count"
+      }
+    ],
+    "historyColProject": [
+      {
+        "type": 0,
+        "value": "Project"
+      }
+    ],
+    "historyColSavings": [
+      {
+        "type": 0,
+        "value": "Est. Savings"
+      }
+    ],
+    "historyColTerm": [
+      {
+        "type": 0,
+        "value": "Term"
+      }
+    ],
+    "historyColWorkload": [
+      {
+        "type": 0,
+        "value": "Workload"
+      }
+    ],
+    "historyEndDate": [
+      {
+        "type": 0,
+        "value": "End date"
+      }
+    ],
+    "historyEngineCost": [
+      {
+        "type": 0,
+        "value": "Cost"
+      }
+    ],
+    "historyEnginePerformance": [
+      {
+        "type": 0,
+        "value": "Performance"
+      }
+    ],
+    "historyErrorTitle": [
+      {
+        "type": 0,
+        "value": "Unable to load history"
+      }
+    ],
+    "historyExplorerTitle": [
+      {
+        "type": 0,
+        "value": "Recommendation History"
+      }
+    ],
+    "historyExport": [
+      {
+        "type": 0,
+        "value": "Export to CSV"
+      }
+    ],
+    "historyFilterCluster": [
+      {
+        "type": 0,
+        "value": "Cluster"
+      }
+    ],
+    "historyFilterContainer": [
+      {
+        "type": 0,
+        "value": "Container"
+      }
+    ],
+    "historyFilterPlaceholder": [
+      {
+        "type": 0,
+        "value": "Filter by "
+      },
+      {
+        "type": 1,
+        "value": "category"
+      }
+    ],
+    "historyFilterProject": [
+      {
+        "type": 0,
+        "value": "Project"
+      }
+    ],
+    "historyFilterSearch": [
+      {
+        "type": 0,
+        "value": "Search"
+      }
+    ],
+    "historyFilterWorkload": [
+      {
+        "type": 0,
+        "value": "Workload"
+      }
+    ],
+    "historyLoadingBody": [
+      {
+        "type": 0,
+        "value": "Please wait while we fetch your recommendation history data."
+      }
+    ],
+    "historyLoadingTitle": [
+      {
+        "type": 0,
+        "value": "Loading recommendation history"
+      }
+    ],
+    "historyNoData": [
+      {
+        "type": 0,
+        "value": "No recommendation history found"
+      }
+    ],
+    "historyNoDataBody": [
+      {
+        "type": 0,
+        "value": "Try adjusting your filters or expanding the date range to see recommendation history."
+      }
+    ],
+    "historyNoDataTitle": [
+      {
+        "type": 0,
+        "value": "No recommendation history found"
+      }
+    ],
+    "historyPaginationAriaLabel": [
+      {
+        "type": 0,
+        "value": "History table pagination - "
+      },
+      {
+        "type": 1,
+        "value": "placement"
+      }
+    ],
+    "historyShowAdvancedColumns": [
+      {
+        "type": 0,
+        "value": "Show advanced columns"
+      }
+    ],
+    "historyStartDate": [
+      {
+        "type": 0,
+        "value": "Start date"
+      }
+    ],
+    "historyTab": [
+      {
+        "type": 0,
+        "value": "History"
+      }
+    ],
+    "historyTableAriaLabel": [
+      {
+        "type": 0,
+        "value": "Recommendation history table"
+      }
+    ],
+    "historyTermLong": [
+      {
+        "type": 0,
+        "value": "Long term"
+      }
+    ],
+    "historyTermMedium": [
+      {
+        "type": 0,
+        "value": "Medium term"
+      }
+    ],
+    "historyTermShort": [
+      {
+        "type": 0,
+        "value": "Short term"
+      }
+    ],
+    "hostedControlPlane": [
+      {
+        "type": 0,
+        "value": "Hosted control plane"
       }
     ],
     "idleCalloutAction": [
@@ -1560,6 +2509,12 @@
         "value": "Monthly holding cost"
       }
     ],
+    "moreOptions": [
+      {
+        "type": 0,
+        "value": "More options"
+      }
+    ],
     "names": [
       {
         "type": 6,
@@ -1584,6 +2539,30 @@
         },
         "offset": 0,
         "pluralType": "cardinal"
+      }
+    ],
+    "namespaceContainerInventoryEmpty": [
+      {
+        "type": 0,
+        "value": "No container recommendations are available for this namespace."
+      }
+    ],
+    "namespaceContainerInventoryHelperText": [
+      {
+        "type": 0,
+        "value": "Container recommendations are computed independently from aggregated container-level data, not derived from the namespace-level recommendation above. Values may differ because each uses a different data source and methodology."
+      }
+    ],
+    "namespaceContainerInventoryTitle": [
+      {
+        "type": 0,
+        "value": "Container recommendations in this namespace"
+      }
+    ],
+    "no": [
+      {
+        "type": 0,
+        "value": "No"
       }
     ],
     "noDataForDate": [
@@ -1664,6 +2643,86 @@
       {
         "type": 0,
         "value": "Well utilized"
+      }
+    ],
+    "nodeColdStartDesc": [
+      {
+        "type": 0,
+        "value": "Node recommendations will appear after "
+      },
+      {
+        "type": 6,
+        "value": "minDays",
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 7
+              },
+              {
+                "type": 0,
+                "value": " day"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 7
+              },
+              {
+                "type": 0,
+                "value": " days"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
+      },
+      {
+        "type": 0,
+        "value": " of usage data has been collected. Currently "
+      },
+      {
+        "type": 6,
+        "value": "currentDays",
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 7
+              },
+              {
+                "type": 0,
+                "value": " day"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 7
+              },
+              {
+                "type": 0,
+                "value": " days"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
+      },
+      {
+        "type": 0,
+        "value": " available."
+      }
+    ],
+    "nodeColdStartTitle": [
+      {
+        "type": 0,
+        "value": "Collecting data"
       }
     ],
     "nodeCountReduction": [
@@ -2277,6 +3336,48 @@
         "value": "Last 24 hrs (24h)"
       }
     ],
+    "optimizationsTabSummaryAdditionalCost": [
+      {
+        "type": 0,
+        "value": "Additional cost: "
+      },
+      {
+        "type": 1,
+        "value": "amount"
+      },
+      {
+        "type": 0,
+        "value": "/month across "
+      },
+      {
+        "type": 6,
+        "value": "count",
+        "options": {
+          "=1": {
+            "value": [
+              {
+                "type": 0,
+                "value": "1 recommendation"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " recommendations"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
+      }
+    ],
     "optimizationsTabSummaryCount": [
       {
         "type": 6,
@@ -2345,6 +3446,88 @@
               {
                 "type": 1,
                 "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " recommendations"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
+      }
+    ],
+    "optimizationsTabSummarySavingsSplit": [
+      {
+        "type": 0,
+        "value": "Potential savings: "
+      },
+      {
+        "type": 1,
+        "value": "savings"
+      },
+      {
+        "type": 0,
+        "value": "/month across "
+      },
+      {
+        "type": 6,
+        "value": "savingsCount",
+        "options": {
+          "=1": {
+            "value": [
+              {
+                "type": 0,
+                "value": "1 recommendation"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "savingsCount"
+              },
+              {
+                "type": 0,
+                "value": " recommendations"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
+      },
+      {
+        "type": 0,
+        "value": " · Additional cost: "
+      },
+      {
+        "type": 1,
+        "value": "cost"
+      },
+      {
+        "type": 0,
+        "value": "/month across "
+      },
+      {
+        "type": 6,
+        "value": "costCount",
+        "options": {
+          "=1": {
+            "value": [
+              {
+                "type": 0,
+                "value": "1 recommendation"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "costCount"
               },
               {
                 "type": 0,
@@ -2602,58 +3785,10 @@
         "value": "Peak hours sizing"
       }
     ],
-    "visualInsightsPeakHoursChartCaption": [
+    "peakHoursSizingTooltip": [
       {
         "type": 0,
-        "value": "This series excludes hours outside the office window, including overnight windows."
-      }
-    ],
-    "visualInsightsPeakHoursSectionTitle": [
-      {
-        "type": 0,
-        "value": "Peak hours usage"
-      }
-    ],
-    "visualInsightsPeakHoursP50Usage": [
-      {
-        "type": 0,
-        "value": "P50 usage"
-      }
-    ],
-    "visualInsightsGpuPeakHoursRadarTitle": [
-      {
-        "type": 0,
-        "value": "Peak hours GPU subsystem utilization"
-      }
-    ],
-    "visualInsightsGpuPeakHoursSectionTitle": [
-      {
-        "type": 0,
-        "value": "Peak hours GPU utilization"
-      }
-    ],
-    "visualInsightsNodePeakHoursCpuTitle": [
-      {
-        "type": 0,
-        "value": "Peak hours CPU usage"
-      }
-    ],
-    "visualInsightsNodePeakHoursMemoryTitle": [
-      {
-        "type": 0,
-        "value": "Peak hours memory usage"
-      }
-    ],
-    "visualInsightsVmPeakHoursCpuTitle": [
-      {
-        "type": 0,
-        "value": "Peak hours CPU usage"
-      }
-    ],
-    "visualInsightsVmPeakHoursMemoryTitle": [
-      {
-        "type": 0,
-        "value": "Peak hours memory usage"
+        "value": "Recommended values based on your defined business hours schedule"
       }
     ],
     "percentPlus": [
@@ -2879,6 +4014,22 @@
         "value": "Mounted by"
       }
     ],
+    "pvcProjectionExhaustionDate": [
+      {
+        "type": 0,
+        "value": "Projected full: "
+      },
+      {
+        "type": 1,
+        "value": "date"
+      }
+    ],
+    "pvcProjectionLine": [
+      {
+        "type": 0,
+        "value": "Projected usage"
+      }
+    ],
     "pvcResizeNoteTitle": [
       {
         "type": 0,
@@ -2955,6 +4106,234 @@
         "value": "VM name"
       }
     ],
+    "qualityChartAdoptionLegend": [
+      {
+        "type": 0,
+        "value": "Adoption %"
+      }
+    ],
+    "qualityChartAdoptionTitle": [
+      {
+        "type": 0,
+        "value": "Adoption rate"
+      }
+    ],
+    "qualityChartOomLegend": [
+      {
+        "type": 0,
+        "value": "OOM count"
+      }
+    ],
+    "qualityChartOomTitle": [
+      {
+        "type": 0,
+        "value": "OOM events after recommendation"
+      }
+    ],
+    "qualityChartStabilityLegend": [
+      {
+        "type": 0,
+        "value": "Avg stability %"
+      }
+    ],
+    "qualityChartStabilityTitle": [
+      {
+        "type": 0,
+        "value": "Recommendation stability"
+      }
+    ],
+    "qualityColumnAdoption": [
+      {
+        "type": 0,
+        "value": "Adopted"
+      }
+    ],
+    "qualityColumnAge": [
+      {
+        "type": 0,
+        "value": "Rec. age"
+      }
+    ],
+    "qualityColumnCluster": [
+      {
+        "type": 0,
+        "value": "Cluster"
+      }
+    ],
+    "qualityColumnContainer": [
+      {
+        "type": 0,
+        "value": "Container"
+      }
+    ],
+    "qualityColumnContainerName": [
+      {
+        "type": 0,
+        "value": "Container"
+      }
+    ],
+    "qualityColumnContentionDays": [
+      {
+        "type": 0,
+        "value": "Contention days"
+      }
+    ],
+    "qualityColumnDate": [
+      {
+        "type": 0,
+        "value": "Date"
+      }
+    ],
+    "qualityColumnDaysAboveThreshold": [
+      {
+        "type": 0,
+        "value": "Days above threshold"
+      }
+    ],
+    "qualityColumnOom": [
+      {
+        "type": 0,
+        "value": "OOM events"
+      }
+    ],
+    "qualityColumnProject": [
+      {
+        "type": 0,
+        "value": "Project"
+      }
+    ],
+    "qualityColumnPvcName": [
+      {
+        "type": 0,
+        "value": "PVC name"
+      }
+    ],
+    "qualityColumnSaturationDays": [
+      {
+        "type": 0,
+        "value": "Saturation days"
+      }
+    ],
+    "qualityColumnSnapshotName": [
+      {
+        "type": 0,
+        "value": "Snapshot name"
+      }
+    ],
+    "qualityColumnStability": [
+      {
+        "type": 0,
+        "value": "Stability %"
+      }
+    ],
+    "qualityColumnVmName": [
+      {
+        "type": 0,
+        "value": "VM name"
+      }
+    ],
+    "qualityColumnWorkload": [
+      {
+        "type": 0,
+        "value": "Workload"
+      }
+    ],
+    "qualityCsvDownload": [
+      {
+        "type": 0,
+        "value": "Download CSV"
+      }
+    ],
+    "qualityDashboardEmpty": [
+      {
+        "type": 0,
+        "value": "No quality metrics data is available for the selected filters."
+      }
+    ],
+    "qualityDashboardError": [
+      {
+        "type": 0,
+        "value": "Unable to load quality metrics. Please try again later."
+      }
+    ],
+    "qualityDashboardTitle": [
+      {
+        "type": 0,
+        "value": "Quality metrics"
+      }
+    ],
+    "qualityEntityContainer": [
+      {
+        "type": 0,
+        "value": "Container"
+      }
+    ],
+    "qualityEntityGpu": [
+      {
+        "type": 0,
+        "value": "GPU"
+      }
+    ],
+    "qualityEntityPvc": [
+      {
+        "type": 0,
+        "value": "PVC"
+      }
+    ],
+    "qualityEntitySnapshot": [
+      {
+        "type": 0,
+        "value": "Snapshot"
+      }
+    ],
+    "qualityEntityVm": [
+      {
+        "type": 0,
+        "value": "VM"
+      }
+    ],
+    "qualityFilterCluster": [
+      {
+        "type": 0,
+        "value": "Filter by cluster"
+      }
+    ],
+    "qualityFilterProject": [
+      {
+        "type": 0,
+        "value": "Filter by project"
+      }
+    ],
+    "qualityKpiAdoption": [
+      {
+        "type": 0,
+        "value": "Fleet adoption rate"
+      }
+    ],
+    "qualityKpiOom": [
+      {
+        "type": 0,
+        "value": "OOM events this period"
+      }
+    ],
+    "qualityKpiStability": [
+      {
+        "type": 0,
+        "value": "Overall stability"
+      }
+    ],
+    "qualityPaginationNext": [
+      {
+        "type": 0,
+        "value": "Next"
+      }
+    ],
+    "qualityPaginationPrevious": [
+      {
+        "type": 0,
+        "value": "Previous"
+      }
+    ],
     "quotaDetailLoadError": [
       {
         "type": 0,
@@ -3007,6 +4386,56 @@
       {
         "type": 0,
         "value": "Namespace quota memory sum"
+      }
+    ],
+    "quotaExplanationReasonOptimal": [
+      {
+        "type": 0,
+        "value": "Current resource utilization ("
+      },
+      {
+        "type": 1,
+        "value": "utilization"
+      },
+      {
+        "type": 0,
+        "value": ") is within an acceptable range of the quota hard limit. No changes are recommended at this time."
+      }
+    ],
+    "quotaExplanationReasonRaise": [
+      {
+        "type": 0,
+        "value": "Current resource utilization ("
+      },
+      {
+        "type": 1,
+        "value": "utilization"
+      },
+      {
+        "type": 0,
+        "value": ") is approaching or exceeding the quota hard limit. Workloads may be throttled or fail to schedule. Raising the quota provides adequate headroom based on observed usage patterns."
+      }
+    ],
+    "quotaExplanationReasonTighten": [
+      {
+        "type": 0,
+        "value": "Current resource utilization ("
+      },
+      {
+        "type": 1,
+        "value": "utilization"
+      },
+      {
+        "type": 0,
+        "value": ") is well below the quota hard limit. The quota can be safely reduced to match observed container resource recommendations (plus "
+      },
+      {
+        "type": 1,
+        "value": "headroom"
+      },
+      {
+        "type": 0,
+        "value": " headroom), freeing capacity for other namespaces."
       }
     ],
     "quotaExplanationSignalCpu": [
@@ -3199,6 +4628,12 @@
         "value": "Used"
       }
     ],
+    "readOnlyPermissions": [
+      {
+        "type": 0,
+        "value": "You have read only permissions"
+      }
+    ],
     "recommendationTermWindowDays": [
       {
         "type": 0,
@@ -3250,6 +4685,12 @@
         "value": "Recommended configuration"
       }
     ],
+    "recommendedConfigurationTooltip": [
+      {
+        "type": 0,
+        "value": "Recommended values based on continuous 24/7 workload analysis"
+      }
+    ],
     "recommendedLimit": [
       {
         "type": 0,
@@ -3288,6 +4729,88 @@
       {
         "type": 0,
         "value": "Not reported by the metrics operator. This value may be managed by an HPA or not available for this workload."
+      }
+    ],
+    "replicaOptimizationConfidenceHigh": [
+      {
+        "type": 0,
+        "value": "High confidence"
+      }
+    ],
+    "replicaOptimizationConfidenceLow": [
+      {
+        "type": 0,
+        "value": "Low confidence"
+      }
+    ],
+    "replicaOptimizationConfidenceMedium": [
+      {
+        "type": 0,
+        "value": "Medium confidence"
+      }
+    ],
+    "replicaOptimizationOptimal": [
+      {
+        "type": 0,
+        "value": "Optimal"
+      }
+    ],
+    "replicaOptimizationRecommended": [
+      {
+        "type": 6,
+        "value": "recommended",
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 7
+              },
+              {
+                "type": 0,
+                "value": " replica"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 7
+              },
+              {
+                "type": 0,
+                "value": " replicas"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
+      }
+    ],
+    "replicaOptimizationReduceBy": [
+      {
+        "type": 0,
+        "value": "Reduce by "
+      },
+      {
+        "type": 1,
+        "value": "count"
+      }
+    ],
+    "replicaOptimizationScaleUp": [
+      {
+        "type": 0,
+        "value": "Scale up by "
+      },
+      {
+        "type": 1,
+        "value": "count"
+      }
+    ],
+    "replicaOptimizationTitle": [
+      {
+        "type": 0,
+        "value": "Replica recommendation"
       }
     ],
     "replicaValues": [
@@ -3348,6 +4871,52 @@
         "value": "—"
       }
     ],
+    "savingsWaterfallAriaDesc": [
+      {
+        "type": 0,
+        "value": "Horizontal bar chart showing potential monthly savings broken down by optimization category"
+      }
+    ],
+    "savingsWaterfallEmpty": [
+      {
+        "type": 0,
+        "value": "No savings data available. Configure cost rates to see potential savings by category."
+      }
+    ],
+    "savingsWaterfallError": [
+      {
+        "type": 0,
+        "value": "Unable to load savings data"
+      }
+    ],
+    "savingsWaterfallSubtitle": [
+      {
+        "type": 0,
+        "value": "Total estimated: "
+      },
+      {
+        "type": 1,
+        "value": "total"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "currency"
+      },
+      {
+        "type": 0,
+        "value": "/month"
+      }
+    ],
+    "savingsWaterfallTitle": [
+      {
+        "type": 0,
+        "value": "Potential Savings by Category"
+      }
+    ],
     "selectClearAriaLabel": [
       {
         "type": 0,
@@ -3370,6 +4939,16 @@
       {
         "type": 0,
         "value": "Selectable table row"
+      }
+    ],
+    "selected": [
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " selected"
       }
     ],
     "settingsErrorDesc": [
@@ -3486,6 +5065,18 @@
         "value": "Cluster"
       }
     ],
+    "storageGroupByNamespace": [
+      {
+        "type": 0,
+        "value": "Namespace"
+      }
+    ],
+    "storageGroupByNode": [
+      {
+        "type": 0,
+        "value": "Node"
+      }
+    ],
     "storageGroupByNone": [
       {
         "type": 0,
@@ -3532,6 +5123,52 @@
       {
         "type": 0,
         "value": "Suggestions"
+      }
+    ],
+    "toolBarBulkSelectAll": [
+      {
+        "type": 0,
+        "value": "Select all ("
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " items)"
+      }
+    ],
+    "toolBarBulkSelectAriaDeselect": [
+      {
+        "type": 0,
+        "value": "Deselect all items"
+      }
+    ],
+    "toolBarBulkSelectAriaSelect": [
+      {
+        "type": 0,
+        "value": "Select all items"
+      }
+    ],
+    "toolBarBulkSelectNone": [
+      {
+        "type": 0,
+        "value": "Select none (0 items)"
+      }
+    ],
+    "toolBarBulkSelectPage": [
+      {
+        "type": 0,
+        "value": "Select page ("
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " items)"
       }
     ],
     "typeaheadAriaClear": [
@@ -3917,6 +5554,908 @@
         "value": "units"
       }
     ],
+    "visualInsights": [
+      {
+        "type": 0,
+        "value": "Visual Insights"
+      }
+    ],
+    "visualInsightsCpuThrottleEmpty": [
+      {
+        "type": 0,
+        "value": "No CPU throttling detected"
+      }
+    ],
+    "visualInsightsCpuThrottleMax": [
+      {
+        "type": 0,
+        "value": "Throttle (max)"
+      }
+    ],
+    "visualInsightsCpuThrottleP95": [
+      {
+        "type": 0,
+        "value": "Throttle (p95)"
+      }
+    ],
+    "visualInsightsCpuThrottleTrend": [
+      {
+        "type": 0,
+        "value": "CPU Throttle Trend"
+      }
+    ],
+    "visualInsightsCpuUsageP95": [
+      {
+        "type": 0,
+        "value": "CPU Usage (p95)"
+      }
+    ],
+    "visualInsightsGpuPeakHoursRadarTitle": [
+      {
+        "type": 0,
+        "value": "Peak hours GPU subsystem utilization"
+      }
+    ],
+    "visualInsightsGpuPeakHoursSectionTitle": [
+      {
+        "type": 0,
+        "value": "Peak hours GPU utilization"
+      }
+    ],
+    "visualInsightsGpuRadarAxisDram": [
+      {
+        "type": 0,
+        "value": "DRAM Bandwidth"
+      }
+    ],
+    "visualInsightsGpuRadarAxisSm": [
+      {
+        "type": 0,
+        "value": "SM Activity"
+      }
+    ],
+    "visualInsightsGpuRadarAxisTensor": [
+      {
+        "type": 0,
+        "value": "Tensor Core"
+      }
+    ],
+    "visualInsightsGpuRadarAxisVram": [
+      {
+        "type": 0,
+        "value": "VRAM Usage"
+      }
+    ],
+    "visualInsightsGpuRadarDesc": [
+      {
+        "type": 0,
+        "value": "Radar chart showing SM activity, tensor core activity, DRAM bandwidth, and VRAM usage as percentages"
+      }
+    ],
+    "visualInsightsGpuRadarSubsystem": [
+      {
+        "type": 0,
+        "value": "Subsystem"
+      }
+    ],
+    "visualInsightsGpuRadarTitle": [
+      {
+        "type": 0,
+        "value": "GPU Subsystem Utilization"
+      }
+    ],
+    "visualInsightsGpuRadarUtilization": [
+      {
+        "type": 0,
+        "value": "Utilization"
+      }
+    ],
+    "visualInsightsGpuSectionTitle": [
+      {
+        "type": 0,
+        "value": "Visual Insights"
+      }
+    ],
+    "visualInsightsHeatmapAccessCaption": [
+      {
+        "type": 1,
+        "value": "entity"
+      },
+      {
+        "type": 0,
+        "value": " hourly "
+      },
+      {
+        "type": 1,
+        "value": "metric"
+      },
+      {
+        "type": 0,
+        "value": " data"
+      }
+    ],
+    "visualInsightsHeatmapAccessDay": [
+      {
+        "type": 0,
+        "value": "Day"
+      }
+    ],
+    "visualInsightsHeatmapAccessHour": [
+      {
+        "type": 0,
+        "value": "Hour"
+      }
+    ],
+    "visualInsightsHeatmapAccessValue": [
+      {
+        "type": 0,
+        "value": "Value"
+      }
+    ],
+    "visualInsightsHeatmapTooltip": [
+      {
+        "type": 1,
+        "value": "dayOfWeek"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "hour"
+      },
+      {
+        "type": 0,
+        "value": ":00 – "
+      },
+      {
+        "type": 1,
+        "value": "value"
+      },
+      {
+        "type": 0,
+        "value": " "
+      },
+      {
+        "type": 1,
+        "value": "unit"
+      }
+    ],
+    "visualInsightsNodeActivityHeatmap": [
+      {
+        "type": 0,
+        "value": "Activity Heatmap"
+      }
+    ],
+    "visualInsightsNodeActivityHeatmapDesc": [
+      {
+        "type": 0,
+        "value": "Hour-of-day × day-of-week CPU utilization showing workload patterns"
+      }
+    ],
+    "visualInsightsNodeCpuTrendDesc": [
+      {
+        "type": 0,
+        "value": "Daily CPU utilization as a percentage of allocatable capacity over the selected date range"
+      }
+    ],
+    "visualInsightsNodeCpuTrendTitle": [
+      {
+        "type": 0,
+        "value": "CPU Utilization Trend"
+      }
+    ],
+    "visualInsightsNodeMemoryTrendDesc": [
+      {
+        "type": 0,
+        "value": "Daily memory utilization as a percentage of allocatable capacity over the selected date range"
+      }
+    ],
+    "visualInsightsNodeMemoryTrendTitle": [
+      {
+        "type": 0,
+        "value": "Memory Utilization Trend"
+      }
+    ],
+    "visualInsightsNodePeakHoursCpuDesc": [
+      {
+        "type": 0,
+        "value": "Daily P50 and P95 CPU usage in cores during the office window, with the Peak hours recommendation"
+      }
+    ],
+    "visualInsightsNodePeakHoursCpuTitle": [
+      {
+        "type": 0,
+        "value": "Peak hours CPU usage"
+      }
+    ],
+    "visualInsightsNodePeakHoursMemoryDesc": [
+      {
+        "type": 0,
+        "value": "Daily P50 and P95 memory usage in GiB during the office window, with the Peak hours recommendation"
+      }
+    ],
+    "visualInsightsNodePeakHoursMemoryTitle": [
+      {
+        "type": 0,
+        "value": "Peak hours memory usage"
+      }
+    ],
+    "visualInsightsNodePodHeadroomDataAsOf": [
+      {
+        "type": 0,
+        "value": "Data as of "
+      },
+      {
+        "type": 1,
+        "value": "date"
+      }
+    ],
+    "visualInsightsNodePodHeadroomDesc": [
+      {
+        "type": 0,
+        "value": "Current pod count as a percentage of node pod capacity"
+      }
+    ],
+    "visualInsightsNodePodHeadroomScheduled": [
+      {
+        "type": 1,
+        "value": "percent"
+      },
+      {
+        "type": 0,
+        "value": "% scheduled"
+      }
+    ],
+    "visualInsightsNodePodHeadroomTitle": [
+      {
+        "type": 0,
+        "value": "Pod Scheduling Headroom"
+      }
+    ],
+    "visualInsightsNodeRequestGapAllocatable": [
+      {
+        "type": 0,
+        "value": "Allocatable"
+      }
+    ],
+    "visualInsightsNodeRequestGapCpuTitle": [
+      {
+        "type": 0,
+        "value": "CPU Request vs Usage"
+      }
+    ],
+    "visualInsightsNodeRequestGapDesc": [
+      {
+        "type": 0,
+        "value": "Daily aggregate requests compared to P95 usage, as a percentage of allocatable capacity. The gap indicates overcommitted resources."
+      }
+    ],
+    "visualInsightsNodeRequestGapMemTitle": [
+      {
+        "type": 0,
+        "value": "Memory Request vs Usage"
+      }
+    ],
+    "visualInsightsNodeRequestGapRequest": [
+      {
+        "type": 0,
+        "value": "Requests"
+      }
+    ],
+    "visualInsightsNodeRequestGapUsage": [
+      {
+        "type": 0,
+        "value": "P95 usage"
+      }
+    ],
+    "visualInsightsNodeTrendMax": [
+      {
+        "type": 0,
+        "value": "Max utilization"
+      }
+    ],
+    "visualInsightsNodeTrendP50": [
+      {
+        "type": 0,
+        "value": "P50 utilization"
+      }
+    ],
+    "visualInsightsNodeTrendP95": [
+      {
+        "type": 0,
+        "value": "P95 utilization"
+      }
+    ],
+    "visualInsightsNodeTrendThreshold": [
+      {
+        "type": 0,
+        "value": "Target utilization ("
+      },
+      {
+        "type": 1,
+        "value": "pct"
+      },
+      {
+        "type": 0,
+        "value": "%)"
+      }
+    ],
+    "visualInsightsOomTimeline": [
+      {
+        "type": 0,
+        "value": "OOM Event Timeline"
+      }
+    ],
+    "visualInsightsOomTimelineEmpty": [
+      {
+        "type": 0,
+        "value": "No OOM events detected in this period"
+      }
+    ],
+    "visualInsightsOomTimelineTooltip": [
+      {
+        "type": 1,
+        "value": "date"
+      },
+      {
+        "type": 0,
+        "value": ": "
+      },
+      {
+        "type": 6,
+        "value": "count",
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " OOM kill"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " OOM kills"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
+      }
+    ],
+    "visualInsightsPeakHoursChartCaption": [
+      {
+        "type": 0,
+        "value": "This series excludes hours outside the office window, including overnight windows."
+      }
+    ],
+    "visualInsightsPeakHoursP50Usage": [
+      {
+        "type": 0,
+        "value": "P50 usage"
+      }
+    ],
+    "visualInsightsPeakHoursSectionTitle": [
+      {
+        "type": 0,
+        "value": "Peak hours usage"
+      }
+    ],
+    "visualInsightsPvcUtilizationDataAsOf": [
+      {
+        "type": 0,
+        "value": "Data as of "
+      },
+      {
+        "type": 1,
+        "value": "date"
+      }
+    ],
+    "visualInsightsPvcUtilizationDesc": [
+      {
+        "type": 0,
+        "value": "Current PVC usage as a percentage of provisioned capacity"
+      }
+    ],
+    "visualInsightsPvcUtilizationTitle": [
+      {
+        "type": 0,
+        "value": "PVC Utilization"
+      }
+    ],
+    "visualInsightsPvcUtilizationUsed": [
+      {
+        "type": 1,
+        "value": "percent"
+      },
+      {
+        "type": 0,
+        "value": "% used"
+      }
+    ],
+    "visualInsightsQuotaTrendCpuDesc": [
+      {
+        "type": 0,
+        "value": "Daily CPU request quota hard limit vs actual usage in millicores"
+      }
+    ],
+    "visualInsightsQuotaTrendCpuTitle": [
+      {
+        "type": 0,
+        "value": "CPU Request"
+      }
+    ],
+    "visualInsightsQuotaTrendEmpty": [
+      {
+        "type": 0,
+        "value": "No quota trend data available for this period"
+      }
+    ],
+    "visualInsightsQuotaTrendError": [
+      {
+        "type": 0,
+        "value": "Unable to load quota trend data"
+      }
+    ],
+    "visualInsightsQuotaTrendHardLimit": [
+      {
+        "type": 0,
+        "value": "Hard limit"
+      }
+    ],
+    "visualInsightsQuotaTrendMemoryDesc": [
+      {
+        "type": 0,
+        "value": "Daily memory request quota hard limit vs actual usage"
+      }
+    ],
+    "visualInsightsQuotaTrendMemoryTitle": [
+      {
+        "type": 0,
+        "value": "Memory Request"
+      }
+    ],
+    "visualInsightsQuotaTrendTitle": [
+      {
+        "type": 0,
+        "value": "Quota Headroom Trend"
+      }
+    ],
+    "visualInsightsQuotaTrendUsed": [
+      {
+        "type": 0,
+        "value": "Used"
+      }
+    ],
+    "visualInsightsSnapshotAgeDistribution": [
+      {
+        "type": 0,
+        "value": "Snapshot Age Distribution"
+      }
+    ],
+    "visualInsightsSnapshotAgeDistributionBucketHeader": [
+      {
+        "type": 0,
+        "value": "Age Range"
+      }
+    ],
+    "visualInsightsSnapshotAgeDistributionCountHeader": [
+      {
+        "type": 0,
+        "value": "Count"
+      }
+    ],
+    "visualInsightsSnapshotAgeDistributionDesc": [
+      {
+        "type": 0,
+        "value": "Distribution of volume snapshots by age in days"
+      }
+    ],
+    "visualInsightsSnapshotAgeDistributionEmpty": [
+      {
+        "type": 0,
+        "value": "No snapshot data available"
+      }
+    ],
+    "visualInsightsSnapshotAgeDistributionError": [
+      {
+        "type": 0,
+        "value": "Unable to load snapshot age distribution"
+      }
+    ],
+    "visualInsightsSnapshotAgeDistributionTooltip": [
+      {
+        "type": 1,
+        "value": "label"
+      },
+      {
+        "type": 0,
+        "value": ": "
+      },
+      {
+        "type": 6,
+        "value": "count",
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " snapshot"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " snapshots"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
+      }
+    ],
+    "visualInsightsSnapshotAgeDistributionYAxis": [
+      {
+        "type": 0,
+        "value": "Snapshot Count"
+      }
+    ],
+    "visualInsightsSnapshotCostByType": [
+      {
+        "type": 0,
+        "value": "Snapshot Cost by Type"
+      }
+    ],
+    "visualInsightsSnapshotCostByTypeDesc": [
+      {
+        "type": 0,
+        "value": "Proportional breakdown of snapshot storage cost by recommendation type"
+      }
+    ],
+    "visualInsightsSnapshotCostByTypeEmpty": [
+      {
+        "type": 0,
+        "value": "No snapshot cost data available"
+      }
+    ],
+    "visualInsightsSnapshotCostByTypeError": [
+      {
+        "type": 0,
+        "value": "Unable to load snapshot cost data"
+      }
+    ],
+    "visualInsightsSnapshotCostByTypeTooltip": [
+      {
+        "type": 1,
+        "value": "type"
+      },
+      {
+        "type": 0,
+        "value": ": "
+      },
+      {
+        "type": 1,
+        "value": "cost"
+      },
+      {
+        "type": 0,
+        "value": " ("
+      },
+      {
+        "type": 6,
+        "value": "count",
+        "options": {
+          "one": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " snapshot"
+              }
+            ]
+          },
+          "other": {
+            "value": [
+              {
+                "type": 1,
+                "value": "count"
+              },
+              {
+                "type": 0,
+                "value": " snapshots"
+              }
+            ]
+          }
+        },
+        "offset": 0,
+        "pluralType": "cardinal"
+      },
+      {
+        "type": 0,
+        "value": ")"
+      }
+    ],
+    "visualInsightsVmActivityHeatmap": [
+      {
+        "type": 0,
+        "value": "Activity Heatmap"
+      }
+    ],
+    "visualInsightsVmActivityHeatmapDesc": [
+      {
+        "type": 0,
+        "value": "Hour-of-day × day-of-week CPU utilization revealing idle periods"
+      }
+    ],
+    "visualInsightsVmActivityHeatmapEmpty": [
+      {
+        "type": 0,
+        "value": "No hourly activity data available. Hourly granularity requires live metric collection from the cluster operator and is not included in historical data imports."
+      }
+    ],
+    "visualInsightsVmCpuTrendDesc": [
+      {
+        "type": 0,
+        "value": "Daily p95 CPU usage in cores with recommended threshold over the observation window"
+      }
+    ],
+    "visualInsightsVmCpuTrendTitle": [
+      {
+        "type": 0,
+        "value": "CPU Utilization Trend"
+      }
+    ],
+    "visualInsightsVmDiskIo": [
+      {
+        "type": 0,
+        "value": "Disk I/O Trends"
+      }
+    ],
+    "visualInsightsVmIoEmpty": [
+      {
+        "type": 0,
+        "value": "No I/O data available for this period"
+      }
+    ],
+    "visualInsightsVmIoRead": [
+      {
+        "type": 0,
+        "value": "Read"
+      }
+    ],
+    "visualInsightsVmIoWrite": [
+      {
+        "type": 0,
+        "value": "Write"
+      }
+    ],
+    "visualInsightsVmIopsDesc": [
+      {
+        "type": 0,
+        "value": "Daily p95 disk read and write IOPS over the observation period"
+      }
+    ],
+    "visualInsightsVmIopsTitle": [
+      {
+        "type": 0,
+        "value": "IOPS (p95)"
+      }
+    ],
+    "visualInsightsVmMemoryTrendDesc": [
+      {
+        "type": 0,
+        "value": "Daily p95 memory usage in GiB with recommended threshold over the observation window"
+      }
+    ],
+    "visualInsightsVmMemoryTrendTitle": [
+      {
+        "type": 0,
+        "value": "Memory Utilization Trend"
+      }
+    ],
+    "visualInsightsVmPeakHoursCpuTitle": [
+      {
+        "type": 0,
+        "value": "Peak hours CPU usage"
+      }
+    ],
+    "visualInsightsVmPeakHoursMemoryTitle": [
+      {
+        "type": 0,
+        "value": "Peak hours memory usage"
+      }
+    ],
+    "visualInsightsVmSizingDesc": [
+      {
+        "type": 0,
+        "value": "Comparison of current vs recommended vCPU and memory allocation"
+      }
+    ],
+    "visualInsightsVmSizingMemoryGib": [
+      {
+        "type": 0,
+        "value": "Memory GiB"
+      }
+    ],
+    "visualInsightsVmSizingResourceMetric": [
+      {
+        "type": 0,
+        "value": "Resource Metric"
+      }
+    ],
+    "visualInsightsVmSizingSavings": [
+      {
+        "type": 0,
+        "value": "Estimated monthly savings: "
+      },
+      {
+        "type": 1,
+        "value": "amount"
+      },
+      {
+        "type": 0,
+        "value": " ("
+      },
+      {
+        "type": 1,
+        "value": "percent"
+      },
+      {
+        "type": 0,
+        "value": "% reduction)"
+      }
+    ],
+    "visualInsightsVmSizingTitle": [
+      {
+        "type": 0,
+        "value": "VM Resource Sizing"
+      }
+    ],
+    "visualInsightsVmSizingVcpu": [
+      {
+        "type": 0,
+        "value": "vCPU"
+      }
+    ],
+    "visualInsightsVmThroughputDesc": [
+      {
+        "type": 0,
+        "value": "Daily p95 disk read and write throughput over the observation period"
+      }
+    ],
+    "visualInsightsVmThroughputTitle": [
+      {
+        "type": 0,
+        "value": "Throughput (p95)"
+      }
+    ],
+    "visualInsightsVmTrendP95Usage": [
+      {
+        "type": 0,
+        "value": "P95 usage"
+      }
+    ],
+    "visualInsightsVmTrendRecommended": [
+      {
+        "type": 0,
+        "value": "Recommended"
+      }
+    ],
+    "visualInsightsVmUtilizationTrends": [
+      {
+        "type": 0,
+        "value": "Utilization Trends"
+      }
+    ],
+    "visualInsightsVramUtilizationDesc": [
+      {
+        "type": 0,
+        "value": "Peak GPU frame buffer usage as a percentage of total VRAM capacity"
+      }
+    ],
+    "visualInsightsVramUtilizationSubtitle": [
+      {
+        "type": 1,
+        "value": "usage"
+      },
+      {
+        "type": 0,
+        "value": " / "
+      },
+      {
+        "type": 1,
+        "value": "capacity"
+      },
+      {
+        "type": 0,
+        "value": " MiB"
+      }
+    ],
+    "visualInsightsVramUtilizationTitle": [
+      {
+        "type": 0,
+        "value": "VRAM Utilization"
+      }
+    ],
+    "visualInsightsVramUtilizationUsed": [
+      {
+        "type": 1,
+        "value": "percent"
+      },
+      {
+        "type": 0,
+        "value": "% used"
+      }
+    ],
+    "vmFilterCategory": [
+      {
+        "type": 0,
+        "value": "Category"
+      }
+    ],
+    "vmFilterGuestOs": [
+      {
+        "type": 0,
+        "value": "Guest OS"
+      }
+    ],
+    "vmFilterIsAbandoned": [
+      {
+        "type": 0,
+        "value": "Is abandoned"
+      }
+    ],
+    "vmFilterIsIdle": [
+      {
+        "type": 0,
+        "value": "Is idle"
+      }
+    ],
+    "vmFilterIsNetworkBound": [
+      {
+        "type": 0,
+        "value": "Is network bound"
+      }
+    ],
+    "vmFilterIsOversized": [
+      {
+        "type": 0,
+        "value": "Is oversized"
+      }
+    ],
+    "vmFilterIsPowerOffCandidate": [
+      {
+        "type": 0,
+        "value": "Power-off candidate"
+      }
+    ],
     "vmMetadataFlagsTitle": [
       {
         "type": 0,
@@ -3941,6 +6480,12 @@
         "value": "OK"
       }
     ],
+    "vmStatusOptimized": [
+      {
+        "type": 0,
+        "value": "Optimized"
+      }
+    ],
     "vmStatusOversized": [
       {
         "type": 0,
@@ -3951,6 +6496,12 @@
       {
         "type": 0,
         "value": "Power-off candidate"
+      }
+    ],
+    "vmStatusUndersized": [
+      {
+        "type": 0,
+        "value": "Undersized"
       }
     ],
     "wasteEstimatedMonthly": [
@@ -3975,34 +6526,10 @@
         "value": "Cost Management ROS UI"
       }
     ],
-    "hcpGroupBy": [
+    "yes": [
       {
         "type": 0,
-        "value": "Group by"
-      }
-    ],
-    "hcpGroupByNone": [
-      {
-        "type": 0,
-        "value": "None"
-      }
-    ],
-    "hcpGroupByHostedCluster": [
-      {
-        "type": 0,
-        "value": "Hosted cluster"
-      }
-    ],
-    "hostedControlPlane": [
-      {
-        "type": 0,
-        "value": "Hosted control plane"
-      }
-    ],
-    "hcpIncomplete": [
-      {
-        "type": 0,
-        "value": "Incomplete"
+        "value": "Yes"
       }
     ]
   }

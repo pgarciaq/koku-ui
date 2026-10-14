@@ -13,9 +13,26 @@ export interface FleetSavingsByPlugin {
 
 export interface FleetSavingsSummaryResponse {
   by_plugin?: FleetSavingsByPlugin;
+  by_plugin_breakdown?: FleetSavingsBreakdownByPlugin;
   currency?: string;
   estimated_monthly_savings?: MoneyAmount;
   gpu_savings_note?: string;
+}
+
+export interface PluginSavingsBreakdown {
+  additional_cost?: MoneyAmount;
+  additional_cost_count?: number;
+  savings?: MoneyAmount;
+  savings_count?: number;
+}
+
+export interface FleetSavingsBreakdownByPlugin {
+  container?: PluginSavingsBreakdown;
+  gpu?: PluginSavingsBreakdown;
+  node?: PluginSavingsBreakdown;
+  pvc?: PluginSavingsBreakdown;
+  snapshot?: PluginSavingsBreakdown;
+  vm?: PluginSavingsBreakdown;
 }
 
 function toApiTerm(term?: string): string | undefined {
@@ -40,7 +57,33 @@ export function fetchFleetSavingsSummary(term?: string, engine?: string) {
   );
 }
 
-export type TabSummaryPlugin = 'container' | 'namespace' | 'node' | 'pvc' | 'snapshot' | 'quota' | 'cluster-quota' | 'vm' | 'gpu-mig' | 'gpu-ts';
+export type TabSummaryPlugin =
+  'container' | 'namespace' | 'node' | 'pvc' | 'snapshot' | 'quota' | 'cluster-quota' | 'vm' | 'gpu-mig' | 'gpu-ts';
+
+export function getPluginSavingsBreakdown(
+  breakdown: FleetSavingsBreakdownByPlugin | undefined,
+  plugin: TabSummaryPlugin
+): PluginSavingsBreakdown | undefined {
+  if (!breakdown) {
+    return undefined;
+  }
+  switch (plugin) {
+    case 'container':
+      return breakdown.container;
+    case 'node':
+      return breakdown.node;
+    case 'pvc':
+      return breakdown.pvc;
+    case 'snapshot':
+      return breakdown.snapshot;
+    case 'vm':
+      return breakdown.vm;
+    case 'gpu-ts':
+      return breakdown.gpu;
+    default:
+      return undefined;
+  }
+}
 
 export function getPluginSavingsAmount(
   byPlugin: FleetSavingsByPlugin | undefined,

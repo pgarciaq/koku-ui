@@ -734,6 +734,18 @@ export default defineMessages({
     description: 'Summary banner with savings total for an optimizations tab',
     id: 'optimizationsTabSummarySavings',
   },
+  optimizationsTabSummarySavingsSplit: {
+    defaultMessage:
+      'Potential savings: {savings}/month across {savingsCount, plural, =1 {1 recommendation} other {{savingsCount} recommendations}} · Additional cost: {cost}/month across {costCount, plural, =1 {1 recommendation} other {{costCount} recommendations}}',
+    description: 'Summary banner with separate savings and additional-cost totals for an optimizations tab',
+    id: 'optimizationsTabSummarySavingsSplit',
+  },
+  optimizationsTabSummaryAdditionalCost: {
+    defaultMessage:
+      'Additional cost: {amount}/month across {count, plural, =1 {1 recommendation} other {{count} recommendations}}',
+    description: 'Summary banner with additional-cost total when no savings exist for an optimizations tab',
+    id: 'optimizationsTabSummaryAdditionalCost',
+  },
   optimizationsTabSummaryWaste: {
     defaultMessage:
       'Total monthly waste: {amount}/month across {count, plural, =1 {1 recommendation} other {{count} recommendations}}',

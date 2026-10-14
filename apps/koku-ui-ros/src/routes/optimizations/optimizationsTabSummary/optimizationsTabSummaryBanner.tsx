@@ -31,14 +31,14 @@ const OptimizationsTabSummaryBanner: React.FC<OptimizationsTabSummaryBannerProps
   variant = plugin === 'snapshot' ? 'waste' : 'savings',
 }) => {
   const intl = useIntl();
-  const { count, savingsUnits, savingsValue, summaryFetchStatus, countFetchStatus } = useOptimizationsTabSummary({
-    engine,
-    plugin,
-    term,
-  });
+  const { breakdown, count, savingsUnits, savingsValue, summaryFetchStatus, countFetchStatus } =
+    useOptimizationsTabSummary({
+      engine,
+      plugin,
+      term,
+    });
 
-  const isLoading =
-    summaryFetchStatus === FetchStatus.inProgress || countFetchStatus === FetchStatus.inProgress;
+  const isLoading = summaryFetchStatus === FetchStatus.inProgress || countFetchStatus === FetchStatus.inProgress;
 
   if (isLoading) {
     return (
@@ -49,12 +49,28 @@ const OptimizationsTabSummaryBanner: React.FC<OptimizationsTabSummaryBannerProps
   }
 
   const money = formatMoney(savingsValue, savingsUnits);
-  const showSavings = variant === 'savings' && money;
-  const showWaste = variant === 'waste' && money;
+  const savingsMoney = formatMoney(breakdown?.savings?.value, breakdown?.savings?.units ?? savingsUnits);
+  const costMoney = formatMoney(breakdown?.additional_cost?.value, breakdown?.additional_cost?.units ?? savingsUnits);
+  const showWaste = variant === 'waste' && money && Number(savingsValue) > 0;
+  const showSplit = variant === 'savings' && savingsMoney && costMoney;
+  const showCostOnly = variant === 'savings' && !savingsMoney && costMoney;
+  const showSavings = variant === 'savings' && !costMoney && money;
 
   let message: React.ReactNode;
   if (showWaste) {
     message = intl.formatMessage(messages.optimizationsTabSummaryWaste, { amount: money, count });
+  } else if (showSplit && breakdown) {
+    message = intl.formatMessage(messages.optimizationsTabSummarySavingsSplit, {
+      savings: savingsMoney,
+      savingsCount: breakdown.savings_count,
+      cost: costMoney,
+      costCount: breakdown.additional_cost_count,
+    });
+  } else if (showCostOnly && breakdown) {
+    message = intl.formatMessage(messages.optimizationsTabSummaryAdditionalCost, {
+      amount: costMoney,
+      count: breakdown.additional_cost_count,
+    });
   } else if (showSavings) {
     message = intl.formatMessage(messages.optimizationsTabSummarySavings, { amount: money, count });
   } else {

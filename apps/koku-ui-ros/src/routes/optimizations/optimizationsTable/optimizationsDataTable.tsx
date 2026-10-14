@@ -15,6 +15,7 @@ import { getTimeFromNow } from 'utils/dates';
 import { hasNotificationsWarning } from 'utils/notifications';
 
 import { OptimizationStateCell } from './optimizationStateCell';
+import { formatSavingsCellValue } from './savingsCellUtils';
 
 interface OptimizationsDataTableOwnProps {
   breadcrumbLabel?: string;
@@ -128,8 +129,9 @@ const OptimizationsDataTable: React.FC<OptimizationsDataTableProps> = ({
       const isIdleOrZombie = category === 'idle' || category === 'zombie';
       const potentialSavingsSource = isIdleOrZombie ? waste : savings;
       const potentialSavingsCell = (() => {
-        if (potentialSavingsSource?.value != null) {
-          return `$${Number(potentialSavingsSource.value).toFixed(2)} ${potentialSavingsSource.units ?? 'USD'}`;
+        const formatted = formatSavingsCellValue(potentialSavingsSource?.value, potentialSavingsSource?.units);
+        if (formatted != null) {
+          return formatted;
         }
         return (
           <Tooltip content={intl.formatMessage(messages.savingsNoDataTooltip)}>

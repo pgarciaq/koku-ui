@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { DataTable } from 'routes/components/dataTable';
 import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
+import { formatSavingsCellValue } from 'routes/optimizations/optimizationsTable/savingsCellUtils';
 import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { getTimeFromNow } from 'utils/dates';
 import { hasNotificationsWarning } from 'utils/notifications';
@@ -104,7 +105,8 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
             },
             { value: item.count },
             {
-              value: savings?.value != null ? `$${Number(savings.value).toFixed(2)} ${savings.units ?? 'USD'}` : '—',
+              value:
+                formatSavingsCellValue(savings?.value, savings?.units) ?? '—',
               style: styles.lastItem,
             },
           ],
@@ -231,8 +233,9 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
       const requestProps = getRequestProps(item, term, engine);
       const savings = item.recommendations?.estimated_monthly_savings;
       const potentialSavingsCell = (() => {
-        if (savings?.value != null) {
-          return `$${Number(savings.value).toFixed(2)} ${savings.units ?? 'USD'}`;
+        const formatted = formatSavingsCellValue(savings?.value, savings?.units);
+        if (formatted != null) {
+          return formatted;
         }
         return (
           <Tooltip content={intl.formatMessage(messages.savingsNoDataTooltip)}>

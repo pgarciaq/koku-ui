@@ -1,6 +1,6 @@
-import type { TabSummaryPlugin } from 'api/ros/savingsSummary';
-import { fetchFleetSavingsSummary, getPluginSavingsAmount } from 'api/ros/savingsSummary';
 import { RosPathsType, RosType } from 'api/ros/ros';
+import type { PluginSavingsBreakdown, TabSummaryPlugin } from 'api/ros/savingsSummary';
+import { fetchFleetSavingsSummary, getPluginSavingsAmount, getPluginSavingsBreakdown } from 'api/ros/savingsSummary';
 import { useRosCount } from 'hooks/useRosCount';
 import { useEffect, useState } from 'react';
 import { FetchStatus } from 'store/common';
@@ -12,6 +12,7 @@ export interface UseOptimizationsTabSummaryOptions {
 }
 
 export interface UseOptimizationsTabSummaryResult {
+  breakdown?: PluginSavingsBreakdown;
   count: number;
   countFetchStatus?: FetchStatus;
   savingsUnits?: string;
@@ -60,12 +61,14 @@ export function useOptimizationsTabSummary({
   const [summaryFetchStatus, setSummaryFetchStatus] = useState<FetchStatus>(FetchStatus.inProgress);
   const [savingsValue, setSavingsValue] = useState<string | undefined>();
   const [savingsUnits, setSavingsUnits] = useState<string | undefined>();
+  const [breakdown, setBreakdown] = useState<PluginSavingsBreakdown | undefined>();
 
   useEffect(() => {
     if (plugin === 'namespace' || plugin === 'quota' || plugin === 'cluster-quota' || plugin === 'gpu-mig') {
       setSummaryFetchStatus(FetchStatus.complete);
       setSavingsValue(undefined);
       setSavingsUnits(undefined);
+      setBreakdown(undefined);
       return;
     }
 
@@ -80,12 +83,14 @@ export function useOptimizationsTabSummary({
         const amount = getPluginSavingsAmount(res.data?.by_plugin, plugin);
         setSavingsValue(amount?.value);
         setSavingsUnits(amount?.units ?? res.data?.currency ?? 'USD');
+        setBreakdown(getPluginSavingsBreakdown(res.data?.by_plugin_breakdown, plugin));
         setSummaryFetchStatus(FetchStatus.complete);
       })
       .catch(() => {
         if (!cancelled) {
           setSavingsValue(undefined);
           setSavingsUnits(undefined);
+          setBreakdown(undefined);
           setSummaryFetchStatus(FetchStatus.none);
         }
       });
@@ -96,6 +101,7 @@ export function useOptimizationsTabSummary({
   }, [engine, plugin, term]);
 
   return {
+    breakdown,
     count,
     countFetchStatus,
     savingsUnits,
