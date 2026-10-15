@@ -105,8 +105,7 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
             },
             { value: item.count },
             {
-              value:
-                formatSavingsCellValue(savings?.value, savings?.units) ?? '—',
+              value: formatSavingsCellValue(savings?.value, savings?.units) ?? '—',
               style: styles.lastItem,
             },
           ],

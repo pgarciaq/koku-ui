@@ -9,17 +9,14 @@ import type { WrappedComponentProps } from 'react-intl';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { BasicToolbar } from 'routes/components/dataToolbar';
-import { PerspectiveSelect } from 'routes/components/perspective/perspectiveSelect';
 import type { Filter } from 'routes/utils/filter';
 import { createMapStateToProps } from 'store/common';
 import type { RootState } from 'store/rootReducer';
 import { tagActions, tagSelectors } from 'store/tags';
 
 import { OptimizationsProjectionToolbar } from '../optimizationsProjectionToolbar';
-import type { HcpGroupBy } from './hcpTableUtils';
 
 interface OptimizationsHcpToolbarOwnProps {
-  groupBy?: HcpGroupBy;
   isClusterHidden?: boolean;
   isDisabled?: boolean;
   itemsPerPage?: number;
@@ -27,7 +24,6 @@ interface OptimizationsHcpToolbarOwnProps {
   onEngineSelect?: (value: string) => void;
   onFilterAdded(filter: Filter);
   onFilterRemoved(filter: Filter);
-  onGroupBySelect?: (value: HcpGroupBy) => void;
   onTermSelect?: (value: string) => void;
   pagination?: React.ReactNode;
   query?: RosQuery;
@@ -85,24 +81,14 @@ class OptimizationsHcpToolbarBase extends React.Component<OptimizationsHcpToolba
     return isClusterHidden ? options.filter(option => option.key !== 'cluster') : options;
   };
 
-  private getGroupByOptions = () => {
-    const { intl } = this.props;
-    return [
-      { label: intl.formatMessage(messages.hcpGroupByNone), value: '' },
-      { label: intl.formatMessage(messages.hcpGroupByHostedCluster), value: 'hosted_cluster_id' },
-    ];
-  };
-
   public render() {
     const {
-      groupBy,
       isDisabled,
       itemsPerPage,
       itemsTotal,
       onEngineSelect,
       onFilterAdded,
       onFilterRemoved,
-      onGroupBySelect,
       onTermSelect,
       pagination,
       query,
@@ -114,12 +100,6 @@ class OptimizationsHcpToolbarBase extends React.Component<OptimizationsHcpToolba
       <BasicToolbar
         actions={
           <>
-            <PerspectiveSelect
-              currentItem={groupBy ?? ''}
-              onSelect={onGroupBySelect}
-              options={this.getGroupByOptions()}
-              title={messages.hcpGroupBy}
-            />
             <OptimizationsProjectionToolbar
               engine={query?.engine}
               isDisabled={isDisabled}

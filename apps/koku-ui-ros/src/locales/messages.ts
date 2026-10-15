@@ -408,7 +408,8 @@ export default defineMessages({
     id: 'fleetHeatmapNoData',
   },
   fleetHeatmapNoDataDesc: {
-    defaultMessage: 'Node utilization data has not been collected yet. Data will appear after the operator reports node metrics.',
+    defaultMessage:
+      'Node utilization data has not been collected yet. Data will appear after the operator reports node metrics.',
     description: 'Fleet heatmap empty state description',
     id: 'fleetHeatmapNoDataDesc',
   },
@@ -762,6 +763,22 @@ export default defineMessages({
     description: 'Storage tab snapshot sub-view toggle label',
     id: 'storageSubSnapshot',
   },
+  hcpSubHosted: {
+    defaultMessage: 'Hosted clusters',
+    description: 'HCP tab per-hosted-cluster sub-view toggle label',
+    id: 'hcpSubHosted',
+  },
+  hcpSubOverhead: {
+    defaultMessage: 'Management overhead',
+    description: 'HCP tab management-overhead sub-view toggle label',
+    id: 'hcpSubOverhead',
+  },
+  hcpTabSubtitle: {
+    defaultMessage:
+      'Control-plane rightsizing on management clusters: per-hosted-cluster attribution, plus shared management overhead.',
+    description: 'HCP tab subtitle explaining the beneficiary split',
+    id: 'hcpTabSubtitle',
+  },
   quotaSubNamespace: {
     defaultMessage: 'Namespace ResourceQuota',
     description: 'Quota tab namespace ResourceQuota sub-view toggle label',
@@ -973,17 +990,20 @@ export default defineMessages({
     id: 'quotaExplanationBaseCpu',
   },
   quotaExplanationReasonRaise: {
-    defaultMessage: 'Current resource utilization ({utilization}) is approaching or exceeding the quota hard limit. Workloads may be throttled or fail to schedule. Raising the quota provides adequate headroom based on observed usage patterns.',
+    defaultMessage:
+      'Current resource utilization ({utilization}) is approaching or exceeding the quota hard limit. Workloads may be throttled or fail to schedule. Raising the quota provides adequate headroom based on observed usage patterns.',
     description: 'Explanation for raise-type quota recommendation',
     id: 'quotaExplanationReasonRaise',
   },
   quotaExplanationReasonTighten: {
-    defaultMessage: 'Current resource utilization ({utilization}) is well below the quota hard limit. The quota can be safely reduced to match observed container resource recommendations (plus {headroom} headroom), freeing capacity for other namespaces.',
+    defaultMessage:
+      'Current resource utilization ({utilization}) is well below the quota hard limit. The quota can be safely reduced to match observed container resource recommendations (plus {headroom} headroom), freeing capacity for other namespaces.',
     description: 'Explanation for tighten-type quota recommendation',
     id: 'quotaExplanationReasonTighten',
   },
   quotaExplanationReasonOptimal: {
-    defaultMessage: 'Current resource utilization ({utilization}) is within an acceptable range of the quota hard limit. No changes are recommended at this time.',
+    defaultMessage:
+      'Current resource utilization ({utilization}) is within an acceptable range of the quota hard limit. No changes are recommended at this time.',
     description: 'Explanation for optimal-type quota recommendation',
     id: 'quotaExplanationReasonOptimal',
   },
@@ -2189,8 +2209,7 @@ export default defineMessages({
     id: 'peakHoursSizing',
   },
   visualInsightsPeakHoursChartCaption: {
-    defaultMessage:
-      'This series excludes hours outside the office window, including overnight windows.',
+    defaultMessage: 'This series excludes hours outside the office window, including overnight windows.',
     description: 'Caption under Peak hours usage charts on node, VM, GPU, and container/namespace utilization',
     id: 'visualInsightsPeakHoursChartCaption',
   },
@@ -2590,7 +2609,8 @@ export default defineMessages({
     id: 'visualInsightsNodePeakHoursMemoryTitle',
   },
   visualInsightsNodePeakHoursMemoryDesc: {
-    defaultMessage: 'Daily P50 and P95 memory usage in GiB during the office window, with the Peak hours recommendation',
+    defaultMessage:
+      'Daily P50 and P95 memory usage in GiB during the office window, with the Peak hours recommendation',
     description: 'Accessible description for the node Peak hours memory usage chart',
     id: 'visualInsightsNodePeakHoursMemoryDesc',
   },
@@ -2645,7 +2665,8 @@ export default defineMessages({
     id: 'visualInsightsNodeRequestGapMemTitle',
   },
   visualInsightsNodeRequestGapDesc: {
-    defaultMessage: 'Daily aggregate requests compared to P95 usage, as a percentage of allocatable capacity. The gap indicates overcommitted resources.',
+    defaultMessage:
+      'Daily aggregate requests compared to P95 usage, as a percentage of allocatable capacity. The gap indicates overcommitted resources.',
     description: 'Accessible description for the node request vs usage gap chart',
     id: 'visualInsightsNodeRequestGapDesc',
   },
@@ -2705,7 +2726,8 @@ export default defineMessages({
     id: 'visualInsightsGpuRadarTitle',
   },
   visualInsightsGpuRadarDesc: {
-    defaultMessage: 'Radar chart showing SM activity, tensor core activity, DRAM bandwidth, and VRAM usage as percentages',
+    defaultMessage:
+      'Radar chart showing SM activity, tensor core activity, DRAM bandwidth, and VRAM usage as percentages',
     description: 'Accessible description for the GPU subsystem utilization radar chart',
     id: 'visualInsightsGpuRadarDesc',
   },
@@ -2800,7 +2822,8 @@ export default defineMessages({
     id: 'visualInsightsVmActivityHeatmapDesc',
   },
   visualInsightsVmActivityHeatmapEmpty: {
-    defaultMessage: 'No hourly activity data available. Hourly granularity requires live metric collection from the cluster operator and is not included in historical data imports.',
+    defaultMessage:
+      'No hourly activity data available. Hourly granularity requires live metric collection from the cluster operator and is not included in historical data imports.',
     description: 'Empty state when no hourly VM/node data is available',
     id: 'visualInsightsVmActivityHeatmapEmpty',
   },

@@ -1,4 +1,4 @@
-import { getHcpGroupBy, isGroupedHcpRow } from './hcpTableUtils';
+import { getHcpGroupBy, hcpSubToGroupBy, isGroupedHcpRow } from './hcpTableUtils';
 
 describe('hcpTableUtils', () => {
   describe('getHcpGroupBy', () => {
@@ -18,6 +18,16 @@ describe('hcpTableUtils', () => {
       expect(isGroupedHcpRow({ count: 2, hosted_cluster_id: 'hc-1' })).toBe(true);
       expect(isGroupedHcpRow({ hosted_cluster_id: 'hc-1' })).toBe(false);
       expect(isGroupedHcpRow({ count: 0 })).toBe(false);
+    });
+  });
+
+  describe('hcpSubToGroupBy', () => {
+    test('hosted sub groups by hosted cluster', () => {
+      expect(hcpSubToGroupBy('hosted')).toBe('hosted_cluster_id');
+    });
+
+    test('overhead sub clears grouping (ungrouped list)', () => {
+      expect(hcpSubToGroupBy('overhead')).toBe('');
     });
   });
 });

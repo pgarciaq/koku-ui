@@ -1988,6 +1988,24 @@
         "value": "Incomplete"
       }
     ],
+    "hcpSubHosted": [
+      {
+        "type": 0,
+        "value": "Hosted clusters"
+      }
+    ],
+    "hcpSubOverhead": [
+      {
+        "type": 0,
+        "value": "Management overhead"
+      }
+    ],
+    "hcpTabSubtitle": [
+      {
+        "type": 0,
+        "value": "Control-plane rightsizing on management clusters: per-hosted-cluster attribution, plus shared management overhead."
+      }
+    ],
     "historyAllEngines": [
       {
         "type": 0,

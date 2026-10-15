@@ -1,4 +1,4 @@
-import { Pagination, PaginationVariant } from '@patternfly/react-core';
+import { Flex, FlexItem, Pagination, PaginationVariant, ToggleGroup, ToggleGroupItem } from '@patternfly/react-core';
 import { ROS_LIST_TERM } from 'api/ros/rosListParams';
 import { useRecommendationTermOptions } from 'hooks/useRecommendationTermOptions';
 import messages from 'locales/messages';
@@ -10,6 +10,7 @@ import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
 import { LoadingState } from 'routes/components/state/loadingState';
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
+import { useHcpSubUrl } from 'routes/optimizations/useHcpSubUrl';
 import * as queryUtils from 'routes/utils/query';
 import { useUrlState } from 'routes/utils/useUrlState';
 import { FetchStatus } from 'store/common';
@@ -19,7 +20,7 @@ import { hcpRecommendationsBaseQuery, useHcpRecommendationsReport } from '../use
 import { useSavingsFallbackSort } from '../useSavingsFallbackSort';
 import { getLinkState } from '../utils';
 import type { HcpGroupBy } from './hcpTableUtils';
-import { getHcpGroupBy } from './hcpTableUtils';
+import { getHcpGroupBy, hcpSubToGroupBy } from './hcpTableUtils';
 import { OptimizationsHcpDataTable } from './optimizationsHcpDataTable';
 import { OptimizationsHcpToolbar } from './optimizationsHcpToolbar';
 
@@ -58,6 +59,15 @@ const OptimizationsHcpTable: React.FC<OptimizationsHcpTableProps> = ({
     cluster,
     query,
   });
+  const { sub, setSub } = useHcpSubUrl();
+
+  useEffect(() => {
+    // Default landing is the Hosted-clusters grouped view (explicit behavior
+    // change, #689). An explicit sub param always wins over this default.
+    if (new URLSearchParams(location.search).get('sub') == null) {
+      handleSubSelect('hosted');
+    }
+  }, []);
 
   const hcpGroupBy = getHcpGroupBy(query);
 
@@ -137,7 +147,6 @@ const OptimizationsHcpTable: React.FC<OptimizationsHcpTableProps> = ({
 
     return (
       <OptimizationsHcpToolbar
-        groupBy={hcpGroupBy}
         isClusterHidden={isClusterHidden}
         isDisabled={isDisabled}
         itemsPerPage={itemsPerPage}
@@ -145,12 +154,40 @@ const OptimizationsHcpTable: React.FC<OptimizationsHcpTableProps> = ({
         onEngineSelect={handleOnEngineSelect}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onFilterRemoved={filter => handleOnFilterRemoved(filter)}
-        onGroupBySelect={handleOnGroupBySelect}
         onTermSelect={handleOnTermSelect}
         pagination={getPagination(isDisabled)}
         query={query}
       />
     );
+  };
+
+  const getSubToggle = () => {
+    return (
+      <Flex style={{ marginBottom: 16 }}>
+        <FlexItem>
+          <ToggleGroup aria-label="HCP recommendation scope">
+            <ToggleGroupItem
+              buttonId="hosted"
+              isSelected={sub === 'hosted'}
+              onChange={() => handleSubSelect('hosted')}
+              text={intl.formatMessage(messages.hcpSubHosted)}
+            />
+            <ToggleGroupItem
+              buttonId="overhead"
+              isSelected={sub === 'overhead'}
+              onChange={() => handleSubSelect('overhead')}
+              text={intl.formatMessage(messages.hcpSubOverhead)}
+            />
+          </ToggleGroup>
+        </FlexItem>
+        <FlexItem>{intl.formatMessage(messages.hcpTabSubtitle)}</FlexItem>
+      </Flex>
+    );
+  };
+
+  const handleSubSelect = (nextSub: 'hosted' | 'overhead') => {
+    setSub(nextSub);
+    handleOnGroupBySelect(hcpSubToGroupBy(nextSub));
   };
 
   const handleOnFilterAdded = filter => {
@@ -224,6 +261,7 @@ const OptimizationsHcpTable: React.FC<OptimizationsHcpTableProps> = ({
 
   const handleDrillDownFromGroup = (filter: { key: string; value: string }) => {
     setCursorPage(1);
+    setSub('overhead');
     const rest = { ...query };
     delete rest.group_by;
     setQuery({
@@ -267,6 +305,7 @@ const OptimizationsHcpTable: React.FC<OptimizationsHcpTableProps> = ({
   }
   return (
     <>
+      {getSubToggle()}
       {getToolbar()}
       {reportFetchStatus !== FetchStatus.complete ? (
         <LoadingState
