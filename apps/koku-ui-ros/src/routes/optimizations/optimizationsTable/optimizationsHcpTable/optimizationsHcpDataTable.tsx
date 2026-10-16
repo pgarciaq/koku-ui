@@ -67,12 +67,17 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
       return;
     }
     const hasData = report?.data && report.data.length > 0;
-    const isGrouped = groupBy === 'hosted_cluster_id';
+    const isGrouped = groupBy === 'hosted_cluster_id' || groupBy === 'namespace';
 
     if (isGrouped) {
+      const isNamespace = groupBy === 'namespace';
+      const groupKey = isNamespace ? 'project' : 'hosted_cluster_id';
+      const groupLabel = isNamespace
+        ? intl.formatMessage(messages.optimizationsNames, { value: 'namespace' })
+        : intl.formatMessage(messages.optimizationsNames, { value: 'hosted_cluster' });
       const newColumns = [
         {
-          name: intl.formatMessage(messages.optimizationsNames, { value: 'hosted_cluster' }),
+          name: groupLabel,
         },
         {
           name: intl.formatMessage(messages.storageRecommendationCount),
@@ -84,7 +89,7 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
       ];
       const newRows = [];
       report?.data?.map(item => {
-        const hostedClusterId = item.hosted_cluster_id ?? '';
+        const groupValue = isNamespace ? (item.project ?? item.namespace ?? '') : (item.hosted_cluster_id ?? '');
         const savings = item.estimated_savings;
         newRows.push({
           cells: [
@@ -94,13 +99,13 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
                   href="#"
                   onClick={e => {
                     e.preventDefault();
-                    onDrillDown({ key: 'hosted_cluster_id', value: hostedClusterId });
+                    onDrillDown({ key: groupKey, value: groupValue });
                   }}
                 >
-                  {hostedClusterId}
+                  {groupValue}
                 </a>
               ) : (
-                hostedClusterId
+                groupValue
               ),
             },
             { value: item.count },

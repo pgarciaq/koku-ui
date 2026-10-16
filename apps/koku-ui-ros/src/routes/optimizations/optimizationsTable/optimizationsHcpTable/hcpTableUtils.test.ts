@@ -11,6 +11,10 @@ describe('hcpTableUtils', () => {
       expect(getHcpGroupBy(undefined)).toBe('');
       expect(getHcpGroupBy({ group_by: { cluster: '*' } })).toBe('');
     });
+
+    test('returns namespace when grouped by namespace', () => {
+      expect(getHcpGroupBy({ group_by: { namespace: '*' } })).toBe('namespace');
+    });
   });
 
   describe('isGroupedHcpRow', () => {
@@ -22,9 +26,12 @@ describe('hcpTableUtils', () => {
   });
 
   describe('hcpSubToGroupBy', () => {
-    test('both sub-tabs show the flat ungrouped list (strip carries per-HC totals)', () => {
+    test('hosted sub shows the flat list (strip carries per-HC totals)', () => {
       expect(hcpSubToGroupBy('hosted')).toBe('');
-      expect(hcpSubToGroupBy('overhead')).toBe('');
+    });
+
+    test('overhead sub groups by namespace', () => {
+      expect(hcpSubToGroupBy('overhead')).toBe('namespace');
     });
   });
 });
