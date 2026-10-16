@@ -137,7 +137,10 @@ export interface UseUrlStateOptions {
 
 export interface UseUrlStateResult {
   query: RosQuery;
-  setQuery: (newQuery: RosQuery) => void;
+  // extraParams ride the SAME navigation as the query update. Separate
+  // navigations built from the same stale location.search silently drop
+  // each other's params (the second replace wins) — see the HCP sub-tabs.
+  setQuery: (newQuery: RosQuery, extraParams?: Record<string, string>) => void;
 }
 
 /**
@@ -161,7 +164,7 @@ export function useUrlState({ baseQuery, prefix = '' }: UseUrlStateOptions): Use
   }, [baseQuery, location.search, prefix]);
 
   const setQuery = useCallback(
-    (newQuery: RosQuery) => {
+    (newQuery: RosQuery, extraParams?: Record<string, string>) => {
       const currentParams = new URLSearchParams(location.search);
 
       // Remove all params with our prefix to start clean
@@ -178,6 +181,12 @@ export function useUrlState({ baseQuery, prefix = '' }: UseUrlStateOptions): Use
       const newParams = serializeQuery(newQuery, prefix);
       for (const [key, val] of newParams.entries()) {
         currentParams.append(key, val);
+      }
+
+      if (extraParams) {
+        for (const [key, val] of Object.entries(extraParams)) {
+          currentParams.set(key, val);
+        }
       }
 
       navigate(`${location.pathname}?${currentParams.toString()}`, {

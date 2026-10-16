@@ -20,7 +20,6 @@ import { hcpRecommendationsBaseQuery, useHcpRecommendationsReport } from '../use
 import { useSavingsFallbackSort } from '../useSavingsFallbackSort';
 import { getLinkState } from '../utils';
 import { HcpSummaryStrip } from './hcpSummaryStrip';
-import type { HcpGroupBy } from './hcpTableUtils';
 import { getHcpGroupBy, hcpSubToGroupBy } from './hcpTableUtils';
 import { OptimizationsHcpDataTable } from './optimizationsHcpDataTable';
 import { OptimizationsHcpToolbar } from './optimizationsHcpToolbar';
@@ -60,7 +59,7 @@ const OptimizationsHcpTable: React.FC<OptimizationsHcpTableProps> = ({
     cluster,
     query,
   });
-  const { sub, setSub } = useHcpSubUrl();
+  const { sub } = useHcpSubUrl();
   // Summary strip source: grouped per-HC totals, fetched only on the Hosted
   // sub. The store is query-keyed so this never clashes with the list fetch.
   const { report: groupedReport } = useHcpRecommendationsReport({
@@ -194,8 +193,18 @@ const OptimizationsHcpTable: React.FC<OptimizationsHcpTableProps> = ({
   };
 
   const handleSubSelect = (nextSub: 'hosted' | 'overhead') => {
-    setSub(nextSub);
-    handleOnGroupBySelect(hcpSubToGroupBy(nextSub));
+    // Single atomic navigation: a separate sub navigate followed by setQuery
+    // reads the same stale location.search twice and the second replace
+    // silently drops sub — the toggle visibly did nothing. Extras ride along.
+    const groupBy = hcpSubToGroupBy(nextSub);
+    const rest = { ...query };
+    if (!groupBy) {
+      delete rest.group_by;
+    } else {
+      rest.group_by = { [groupBy]: '*' };
+    }
+    setCursorPage(1);
+    setQuery({ ...rest, offset: 0, after: undefined }, { sub: nextSub });
   };
 
   const handleChipSelect = (hostedClusterId: string) => {
@@ -265,36 +274,22 @@ const OptimizationsHcpTable: React.FC<OptimizationsHcpTableProps> = ({
     setQuery({ ...query, engine, offset: 0, after: undefined });
   };
 
-  const handleOnGroupBySelect = (groupBy: HcpGroupBy) => {
-    setCursorPage(1);
-    if (!groupBy) {
-      const rest = { ...query };
-      delete rest.group_by;
-      setQuery({ ...rest, offset: 0, after: undefined });
-      return;
-    }
-    setQuery({
-      ...query,
-      group_by: { [groupBy]: '*' },
-      offset: 0,
-      after: undefined,
-    });
-  };
-
   const handleDrillDownFromGroup = (filter: { key: string; value: string }) => {
     setCursorPage(1);
-    setSub('overhead');
     const rest = { ...query };
     delete rest.group_by;
-    setQuery({
-      ...rest,
-      filter_by: {
-        ...query.filter_by,
-        [filter.key]: filter.value,
+    setQuery(
+      {
+        ...rest,
+        filter_by: {
+          ...query.filter_by,
+          [filter.key]: filter.value,
+        },
+        offset: 0,
+        after: undefined,
       },
-      offset: 0,
-      after: undefined,
-    });
+      { sub: 'overhead' }
+    );
   };
 
   const itemsTotal = report?.meta ? report.meta.count : 0;

@@ -1,5 +1,4 @@
-import { useCallback } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 export type HcpSubKey = 'hosted' | 'overhead';
 
@@ -9,31 +8,18 @@ export function parseHcpSub(currentSearch: string): HcpSubKey {
   return params.get('sub') === 'overhead' ? 'overhead' : 'hosted';
 }
 
-/** Build search params for an HCP sub-view, preserving every other param (filters, term, engine). */
-export function buildHcpSubParams(currentSearch: string, nextSub: HcpSubKey): URLSearchParams {
-  const params = new URLSearchParams(currentSearch);
-  params.set('sub', nextSub);
-  return params;
-}
-
-/** Sync the HCP Hosted-clusters | Management-overhead toggle with the `sub` URL param. */
+/** Sync the HCP Hosted-clusters | Management-overhead toggle with the `sub` URL param.
+ *
+ * Read-only: sub writes always ride along with a setQuery navigation
+ * (see useUrlState extras). A standalone sub navigate followed by setQuery
+ * reads the same stale location.search twice and the second replace
+ * silently drops sub — the toggle visibly did nothing. Do not re-add a
+ * navigating setSub here.
+ */
 export function useHcpSubUrl(defaultSub: HcpSubKey = 'hosted') {
   const location = useLocation();
-  const navigate = useNavigate();
-
   const params = new URLSearchParams(location.search);
   const sub: HcpSubKey = params.get('sub') === 'overhead' ? 'overhead' : defaultSub;
 
-  const setSub = useCallback(
-    (nextSub: HcpSubKey) => {
-      const search = buildHcpSubParams(location.search, nextSub).toString();
-      navigate(`${location.pathname}?${search}`, {
-        replace: true,
-        state: location.state,
-      });
-    },
-    [location.pathname, location.search, location.state, navigate]
-  );
-
-  return { sub, setSub };
+  return { sub };
 }

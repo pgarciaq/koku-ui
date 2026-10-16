@@ -1,6 +1,10 @@
+import { act, renderHook } from '@testing-library/react';
+import React from 'react';
+import { MemoryRouter, useLocation } from 'react-router-dom';
+
 import type { RosQuery } from 'api/queries/rosQuery';
 
-import { deserializeQuery, serializeQuery } from './useUrlState';
+import { deserializeQuery, serializeQuery, useUrlState } from './useUrlState';
 
 const prefix = 'ns_';
 
@@ -150,5 +154,51 @@ describe('serialize/deserialize roundtrip', () => {
       engine: 'performance',
       limit: 25,
     });
+  });
+});
+
+describe('setQuery extra params (atomic sub+query navigation)', () => {
+  const wrapper =
+    (initialSearch: string) =>
+    ({ children }: { children: React.ReactNode }) => (
+      <MemoryRouter initialEntries={[`/optimizations?${initialSearch}`]}>{children}</MemoryRouter>
+    );
+
+  function useProbe(initialSearch: string) {
+    const { query, setQuery } = useUrlState({ baseQuery: { limit: 10 } as RosQuery, prefix: 'hcp_' });
+    const location = useLocation();
+    return { query, setQuery, search: location.search, initialSearch };
+  }
+
+  test('group change and sub land in one URL: sub survives alongside serialized fields', () => {
+    const { result } = renderHook(() => useProbe('sub=hosted&hcp_limit=10'), {
+      wrapper: wrapper('sub=hosted&hcp_limit=10'),
+    });
+
+    act(() => {
+      // Regression: two sequential navigations (sub, then query) built from
+      // the same stale location.search dropped the sub param entirely, so
+      // the toggle visibly did nothing with no console error.
+      result.current.setQuery({ limit: 10, offset: 0 } as RosQuery, { sub: 'overhead' });
+    });
+
+    const params = new URLSearchParams(result.current.search);
+    expect(params.get('sub')).toBe('overhead');
+    expect(params.get('hcp_limit')).toBe('10');
+    expect(params.get('hcp_offset')).toBe('0');
+  });
+
+  test('omitted extras leave other params untouched', () => {
+    const { result } = renderHook(() => useProbe('sub=overhead&hcp_limit=10'), {
+      wrapper: wrapper('sub=overhead&hcp_limit=10'),
+    });
+
+    act(() => {
+      result.current.setQuery({ limit: 25 } as RosQuery);
+    });
+
+    const params = new URLSearchParams(result.current.search);
+    expect(params.get('sub')).toBe('overhead');
+    expect(params.get('hcp_limit')).toBe('25');
   });
 });
