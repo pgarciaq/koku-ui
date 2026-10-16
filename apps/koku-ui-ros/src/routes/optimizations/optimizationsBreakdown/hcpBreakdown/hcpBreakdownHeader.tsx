@@ -1,4 +1,4 @@
-import { Content, ContentVariants, Icon, Label, Title, TitleSizes } from '@patternfly/react-core';
+import { Content, ContentVariants, Icon, Label, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { RecommendationReportData } from 'api/ros/recommendations';
 import messages from 'locales/messages';
@@ -50,6 +50,21 @@ const HcpBreakdownHeader: React.FC<HcpBreakdownHeaderProps> = ({
         ? `$${Number(savings.value).toFixed(2)} ${savings.units ?? 'USD'}`
         : intl.formatMessage(messages.savingsNotAvailable);
 
+    const replicas = report?.recommendations?.replicas;
+
+    const replicaValue = (val: number | null | undefined) => {
+      if (val != null) {
+        return val;
+      }
+      return (
+        <Tooltip content={intl.formatMessage(messages.replicaNoDataTooltip)}>
+          <span tabIndex={0} style={{ cursor: 'default', borderBottom: '1px dotted' }}>
+            —
+          </span>
+        </Tooltip>
+      );
+    };
+
     return (
       <Content>
         <Content component={ContentVariants.dl} style={styles.metadataList}>
@@ -74,6 +89,19 @@ const HcpBreakdownHeader: React.FC<HcpBreakdownHeaderProps> = ({
           </Content>
           <Content component={ContentVariants.dt}>{intl.formatMessage(messages.savingsEstimatedMonthly)}</Content>
           <Content component={ContentVariants.dd}>{savingsDisplay}</Content>
+          {replicas && (
+            <>
+              <Content component={ContentVariants.dt}>{intl.formatMessage(messages.replicaCount)}</Content>
+              <Content component={ContentVariants.dd}>
+                {intl.formatMessage(messages.replicaValues, {
+                  available: replicaValue(replicas.available),
+                  min: replicaValue(replicas.min),
+                  max: replicaValue(replicas.max),
+                  desired: replicaValue(replicas.desired),
+                })}
+              </Content>
+            </>
+          )}
         </Content>
       </Content>
     );

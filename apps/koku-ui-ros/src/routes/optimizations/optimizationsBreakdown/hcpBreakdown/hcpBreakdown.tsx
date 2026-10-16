@@ -8,6 +8,7 @@ import { RosPathsType, RosType } from 'api/ros/ros';
 import { encodeRosDetailFetchQuery } from 'api/ros/rosListParams';
 import type { AxiosError } from 'axios';
 import { useIsBoxPlotToggleEnabled } from 'components/featureToggle';
+import { useRecommendationHistory } from 'hooks/useRecommendationHistory';
 import messages from 'locales/messages';
 import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl';
@@ -16,6 +17,8 @@ import { useLocation } from 'react-router-dom';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
 import { LoadingState } from 'routes/components/state/loadingState';
+import { BreakdownDecayInfoCard } from 'routes/optimizations/optimizationsBreakdown/shared/breakdownDecayInfoCard';
+import { VisualInsightsSection } from 'routes/optimizations/optimizationsBreakdown/visualInsights';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
@@ -61,7 +64,21 @@ const HcpBreakdown: React.FC<HcpBreakdownProps> = ({ linkState, queryStateName }
     queryStateName,
   });
   const { term, engine } = useBreakdownProjection(queryStateName);
+  const queryFromRoute = useQueryFromRoute();
   const intl = useIntl();
+
+  const historyParams =
+    report?.cluster_uuid && report?.project && report?.workload && report?.container
+      ? {
+          cluster: report.cluster_uuid,
+          project: report.project,
+          workload: report.workload,
+          container: report.container,
+          term,
+          engine,
+        }
+      : null;
+  const { data: historyResponse, fetchStatus: historyFetchStatus } = useRecommendationHistory(historyParams);
 
   const getDataQualityAlert = () => {
     const analyticsIncomplete = (report as any)?.analytics_incomplete;
@@ -104,6 +121,7 @@ const HcpBreakdown: React.FC<HcpBreakdownProps> = ({ linkState, queryStateName }
     const recommendationTerm = getRecommendationTerm(report?.recommendations, term);
     const plotsData = recommendationTerm?.plots?.plots_data;
     const recommendationEngine = recommendationTerm?.recommendation_engines?.[engine];
+    const recommendationId = queryFromRoute?.id as string;
 
     return (
       <>
@@ -122,6 +140,17 @@ const HcpBreakdown: React.FC<HcpBreakdownProps> = ({ linkState, queryStateName }
           </div>
         )}
         <OptimizationsBreakdownExplanation explanation={recommendationEngine?.explanation} />
+        <BreakdownDecayInfoCard recommendationType="container" term={term} />
+        {recommendationId && (
+          <div style={styles.utilizationContainer}>
+            <VisualInsightsSection
+              plotsData={plotsData}
+              recommendationId={recommendationId}
+              historyData={historyResponse?.data}
+              historyFetchStatus={historyFetchStatus}
+            />
+          </div>
+        )}
       </>
     );
   };
