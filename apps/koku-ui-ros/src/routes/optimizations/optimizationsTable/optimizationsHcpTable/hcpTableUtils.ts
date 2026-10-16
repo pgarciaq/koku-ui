@@ -10,9 +10,12 @@ export function getHcpGroupBy(query?: RosQuery): HcpGroupBy {
   return '';
 }
 
-/** Map an HCP sub-tab to its list grouping: hosted clusters group by hosted ID, overhead shows the ungrouped list. */
+/** Map an HCP sub-tab to its list grouping. Both sub-tabs show the flat
+ * ungrouped list (grouped-namespace arrives with #690); the Hosted sub adds
+ * the summary strip instead of a grouped table. */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- sub selects the branch once #690 adds namespace grouping
 export function hcpSubToGroupBy(sub: HcpSubKey): HcpGroupBy {
-  return sub === 'hosted' ? 'hosted_cluster_id' : '';
+  return '';
 }
 
 export function isGroupedHcpRow(item: { count?: number; hosted_cluster_id?: string }) {

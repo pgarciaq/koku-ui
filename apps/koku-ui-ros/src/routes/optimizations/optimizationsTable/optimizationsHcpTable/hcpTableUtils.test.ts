@@ -22,11 +22,8 @@ describe('hcpTableUtils', () => {
   });
 
   describe('hcpSubToGroupBy', () => {
-    test('hosted sub groups by hosted cluster', () => {
-      expect(hcpSubToGroupBy('hosted')).toBe('hosted_cluster_id');
-    });
-
-    test('overhead sub clears grouping (ungrouped list)', () => {
+    test('both sub-tabs show the flat ungrouped list (strip carries per-HC totals)', () => {
+      expect(hcpSubToGroupBy('hosted')).toBe('');
       expect(hcpSubToGroupBy('overhead')).toBe('');
     });
   });

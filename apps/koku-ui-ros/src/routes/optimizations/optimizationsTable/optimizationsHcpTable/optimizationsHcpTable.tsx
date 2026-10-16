@@ -19,6 +19,7 @@ import { INTERVAL_TO_TERM_NAME } from '../recommendationTermLabels';
 import { hcpRecommendationsBaseQuery, useHcpRecommendationsReport } from '../useHcpRecommendationsReport';
 import { useSavingsFallbackSort } from '../useSavingsFallbackSort';
 import { getLinkState } from '../utils';
+import { HcpSummaryStrip } from './hcpSummaryStrip';
 import type { HcpGroupBy } from './hcpTableUtils';
 import { getHcpGroupBy, hcpSubToGroupBy } from './hcpTableUtils';
 import { OptimizationsHcpDataTable } from './optimizationsHcpDataTable';
@@ -60,6 +61,13 @@ const OptimizationsHcpTable: React.FC<OptimizationsHcpTableProps> = ({
     query,
   });
   const { sub, setSub } = useHcpSubUrl();
+  // Summary strip source: grouped per-HC totals, fetched only on the Hosted
+  // sub. The store is query-keyed so this never clashes with the list fetch.
+  const { report: groupedReport } = useHcpRecommendationsReport({
+    cluster,
+    query: { ...query, group_by: { hosted_cluster_id: '*' } },
+    skipFetch: sub !== 'hosted',
+  });
 
   useEffect(() => {
     // Default landing is the Hosted-clusters grouped view (explicit behavior
@@ -190,6 +198,20 @@ const OptimizationsHcpTable: React.FC<OptimizationsHcpTableProps> = ({
     handleOnGroupBySelect(hcpSubToGroupBy(nextSub));
   };
 
+  const handleChipSelect = (hostedClusterId: string) => {
+    // Chip drill-down filters the flat list in place (stays on the sub).
+    setCursorPage(1);
+    setQuery({
+      ...query,
+      filter_by: {
+        ...query.filter_by,
+        hosted_cluster_id: hostedClusterId,
+      },
+      offset: 0,
+      after: undefined,
+    });
+  };
+
   const handleOnFilterAdded = filter => {
     setCursorPage(1);
     const newQuery = queryUtils.handleOnFilterAdded(query, filter);
@@ -306,6 +328,7 @@ const OptimizationsHcpTable: React.FC<OptimizationsHcpTableProps> = ({
   return (
     <>
       {getSubToggle()}
+      {sub === 'hosted' && <HcpSummaryStrip groups={groupedReport?.data} onSelect={handleChipSelect} />}
       {getToolbar()}
       {reportFetchStatus !== FetchStatus.complete ? (
         <LoadingState
