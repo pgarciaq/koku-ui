@@ -55,17 +55,19 @@ const OptimizationsHcpTable: React.FC<OptimizationsHcpTableProps> = ({
     baseQuery: hcpRecommendationsBaseQuery,
     prefix: 'hcp_',
   });
+  const { sub } = useHcpSubUrl();
   const { report, reportError, reportFetchStatus, reportQueryString } = useHcpRecommendationsReport({
     cluster,
     query,
+    sub,
   });
-  const { sub } = useHcpSubUrl();
   // Summary strip source: grouped per-HC totals, fetched only on the Hosted
   // sub. The store is query-keyed so this never clashes with the list fetch.
   const { report: groupedReport } = useHcpRecommendationsReport({
     cluster,
     query: { ...query, group_by: { hosted_cluster_id: '*' } },
     skipFetch: sub !== 'hosted',
+    sub,
   });
 
   useEffect(() => {

@@ -1,19 +1,22 @@
 import { getQuery } from 'api/queries/query';
 import type { RosQuery } from 'api/queries/rosQuery';
-import type { RosReport } from 'api/ros/ros';
 import { RosPathsType, RosType } from 'api/ros/ros';
+import type { RosReport } from 'api/ros/ros';
 import { withRosListProjection } from 'api/ros/rosListParams';
 import type { AxiosError } from 'axios';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AnyAction } from 'redux';
 import type { ThunkDispatch } from 'redux-thunk';
+import type { HcpSubKey } from 'routes/optimizations/useHcpSubUrl';
 import { expandTagFilters } from 'routes/utils/filter';
 import { getOrderById, getOrderByValue } from 'routes/utils/orderBy';
 import type { RootState } from 'store';
 import { FetchStatus } from 'store/common';
 import { rosActions, rosSelectors } from 'store/ros';
 import { Interval, OptimizationType } from 'utils/commonTypes';
+
+import { hcpSubToScopeParams } from './optimizationsHcpTable/hcpTableUtils';
 
 export const hcpRecommendationsBaseQuery: RosQuery = {
   limit: 10,
@@ -36,12 +39,16 @@ export interface UseHcpRecommendationsReportProps {
   cluster?: string | string[];
   query: RosQuery;
   skipFetch?: boolean;
+  /** HCP sub-tab the report serves; overhead requests carry the
+   * management scope selector (#694). */
+  sub?: HcpSubKey;
 }
 
 export const useHcpRecommendationsReport = ({
   cluster,
   query,
   skipFetch = false,
+  sub,
 }: UseHcpRecommendationsReportProps): HcpRecommendationsReportState => {
   const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
   const order_by = getOrderById(query) || getOrderById(hcpRecommendationsBaseQuery);
@@ -52,6 +59,7 @@ export const useHcpRecommendationsReport = ({
   const reportQuery = withRosListProjection({
     ...(cluster && { cluster }),
     ...filterBy,
+    ...(sub ? hcpSubToScopeParams(sub) : {}),
     limit: query.limit,
     ...(query.after ? { after: query.after } : { offset: query.offset }),
     ...(query.group_by ? { group_by: query.group_by } : {}),

@@ -1,4 +1,4 @@
-import { getHcpGroupBy, hcpSubToGroupBy, isGroupedHcpRow } from './hcpTableUtils';
+import { getHcpGroupBy, hcpSubToGroupBy, hcpSubToScopeParams, isGroupedHcpRow } from './hcpTableUtils';
 
 describe('hcpTableUtils', () => {
   describe('getHcpGroupBy', () => {
@@ -14,6 +14,16 @@ describe('hcpTableUtils', () => {
 
     test('returns namespace when grouped by namespace', () => {
       expect(getHcpGroupBy({ group_by: { namespace: '*' } })).toBe('namespace');
+    });
+  });
+
+  describe('hcpSubToScopeParams (#694)', () => {
+    test('overhead sub requests the management scope', () => {
+      expect(hcpSubToScopeParams('overhead')).toEqual({ 'filter[scope]': 'management' });
+    });
+
+    test('hosted sub carries no scope selector (default HCP scope unchanged)', () => {
+      expect(hcpSubToScopeParams('hosted')).toEqual({});
     });
   });
 
