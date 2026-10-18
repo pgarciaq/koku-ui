@@ -4,7 +4,8 @@ import { useRecommendationTermOptions } from 'hooks/useRecommendationTermOptions
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { routePaths } from 'routePaths';
 import { ColdStartState } from 'routes/components/page/coldStart';
 import { NotAvailable } from 'routes/components/page/notAvailable';
 import { NotConfigured } from 'routes/components/page/notConfigured';
@@ -12,6 +13,7 @@ import { LoadingState } from 'routes/components/state/loadingState';
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
 import { useHcpSubUrl } from 'routes/optimizations/useHcpSubUrl';
 import * as queryUtils from 'routes/utils/query';
+import { formatPath } from 'utils/paths';
 import { useUrlState } from 'routes/utils/useUrlState';
 import { FetchStatus } from 'store/common';
 
@@ -190,7 +192,19 @@ const OptimizationsHcpTable: React.FC<OptimizationsHcpTableProps> = ({
             />
           </ToggleGroup>
         </FlexItem>
-        <FlexItem>{intl.formatMessage(messages.hcpTabSubtitle)}</FlexItem>
+        {/* #694 item 5: per-sub subtitles (#689 companion). The overhead
+            subtitle links out to the containers view for the full cluster
+            picture instead of duplicating it here. */}
+        <FlexItem>
+          {intl.formatMessage(
+            sub === 'overhead' ? messages.hcpTabSubtitleOverhead : messages.hcpTabSubtitleHosted
+          )}{' '}
+          {sub === 'overhead' && (
+            <Link to={formatPath(routePaths.optimizationsContainersTable.path)}>
+              {intl.formatMessage(messages.hcpOverheadContainersLink)}
+            </Link>
+          )}
+        </FlexItem>
       </Flex>
     );
   };

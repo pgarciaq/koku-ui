@@ -773,11 +773,22 @@ export default defineMessages({
     description: 'HCP tab management-overhead sub-view toggle label',
     id: 'hcpSubOverhead',
   },
-  hcpTabSubtitle: {
+  hcpTabSubtitleHosted: {
     defaultMessage:
-      'Control-plane rightsizing on management clusters: per-hosted-cluster attribution, plus shared management overhead.',
-    description: 'HCP tab subtitle explaining the beneficiary split',
-    id: 'hcpTabSubtitle',
+      'Control-plane rightsizing, attributed per hosted cluster; unassociated rows are flagged.',
+    description: 'HCP tab subtitle for the hosted sub-view (explains the beneficiary split)',
+    id: 'hcpTabSubtitleHosted',
+  },
+  hcpTabSubtitleOverhead: {
+    defaultMessage:
+      "Rightsizing for the management cluster's own platform namespaces — MCE, monitoring stack, and other shared overhead.",
+    description: 'HCP tab subtitle for the management-overhead sub-view (#694 item 5)',
+    id: 'hcpTabSubtitleOverhead',
+  },
+  hcpOverheadContainersLink: {
+    defaultMessage: 'Full cluster view under Containers',
+    description: 'HCP overhead sub-view link-out to the containers view (#689 companion)',
+    id: 'hcpOverheadContainersLink',
   },
   quotaSubNamespace: {
     defaultMessage: 'Namespace ResourceQuota',
