@@ -200,6 +200,10 @@ const useMapToProps = ({ queryStateName }: HcpBreakdownMapProps): HcpBreakdownSt
     id: queryFromRoute ? queryFromRoute.id : '',
     term: listQueryState.term,
     engine: listQueryState.engine,
+    // #694: scope rides the report path (known to the API); the management
+    // sub-tab detail must be gated on the same scope its list used, or the
+    // detail 404s for management rows.
+    ...(queryFromRoute?.scope === 'management' && { scope: 'management' }),
   });
   const report: any = useSelector((state: RootState) =>
     rosSelectors.selectRos(state, reportPathsType, reportType, reportQueryString)

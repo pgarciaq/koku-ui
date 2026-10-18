@@ -182,13 +182,16 @@ export const RosTypePaths: Partial<Record<RosType, string>> = {
   [RosType.ros]: 'recommendations/openshift',
 };
 
-function getDetailQueryParams(term?: string, engine?: string): string {
+function getDetailQueryParams(term?: string, engine?: string, scope?: string): string {
   const params = new URLSearchParams({ include: 'explanation' });
   if (term) {
     params.set('filter[term]', term);
   }
   if (engine) {
     params.set('filter[engine]', engine);
+  }
+  if (scope) {
+    params.set('filter[scope]', scope);
   }
   return params.toString();
 }
@@ -222,9 +225,9 @@ export function runNamespaceRosReports(reportType: RosType, query: string) {
 }
 
 // HCP recommendation by ID (hosted control-plane surface)
-export function runHcpRosReport(reportType: RosType, id: string, term?: string, engine?: string) {
+export function runHcpRosReport(reportType: RosType, id: string, term?: string, engine?: string, scope?: string) {
   const path = RosTypePaths[reportType];
-  const queryString = id ? `/hcp/${id}?${getDetailQueryParams(term, engine)}` : '';
+  const queryString = id ? `/hcp/${id}?${getDetailQueryParams(term, engine, scope)}` : '';
   return axiosInstance.get<RecommendationReport>(`${path}${queryString}`);
 }
 

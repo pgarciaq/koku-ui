@@ -21,17 +21,21 @@ export function withRosListProjection<T extends RosQuery>(query: T): T & { term:
 export interface RosDetailFetchQuery {
   engine?: string;
   id: string;
+  scope?: string;
   term?: string;
 }
 
 /** Encode a detail fetch cache key with optional projection filters. */
-export function encodeRosDetailFetchQuery({ id, term, engine }: RosDetailFetchQuery): string {
+export function encodeRosDetailFetchQuery({ id, term, engine, scope }: RosDetailFetchQuery): string {
   const params = new URLSearchParams();
   if (term) {
     params.set('filter[term]', term);
   }
   if (engine) {
     params.set('filter[engine]', engine);
+  }
+  if (scope) {
+    params.set('filter[scope]', scope);
   }
   const suffix = params.toString();
   return suffix ? `${id}?${suffix}` : id;
@@ -49,6 +53,7 @@ export function decodeRosDetailFetchQuery(fetchQuery: string): RosDetailFetchQue
     id: fetchQuery.slice(0, qIdx),
     term: params.get('filter[term]') ?? undefined,
     engine: params.get('filter[engine]') ?? undefined,
+    scope: params.get('filter[scope]') ?? undefined,
   };
 }
 

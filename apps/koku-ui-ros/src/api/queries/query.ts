@@ -37,6 +37,7 @@ export interface Query {
   perspective?: any;
   project?: any;
   queryStateName?: string;
+  scope?: string;
   search?: any;
   start_date?: any;
   state?: any;

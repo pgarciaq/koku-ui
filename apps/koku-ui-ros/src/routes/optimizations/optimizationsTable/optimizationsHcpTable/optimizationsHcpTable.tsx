@@ -138,6 +138,7 @@ const OptimizationsHcpTable: React.FC<OptimizationsHcpTableProps> = ({
         isLoading={reportFetchStatus === FetchStatus.inProgress}
         linkPath={linkPath}
         linkState={newLinkState}
+        scope={sub === 'overhead' ? 'management' : undefined}
         onDrillDown={filter => handleDrillDownFromGroup(filter)}
         onFilterAdded={filter => handleOnFilterAdded(filter)}
         onSort={(sortType, isSortAscending) => handleOnSort(sortType, isSortAscending)}

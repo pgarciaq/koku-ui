@@ -35,6 +35,7 @@ interface OptimizationsHcpDataTableOwnProps {
   orderBy?: any;
   report: RecommendationReport;
   reportQueryString: string;
+  scope?: string;
   term?: string;
 }
 
@@ -54,6 +55,7 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
   onSort,
   orderBy,
   report,
+  scope,
   term,
 }) => {
   const intl = useIntl();
@@ -231,6 +233,7 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
         basePath: linkPath,
         breadcrumbLabel,
         id: item.id,
+        scope,
         title: container || namespace,
       });
 

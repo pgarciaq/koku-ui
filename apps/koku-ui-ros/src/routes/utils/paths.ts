@@ -45,6 +45,7 @@ export const getOptimizationsBreakdownPath = ({
   breadcrumbPath,
   id,
   isContainers,
+  scope,
   title,
 }: {
   basePath?: string;
@@ -52,6 +53,7 @@ export const getOptimizationsBreakdownPath = ({
   breadcrumbPath?: string; // Used for breadcrumb path in the breakdown header
   id: string | number; // group_by[account]=<id> param in the breakdown page
   isContainers?: boolean; // Flag indicating to use containers API
+  scope?: string; // HCP scope selector (#694): management when the source sub-tab is overhead
   title: string | number; // Used to display a title in the breakdown header
 }) => {
   const newQuery: any = {
@@ -59,6 +61,7 @@ export const getOptimizationsBreakdownPath = ({
     ...(breadcrumbLabel && { [breadcrumbLabelKey]: breadcrumbLabel }),
     ...(breadcrumbPath && { [breadcrumbPathKey]: breadcrumbPath }),
     ...(isContainers && { isContainers }),
+    ...(scope && { scope }),
     ...(title && { [breakdownTitleKey]: title }),
   };
   return `${basePath}?${getQueryRoute(newQuery)}`;

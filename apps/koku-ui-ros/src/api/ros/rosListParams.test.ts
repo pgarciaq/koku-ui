@@ -45,6 +45,15 @@ describe('encodeRosDetailFetchQuery', () => {
       })
     ).toBe('abc-123?filter%5Bterm%5D=short_term&filter%5Bengine%5D=cost');
   });
+
+  it('encodes the HCP scope selector for detail fetch keys (#694)', () => {
+    expect(
+      encodeRosDetailFetchQuery({
+        id: 'abc-123',
+        scope: 'management',
+      })
+    ).toBe('abc-123?filter%5Bscope%5D=management');
+  });
 });
 
 describe('decodeRosDetailFetchQuery', () => {
@@ -57,6 +66,13 @@ describe('decodeRosDetailFetchQuery', () => {
       id: 'abc-123',
       term: Interval.short_term,
       engine: OptimizationType.cost,
+    });
+  });
+
+  it('decodes the HCP scope selector from fetch keys (#694)', () => {
+    expect(decodeRosDetailFetchQuery('abc-123?filter[scope]=management')).toEqual({
+      id: 'abc-123',
+      scope: 'management',
     });
   });
 });

@@ -28,8 +28,8 @@ export function runRosReport(rosPathsType: RosPathsType, rosType: RosType, query
   let result;
   switch (rosPathsType) {
     case RosPathsType.hcpRecommendation: {
-      const { id, term, engine } = decodeRosDetailFetchQuery(query);
-      result = runHcpRecommendation(rosType, id, term, engine);
+      const { id, term, engine, scope } = decodeRosDetailFetchQuery(query);
+      result = runHcpRecommendation(rosType, id, term, engine, scope);
       break;
     }
     case RosPathsType.hcpRecommendations:
