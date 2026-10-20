@@ -2324,6 +2324,11 @@ export default defineMessages({
     description: 'Empty state for OOM timeline chart',
     id: 'visualInsightsOomTimelineEmpty',
   },
+  visualInsightsOomTimelineError: {
+    defaultMessage: 'Could not load OOM event data',
+    description: 'Error state for OOM timeline chart — a failed fetch is shown, not treated as no data (#696)',
+    id: 'visualInsightsOomTimelineError',
+  },
   visualInsightsOomTimelineTooltip: {
     defaultMessage: '{date}: {count, plural, one {{count} OOM kill} other {{count} OOM kills}}',
     description: 'Tooltip for OOM timeline scatter point',

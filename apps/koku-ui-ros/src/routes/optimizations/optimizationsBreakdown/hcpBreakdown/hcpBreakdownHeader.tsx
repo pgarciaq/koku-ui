@@ -83,8 +83,12 @@ const HcpBreakdownHeader: React.FC<HcpBreakdownHeaderProps> = ({
           <Content component={ContentVariants.dd}>
             {report?.hosted_cluster_id ? (
               report.hosted_cluster_id
-            ) : (
+            ) : report?.incomplete ? (
+              // API-decided facts (#695): only evidenced-but-unassociated
+              // rows read as Incomplete; management rows show their cluster.
               <Label color="grey">{intl.formatMessage(messages.hcpIncomplete)}</Label>
+            ) : (
+              cluster
             )}
           </Content>
           <Content component={ContentVariants.dt}>{intl.formatMessage(messages.savingsEstimatedMonthly)}</Content>

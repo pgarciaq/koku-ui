@@ -66,10 +66,13 @@ const OptimizationsBreakdown: React.FC<OptimizationsBreakdownProps> = ({ linkSta
   const queryFromRoute = useQueryFromRoute();
   const intl = useIntl();
 
+  // History API matches clusters.cluster_alias (handlers_history.go); a
+  // cluster UUID only matches if it also happens to be an alias, so pass
+  // the alias the detail response serves (#696).
   const historyParams =
-    report?.cluster_uuid && report?.project && report?.workload && report?.container
+    (report?.cluster_alias || report?.cluster_uuid) && report?.project && report?.workload && report?.container
       ? {
-          cluster: report.cluster_uuid,
+          cluster: report.cluster_alias || report.cluster_uuid,
           project: report.project,
           workload: report.workload,
           container: report.container,

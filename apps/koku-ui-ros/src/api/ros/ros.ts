@@ -28,6 +28,7 @@ export interface RosData {
   incomplete?: boolean;
   ingest_hooks_failed?: boolean;
   last_reported?: string;
+  management?: boolean;
   namespace?: string;
   project?: string;
   recommendations?: any;

@@ -227,7 +227,11 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
       const container = item.container ?? '';
       const lastReported = getTimeFromNow(item.last_reported);
       const showWarningIcon = hasNotificationsWarning(item?.recommendations, true);
+      // API-decided facts (#695): incomplete only fires for
+      // evidenced-but-unassociated rows; management rows carry the topology
+      // fact and show the management cluster name in the hosted column.
       const isIncomplete = !!item.incomplete;
+      const isManagement = !!item.management;
 
       const optimizationsBreakdownPath = getOptimizationsBreakdownPath({
         basePath: linkPath,
@@ -258,6 +262,10 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
               <Tooltip content={intl.formatMessage(messages.hcpIncomplete)}>
                 <span>{intl.formatMessage(messages.hcpIncomplete)}</span>
               </Tooltip>
+            ) : isManagement ? (
+              // Management rows have no hosted association: show the
+              // management cluster name (cluster_alias), never "Incomplete".
+              cluster
             ) : onFilterAdded ? (
               // NOTE: Filter takes `type`, not `key` — addFilterToQuery reads
               // filter.type. Sibling tables pass `key` (no-op repo-wide).

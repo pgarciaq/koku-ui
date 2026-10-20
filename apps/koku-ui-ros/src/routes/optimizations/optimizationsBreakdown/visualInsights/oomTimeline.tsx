@@ -1,50 +1,28 @@
 import { Chart, ChartAxis, ChartLegendTooltip, ChartScatter, createContainer } from '@patternfly/react-charts/victory';
 import { EmptyState, EmptyStateBody, EmptyStateVariant, Spinner, Title } from '@patternfly/react-core';
 import type { OomTimelineEntry } from 'api/ros/recommendations';
-import { fetchOomTimeline } from 'api/ros/recommendations';
 import messages from 'locales/messages';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { getResizeObserver } from 'routes/components/charts/common/chartUtils';
 import ChartTheme from 'routes/components/charts/theme';
 
+// Presentational OOM tile (#696): the owning section fetches the data so it
+// can decide visibility without mounting/unmounting the chart (which is what
+// produced the flash-then-hide). An error state is distinct from an empty
+// result so a failed fetch never reads as "no OOM events".
 interface OomTimelineProps {
-  recommendationId: string;
-  onDataResolved?: (hasData: boolean) => void;
+  entries?: OomTimelineEntry[];
+  isLoading: boolean;
+  hasError: boolean;
 }
 
 const CursorVoronoiContainer: any = createContainer('voronoi', 'cursor');
 
-const OomTimeline: React.FC<OomTimelineProps> = ({ recommendationId, onDataResolved }) => {
+const OomTimeline: React.FC<OomTimelineProps> = ({ entries, isLoading, hasError }) => {
   const intl = useIntl();
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
-  const [data, setData] = useState<OomTimelineEntry[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
-
-  useEffect(() => {
-    if (!recommendationId) {
-      setIsLoading(false);
-      onDataResolved?.(false);
-      return;
-    }
-    setIsLoading(true);
-    setHasError(false);
-    fetchOomTimeline(recommendationId)
-      .then(response => {
-        const entries = response?.data?.data ?? [];
-        setData(entries);
-        onDataResolved?.(entries.length > 0 && entries.some(d => d.oom_kill_count > 0));
-      })
-      .catch(() => {
-        setHasError(true);
-        onDataResolved?.(false);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [recommendationId]);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -61,13 +39,29 @@ const OomTimeline: React.FC<OomTimelineProps> = ({ recommendationId, onDataResol
     }
   }, []);
 
-  const hasOomData = useMemo(() => data.length > 0 && data.some(d => d.oom_kill_count > 0), [data]);
+  const hasOomData = useMemo(
+    () => !!entries && entries.length > 0 && entries.some(d => d.oom_kill_count > 0),
+    [entries]
+  );
 
   if (isLoading) {
     return <Spinner size="lg" aria-label={intl.formatMessage(messages.visualInsightsOomTimeline)} />;
   }
 
-  if (hasError || !hasOomData) {
+  if (hasError) {
+    // #696: a failed fetch renders an error state — it must never read as
+    // "no OOM events", which is what made the section collapse.
+    return (
+      <EmptyState variant={EmptyStateVariant.sm}>
+        <Title headingLevel="h4" size="md">
+          {intl.formatMessage(messages.visualInsightsOomTimeline)}
+        </Title>
+        <EmptyStateBody>{intl.formatMessage(messages.visualInsightsOomTimelineError)}</EmptyStateBody>
+      </EmptyState>
+    );
+  }
+
+  if (!hasOomData) {
     return (
       <EmptyState variant={EmptyStateVariant.sm}>
         <Title headingLevel="h4" size="md">
@@ -78,7 +72,7 @@ const OomTimeline: React.FC<OomTimelineProps> = ({ recommendationId, onDataResol
     );
   }
 
-  const chartData = data
+  const chartData = (entries ?? [])
     .filter(d => d.oom_kill_count > 0)
     .map(d => ({
       x: new Date(d.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
