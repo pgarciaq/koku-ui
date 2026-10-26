@@ -13,14 +13,15 @@ import { LoadingState } from 'routes/components/state/loadingState';
 import { styles } from 'routes/optimizations/optimizationsBreakdown/optimizationsBreakdown.styles';
 import { useHcpSubUrl } from 'routes/optimizations/useHcpSubUrl';
 import * as queryUtils from 'routes/utils/query';
-import { formatPath } from 'utils/paths';
 import { useUrlState } from 'routes/utils/useUrlState';
 import { FetchStatus } from 'store/common';
+import { formatPath } from 'utils/paths';
 
 import { INTERVAL_TO_TERM_NAME } from '../recommendationTermLabels';
 import { hcpRecommendationsBaseQuery, useHcpRecommendationsReport } from '../useHcpRecommendationsReport';
 import { useSavingsFallbackSort } from '../useSavingsFallbackSort';
 import { getLinkState } from '../utils';
+import { FleetCapacityPanel } from './fleetCapacityPanel';
 import { HcpSummaryStrip } from './hcpSummaryStrip';
 import { getHcpGroupBy, hcpSubToGroupBy } from './hcpTableUtils';
 import { OptimizationsHcpDataTable } from './optimizationsHcpDataTable';
@@ -196,9 +197,7 @@ const OptimizationsHcpTable: React.FC<OptimizationsHcpTableProps> = ({
             subtitle links out to the containers view for the full cluster
             picture instead of duplicating it here. */}
         <FlexItem>
-          {intl.formatMessage(
-            sub === 'overhead' ? messages.hcpTabSubtitleOverhead : messages.hcpTabSubtitleHosted
-          )}{' '}
+          {intl.formatMessage(sub === 'overhead' ? messages.hcpTabSubtitleOverhead : messages.hcpTabSubtitleHosted)}{' '}
           {sub === 'overhead' && (
             <Link to={formatPath(routePaths.optimizationsContainersTable.path)}>
               {intl.formatMessage(messages.hcpOverheadContainersLink)}
@@ -341,6 +340,12 @@ const OptimizationsHcpTable: React.FC<OptimizationsHcpTableProps> = ({
     <>
       {getSubToggle()}
       {sub === 'hosted' && <HcpSummaryStrip groups={groupedReport?.data} onSelect={handleChipSelect} />}
+      {/* W4 fleet-capacity advisory (#392): Hosted-clusters subview only —
+          never on Management-overhead, and fleet headroom is never copied
+          into per-HC rows below. The panel fetches the unfiltered latest
+          card list (one row per management cluster) and narrows to one when
+          a cluster is selected. A failed fetch degrades to no panel. */}
+      {sub === 'hosted' && <FleetCapacityPanel cluster={Array.isArray(cluster) ? cluster[0] : cluster} />}
       {getToolbar()}
       {reportFetchStatus !== FetchStatus.complete ? (
         <LoadingState

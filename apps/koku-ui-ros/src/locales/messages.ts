@@ -774,8 +774,7 @@ export default defineMessages({
     id: 'hcpSubOverhead',
   },
   hcpTabSubtitleHosted: {
-    defaultMessage:
-      'Control-plane rightsizing, attributed per hosted cluster; unassociated rows are flagged.',
+    defaultMessage: 'Control-plane rightsizing, attributed per hosted cluster; unassociated rows are flagged.',
     description: 'HCP tab subtitle for the hosted sub-view (explains the beneficiary split)',
     id: 'hcpTabSubtitleHosted',
   },
@@ -789,6 +788,76 @@ export default defineMessages({
     defaultMessage: 'Full cluster view under Containers',
     description: 'HCP overhead sub-view link-out to the containers view (#689 companion)',
     id: 'hcpOverheadContainersLink',
+  },
+  hcpCapacityScenarioRequest: {
+    defaultMessage: 'Request-based',
+    description: 'HCP fleet-capacity scenario label: request-packing estimate',
+    id: 'hcpCapacityScenarioRequest',
+  },
+  hcpCapacityScenarioLowQps: {
+    defaultMessage: 'Low API load',
+    description: 'HCP fleet-capacity scenario label: low QPS basis estimate',
+    id: 'hcpCapacityScenarioLowQps',
+  },
+  hcpCapacityScenarioAverageQps: {
+    defaultMessage: 'Average API load',
+    description: 'HCP fleet-capacity scenario label: observed average QPS estimate',
+    id: 'hcpCapacityScenarioAverageQps',
+  },
+  hcpCapacityScenarioMediumQps: {
+    defaultMessage: 'Medium API load',
+    description: 'HCP fleet-capacity scenario label: medium QPS basis estimate',
+    id: 'hcpCapacityScenarioMediumQps',
+  },
+  hcpCapacityScenarioHighQps: {
+    defaultMessage: 'High API load',
+    description: 'HCP fleet-capacity scenario label: high QPS basis estimate',
+    id: 'hcpCapacityScenarioHighQps',
+  },
+  hcpCapacitySourceVersions: {
+    defaultMessage: 'OCP {ocp} · operator {operator}',
+    description: 'HCP fleet-capacity card source versions line',
+    id: 'hcpCapacitySourceVersions',
+  },
+  hcpCapacityWarningStale: {
+    defaultMessage: 'Snapshot is stale',
+    description: 'HCP fleet-capacity caution: age over twice the row cadence',
+    id: 'hcpCapacityWarningStale',
+  },
+  hcpCapacityWarningBelowFloor: {
+    defaultMessage: 'OCP version is below the documented 4.17 floor',
+    description: 'HCP fleet-capacity caution: known ocp_version under the documented floor',
+    id: 'hcpCapacityWarningBelowFloor',
+  },
+  hcpCapacityWarningPressured: {
+    defaultMessage: 'Node pressure detected — exact headroom withheld',
+    description: 'HCP fleet-capacity caution: affirmed pressure withholds precise headroom',
+    id: 'hcpCapacityWarningPressured',
+  },
+  hcpCapacityWarningPressureUnknown: {
+    defaultMessage: 'Node pressure unknown',
+    description: 'HCP fleet-capacity caution: pressure state could not be determined',
+    id: 'hcpCapacityWarningPressureUnknown',
+  },
+  hcpCapacityWarningMceStale: {
+    defaultMessage: 'MCE references may be stale',
+    description: 'HCP fleet-capacity caution: MCE gauges frozen while native inputs moved',
+    id: 'hcpCapacityWarningMceStale',
+  },
+  hcpCapacityWarningInventoryIncomplete: {
+    defaultMessage: 'Hosted-cluster inventory incomplete — headroom unavailable',
+    description: 'HCP fleet-capacity caution: HC inventory incomplete',
+    id: 'hcpCapacityWarningInventoryIncomplete',
+  },
+  hcpCapacityWarningPlacementUnknown: {
+    defaultMessage: 'Worker placement unknown — no native estimate',
+    description: 'HCP fleet-capacity caution: eligible worker set could not be determined',
+    id: 'hcpCapacityWarningPlacementUnknown',
+  },
+  hcpCapacityIllustrativeOnly: {
+    defaultMessage: 'Illustrative only — hosted control planes are not all highly available',
+    description: 'HCP fleet-capacity caution: mixed or single-replica availability basis',
+    id: 'hcpCapacityIllustrativeOnly',
   },
   quotaSubNamespace: {
     defaultMessage: 'Namespace ResourceQuota',
