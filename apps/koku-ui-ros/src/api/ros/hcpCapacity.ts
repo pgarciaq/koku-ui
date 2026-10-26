@@ -19,6 +19,7 @@ export interface HcpCapacityWarnings {
   pressured?: boolean;
   pressure_unknown?: boolean;
   mce_may_be_stale?: boolean | null;
+  shared_infrastructure?: boolean;
 }
 
 export interface HcpCapacityRow {

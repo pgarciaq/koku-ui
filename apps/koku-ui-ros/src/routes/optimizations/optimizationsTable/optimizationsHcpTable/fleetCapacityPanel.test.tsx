@@ -64,6 +64,12 @@ const degradedRow: HcpCapacityRow = {
   warnings: { stale: true, below_version_floor: true, pressured: false, pressure_unknown: false, mce_may_be_stale: true },
 };
 
+const compactRow: HcpCapacityRow = {
+  ...healthyRow,
+  cluster_uuid: '44444444-4444-4444-4444-444444444444',
+  warnings: { stale: false, below_version_floor: false, pressured: false, pressure_unknown: true, shared_infrastructure: true },
+};
+
 describe('FleetCapacityPanel', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -138,6 +144,15 @@ describe('FleetCapacityPanel', () => {
     expect(screen.getByText(/Snapshot is stale/i)).toBeInTheDocument();
     expect(screen.getByText(/4\.17 floor/i)).toBeInTheDocument();
     expect(screen.getByText(/MCE references may be stale/i)).toBeInTheDocument();
+  });
+
+  it('renders the compact/shared-infrastructure caveat', () => {
+    useHcpCapacityLatest.mockReturnValue({ rows: [compactRow], fetchStatus: 2 });
+
+    render(<FleetCapacityPanel />, { wrapper });
+
+    expect(screen.getByText(/Compact topology/i)).toBeInTheDocument();
+    expect(screen.getAllByText('7').length).toBeGreaterThan(0);
   });
 
   it('renders nothing without rows (fetch failed or no capacity data)', () => {

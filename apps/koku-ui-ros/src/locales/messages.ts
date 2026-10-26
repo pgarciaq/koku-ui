@@ -844,6 +844,13 @@ export default defineMessages({
     description: 'HCP fleet-capacity caution: MCE gauges frozen while native inputs moved',
     id: 'hcpCapacityWarningMceStale',
   },
+  hcpCapacityWarningSharedInfrastructure: {
+    defaultMessage:
+      'Compact topology — control planes share the worker infrastructure; estimates may overstate dedicated capacity',
+    description:
+      'HCP fleet-capacity caution: management control-plane nodes double as workers (OCP sizing-guide 3.2.5)',
+    id: 'hcpCapacityWarningSharedInfrastructure',
+  },
   hcpCapacityWarningInventoryIncomplete: {
     defaultMessage: 'Hosted-cluster inventory incomplete — headroom unavailable',
     description: 'HCP fleet-capacity caution: HC inventory incomplete',

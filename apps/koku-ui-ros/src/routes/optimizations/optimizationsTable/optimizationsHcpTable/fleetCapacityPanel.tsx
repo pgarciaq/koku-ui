@@ -62,6 +62,9 @@ export const FleetCapacityPanel: React.FC<FleetCapacityPanelProps> = ({ cluster 
     if (w.mce_may_be_stale) {
       out.push(intl.formatMessage(messages.hcpCapacityWarningMceStale));
     }
+    if (w.shared_infrastructure) {
+      out.push(intl.formatMessage(messages.hcpCapacityWarningSharedInfrastructure));
+    }
     if (!row.inventory_complete) {
       out.push(intl.formatMessage(messages.hcpCapacityWarningInventoryIncomplete));
     }
