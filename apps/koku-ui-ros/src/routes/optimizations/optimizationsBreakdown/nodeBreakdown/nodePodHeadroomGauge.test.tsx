@@ -29,13 +29,13 @@ describe('NodePodHeadroomGauge', () => {
   it('handles zero capacity gracefully (shows 0)', () => {
     render(<NodePodHeadroomGauge podCapacity={0} podCount={5} />, { wrapper });
     const table = screen.getByRole('table', { name: /Pod Scheduling Headroom/i });
-    expect(table.textContent).toContain('"percent":0');
+    expect(table.textContent).toContain('0% scheduled');
   });
 
   it('handles null-like capacity gracefully (shows 0)', () => {
     render(<NodePodHeadroomGauge podCapacity={undefined as any} podCount={5} />, { wrapper });
     const table = screen.getByRole('table', { name: /Pod Scheduling Headroom/i });
-    expect(table.textContent).toContain('"percent":0');
+    expect(table.textContent).toContain('0% scheduled');
   });
 
   it('caps visual at 100% when over-capacity but shows actual percentage', () => {

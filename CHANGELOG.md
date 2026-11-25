@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **ROS tests:** the automatic react-intl jest mock now formats messages like
+  the real implementation — ICU placeholders interpolate (`Value 42 of 100`,
+  plurals resolve to their branches), and a broken placeholder (missing value)
+  fails the test instead of silently rendering raw placeholders plus a
+  params-JSON suffix. The old mock's behavior masked such bugs and made
+  catalog lookups appear dead in investigations. Four artifact-pinned test
+  expectations were rewritten toward real output. Test-infrastructure only —
+  no production code change.
+  ([Issue #938](https://github.com/pgarciaq/ros-ocp-backend/issues/938))
+
 ### Added
 
 - **ROS:** Warning icons in the Optimizations tables and breakdown headers now

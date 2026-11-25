@@ -43,7 +43,7 @@ describe('PvcUtilizationGauge', () => {
       { wrapper }
     );
     const table = screen.getByRole('table', { name: /PVC Utilization/i });
-    expect(table.textContent).toContain('"percent":0');
+    expect(table.textContent).toContain('0% used');
   });
 
   it('displays the staleness date', () => {

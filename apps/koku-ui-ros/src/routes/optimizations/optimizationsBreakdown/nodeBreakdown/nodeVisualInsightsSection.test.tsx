@@ -31,7 +31,7 @@ describe('NodeVisualInsightsSection', () => {
     render(<NodeVisualInsightsSection podCapacity={110} podCount={0} />, { wrapper });
     expect(screen.getByText('Visual Insights')).toBeTruthy();
     const table = screen.getByRole('table', { name: /Pod Scheduling Headroom/i });
-    expect(table.textContent).toContain('"percent":0');
+    expect(table.textContent).toContain('0% scheduled');
   });
 
   it('renders Peak hours usage when sizing and BH digests are present', () => {

@@ -102,8 +102,10 @@ describe('OptimizationsTabSummaryBanner', () => {
       summaryFetchStatus: FetchStatus.complete,
     });
     renderBanner({});
-    // The count message is the only one containing the 'No recommendations' branch literal.
-    expect(screen.getByText(/No recommendations/)).toBeInTheDocument();
+    // Real ICU plural resolution (#938's mock fix): count=4 renders the
+    // 'other' branch. The old mock rendered the raw plural string, whose
+    // 'No recommendations' literal matched for any count.
+    expect(screen.getByText('4 recommendations')).toBeInTheDocument();
     expect(screen.queryByText(/Potential savings:/)).not.toBeInTheDocument();
   });
 
