@@ -8,6 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- **ROS:** Warning icons in the Optimizations tables and breakdown headers now
+  carry a **tooltip** naming the row's notification codes and their short
+  meanings (previously the icon rendered with no explanation anywhere on the
+  list surface). Covers all 87 catalogued codes from the documented contract;
+  codes newer than the map show a generic fallback. Icon visibility and
+  placement are unchanged.
+  ([Issue #879](https://github.com/pgarciaq/ros-ocp-backend/issues/879))
+
 - **ROS:** Container and namespace utilization Peak hours **chart mode**.
   All-hours charts stay 24×7 usage + 24×7 request/limit. A second Peak hours
   chart uses `business_hours_plots` with BH request/limit. Hide Peak hours
