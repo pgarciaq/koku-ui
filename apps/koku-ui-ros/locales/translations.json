@@ -1,640 +1,2982 @@
 {
-  "actualUsage": "Actual usage ({dateRange})",
-  "breakdownBackToOptimizations": "Back to optimizations",
-  "breakdownBackToOptimizationsProject": "Back to optimizations for project {value}",
-  "breakdownTotalCostDate": "{value} total cost ({dateRange})",
-  "categoryOptimized": "Optimized",
-  "categoryOversized": "Oversized",
-  "categoryUndersized": "Undersized",
-  "change": "Change",
-  "chartCostForecastConeTooltip": "{value0} - {value1}",
-  "chartNoData": "no data",
-  "chartOthers": "{count, plural, one {{count} Other} other {{count} Others}}",
-  "chartUsageMaxLegend": "Daily max",
-  "chartUsageMedianLegend": "Median (P50)",
-  "chartUsageP50P95Legend": "P50-P95 (normal range)",
-  "chartUsageP95P99Legend": "P95-P99 (peak range)",
-  "chartUsageTooltip": "P50: {p50} {units}{br}P95: {p95} {units}{br}P99: {p99} {units}{br}Max: {max} {units}",
-  "chooseKeyPlaceholder": "Choose key",
-  "chooseValuePlaceholder": "Choose value",
-  "clusterQuotaDetailTitle": "ClusterResourceQuota recommendation",
-  "clusterQuotaGaugeAriaDesc": "{resource} utilization as a percentage of the cluster quota hard limit",
-  "clusterQuotaGaugeAriaTitle": "{resource} Utilization",
-  "clusterQuotaGaugeCpuTitle": "CPU",
-  "clusterQuotaGaugeMemoryTitle": "Memory",
-  "clusterQuotaGaugePodsTitle": "Pods",
-  "clusterQuotaGaugeSubtitle": "{used} / {hard}",
-  "clusterQuotaName": "ClusterResourceQuota",
-  "copyToClipboard": "Copy to clipboard",
-  "copyToClipboardSuccessfull": "Successfully copied to clipboard!",
-  "cost": "Cost",
-  "costManagement": "Cost Management ROS",
-  "cpu": "CPU",
-  "cpuUtilization": "CPU utilization",
-  "criteriaValues": "{value, select, exact {exact} exclude {excludes} include {includes} other {}}",
-  "currencyAbbreviations": "{symbol, select, billion {{value} B} million {{value} M} quadrillion {{value} q} thousand {{value} K} trillion {{value} t} other {}}",
-  "current": "Current",
-  "currentConfiguration": "Current configuration",
-  "currentConfigurationTooltip": "Resource values currently deployed in the cluster",
-  "dataQualityIncomplete": "Analytics incomplete",
-  "dataQualityIngestFailed": "Ingest hooks failed",
-  "dataTableAriaLabel": "Details table",
-  "dataThrough": "Data through",
-  "decayCurveChartDaysAgo": "Days ago",
-  "decayCurveChartDesc": "Shows how data weight decreases as data ages within the observation window",
-  "decayCurveChartHalfLife": "50% line",
-  "decayCurveChartTitle": "Decay curve",
-  "decayCurveChartWeight": "Weight",
-  "decayCurveNoDecay": "No decay (uniform weighting)",
-  "decayInfoCardHalfLifeDesc": "Data from {halfLifeDays} days ago contributes 50% weight",
-  "decayInfoCardTitle": "Decay weighting",
-  "decayInfoCardViewSettings": "View full settings",
-  "decaySettingsDefault": "Default",
-  "decaySettingsDesc": "Configure the observation window and exponential decay half-life for each recommendation term. Changes apply on the next recommendation cycle.",
-  "decaySettingsHalfLifeHours": "Decay half-life (hours)",
-  "decaySettingsLockedTooltip": "Set by administrator",
-  "decaySettingsMinDataDays": "Min data days",
-  "decaySettingsPluginContainer": "Container",
-  "decaySettingsPluginGpu": "GPU",
-  "decaySettingsPluginNamespace": "Namespace",
-  "decaySettingsPluginNode": "Node",
-  "decaySettingsPluginPvc": "PVC",
-  "decaySettingsPluginVm": "VM",
-  "decaySettingsResetDefaults": "Reset to defaults",
-  "decaySettingsResetError": "Failed to reset term settings.",
-  "decaySettingsResetSuccess": "Term settings reset to defaults.",
-  "decaySettingsSave": "Save",
-  "decaySettingsSaveError": "Failed to save term settings.",
-  "decaySettingsSaveSuccess": "Term settings saved. Changes apply on the next recommendation cycle.",
-  "decaySettingsTermLong": "Long",
-  "decaySettingsTermMedium": "Medium",
-  "decaySettingsTermShort": "Short",
-  "decaySettingsTitle": "Term & decay settings",
-  "decaySettingsValidationHalfLifeRange": "Half-life must be between 0 and 8760",
-  "decaySettingsValidationWindowRange": "Window must be between 1 and {max}",
-  "decaySettingsWindowDays": "Window (days)",
-  "detailsColumnManagementTitle": "Manage columns",
-  "detailsEmptyState": "Processing data to generate a list of all services that sums to a total cost...",
-  "docsOptimizations": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/getting_started_with_resource_optimization_for_openshift/optimizations-ros",
-  "durationHours": "{value}h",
-  "emptyFilterStateSubtitle": "Sorry, no data with the given filter was found.",
-  "emptyFilterStateTitle": "No match found",
-  "errorStateNotAuthorizedDesc": "Contact the cost management administrator to provide access to this application",
-  "errorStateNotAuthorizedTitle": "You don't have access to the Cost management application",
-  "errorStateUnexpectedDesc": "We encountered an unexpected error. Contact your administrator.",
-  "errorStateUnexpectedTitle": "Oops!",
-  "exactLabel": "Exact: {value}",
-  "excludeLabel": "Excludes: {value}",
-  "excludeValues": "{value, select, excludes {excludes} includes {includes} other {}}",
-  "explanationConfidenceLevel": "Confidence level",
-  "explanationCostPercentileCpu": "CPU cost percentile",
-  "explanationCostPercentileMem": "Memory cost percentile",
-  "explanationCpuFloor": "CPU floor applied",
-  "explanationCpuMargin": "CPU adaptive margin",
-  "explanationCpuMean": "CPU usage mean",
-  "explanationCpuP50": "CPU usage P50",
-  "explanationCpuP95": "CPU usage P95",
-  "explanationCpuTrend": "CPU trend slope",
-  "explanationDataDays": "Data days analyzed",
-  "explanationDecayHalfLife": "Decay half-life",
-  "explanationIdle": "Idle workload detected",
-  "explanationMemMargin": "Memory adaptive margin",
-  "explanationMemMean": "Memory usage mean",
-  "explanationMemP50": "Memory usage P50",
-  "explanationMemP95": "Memory usage P95",
-  "explanationMemTrend": "Memory trend slope",
-  "explanationNo": "No",
-  "explanationNotAvailable": "Explanation data will be available after the next data ingestion.",
-  "explanationOomBump": "OOM bump applied",
-  "explanationOomCount": "OOM kill count",
-  "explanationPerfPercentileCpu": "CPU performance percentile",
-  "explanationPerfPercentileMem": "Memory performance percentile",
-  "explanationTitle": "Why this recommendation?",
-  "explanationYes": "Yes",
-  "filterByInputAriaLabel": "{value, select, account {Input for account name} aws_category {Input for cost category name} cluster {Input for cluster name} gcp_project {Input for GCP project name} name {Input for name} node {Input for node name} org_unit_id {Input for organizational unit name} payer_tenant_id {Input for account name} product_service {Input for service_name} project {Input for project name} region {Input for region name} resource_location {Input for region name} service {Input for service name} service_name {Input for service_name} subscription_guid {Input for account name} status {Input for status value} tag {Input for tag name} other {}}",
-  "filterByPlaceholder": "{value, select, account {Filter by account} aws_category {Filter by cost category} cluster {Filter by cluster} container {Filter by container} description {Filter by description} gcp_project {Filter by GCP project} group {Filter by group} name {Filter by name} node {Filter by node} org_unit_id {Filter by organizational unit} payer_tenant_id {Filter by account} persistent_volume_claim {Filter by persistent volume claim} product_service {Filter by service} project {Filter by project} region {Filter by region} resource_location {Filter by region} service {Filter by service} service_name {Filter by service} source_type {Filter by source type} status {Filter by status} storage_class {Filter by StorageClass} subscription_guid {Filter by account} workload {Filter by workload name} workload_type {Filter by workload type} tag {Filter by tag} tag_key_value {Filter by tag (key=value)} other {}}",
-  "filterByTagKeyAriaLabel": "Tag keys",
-  "filterByTagValueAriaLabel": "Tag values",
-  "filterByValuePlaceholder": "Filter by value",
-  "filterByValues": "{value, select, account {Account} aws_category {Cost category} classification {Classification} cluster {Cluster} container {Container} gcp_project {GCP project} gpu_model {GPU model} group {Group} idle_state {Idle state} name {Name} node {Node} org_unit_id {Organizational unit} payer_tenant_id {Account} persistent_volume_claim {Persistent volume claim} product_service {Service} project {Project} region {Region} resource_location {Region} service {Service} service_name {Service} source_type {Source type} status {Status} storage_class {StorageClass} subscription_guid {Account} tag {Tag} vm_name {VM name} workload {Workload name} workload_type {Workload type} namespace {Namespace} other {}}",
-  "filterByValuesAriaLabel": "Values",
-  "fleetHeatmapAccessibilityCaption": "Node fleet utilization data",
-  "fleetHeatmapBandHealthy": "Healthy",
-  "fleetHeatmapBandHot": "Hot",
-  "fleetHeatmapBandIdle": "Idle",
-  "fleetHeatmapBandLow": "Low",
-  "fleetHeatmapBandModerate": "Moderate",
-  "fleetHeatmapLegendLabel": "Utilization band legend",
-  "fleetHeatmapMetricCpu": "CPU utilization",
-  "fleetHeatmapMetricMemory": "Memory utilization",
-  "fleetHeatmapMetricToggleLabel": "Select utilization metric",
-  "fleetHeatmapNoData": "No node data available",
-  "fleetHeatmapNoDataDesc": "Node utilization data has not been collected yet. Data will appear after the operator reports node metrics.",
-  "fleetHeatmapShowAll": "Show all {count} nodes",
-  "fleetHeatmapShowTop": "Show top {count} nodes",
-  "fleetHeatmapTitle": "Node fleet utilization",
-  "fleetHeatmapTooltip": "{node} — {utilization} ({band}) MachineSet: {machineSet} Instance: {instanceType}",
-  "fleetHeatmapUngrouped": "Ungrouped",
-  "fleetSummaryAbandonedContainers": "Abandoned containers",
-  "fleetSummaryClusters": "Clusters",
-  "fleetSummaryIdleContainers": "Idle containers",
-  "fleetSummaryNoData": "No fleet data available",
-  "fleetSummaryPercentOfTotal": "{percent}% of total",
-  "fleetSummaryPotentialSavings": "Potential monthly savings",
-  "fleetSummaryTitle": "Fleet overview",
-  "fleetSummaryTotalContainers": "Total containers",
-  "forDate": "{value} for {dateRange}",
-  "gpuMig": "MIG",
-  "gpuMigColumnClassification": "Classification",
-  "gpuMigColumnCluster": "Cluster",
-  "gpuMigColumnConfidence": "Confidence",
-  "gpuMigColumnContainer": "Container",
-  "gpuMigColumnCurrentProfile": "Current profile",
-  "gpuMigColumnGpuModel": "GPU model",
-  "gpuMigColumnNamespace": "Namespace",
-  "gpuMigColumnPeakHoursClassification": "Peak hours classification",
-  "gpuMigColumnPeakHoursProfile": "Peak hours profile",
-  "gpuMigColumnRecommendedProfile": "Recommended profile",
-  "gpuMigColumnTerm": "Term",
-  "gpuMigColumnWorkload": "Workload",
-  "gpuMigProfileRecommendations": "MIG profile recommendations by term",
-  "gpuTimeslicing": "Time-Slicing",
-  "gpuTimeslicingCandidateContainers": "Candidate containers",
-  "gpuTimeslicingColumnClassification": "Classification",
-  "gpuTimeslicingColumnCluster": "Cluster",
-  "gpuTimeslicingColumnCurrentReplicas": "Current replicas",
-  "gpuTimeslicingColumnGpuCount": "GPU count",
-  "gpuTimeslicingColumnGpuModel": "GPU model",
-  "gpuTimeslicingColumnNode": "Node",
-  "gpuTimeslicingColumnRecommendedReplicas": "Recommended replicas",
-  "gpuTimeslicingColumnSavings": "Estimated monthly savings",
-  "gpuTimeslicingNoCandidates": "No candidate containers found for this node",
-  "gpuTimeslicingSmActiveAvg": "SM active avg",
-  "hcpGroupBy": "Group by",
-  "hcpGroupByHostedCluster": "Hosted cluster",
-  "hcpGroupByNone": "None",
-  "hcpIncomplete": "Incomplete",
-  "hcpSubHosted": "Hosted clusters",
-  "hcpSubOverhead": "Management overhead",
-  "hcpTabSubtitle": "Control-plane rightsizing on management clusters: per-hosted-cluster attribution, plus shared management overhead.",
-  "historyAllEngines": "All engines",
-  "historyAllTerms": "All terms",
-  "historyChartCpuDesc": "Line chart showing CPU request and limit recommendation values over time in millicores",
-  "historyChartCpuLimit": "CPU Limit",
-  "historyChartCpuRequest": "CPU Request",
-  "historyChartCpuTitle": "CPU Recommendation Trend",
-  "historyChartCpuYAxis": "Millicores",
-  "historyChartEmpty": "No recommendation history available for this container.",
-  "historyChartMemDesc": "Line chart showing memory request and limit recommendation values over time in MiB",
-  "historyChartMemLimit": "Memory Limit",
-  "historyChartMemRequest": "Memory Request",
-  "historyChartMemTitle": "Memory Recommendation Trend",
-  "historyChartMemYAxis": "MiB",
-  "historyChartTitle": "Recommendation History",
-  "historyColCluster": "Cluster",
-  "historyColConfidence": "Confidence",
-  "historyColContainer": "Container",
-  "historyColCpuLimit": "CPU Limit",
-  "historyColCpuP95": "CPU P95",
-  "historyColCpuRequest": "CPU Request",
-  "historyColDataDays": "Data Days",
-  "historyColDate": "Date",
-  "historyColDecayHalfLife": "Decay Half-Life",
-  "historyColEngine": "Engine",
-  "historyColIsIdle": "Idle",
-  "historyColMemLimit": "Mem Limit",
-  "historyColMemP95": "Mem P95",
-  "historyColMemRequest": "Mem Request",
-  "historyColOomCount": "OOM Count",
-  "historyColProject": "Project",
-  "historyColSavings": "Est. Savings",
-  "historyColTerm": "Term",
-  "historyColWorkload": "Workload",
-  "historyEndDate": "End date",
-  "historyEngineCost": "Cost",
-  "historyEnginePerformance": "Performance",
-  "historyErrorTitle": "Unable to load history",
-  "historyExplorerTitle": "Recommendation History",
-  "historyExport": "Export to CSV",
-  "historyFilterCluster": "Cluster",
-  "historyFilterContainer": "Container",
-  "historyFilterPlaceholder": "Filter by {category}",
-  "historyFilterProject": "Project",
-  "historyFilterSearch": "Search",
-  "historyFilterWorkload": "Workload",
-  "historyLoadingBody": "Please wait while we fetch your recommendation history data.",
-  "historyLoadingTitle": "Loading recommendation history",
-  "historyNoData": "No recommendation history found",
-  "historyNoDataBody": "Try adjusting your filters or expanding the date range to see recommendation history.",
-  "historyNoDataTitle": "No recommendation history found",
-  "historyPaginationAriaLabel": "History table pagination - {placement}",
-  "historyShowAdvancedColumns": "Show advanced columns",
-  "historyStartDate": "Start date",
-  "historyTab": "History",
-  "historyTableAriaLabel": "Recommendation history table",
-  "historyTermLong": "Long term",
-  "historyTermMedium": "Medium term",
-  "historyTermShort": "Short term",
-  "hostedControlPlane": "Hosted control plane",
-  "idleCalloutAction": "Recommended action: {action}",
-  "idleCalloutConfidence": "Confidence: {confidence}",
-  "idleCalloutReason": "Reason: {reason}",
-  "idleCalloutTitle": "Idle workload detected",
-  "idleStateActive": "Active",
-  "idleStateBadge": "{state} {days, plural, =0 {} one {{days}d} other {{days}d}}",
-  "idleStateIdle": "Idle",
-  "idleStateZombie": "Zombie",
-  "kokuAppUrl": "https://github.com/project-koku/koku-ui/tree/main/apps/koku-ui-ros",
-  "learnMore": "Learn more",
-  "limit": "Limit",
-  "loadingStateDesc": "Searching for your sources. Do not refresh the browser",
-  "loadingStateTitle": "Looking for sources...",
-  "memory": "Memory",
-  "memoryUtilization": "Memory utilization",
-  "metric": "Metric",
-  "modalClose": "Close",
-  "monthlyHoldingCost": "Monthly holding cost",
-  "moreOptions": "More options",
-  "names": "{count, plural, one {Name} other {Names}}",
-  "namespaceContainerInventoryEmpty": "No container recommendations are available for this namespace.",
-  "namespaceContainerInventoryHelperText": "Container recommendations are computed independently from aggregated container-level data, not derived from the namespace-level recommendation above. Values may differ because each uses a different data source and methodology.",
-  "namespaceContainerInventoryTitle": "Container recommendations in this namespace",
-  "no": "No",
-  "noDataForDate": "No data available for {dateRange}",
-  "noOptimizationsDesc": "Resource Optimization is now available in preview for select customers. If your organization wants to participate, tell us through the Feedback button, which is purple and located on the right. Otherwise, there is not enough data available to generate an optimization.",
-  "noOptimizationsTitle": "No optimizations available",
-  "noResultsFound": "No results found",
-  "nodeClassificationIdle": "Idle",
-  "nodeClassificationOvercommitted": "Overcommitted",
-  "nodeClassificationRationaleTitle": "Classification rationale",
-  "nodeClassificationStrandedCpu": "Stranded CPU",
-  "nodeClassificationStrandedMemory": "Stranded memory",
-  "nodeClassificationStrandedResource": "Stranded {resource}",
-  "nodeClassificationUnderutilized": "Underutilized",
-  "nodeClassificationWellUtilized": "Well utilized",
-  "nodeColdStartDesc": "Node recommendations will appear after {minDays, plural, one {# day} other {# days}} of usage data has been collected. Currently {currentDays, plural, one {# day} other {# days}} available.",
-  "nodeColdStartTitle": "Collecting data",
-  "nodeCountReduction": "Node count reduction",
-  "nodeExplanationConsolidationApplied": "Consolidation applied",
-  "nodeExplanationCurrentCpu": "Current CPU capacity",
-  "nodeExplanationCurrentMemory": "Current memory capacity",
-  "nodeExplanationEmaImbalance": "EMA imbalance",
-  "nodeExplanationMaxCpuP95": "Max CPU usage P95",
-  "nodeExplanationMaxMemP95": "Max memory usage P95",
-  "nodeExplanationPodHeadroom": "Pod scheduling headroom",
-  "nodeExplanationSizingFormula": "Sizing formula",
-  "nodeExplanationTargetUtilization": "Target utilization",
-  "nodeUtilizationP50Label": "{resource} P50",
-  "nodeUtilizationP95Label": "{resource} P95",
-  "nodeUtilizationTitle": "Utilization percentiles",
-  "nodes": "Nodes",
-  "notConfiguredChanges": "Changes will be reflected within 24 hours. {learnMore}",
-  "notConfiguredCli": "In the CLI, run {clipboard}",
-  "notConfiguredDesc": "To receive resource optimization recommendations for your namespaces, you must first enable each namespace.",
-  "notConfiguredNamespace": "To enable a namespace, label it with {clipboard}",
-  "notConfiguredTitle": "Optimizations may not be configured",
-  "notificationsAlertTitle": "Duration based notifications",
-  "openShift": "OpenShift",
-  "optimizableContainers": "Optimizable containers on this project",
-  "optimizations": "Optimizations",
-  "optimizationsCost": "Cost optimizations",
-  "optimizationsDesc": "Get detailed recommendations for how to optimize your Red Hat OpenShift cost and performance.",
-  "optimizationsDetails": "{count, plural, =0 {No optimizations} =1 {{count} optimization} other {{count} optimizations}}",
-  "optimizationsInfoArialLabel": "A description of optimizations",
-  "optimizationsInfoButtonArialLabel": "A dialog with a description of optimizations",
-  "optimizationsInfoDesc": "To receive these recommendations, you must first enable your namespaces. {learnMore}",
-  "optimizationsInfoTitle": "Assess and monitor usage from all of your clusters and provides optimization recommendations.",
-  "optimizationsLoadingStateDesc": "Searching for your optimizations. Do not refresh the browser",
-  "optimizationsLoadingStateTitle": "Looking for optimizations...",
-  "optimizationsLongTerm": "Last 15 days (360h)",
-  "optimizationsMediumTerm": "Last 7 days (168h)",
-  "optimizationsNames": "{value, select, cluster {Cluster names} change  {Change} container {Container names} cpu  {CPU requests} current  {Current} hosted_cluster {Hosted cluster} incomplete {Incomplete} management_cluster {Management cluster} last_reported {Last reported} memory  {Memory requests} instance_type {Instance type} namespace {Namespace} node {Node} node_classification {Classification} node_cpu_util {CPU util P50/P95} node_mem_util {Mem util P50/P95} node_fleet_reduction {Fleet reduction} machineset_name {Machine set} node_pod_count {Pod count} project {Project names} project_type {Project types} potential_savings {Potential savings} pvc_name {PVC name} snapshot_name {Snapshot name} classification {Classification} state {State} tags {Tags} vm_name {VM name} vm_guest_os {Guest OS} vm_current_vcpu {Current vCPU} vm_current_memory {Current memory} vm_recommended_vcpu {Rec. vCPU} vm_recommended_memory {Rec. memory} vm_status {Status} vm_recommended_series {Recommended series} vm_confidence {Confidence} vm_preference {Preference} workload {Workload names} workload_type {Workload types} other {}}",
-  "optimizationsNoRecommendations": "No recommendations available for this term.",
-  "optimizationsPerformance": "Performance optimizations",
-  "optimizationsProject": "Optimization for this project",
-  "optimizationsShortTerm": "Last 24 hrs (24h)",
-  "optimizationsTabSummaryAdditionalCost": "Additional cost: {amount}/month across {count, plural, =1 {1 recommendation} other {{count} recommendations}}",
-  "optimizationsTabSummaryCount": "{count, plural, =0 {No recommendations} =1 {1 recommendation} other {{count} recommendations}}",
-  "optimizationsTabSummarySavings": "Total potential savings: {amount}/month across {count, plural, =1 {1 recommendation} other {{count} recommendations}}",
-  "optimizationsTabSummarySavingsSplit": "Potential savings: {savings}/month across {savingsCount, plural, =1 {1 recommendation} other {{savingsCount} recommendations}} · Additional cost: {cost}/month across {costCount, plural, =1 {1 recommendation} other {{costCount} recommendations}}",
-  "optimizationsTabSummaryWaste": "Total monthly waste: {amount}/month across {count, plural, =1 {1 recommendation} other {{count} recommendations}}",
-  "optimizationsType": "View optimizations based on",
-  "optimizationsValue": "{count, plural, =1 {{value} {units}} other {{value}{units}}}",
-  "optimizationsValues": "{value, select, cluster {Cluster name} container {Container name} last_reported {Last reported} recommendation_id {Recommendation id} project {Project name} workload {Workload name} workload_type {Workload type} other {}}",
-  "optimizationsViewAll": "View all optimizations for this project",
-  "optimizationsViewAllDisabled": "This project has not reported data this month.",
-  "optimizeFor": "Optimize for",
-  "optimizedStateDesc": "Good job optimizing the current configuration.",
-  "optimizedStateTitle": "You have reached recommended state!",
-  "pageTitleDefault": "Cost Management ROS | OpenShift",
-  "pageTitleOptimizations": "Optimizations - Cost Management | OpenShift",
-  "paginationTitle": "{placement, select, top {{title} top pagination} bottom {{title} bottom pagination} other {{title} pagination}}",
-  "peakHoursSizing": "Peak hours sizing",
-  "peakHoursSizingTooltip": "Recommended values based on your defined business hours schedule",
-  "percentPlus": "{count, plural, one {+{value}%} other {{value}%}}",
-  "performance": "Performance",
-  "perspective": "Perspective",
-  "perspectiveValues": "{value, select, aws {Amazon Web Services} aws_ocp {Amazon Web Services filtered by OpenShift} azure {Microsoft Azure} azure_ocp {Microsoft Azure filtered by OpenShift} gcp {Google Cloud Platform} gcp_ocp {Google Cloud Platform filtered by OpenShift} ibm {IBM Cloud} ibm_ocp {IBM filtered by OpenShift} oci {Oracle Cloud Infrastructure} ocp {All OpenShift} ocp_cloud {All cloud filtered by OpenShift} rhel {All RHEL} other {}}",
-  "pvcActiveTerm": "Selected",
-  "pvcCapacity": "Capacity",
-  "pvcClassificationHealthy": "Healthy",
-  "pvcClassificationNearFull": "Near full",
-  "pvcClassificationOrphaned": "Orphaned",
-  "pvcClassificationOversized": "Oversized",
-  "pvcClassificationReason": "Classification reason",
-  "pvcDaysToFull": "Days to full",
-  "pvcExplanationTitle": "Recommendation explanation",
-  "pvcGrowthPerDay": "Growth",
-  "pvcMountedBy": "Mounted by",
-  "pvcProjectionExhaustionDate": "Projected full: {date}",
-  "pvcProjectionLine": "Projected usage",
-  "pvcResizeNoteTitle": "Resize guidance",
-  "pvcTrendNoGrowth": "No growth detected",
-  "pvcTrendUnavailable": "Trend unavailable — need at least {requiredDays, number} days of usage data for this term ({dataDays, number} available)",
-  "pvcUsageAvg": "Average usage",
-  "pvcUsageHistoryCaption": "Latest capacity: {capacity}",
-  "pvcUsageHistoryTitle": "Usage history",
-  "pvcUsageMax": "Peak usage",
-  "pvcUsagePercent": "Usage %",
-  "pvcVmName": "VM name",
-  "qualityChartAdoptionLegend": "Adoption %",
-  "qualityChartAdoptionTitle": "Adoption rate",
-  "qualityChartOomLegend": "OOM count",
-  "qualityChartOomTitle": "OOM events after recommendation",
-  "qualityChartStabilityLegend": "Avg stability %",
-  "qualityChartStabilityTitle": "Recommendation stability",
-  "qualityColumnAdoption": "Adopted",
-  "qualityColumnAge": "Rec. age",
-  "qualityColumnCluster": "Cluster",
-  "qualityColumnContainer": "Container",
-  "qualityColumnContainerName": "Container",
-  "qualityColumnContentionDays": "Contention days",
-  "qualityColumnDate": "Date",
-  "qualityColumnDaysAboveThreshold": "Days above threshold",
-  "qualityColumnOom": "OOM events",
-  "qualityColumnProject": "Project",
-  "qualityColumnPvcName": "PVC name",
-  "qualityColumnSaturationDays": "Saturation days",
-  "qualityColumnSnapshotName": "Snapshot name",
-  "qualityColumnStability": "Stability %",
-  "qualityColumnVmName": "VM name",
-  "qualityColumnWorkload": "Workload",
-  "qualityCsvDownload": "Download CSV",
-  "qualityDashboardEmpty": "No quality metrics data is available for the selected filters.",
-  "qualityDashboardError": "Unable to load quality metrics. Please try again later.",
-  "qualityDashboardTitle": "Quality metrics",
-  "qualityEntityContainer": "Container",
-  "qualityEntityGpu": "GPU",
-  "qualityEntityPvc": "PVC",
-  "qualityEntitySnapshot": "Snapshot",
-  "qualityEntityVm": "VM",
-  "qualityFilterCluster": "Filter by cluster",
-  "qualityFilterProject": "Filter by project",
-  "qualityKpiAdoption": "Fleet adoption rate",
-  "qualityKpiOom": "OOM events this period",
-  "qualityKpiStability": "Overall stability",
-  "qualityPaginationNext": "Next",
-  "qualityPaginationPrevious": "Previous",
-  "quotaDetailLoadError": "Unable to load quota recommendation details.",
-  "quotaDetailTitle": "ResourceQuota recommendation",
-  "quotaExplanationBaseCpu": "Base CPU",
-  "quotaExplanationContainerCpuSum": "Container CPU sum",
-  "quotaExplanationContainerMemSum": "Container memory sum",
-  "quotaExplanationHeadroom": "Headroom",
-  "quotaExplanationMaxUtilization": "Max utilization",
-  "quotaExplanationNsQuotaCpuSum": "Namespace quota CPU sum",
-  "quotaExplanationNsQuotaMemSum": "Namespace quota memory sum",
-  "quotaExplanationReasonOptimal": "Current resource utilization ({utilization}) is within an acceptable range of the quota hard limit. No changes are recommended at this time.",
-  "quotaExplanationReasonRaise": "Current resource utilization ({utilization}) is approaching or exceeding the quota hard limit. Workloads may be throttled or fail to schedule. Raising the quota provides adequate headroom based on observed usage patterns.",
-  "quotaExplanationReasonTighten": "Current resource utilization ({utilization}) is well below the quota hard limit. The quota can be safely reduced to match observed container resource recommendations (plus {headroom} headroom), freeing capacity for other namespaces.",
-  "quotaExplanationSignalCpu": "Signal C CPU used",
-  "quotaExplanationTechnicalDetails": "Technical details",
-  "quotaExplanationTitle": "Why this recommendation",
-  "quotaHardLimit": "Hard limit",
-  "quotaHistoryEmpty": "No historical data is available yet for this quota recommendation.",
-  "quotaHistorySectionTitle": "Historical trends",
-  "quotaHistoryUtilization": "Utilization",
-  "quotaHistoryUtilizationTitle": "Utilization over time",
-  "quotaMaxUtilization": "Max utilization",
-  "quotaName": "ResourceQuota",
-  "quotaNamespaceCount": "{count} namespaces",
-  "quotaNamespaces": "Namespaces",
-  "quotaRecommendationTypeNone": "None",
-  "quotaRecommendationTypeOptimal": "Optimal",
-  "quotaRecommendationTypeRaise": "Raise",
-  "quotaRecommendationTypeTighten": "Tighten",
-  "quotaRecommended": "Recommended",
-  "quotaResourceBreakdown": "Quota resources",
-  "quotaResourceCpuRequest": "CPU request",
-  "quotaResourceDimension": "Resource",
-  "quotaResourceMemoryRequest": "Memory request",
-  "quotaResourcePods": "Pods",
-  "quotaResourceStorageRequest": "Storage request",
-  "quotaRiskLevel": "Risk level",
-  "quotaRiskLevelHigh": "High",
-  "quotaRiskLevelLow": "Low",
-  "quotaRiskLevelMedium": "Medium",
-  "quotaRiskLevelNone": "None",
-  "quotaSubCluster": "ClusterResourceQuota",
-  "quotaSubNamespace": "Namespace ResourceQuota",
-  "quotaUsed": "Used",
-  "readOnlyPermissions": "You have read only permissions",
-  "recommendationTermWindowDays": "Last {windowDays, number} {windowDays, plural, one {day} other {days}}",
-  "recommended": "Recommended",
-  "recommendedConfiguration": "Recommended configuration",
-  "recommendedConfigurationTooltip": "Recommended values based on continuous 24/7 workload analysis",
-  "recommendedLimit": "Recommended limit ({dateRange})",
-  "recommendedRequest": "Recommended request ({dateRange})",
-  "replicaCount": "Replicas",
-  "replicaNoDataTooltip": "Not reported by the metrics operator. This value may be managed by an HPA or not available for this workload.",
-  "replicaOptimizationConfidenceHigh": "High confidence",
-  "replicaOptimizationConfidenceLow": "Low confidence",
-  "replicaOptimizationConfidenceMedium": "Medium confidence",
-  "replicaOptimizationOptimal": "Optimal",
-  "replicaOptimizationRecommended": "{recommended, plural, one {# replica} other {# replicas}}",
-  "replicaOptimizationReduceBy": "Reduce by {count}",
-  "replicaOptimizationScaleUp": "Scale up by {count}",
-  "replicaOptimizationTitle": "Replica recommendation",
-  "replicaValues": "available {available} / min {min} / max {max} / desired {desired}",
-  "request": "Request",
-  "savingsEstimatedMonthly": "Estimated monthly savings",
-  "savingsNoDataTooltip": "No cost data available",
-  "savingsNotAvailable": "—",
-  "savingsWaterfallAriaDesc": "Horizontal bar chart showing potential monthly savings broken down by optimization category",
-  "savingsWaterfallEmpty": "No savings data available. Configure cost rates to see potential savings by category.",
-  "savingsWaterfallError": "Unable to load savings data",
-  "savingsWaterfallSubtitle": "Total estimated: {total} {currency}/month",
-  "savingsWaterfallTitle": "Potential Savings by Category",
-  "selectClearAriaLabel": "Clear input value",
-  "selectableTableAriaLabel": "Selectable table",
-  "selectableTableHeaderAriaLabel": "Select to open the optimizations drawer",
-  "selectableTableRowAriaLabel": "Selectable table row",
-  "selected": "{value} selected",
-  "settingsErrorDesc": "Failed to update settings",
-  "settingsErrorTitle": "Unable to save application settings",
-  "settingsSuccessDesc": "Settings for Cost Management were replaced with new values",
-  "settingsSuccessTitle": "Application settings saved",
-  "sinceDate": "{dateRange}",
-  "snapshotAgeDays": "Age (days)",
-  "snapshotClassificationActive": "Active",
-  "snapshotClassificationManaged": "Managed",
-  "snapshotClassificationNeverRestored": "Never restored",
-  "snapshotClassificationOrphaned": "Orphaned",
-  "snapshotClassificationRedundant": "Redundant",
-  "snapshotClassificationStale": "Stale",
-  "snapshotDetailTitle": "Snapshot details",
-  "snapshotManagedBy": "Managed by",
-  "snapshotSourcePvcMissing": "The source PVC no longer exists in this namespace.",
-  "snapshotViewSourcePvc": "View source PVC recommendations",
-  "sourcePvc": "Source PVC",
-  "storageGroupBy": "Group by",
-  "storageGroupByCluster": "Cluster",
-  "storageGroupByNamespace": "Namespace",
-  "storageGroupByNode": "Node",
-  "storageGroupByNone": "None",
-  "storageGroupByProject": "Project",
-  "storageRecommendationCount": "Recommendations",
-  "storageSubPvc": "PVC",
-  "storageSubSnapshot": "Snapshots",
-  "storageTotalCapacity": "Total capacity",
-  "storageTotalRestoreSize": "Total restore size",
-  "suggestions": "Suggestions",
-  "toolBarBulkSelectAll": "Select all ({value} items)",
-  "toolBarBulkSelectAriaDeselect": "Deselect all items",
-  "toolBarBulkSelectAriaSelect": "Select all items",
-  "toolBarBulkSelectNone": "Select none (0 items)",
-  "toolBarBulkSelectPage": "Select page ({value} items)",
-  "typeaheadAriaClear": "Clear button and input",
-  "unitTooltips": "{units, select, byte_ms {{value} Byte-ms} core_hours {{value} core-hours} gb {{value} GB} gb_hours {{value} GB-hours} gb_mo {{value} GB-month} gb_ms {{value} GB-ms} gibibyte_month {{value} GiB-month} hour {{value} hours} hrs {{value} hours} ms {{value} milliseconds} vm_hours {{value} VM-hours} other {{value}}}",
-  "units": "{units, select, bytes {bytes} cores {cores} ei {Ei} eib {EiB} gi {Gi} gib {GiB} ki {Ki} kib {KiB} mi {Mi} mib {MiB} m {m} millicores {millicores} other {}}",
-  "unitsK8": "{units, select, bytes {bytes} cores {} ei {Ei} eib {Ei} gi {Gi} gib {Gi} ki {Ki} kib {Ki} mi {Mi} mib {Mi} m {m} millicores {m} other {}}",
-  "usage": "Usage",
-  "valueUnits": "{value} {units}",
-  "visualInsights": "Visual Insights",
-  "visualInsightsCpuThrottleEmpty": "No CPU throttling detected",
-  "visualInsightsCpuThrottleMax": "Throttle (max)",
-  "visualInsightsCpuThrottleP95": "Throttle (p95)",
-  "visualInsightsCpuThrottleTrend": "CPU Throttle Trend",
-  "visualInsightsCpuUsageP95": "CPU Usage (p95)",
-  "visualInsightsGpuPeakHoursRadarTitle": "Peak hours GPU subsystem utilization",
-  "visualInsightsGpuPeakHoursSectionTitle": "Peak hours GPU utilization",
-  "visualInsightsGpuRadarAxisDram": "DRAM Bandwidth",
-  "visualInsightsGpuRadarAxisSm": "SM Activity",
-  "visualInsightsGpuRadarAxisTensor": "Tensor Core",
-  "visualInsightsGpuRadarAxisVram": "VRAM Usage",
-  "visualInsightsGpuRadarDesc": "Radar chart showing SM activity, tensor core activity, DRAM bandwidth, and VRAM usage as percentages",
-  "visualInsightsGpuRadarSubsystem": "Subsystem",
-  "visualInsightsGpuRadarTitle": "GPU Subsystem Utilization",
-  "visualInsightsGpuRadarUtilization": "Utilization",
-  "visualInsightsGpuSectionTitle": "Visual Insights",
-  "visualInsightsHeatmapAccessCaption": "{entity} hourly {metric} data",
-  "visualInsightsHeatmapAccessDay": "Day",
-  "visualInsightsHeatmapAccessHour": "Hour",
-  "visualInsightsHeatmapAccessValue": "Value",
-  "visualInsightsHeatmapTooltip": "{dayOfWeek} {hour}:00 – {value} {unit}",
-  "visualInsightsNodeActivityHeatmap": "Activity Heatmap",
-  "visualInsightsNodeActivityHeatmapDesc": "Hour-of-day × day-of-week CPU utilization showing workload patterns",
-  "visualInsightsNodeCpuTrendDesc": "Daily CPU utilization as a percentage of allocatable capacity over the selected date range",
-  "visualInsightsNodeCpuTrendTitle": "CPU Utilization Trend",
-  "visualInsightsNodeMemoryTrendDesc": "Daily memory utilization as a percentage of allocatable capacity over the selected date range",
-  "visualInsightsNodeMemoryTrendTitle": "Memory Utilization Trend",
-  "visualInsightsNodePeakHoursCpuDesc": "Daily P50 and P95 CPU usage in cores during the office window, with the Peak hours recommendation",
-  "visualInsightsNodePeakHoursCpuTitle": "Peak hours CPU usage",
-  "visualInsightsNodePeakHoursMemoryDesc": "Daily P50 and P95 memory usage in GiB during the office window, with the Peak hours recommendation",
-  "visualInsightsNodePeakHoursMemoryTitle": "Peak hours memory usage",
-  "visualInsightsNodePodHeadroomDataAsOf": "Data as of {date}",
-  "visualInsightsNodePodHeadroomDesc": "Current pod count as a percentage of node pod capacity",
-  "visualInsightsNodePodHeadroomScheduled": "{percent}% scheduled",
-  "visualInsightsNodePodHeadroomTitle": "Pod Scheduling Headroom",
-  "visualInsightsNodeRequestGapAllocatable": "Allocatable",
-  "visualInsightsNodeRequestGapCpuTitle": "CPU Request vs Usage",
-  "visualInsightsNodeRequestGapDesc": "Daily aggregate requests compared to P95 usage, as a percentage of allocatable capacity. The gap indicates overcommitted resources.",
-  "visualInsightsNodeRequestGapMemTitle": "Memory Request vs Usage",
-  "visualInsightsNodeRequestGapRequest": "Requests",
-  "visualInsightsNodeRequestGapUsage": "P95 usage",
-  "visualInsightsNodeTrendMax": "Max utilization",
-  "visualInsightsNodeTrendP50": "P50 utilization",
-  "visualInsightsNodeTrendP95": "P95 utilization",
-  "visualInsightsNodeTrendThreshold": "Target utilization ({pct}%)",
-  "visualInsightsOomTimeline": "OOM Event Timeline",
-  "visualInsightsOomTimelineEmpty": "No OOM events detected in this period",
-  "visualInsightsOomTimelineTooltip": "{date}: {count, plural, one {{count} OOM kill} other {{count} OOM kills}}",
-  "visualInsightsPeakHoursChartCaption": "This series excludes hours outside the office window, including overnight windows.",
-  "visualInsightsPeakHoursP50Usage": "P50 usage",
-  "visualInsightsPeakHoursSectionTitle": "Peak hours usage",
-  "visualInsightsPvcUtilizationDataAsOf": "Data as of {date}",
-  "visualInsightsPvcUtilizationDesc": "Current PVC usage as a percentage of provisioned capacity",
-  "visualInsightsPvcUtilizationTitle": "PVC Utilization",
-  "visualInsightsPvcUtilizationUsed": "{percent}% used",
-  "visualInsightsQuotaTrendCpuDesc": "Daily CPU request quota hard limit vs actual usage in millicores",
-  "visualInsightsQuotaTrendCpuTitle": "CPU Request",
-  "visualInsightsQuotaTrendEmpty": "No quota trend data available for this period",
-  "visualInsightsQuotaTrendError": "Unable to load quota trend data",
-  "visualInsightsQuotaTrendHardLimit": "Hard limit",
-  "visualInsightsQuotaTrendMemoryDesc": "Daily memory request quota hard limit vs actual usage",
-  "visualInsightsQuotaTrendMemoryTitle": "Memory Request",
-  "visualInsightsQuotaTrendTitle": "Quota Headroom Trend",
-  "visualInsightsQuotaTrendUsed": "Used",
-  "visualInsightsSnapshotAgeDistribution": "Snapshot Age Distribution",
-  "visualInsightsSnapshotAgeDistributionBucketHeader": "Age Range",
-  "visualInsightsSnapshotAgeDistributionCountHeader": "Count",
-  "visualInsightsSnapshotAgeDistributionDesc": "Distribution of volume snapshots by age in days",
-  "visualInsightsSnapshotAgeDistributionEmpty": "No snapshot data available",
-  "visualInsightsSnapshotAgeDistributionError": "Unable to load snapshot age distribution",
-  "visualInsightsSnapshotAgeDistributionTooltip": "{label}: {count, plural, one {{count} snapshot} other {{count} snapshots}}",
-  "visualInsightsSnapshotAgeDistributionYAxis": "Snapshot Count",
-  "visualInsightsSnapshotCostByType": "Snapshot Cost by Type",
-  "visualInsightsSnapshotCostByTypeDesc": "Proportional breakdown of snapshot storage cost by recommendation type",
-  "visualInsightsSnapshotCostByTypeEmpty": "No snapshot cost data available",
-  "visualInsightsSnapshotCostByTypeError": "Unable to load snapshot cost data",
-  "visualInsightsSnapshotCostByTypeTooltip": "{type}: {cost} ({count, plural, one {{count} snapshot} other {{count} snapshots}})",
-  "visualInsightsVmActivityHeatmap": "Activity Heatmap",
-  "visualInsightsVmActivityHeatmapDesc": "Hour-of-day × day-of-week CPU utilization revealing idle periods",
-  "visualInsightsVmActivityHeatmapEmpty": "No hourly activity data available. Hourly granularity requires live metric collection from the cluster operator and is not included in historical data imports.",
-  "visualInsightsVmCpuTrendDesc": "Daily p95 CPU usage in cores with recommended threshold over the observation window",
-  "visualInsightsVmCpuTrendTitle": "CPU Utilization Trend",
-  "visualInsightsVmDiskIo": "Disk I/O Trends",
-  "visualInsightsVmIoEmpty": "No I/O data available for this period",
-  "visualInsightsVmIoRead": "Read",
-  "visualInsightsVmIoWrite": "Write",
-  "visualInsightsVmIopsDesc": "Daily p95 disk read and write IOPS over the observation period",
-  "visualInsightsVmIopsTitle": "IOPS (p95)",
-  "visualInsightsVmMemoryTrendDesc": "Daily p95 memory usage in GiB with recommended threshold over the observation window",
-  "visualInsightsVmMemoryTrendTitle": "Memory Utilization Trend",
-  "visualInsightsVmPeakHoursCpuTitle": "Peak hours CPU usage",
-  "visualInsightsVmPeakHoursMemoryTitle": "Peak hours memory usage",
-  "visualInsightsVmSizingDesc": "Comparison of current vs recommended vCPU and memory allocation",
-  "visualInsightsVmSizingMemoryGib": "Memory GiB",
-  "visualInsightsVmSizingResourceMetric": "Resource Metric",
-  "visualInsightsVmSizingSavings": "Estimated monthly savings: {amount} ({percent}% reduction)",
-  "visualInsightsVmSizingTitle": "VM Resource Sizing",
-  "visualInsightsVmSizingVcpu": "vCPU",
-  "visualInsightsVmThroughputDesc": "Daily p95 disk read and write throughput over the observation period",
-  "visualInsightsVmThroughputTitle": "Throughput (p95)",
-  "visualInsightsVmTrendP95Usage": "P95 usage",
-  "visualInsightsVmTrendRecommended": "Recommended",
-  "visualInsightsVmUtilizationTrends": "Utilization Trends",
-  "visualInsightsVramUtilizationDesc": "Peak GPU frame buffer usage as a percentage of total VRAM capacity",
-  "visualInsightsVramUtilizationSubtitle": "{usage} / {capacity} MiB",
-  "visualInsightsVramUtilizationTitle": "VRAM Utilization",
-  "visualInsightsVramUtilizationUsed": "{percent}% used",
-  "vmFilterCategory": "Category",
-  "vmFilterGuestOs": "Guest OS",
-  "vmFilterIsAbandoned": "Is abandoned",
-  "vmFilterIsIdle": "Is idle",
-  "vmFilterIsNetworkBound": "Is network bound",
-  "vmFilterIsOversized": "Is oversized",
-  "vmFilterIsPowerOffCandidate": "Power-off candidate",
-  "vmMetadataFlagsTitle": "VM classification flags",
-  "vmStatusAbandoned": "Abandoned",
-  "vmStatusIdle": "Idle",
-  "vmStatusOk": "OK",
-  "vmStatusOptimized": "Optimized",
-  "vmStatusOversized": "Oversized",
-  "vmStatusPowerOff": "Power-off candidate",
-  "vmStatusUndersized": "Undersized",
-  "wasteEstimatedMonthly": "Estimated monthly waste",
-  "welcomeInfo": "For more information visit {url}",
-  "welcomeTitle": "Cost Management ROS UI",
-  "yes": "Yes"
+  "actualUsage": {
+    "defaultMessage": "Actual usage ({dateRange})",
+    "description": "Actual usage (Jan 1-31)"
+  },
+  "breakdownBackToOptimizations": {
+    "defaultMessage": "Back to optimizations",
+    "description": "Back to optimizations"
+  },
+  "breakdownBackToOptimizationsProject": {
+    "defaultMessage": "Back to optimizations for project {value}",
+    "description": "Back to optimizations for project {value}"
+  },
+  "breakdownTotalCostDate": {
+    "defaultMessage": "{value} total cost ({dateRange})",
+    "description": "{value} total cost (January 1-31)"
+  },
+  "categoryOptimized": {
+    "defaultMessage": "Optimized",
+    "description": "Optimized category badge label"
+  },
+  "categoryOversized": {
+    "defaultMessage": "Oversized",
+    "description": "Oversized category badge label"
+  },
+  "categoryUndersized": {
+    "defaultMessage": "Undersized",
+    "description": "Undersized category badge label"
+  },
+  "change": {
+    "defaultMessage": "Change",
+    "description": "Column header for difference between current and recommended values"
+  },
+  "chartCostForecastConeTooltip": {
+    "defaultMessage": "{value0} - {value1}",
+    "description": "Cost forecast confidence min/max tooltip"
+  },
+  "chartNoData": {
+    "defaultMessage": "no data",
+    "description": "no data"
+  },
+  "chartOthers": {
+    "defaultMessage": "{count, plural, one {{count} Other} other {{count} Others}}",
+    "description": "Others category for top costliest"
+  },
+  "chartUsageMaxLegend": {
+    "defaultMessage": "Daily max",
+    "description": "Daily max"
+  },
+  "chartUsageMedianLegend": {
+    "defaultMessage": "Median (P50)",
+    "description": "Median (P50)"
+  },
+  "chartUsageP50P95Legend": {
+    "defaultMessage": "P50-P95 (normal range)",
+    "description": "P50-P95 (normal range)"
+  },
+  "chartUsageP95P99Legend": {
+    "defaultMessage": "P95-P99 (peak range)",
+    "description": "P95-P99 (peak range)"
+  },
+  "chartUsageTooltip": {
+    "defaultMessage": "P50: {p50} {units}{br}P95: {p95} {units}{br}P99: {p99} {units}{br}Max: {max} {units}",
+    "description": "P50: {p50} {units}, P95: {p95} {units}, P99: {p99} {units}, Max: {max} {units}"
+  },
+  "chooseKeyPlaceholder": {
+    "defaultMessage": "Choose key",
+    "description": "Choose key"
+  },
+  "chooseValuePlaceholder": {
+    "defaultMessage": "Choose value",
+    "description": "Choose value"
+  },
+  "clusterQuotaDetailTitle": {
+    "defaultMessage": "ClusterResourceQuota recommendation",
+    "description": "Detail modal title fallback for cluster quota"
+  },
+  "clusterQuotaGaugeAriaDesc": {
+    "defaultMessage": "{resource} utilization as a percentage of the cluster quota hard limit",
+    "description": "Accessible description for a cluster quota utilization donut gauge"
+  },
+  "clusterQuotaGaugeAriaTitle": {
+    "defaultMessage": "{resource} Utilization",
+    "description": "Accessible title for a cluster quota utilization donut gauge"
+  },
+  "clusterQuotaGaugeCpuTitle": {
+    "defaultMessage": "CPU",
+    "description": "Label for the CPU cluster quota utilization gauge"
+  },
+  "clusterQuotaGaugeMemoryTitle": {
+    "defaultMessage": "Memory",
+    "description": "Label for the Memory cluster quota utilization gauge"
+  },
+  "clusterQuotaGaugePodsTitle": {
+    "defaultMessage": "Pods",
+    "description": "Label for the Pods cluster quota utilization gauge"
+  },
+  "clusterQuotaGaugeSubtitle": {
+    "defaultMessage": "{used} / {hard}",
+    "description": "Subtitle below the cluster quota gauge showing used vs hard limit values"
+  },
+  "clusterQuotaName": {
+    "defaultMessage": "ClusterResourceQuota",
+    "description": "Column header for ClusterResourceQuota name"
+  },
+  "copyToClipboard": {
+    "defaultMessage": "Copy to clipboard",
+    "description": "Copy to clipboard"
+  },
+  "copyToClipboardSuccessfull": {
+    "defaultMessage": "Successfully copied to clipboard!",
+    "description": "Successfully copied to clipboard!"
+  },
+  "cost": {
+    "defaultMessage": "Cost",
+    "description": "Cost"
+  },
+  "costManagement": {
+    "defaultMessage": "Cost Management ROS",
+    "description": "Cost Management ROS"
+  },
+  "cpu": {
+    "defaultMessage": "CPU",
+    "description": "CPU"
+  },
+  "cpuUtilization": {
+    "defaultMessage": "CPU utilization",
+    "description": "CPU utilization"
+  },
+  "criteriaValues": {
+    "defaultMessage": "{value, select, exact {exact} exclude {excludes} include {includes} other {}}",
+    "description": "Exclude filter values"
+  },
+  "currencyAbbreviations": {
+    "defaultMessage": "{symbol, select, billion {{value} B} million {{value} M} quadrillion {{value} q} thousand {{value} K} trillion {{value} t} other {}}",
+    "description": "str.match(/([\\D]*)([\\d.,]+)([\\D]*)/)"
+  },
+  "current": {
+    "defaultMessage": "Current",
+    "description": "Column header for current values"
+  },
+  "currentConfiguration": {
+    "defaultMessage": "Current configuration",
+    "description": "Current configuration"
+  },
+  "currentConfigurationTooltip": {
+    "defaultMessage": "Resource values currently deployed in the cluster",
+    "description": "Tooltip for current configuration card"
+  },
+  "dataQualityIncomplete": {
+    "defaultMessage": "Analytics incomplete",
+    "description": "Warning badge for incomplete analytics data"
+  },
+  "dataQualityIngestFailed": {
+    "defaultMessage": "Ingest hooks failed",
+    "description": "Warning badge for failed ingest hooks"
+  },
+  "dataTableAriaLabel": {
+    "defaultMessage": "Details table",
+    "description": "Details table"
+  },
+  "dataThrough": {
+    "defaultMessage": "Data through",
+    "description": "Label for monitoring end time date"
+  },
+  "decayCurveChartDaysAgo": {
+    "defaultMessage": "Days ago",
+    "description": "X-axis label for the decay curve chart"
+  },
+  "decayCurveChartDesc": {
+    "defaultMessage": "Shows how data weight decreases as data ages within the observation window",
+    "description": "Accessible description for the decay curve chart"
+  },
+  "decayCurveChartHalfLife": {
+    "defaultMessage": "50% line",
+    "description": "Legend label for the 50% reference line on decay curve"
+  },
+  "decayCurveChartTitle": {
+    "defaultMessage": "Decay curve",
+    "description": "Title for the decay curve chart"
+  },
+  "decayCurveChartWeight": {
+    "defaultMessage": "Weight",
+    "description": "Y-axis label for the decay curve chart"
+  },
+  "decayCurveNoDecay": {
+    "defaultMessage": "No decay (uniform weighting)",
+    "description": "Label shown when decay half-life is 0"
+  },
+  "decayInfoCardHalfLifeDesc": {
+    "defaultMessage": "Data from {halfLifeDays} days ago contributes 50% weight",
+    "description": "Description of half-life in the inline decay info card"
+  },
+  "decayInfoCardTitle": {
+    "defaultMessage": "Decay weighting",
+    "description": "Title for the inline decay info card on breakdown pages"
+  },
+  "decayInfoCardViewSettings": {
+    "defaultMessage": "View full settings",
+    "description": "Link to the decay settings page from inline card"
+  },
+  "decaySettingsDefault": {
+    "defaultMessage": "Default",
+    "description": "Badge label indicating a term uses default values"
+  },
+  "decaySettingsDesc": {
+    "defaultMessage": "Configure the observation window and exponential decay half-life for each recommendation term. Changes apply on the next recommendation cycle.",
+    "description": "Description text for the decay settings page"
+  },
+  "decaySettingsHalfLifeHours": {
+    "defaultMessage": "Decay half-life (hours)",
+    "description": "Field label for exponential decay half-life in hours"
+  },
+  "decaySettingsLockedTooltip": {
+    "defaultMessage": "Set by administrator",
+    "description": "Tooltip shown on locked term fields"
+  },
+  "decaySettingsMinDataDays": {
+    "defaultMessage": "Min data days",
+    "description": "Field label for minimum required data days"
+  },
+  "decaySettingsPluginContainer": {
+    "defaultMessage": "Container",
+    "description": "Tab label for container recommendation type settings"
+  },
+  "decaySettingsPluginGpu": {
+    "defaultMessage": "GPU",
+    "description": "Tab label for GPU recommendation type settings"
+  },
+  "decaySettingsPluginNamespace": {
+    "defaultMessage": "Namespace",
+    "description": "Tab label for namespace recommendation type settings"
+  },
+  "decaySettingsPluginNode": {
+    "defaultMessage": "Node",
+    "description": "Tab label for node recommendation type settings"
+  },
+  "decaySettingsPluginPvc": {
+    "defaultMessage": "PVC",
+    "description": "Tab label for PVC recommendation type settings"
+  },
+  "decaySettingsPluginVm": {
+    "defaultMessage": "VM",
+    "description": "Tab label for VM recommendation type settings"
+  },
+  "decaySettingsResetDefaults": {
+    "defaultMessage": "Reset to defaults",
+    "description": "Button to reset term settings to defaults"
+  },
+  "decaySettingsResetError": {
+    "defaultMessage": "Failed to reset term settings.",
+    "description": "Toast notification on term settings reset error"
+  },
+  "decaySettingsResetSuccess": {
+    "defaultMessage": "Term settings reset to defaults.",
+    "description": "Toast notification after resetting term settings"
+  },
+  "decaySettingsSave": {
+    "defaultMessage": "Save",
+    "description": "Save button for decay settings form"
+  },
+  "decaySettingsSaveError": {
+    "defaultMessage": "Failed to save term settings.",
+    "description": "Toast notification on term settings save error"
+  },
+  "decaySettingsSaveSuccess": {
+    "defaultMessage": "Term settings saved. Changes apply on the next recommendation cycle.",
+    "description": "Toast notification after saving term settings"
+  },
+  "decaySettingsTermLong": {
+    "defaultMessage": "Long",
+    "description": "Long term label"
+  },
+  "decaySettingsTermMedium": {
+    "defaultMessage": "Medium",
+    "description": "Medium term label"
+  },
+  "decaySettingsTermShort": {
+    "defaultMessage": "Short",
+    "description": "Short term label"
+  },
+  "decaySettingsTitle": {
+    "defaultMessage": "Term & decay settings",
+    "description": "Page title for the term and decay weighting settings page"
+  },
+  "decaySettingsValidationHalfLifeRange": {
+    "defaultMessage": "Half-life must be between 0 and 8760",
+    "description": "Validation error for decay_halflife_hours out of range"
+  },
+  "decaySettingsValidationWindowRange": {
+    "defaultMessage": "Window must be between 1 and {max}",
+    "description": "Validation error for window_days out of range"
+  },
+  "decaySettingsWindowDays": {
+    "defaultMessage": "Window (days)",
+    "description": "Field label for term observation window in days"
+  },
+  "detailsColumnManagementTitle": {
+    "defaultMessage": "Manage columns",
+    "description": "Manage columns"
+  },
+  "detailsEmptyState": {
+    "defaultMessage": "Processing data to generate a list of all services that sums to a total cost...",
+    "description": "Processing data to generate a list of all services that sums to a total cost..."
+  },
+  "docsOptimizations": {
+    "defaultMessage": "https://docs.redhat.com/en/documentation/cost_management_service/1-latest/html/getting_started_with_resource_optimization_for_openshift/optimizations-ros",
+    "description": "Resource optimization for OpenShift optimization reports"
+  },
+  "durationHours": {
+    "defaultMessage": "{value}h",
+    "description": "Duration in hours suffix"
+  },
+  "emptyFilterStateSubtitle": {
+    "defaultMessage": "Sorry, no data with the given filter was found.",
+    "description": "Sorry, no data with the given filter was found."
+  },
+  "emptyFilterStateTitle": {
+    "defaultMessage": "No match found",
+    "description": "No match found"
+  },
+  "errorStateNotAuthorizedDesc": {
+    "defaultMessage": "Contact the cost management administrator to provide access to this application",
+    "description": "Contact the cost management administrator to provide access to this application"
+  },
+  "errorStateNotAuthorizedTitle": {
+    "defaultMessage": "You don't have access to the Cost management application",
+    "description": "You don't have access to the Cost management application"
+  },
+  "errorStateUnexpectedDesc": {
+    "defaultMessage": "We encountered an unexpected error. Contact your administrator.",
+    "description": "We encountered an unexpected error. Contact your administrator."
+  },
+  "errorStateUnexpectedTitle": {
+    "defaultMessage": "Oops!",
+    "description": "Oops!"
+  },
+  "exactLabel": {
+    "defaultMessage": "Exact: {value}",
+    "description": "Exact filter label"
+  },
+  "excludeLabel": {
+    "defaultMessage": "Excludes: {value}",
+    "description": "Excludes filter label"
+  },
+  "excludeValues": {
+    "defaultMessage": "{value, select, excludes {excludes} includes {includes} other {}}",
+    "description": "Exclude filter values"
+  },
+  "explanationConfidenceLevel": {
+    "defaultMessage": "Confidence level",
+    "description": "Label for recommendation confidence level"
+  },
+  "explanationCostPercentileCpu": {
+    "defaultMessage": "CPU cost percentile",
+    "description": "Label for CPU cost percentile in millicores"
+  },
+  "explanationCostPercentileMem": {
+    "defaultMessage": "Memory cost percentile",
+    "description": "Label for memory cost percentile in KiB"
+  },
+  "explanationCpuFloor": {
+    "defaultMessage": "CPU floor applied",
+    "description": "Label indicating minimum CPU floor was applied"
+  },
+  "explanationCpuMargin": {
+    "defaultMessage": "CPU adaptive margin",
+    "description": "Label for CPU adaptive margin in basis points"
+  },
+  "explanationCpuMean": {
+    "defaultMessage": "CPU usage mean",
+    "description": "Label for mean CPU usage"
+  },
+  "explanationCpuP50": {
+    "defaultMessage": "CPU usage P50",
+    "description": "Label for 50th percentile CPU usage"
+  },
+  "explanationCpuP95": {
+    "defaultMessage": "CPU usage P95",
+    "description": "Label for 95th percentile CPU usage"
+  },
+  "explanationCpuTrend": {
+    "defaultMessage": "CPU trend slope",
+    "description": "Label for CPU usage trend slope"
+  },
+  "explanationDataDays": {
+    "defaultMessage": "Data days analyzed",
+    "description": "Label for number of days of data used"
+  },
+  "explanationDecayHalfLife": {
+    "defaultMessage": "Decay half-life",
+    "description": "Label for exponential decay half-life in hours"
+  },
+  "explanationIdle": {
+    "defaultMessage": "Idle workload detected",
+    "description": "Label indicating the workload was classified as idle"
+  },
+  "explanationMemMargin": {
+    "defaultMessage": "Memory adaptive margin",
+    "description": "Label for memory adaptive margin in basis points"
+  },
+  "explanationMemMean": {
+    "defaultMessage": "Memory usage mean",
+    "description": "Label for mean memory usage"
+  },
+  "explanationMemP50": {
+    "defaultMessage": "Memory usage P50",
+    "description": "Label for 50th percentile memory usage"
+  },
+  "explanationMemP95": {
+    "defaultMessage": "Memory usage P95",
+    "description": "Label for 95th percentile memory usage"
+  },
+  "explanationMemTrend": {
+    "defaultMessage": "Memory trend slope",
+    "description": "Label for memory usage trend slope"
+  },
+  "explanationNo": {
+    "defaultMessage": "No",
+    "description": "Boolean false value for explanation factors"
+  },
+  "explanationNotAvailable": {
+    "defaultMessage": "Explanation data will be available after the next data ingestion.",
+    "description": "Message shown when explanation factors are not yet populated"
+  },
+  "explanationOomBump": {
+    "defaultMessage": "OOM bump applied",
+    "description": "Label indicating OOM kill buffer was applied"
+  },
+  "explanationOomCount": {
+    "defaultMessage": "OOM kill count",
+    "description": "Label for total OOM kill events observed"
+  },
+  "explanationPerfPercentileCpu": {
+    "defaultMessage": "CPU performance percentile",
+    "description": "Label for CPU performance percentile in millicores"
+  },
+  "explanationPerfPercentileMem": {
+    "defaultMessage": "Memory performance percentile",
+    "description": "Label for memory performance percentile in KiB"
+  },
+  "explanationTitle": {
+    "defaultMessage": "Why this recommendation?",
+    "description": "Expandable section title for recommendation explanation factors"
+  },
+  "explanationYes": {
+    "defaultMessage": "Yes",
+    "description": "Boolean true value for explanation factors"
+  },
+  "filterByInputAriaLabel": {
+    "defaultMessage": "{value, select, account {Input for account name} aws_category {Input for cost category name} cluster {Input for cluster name} gcp_project {Input for GCP project name} name {Input for name} node {Input for node name} org_unit_id {Input for organizational unit name} payer_tenant_id {Input for account name} product_service {Input for service_name} project {Input for project name} region {Input for region name} resource_location {Input for region name} service {Input for service name} service_name {Input for service_name} subscription_guid {Input for account name} status {Input for status value} tag {Input for tag name} other {}}",
+    "description": "Input for {value} name"
+  },
+  "filterByPlaceholder": {
+    "defaultMessage": "{value, select, account {Filter by account} aws_category {Filter by cost category} cluster {Filter by cluster} container {Filter by container} description {Filter by description} gcp_project {Filter by GCP project} group {Filter by group} name {Filter by name} node {Filter by node} org_unit_id {Filter by organizational unit} payer_tenant_id {Filter by account} persistent_volume_claim {Filter by persistent volume claim} product_service {Filter by service} project {Filter by project} region {Filter by region} resource_location {Filter by region} service {Filter by service} service_name {Filter by service} source_type {Filter by source type} status {Filter by status} storage_class {Filter by StorageClass} subscription_guid {Filter by account} workload {Filter by workload name} workload_type {Filter by workload type} tag {Filter by tag} tag_key_value {Filter by tag (key=value)} other {}}",
+    "description": "Filter by \"value\""
+  },
+  "filterByTagKeyAriaLabel": {
+    "defaultMessage": "Tag keys",
+    "description": "Tag keys"
+  },
+  "filterByTagValueAriaLabel": {
+    "defaultMessage": "Tag values",
+    "description": "Tag values"
+  },
+  "filterByValuePlaceholder": {
+    "defaultMessage": "Filter by value",
+    "description": "Filter by value"
+  },
+  "filterByValues": {
+    "defaultMessage": "{value, select, account {Account} aws_category {Cost category} classification {Classification} cluster {Cluster} container {Container} gcp_project {GCP project} gpu_model {GPU model} group {Group} idle_state {Idle state} name {Name} node {Node} org_unit_id {Organizational unit} payer_tenant_id {Account} persistent_volume_claim {Persistent volume claim} product_service {Service} project {Project} region {Region} resource_location {Region} service {Service} service_name {Service} source_type {Source type} status {Status} storage_class {StorageClass} subscription_guid {Account} tag {Tag} vm_name {VM name} workload {Workload name} workload_type {Workload type} namespace {Namespace} other {}}",
+    "description": "Filter by values"
+  },
+  "filterByValuesAriaLabel": {
+    "defaultMessage": "Values",
+    "description": "Values"
+  },
+  "fleetHeatmapAccessibilityCaption": {
+    "defaultMessage": "Node fleet utilization data",
+    "description": "Screen reader caption for the accessible heatmap data table"
+  },
+  "fleetHeatmapBandHealthy": {
+    "defaultMessage": "Healthy",
+    "description": "Fleet heatmap band label for healthy utilization"
+  },
+  "fleetHeatmapBandHot": {
+    "defaultMessage": "Hot",
+    "description": "Fleet heatmap band label for hot utilization"
+  },
+  "fleetHeatmapBandIdle": {
+    "defaultMessage": "Idle",
+    "description": "Fleet heatmap band label for idle nodes"
+  },
+  "fleetHeatmapBandLow": {
+    "defaultMessage": "Low",
+    "description": "Fleet heatmap band label for low utilization"
+  },
+  "fleetHeatmapBandModerate": {
+    "defaultMessage": "Moderate",
+    "description": "Fleet heatmap band label for moderate utilization"
+  },
+  "fleetHeatmapLegendLabel": {
+    "defaultMessage": "Utilization band legend",
+    "description": "Aria label for the heatmap legend"
+  },
+  "fleetHeatmapMetricCpu": {
+    "defaultMessage": "CPU utilization",
+    "description": "Fleet heatmap metric toggle label for CPU"
+  },
+  "fleetHeatmapMetricMemory": {
+    "defaultMessage": "Memory utilization",
+    "description": "Fleet heatmap metric toggle label for memory"
+  },
+  "fleetHeatmapMetricToggleLabel": {
+    "defaultMessage": "Select utilization metric",
+    "description": "Aria label for the metric toggle group"
+  },
+  "fleetHeatmapNoData": {
+    "defaultMessage": "No node data available",
+    "description": "Fleet heatmap empty state title"
+  },
+  "fleetHeatmapNoDataDesc": {
+    "defaultMessage": "Node utilization data has not been collected yet. Data will appear after the operator reports node metrics.",
+    "description": "Fleet heatmap empty state description"
+  },
+  "fleetHeatmapShowAll": {
+    "defaultMessage": "Show all {count} nodes",
+    "description": "Link to show all nodes in the heatmap"
+  },
+  "fleetHeatmapShowTop": {
+    "defaultMessage": "Show top {count} nodes",
+    "description": "Link to show only the top N nodes in the heatmap"
+  },
+  "fleetHeatmapTitle": {
+    "defaultMessage": "Node fleet utilization",
+    "description": "Fleet heatmap section title"
+  },
+  "fleetHeatmapTooltip": {
+    "defaultMessage": "{node} — {utilization} ({band}) MachineSet: {machineSet} Instance: {instanceType}",
+    "description": "Tooltip content for a heatmap cell"
+  },
+  "fleetHeatmapUngrouped": {
+    "defaultMessage": "Ungrouped",
+    "description": "Label for nodes without a MachineSet"
+  },
+  "fleetSummaryAbandonedContainers": {
+    "defaultMessage": "Abandoned containers",
+    "description": "Fleet summary card title for abandoned containers"
+  },
+  "fleetSummaryClusters": {
+    "defaultMessage": "Clusters",
+    "description": "Fleet summary card title for cluster count"
+  },
+  "fleetSummaryIdleContainers": {
+    "defaultMessage": "Idle containers",
+    "description": "Fleet summary card title for idle containers"
+  },
+  "fleetSummaryNoData": {
+    "defaultMessage": "No fleet data available",
+    "description": "Fleet summary empty state message"
+  },
+  "fleetSummaryPercentOfTotal": {
+    "defaultMessage": "{percent}% of total",
+    "description": "Percentage of total containers"
+  },
+  "fleetSummaryPotentialSavings": {
+    "defaultMessage": "Potential monthly savings",
+    "description": "Fleet summary card title for potential savings"
+  },
+  "fleetSummaryTitle": {
+    "defaultMessage": "Fleet overview",
+    "description": "Fleet summary section title"
+  },
+  "fleetSummaryTotalContainers": {
+    "defaultMessage": "Total containers",
+    "description": "Fleet summary card title for total containers"
+  },
+  "forDate": {
+    "defaultMessage": "{value} for {dateRange}",
+    "description": "{value} for {Jan 1-31}"
+  },
+  "gpuMig": {
+    "defaultMessage": "MIG",
+    "description": "GPU MIG sub-tab label"
+  },
+  "gpuMigColumnClassification": {
+    "defaultMessage": "Classification",
+    "description": "GPU MIG table classification column"
+  },
+  "gpuMigColumnCluster": {
+    "defaultMessage": "Cluster",
+    "description": "GPU MIG table cluster column"
+  },
+  "gpuMigColumnConfidence": {
+    "defaultMessage": "Confidence",
+    "description": "GPU MIG table confidence column"
+  },
+  "gpuMigColumnContainer": {
+    "defaultMessage": "Container",
+    "description": "GPU MIG table container column"
+  },
+  "gpuMigColumnCurrentProfile": {
+    "defaultMessage": "Current profile",
+    "description": "GPU MIG table current profile column"
+  },
+  "gpuMigColumnGpuModel": {
+    "defaultMessage": "GPU model",
+    "description": "GPU MIG table GPU model column"
+  },
+  "gpuMigColumnNamespace": {
+    "defaultMessage": "Namespace",
+    "description": "GPU MIG table namespace column"
+  },
+  "gpuMigColumnPeakHoursClassification": {
+    "defaultMessage": "Peak hours classification",
+    "description": "GPU MIG table peak hours classification column"
+  },
+  "gpuMigColumnPeakHoursProfile": {
+    "defaultMessage": "Peak hours profile",
+    "description": "GPU MIG table peak hours recommended profile column"
+  },
+  "gpuMigColumnRecommendedProfile": {
+    "defaultMessage": "Recommended profile",
+    "description": "GPU MIG table recommended profile column"
+  },
+  "gpuMigColumnTerm": {
+    "defaultMessage": "Term",
+    "description": "GPU MIG table term column"
+  },
+  "gpuMigColumnWorkload": {
+    "defaultMessage": "Workload",
+    "description": "GPU MIG table workload column"
+  },
+  "gpuMigProfileRecommendations": {
+    "defaultMessage": "MIG profile recommendations by term",
+    "description": "GPU MIG breakdown term table section title"
+  },
+  "gpuTimeslicing": {
+    "defaultMessage": "Time-Slicing",
+    "description": "GPU Time-Slicing sub-tab label"
+  },
+  "gpuTimeslicingCandidateContainers": {
+    "defaultMessage": "Candidate containers",
+    "description": "GPU timeslicing breakdown candidate containers section title"
+  },
+  "gpuTimeslicingColumnClassification": {
+    "defaultMessage": "Classification",
+    "description": "GPU timeslicing table classification column"
+  },
+  "gpuTimeslicingColumnCluster": {
+    "defaultMessage": "Cluster",
+    "description": "GPU timeslicing table cluster column"
+  },
+  "gpuTimeslicingColumnCurrentReplicas": {
+    "defaultMessage": "Current replicas",
+    "description": "GPU timeslicing table current replicas column"
+  },
+  "gpuTimeslicingColumnGpuCount": {
+    "defaultMessage": "GPU count",
+    "description": "GPU timeslicing table GPU count column"
+  },
+  "gpuTimeslicingColumnGpuModel": {
+    "defaultMessage": "GPU model",
+    "description": "GPU timeslicing table GPU model column"
+  },
+  "gpuTimeslicingColumnNode": {
+    "defaultMessage": "Node",
+    "description": "GPU timeslicing table node column"
+  },
+  "gpuTimeslicingColumnRecommendedReplicas": {
+    "defaultMessage": "Recommended replicas",
+    "description": "GPU timeslicing table recommended replicas column"
+  },
+  "gpuTimeslicingColumnSavings": {
+    "defaultMessage": "Estimated monthly savings",
+    "description": "GPU timeslicing table estimated monthly savings column"
+  },
+  "gpuTimeslicingNoCandidates": {
+    "defaultMessage": "No candidate containers found for this node",
+    "description": "GPU timeslicing breakdown empty candidates message"
+  },
+  "gpuTimeslicingSmActiveAvg": {
+    "defaultMessage": "SM active avg",
+    "description": "GPU timeslicing breakdown SM active average column"
+  },
+  "hcpCapacityIllustrativeOnly": {
+    "defaultMessage": "Illustrative only — hosted control planes are not all highly available",
+    "description": "HCP fleet-capacity caution: mixed or single-replica availability basis"
+  },
+  "hcpCapacityScenarioAverageQps": {
+    "defaultMessage": "Average API load",
+    "description": "HCP fleet-capacity scenario label: observed average QPS estimate"
+  },
+  "hcpCapacityScenarioHighQps": {
+    "defaultMessage": "High API load",
+    "description": "HCP fleet-capacity scenario label: high QPS basis estimate"
+  },
+  "hcpCapacityScenarioLowQps": {
+    "defaultMessage": "Low API load",
+    "description": "HCP fleet-capacity scenario label: low QPS basis estimate"
+  },
+  "hcpCapacityScenarioMediumQps": {
+    "defaultMessage": "Medium API load",
+    "description": "HCP fleet-capacity scenario label: medium QPS basis estimate"
+  },
+  "hcpCapacityScenarioRequest": {
+    "defaultMessage": "Request-based",
+    "description": "HCP fleet-capacity scenario label: request-packing estimate"
+  },
+  "hcpCapacitySourceVersions": {
+    "defaultMessage": "OCP {ocp} · operator {operator}",
+    "description": "HCP fleet-capacity card source versions line"
+  },
+  "hcpCapacityWarningBelowFloor": {
+    "defaultMessage": "OCP version is below the documented 4.17 floor",
+    "description": "HCP fleet-capacity caution: known ocp_version under the documented floor"
+  },
+  "hcpCapacityWarningInventoryIncomplete": {
+    "defaultMessage": "Hosted-cluster inventory incomplete — headroom unavailable",
+    "description": "HCP fleet-capacity caution: HC inventory incomplete"
+  },
+  "hcpCapacityWarningMceStale": {
+    "defaultMessage": "MCE references may be stale",
+    "description": "HCP fleet-capacity caution: MCE gauges frozen while native inputs moved"
+  },
+  "hcpCapacityWarningPlacementUnknown": {
+    "defaultMessage": "Worker placement unknown — no native estimate",
+    "description": "HCP fleet-capacity caution: eligible worker set could not be determined"
+  },
+  "hcpCapacityWarningPressureUnknown": {
+    "defaultMessage": "Node pressure unknown",
+    "description": "HCP fleet-capacity caution: pressure state could not be determined"
+  },
+  "hcpCapacityWarningPressured": {
+    "defaultMessage": "Node pressure detected — exact headroom withheld",
+    "description": "HCP fleet-capacity caution: affirmed pressure withholds precise headroom"
+  },
+  "hcpCapacityWarningSharedInfrastructure": {
+    "defaultMessage": "Compact topology — control planes share the worker infrastructure; estimates may overstate dedicated capacity",
+    "description": "HCP fleet-capacity caution: management control-plane nodes double as workers (OCP sizing-guide 3.2.5)"
+  },
+  "hcpCapacityWarningStale": {
+    "defaultMessage": "Snapshot is stale",
+    "description": "HCP fleet-capacity caution: age over twice the row cadence"
+  },
+  "hcpGroupBy": {
+    "defaultMessage": "Group by",
+    "description": "HCP list group-by toolbar label"
+  },
+  "hcpGroupByHostedCluster": {
+    "defaultMessage": "Hosted cluster",
+    "description": "HCP list group-by hosted-cluster option"
+  },
+  "hcpGroupByNone": {
+    "defaultMessage": "None",
+    "description": "HCP list group-by option for ungrouped rows"
+  },
+  "hcpIncomplete": {
+    "defaultMessage": "Incomplete",
+    "description": "HCP row state for unassociated control-plane namespaces"
+  },
+  "hcpOverheadContainersLink": {
+    "defaultMessage": "Full cluster view under Containers",
+    "description": "HCP overhead sub-view link-out to the containers view (#689 companion)"
+  },
+  "hcpSubHosted": {
+    "defaultMessage": "Hosted clusters",
+    "description": "HCP tab per-hosted-cluster sub-view toggle label"
+  },
+  "hcpSubOverhead": {
+    "defaultMessage": "Management overhead",
+    "description": "HCP tab management-overhead sub-view toggle label"
+  },
+  "hcpTabSubtitleHosted": {
+    "defaultMessage": "Control-plane rightsizing, attributed per hosted cluster; unassociated rows are flagged.",
+    "description": "HCP tab subtitle for the hosted sub-view (explains the beneficiary split)"
+  },
+  "hcpTabSubtitleOverhead": {
+    "defaultMessage": "Rightsizing for the management cluster's own platform namespaces — MCE, monitoring stack, and other shared overhead.",
+    "description": "HCP tab subtitle for the management-overhead sub-view (#694 item 5)"
+  },
+  "historyAllEngines": {
+    "defaultMessage": "All engines",
+    "description": "Option for all engines in engine filter"
+  },
+  "historyAllTerms": {
+    "defaultMessage": "All terms",
+    "description": "Option for all terms in term filter"
+  },
+  "historyChartCpuDesc": {
+    "defaultMessage": "Line chart showing CPU request and limit recommendation values over time in millicores",
+    "description": "Accessible description for the CPU recommendation history chart"
+  },
+  "historyChartCpuLimit": {
+    "defaultMessage": "CPU Limit",
+    "description": "Legend label for CPU limit recommendation line"
+  },
+  "historyChartCpuRequest": {
+    "defaultMessage": "CPU Request",
+    "description": "Legend label for CPU request recommendation line"
+  },
+  "historyChartCpuTitle": {
+    "defaultMessage": "CPU Recommendation Trend",
+    "description": "Title for the CPU recommendation history sub-chart"
+  },
+  "historyChartCpuYAxis": {
+    "defaultMessage": "Millicores",
+    "description": "Y-axis label for CPU recommendation chart"
+  },
+  "historyChartEmpty": {
+    "defaultMessage": "No recommendation history available for this container.",
+    "description": "Empty state when no history data is returned"
+  },
+  "historyChartMemDesc": {
+    "defaultMessage": "Line chart showing memory request and limit recommendation values over time in MiB",
+    "description": "Accessible description for the memory recommendation history chart"
+  },
+  "historyChartMemLimit": {
+    "defaultMessage": "Memory Limit",
+    "description": "Legend label for memory limit recommendation line"
+  },
+  "historyChartMemRequest": {
+    "defaultMessage": "Memory Request",
+    "description": "Legend label for memory request recommendation line"
+  },
+  "historyChartMemTitle": {
+    "defaultMessage": "Memory Recommendation Trend",
+    "description": "Title for the memory recommendation history sub-chart"
+  },
+  "historyChartMemYAxis": {
+    "defaultMessage": "MiB",
+    "description": "Y-axis label for memory recommendation chart"
+  },
+  "historyChartTitle": {
+    "defaultMessage": "Recommendation History",
+    "description": "Title for container recommendation history chart section"
+  },
+  "historyColCluster": {
+    "defaultMessage": "Cluster",
+    "description": "Cluster column header"
+  },
+  "historyColConfidence": {
+    "defaultMessage": "Confidence",
+    "description": "Confidence column header"
+  },
+  "historyColContainer": {
+    "defaultMessage": "Container",
+    "description": "Container column header"
+  },
+  "historyColCpuLimit": {
+    "defaultMessage": "CPU Limit",
+    "description": "CPU limit recommendation column"
+  },
+  "historyColCpuP95": {
+    "defaultMessage": "CPU P95",
+    "description": "CPU P95 advanced column"
+  },
+  "historyColCpuRequest": {
+    "defaultMessage": "CPU Request",
+    "description": "CPU request recommendation column"
+  },
+  "historyColDataDays": {
+    "defaultMessage": "Data Days",
+    "description": "Data days advanced column"
+  },
+  "historyColDate": {
+    "defaultMessage": "Date",
+    "description": "Date column header"
+  },
+  "historyColDecayHalfLife": {
+    "defaultMessage": "Decay Half-Life",
+    "description": "Decay half-life advanced column"
+  },
+  "historyColEngine": {
+    "defaultMessage": "Engine",
+    "description": "Engine column header"
+  },
+  "historyColIsIdle": {
+    "defaultMessage": "Idle",
+    "description": "Is idle advanced column"
+  },
+  "historyColMemLimit": {
+    "defaultMessage": "Mem Limit",
+    "description": "Memory limit recommendation column"
+  },
+  "historyColMemP95": {
+    "defaultMessage": "Mem P95",
+    "description": "Memory P95 advanced column"
+  },
+  "historyColMemRequest": {
+    "defaultMessage": "Mem Request",
+    "description": "Memory request recommendation column"
+  },
+  "historyColOomCount": {
+    "defaultMessage": "OOM Count",
+    "description": "OOM count advanced column"
+  },
+  "historyColProject": {
+    "defaultMessage": "Project",
+    "description": "Project column header"
+  },
+  "historyColSavings": {
+    "defaultMessage": "Est. Savings",
+    "description": "Estimated savings column header"
+  },
+  "historyColTerm": {
+    "defaultMessage": "Term",
+    "description": "Term column header"
+  },
+  "historyColWorkload": {
+    "defaultMessage": "Workload",
+    "description": "Workload column header"
+  },
+  "historyEndDate": {
+    "defaultMessage": "End date",
+    "description": "End date picker label"
+  },
+  "historyEngineCost": {
+    "defaultMessage": "Cost",
+    "description": "Cost engine option"
+  },
+  "historyEnginePerformance": {
+    "defaultMessage": "Performance",
+    "description": "Performance engine option"
+  },
+  "historyErrorTitle": {
+    "defaultMessage": "Unable to load history",
+    "description": "Error state title"
+  },
+  "historyExplorerTitle": {
+    "defaultMessage": "Recommendation History",
+    "description": "Title for the history explorer page"
+  },
+  "historyExport": {
+    "defaultMessage": "Export to CSV",
+    "description": "Export button aria label"
+  },
+  "historyFilterCluster": {
+    "defaultMessage": "Cluster",
+    "description": "Cluster filter label"
+  },
+  "historyFilterContainer": {
+    "defaultMessage": "Container",
+    "description": "Container filter label"
+  },
+  "historyFilterPlaceholder": {
+    "defaultMessage": "Filter by {category}",
+    "description": "Placeholder for filter search input"
+  },
+  "historyFilterProject": {
+    "defaultMessage": "Project",
+    "description": "Project filter label"
+  },
+  "historyFilterSearch": {
+    "defaultMessage": "Search",
+    "description": "Search input aria label"
+  },
+  "historyFilterWorkload": {
+    "defaultMessage": "Workload",
+    "description": "Workload filter label"
+  },
+  "historyLoadingBody": {
+    "defaultMessage": "Please wait while we fetch your recommendation history data.",
+    "description": "Loading state body"
+  },
+  "historyLoadingTitle": {
+    "defaultMessage": "Loading recommendation history",
+    "description": "Loading state title"
+  },
+  "historyNoData": {
+    "defaultMessage": "No recommendation history found",
+    "description": "Empty table row message"
+  },
+  "historyNoDataBody": {
+    "defaultMessage": "Try adjusting your filters or expanding the date range to see recommendation history.",
+    "description": "Empty state body text"
+  },
+  "historyNoDataTitle": {
+    "defaultMessage": "No recommendation history found",
+    "description": "Empty state title when no history data available"
+  },
+  "historyPaginationAriaLabel": {
+    "defaultMessage": "History table pagination - {placement}",
+    "description": "Pagination aria label"
+  },
+  "historyShowAdvancedColumns": {
+    "defaultMessage": "Show advanced columns",
+    "description": "Label for toggle to show/hide advanced explanation columns"
+  },
+  "historyStartDate": {
+    "defaultMessage": "Start date",
+    "description": "Start date picker label"
+  },
+  "historyTab": {
+    "defaultMessage": "History",
+    "description": "History tab title in optimizations page"
+  },
+  "historyTableAriaLabel": {
+    "defaultMessage": "Recommendation history table",
+    "description": "Aria label for the history data table"
+  },
+  "historyTermLong": {
+    "defaultMessage": "Long term",
+    "description": "Long term option"
+  },
+  "historyTermMedium": {
+    "defaultMessage": "Medium term",
+    "description": "Medium term option"
+  },
+  "historyTermShort": {
+    "defaultMessage": "Short term",
+    "description": "Short term option"
+  },
+  "hostedControlPlane": {
+    "defaultMessage": "Hosted control plane",
+    "description": "HCP recommendations tab title"
+  },
+  "idleCalloutAction": {
+    "defaultMessage": "Recommended action: {action}",
+    "description": "Recommended action for idle container"
+  },
+  "idleCalloutConfidence": {
+    "defaultMessage": "Confidence: {confidence}",
+    "description": "Confidence level for idle recommendation"
+  },
+  "idleCalloutReason": {
+    "defaultMessage": "Reason: {reason}",
+    "description": "Reason for idle recommendation"
+  },
+  "idleCalloutTitle": {
+    "defaultMessage": "Idle workload detected",
+    "description": "Alert title for idle workload callout in detail view"
+  },
+  "idleStateActive": {
+    "defaultMessage": "Active",
+    "description": "Active idle state filter label"
+  },
+  "idleStateBadge": {
+    "defaultMessage": "{state} {days, plural, =0 {} one {{days}d} other {{days}d}}",
+    "description": "Idle/zombie badge text with optional duration"
+  },
+  "idleStateIdle": {
+    "defaultMessage": "Idle",
+    "description": "Idle state filter label"
+  },
+  "idleStateZombie": {
+    "defaultMessage": "Zombie",
+    "description": "Zombie idle state filter label"
+  },
+  "kokuAppUrl": {
+    "defaultMessage": "https://github.com/project-koku/koku-ui/tree/main/apps/koku-ui-ros",
+    "description": "https://github.com/project-koku/koku-ui/tree/main/apps/koku-ui-ros"
+  },
+  "learnMore": {
+    "defaultMessage": "Learn more",
+    "description": "Learn more"
+  },
+  "limit": {
+    "defaultMessage": "Limit",
+    "description": "Limit"
+  },
+  "loadingStateDesc": {
+    "defaultMessage": "Searching for your sources. Do not refresh the browser",
+    "description": "Searching for your sources. Do not refresh the browser"
+  },
+  "loadingStateTitle": {
+    "defaultMessage": "Looking for sources...",
+    "description": "Looking for sources"
+  },
+  "memory": {
+    "defaultMessage": "Memory",
+    "description": "Memory"
+  },
+  "memoryUtilization": {
+    "defaultMessage": "Memory utilization",
+    "description": "Memory utilization"
+  },
+  "metric": {
+    "defaultMessage": "Metric",
+    "description": "Column header for metric name"
+  },
+  "modalClose": {
+    "defaultMessage": "Close",
+    "description": "Generic modal close button"
+  },
+  "monthlyHoldingCost": {
+    "defaultMessage": "Monthly holding cost",
+    "description": "Snapshot monthly holding cost column header"
+  },
+  "moreOptions": {
+    "defaultMessage": "More options",
+    "description": "More options"
+  },
+  "names": {
+    "defaultMessage": "{count, plural, one {Name} other {Names}}",
+    "description": "Name plural or singular"
+  },
+  "namespaceContainerInventoryEmpty": {
+    "defaultMessage": "No container recommendations are available for this namespace.",
+    "description": "Empty state when no container recommendations exist in the namespace"
+  },
+  "namespaceContainerInventoryHelperText": {
+    "defaultMessage": "Container recommendations are computed independently from aggregated container-level data, not derived from the namespace-level recommendation above. Values may differ because each uses a different data source and methodology.",
+    "description": "Helper text explaining namespace vs container recommendation independence"
+  },
+  "namespaceContainerInventoryTitle": {
+    "defaultMessage": "Container recommendations in this namespace",
+    "description": "Title for the container inventory table on the namespace breakdown page"
+  },
+  "no": {
+    "defaultMessage": "No",
+    "description": "No"
+  },
+  "noDataForDate": {
+    "defaultMessage": "No data available for {dateRange}",
+    "description": "No data available for Jan 1-31"
+  },
+  "noOptimizationsDesc": {
+    "defaultMessage": "Resource Optimization is now available in preview for select customers. If your organization wants to participate, tell us through the Feedback button, which is purple and located on the right. Otherwise, there is not enough data available to generate an optimization.",
+    "description": "Resource Optimization is now available in preview for select customers. If your organization wants to participate, tell us through the Feedback button, which is purple and located on the right. Otherwise, there is not enough data available to generate an optimization."
+  },
+  "noOptimizationsTitle": {
+    "defaultMessage": "No optimizations available",
+    "description": "No optimizations available"
+  },
+  "noResultsFound": {
+    "defaultMessage": "No results found",
+    "description": "No results found"
+  },
+  "nodeClassificationIdle": {
+    "defaultMessage": "Idle",
+    "description": "Node classification filter option for idle nodes"
+  },
+  "nodeClassificationOvercommitted": {
+    "defaultMessage": "Overcommitted",
+    "description": "Node classification badge for overcommitted nodes"
+  },
+  "nodeClassificationRationaleTitle": {
+    "defaultMessage": "Classification rationale",
+    "description": "Alert title for node instance type classification rationale"
+  },
+  "nodeClassificationStrandedCpu": {
+    "defaultMessage": "Stranded CPU",
+    "description": "Node classification filter option for stranded CPU"
+  },
+  "nodeClassificationStrandedMemory": {
+    "defaultMessage": "Stranded memory",
+    "description": "Node classification filter option for stranded memory"
+  },
+  "nodeClassificationStrandedResource": {
+    "defaultMessage": "Stranded {resource}",
+    "description": "Node classification badge for stranded resource"
+  },
+  "nodeClassificationUnderutilized": {
+    "defaultMessage": "Underutilized",
+    "description": "Node classification badge for underutilized nodes"
+  },
+  "nodeClassificationWellUtilized": {
+    "defaultMessage": "Well utilized",
+    "description": "Node classification badge for well-utilized nodes"
+  },
+  "nodeColdStartDesc": {
+    "defaultMessage": "Node recommendations will appear after {minDays, plural, one {# day} other {# days}} of usage data has been collected. Currently {currentDays, plural, one {# day} other {# days}} available.",
+    "description": "Description for node recommendations cold start empty state"
+  },
+  "nodeColdStartTitle": {
+    "defaultMessage": "Collecting data",
+    "description": "Title for node recommendations cold start empty state"
+  },
+  "nodeCountReduction": {
+    "defaultMessage": "Node count reduction",
+    "description": "Label for node count reduction in recommendations"
+  },
+  "nodeExplanationConsolidationApplied": {
+    "defaultMessage": "Consolidation applied",
+    "description": "Node explanation factor for fleet consolidation flag"
+  },
+  "nodeExplanationCurrentCpu": {
+    "defaultMessage": "Current CPU capacity",
+    "description": "Node explanation factor for current CPU millicores"
+  },
+  "nodeExplanationCurrentMemory": {
+    "defaultMessage": "Current memory capacity",
+    "description": "Node explanation factor for current memory KiB"
+  },
+  "nodeExplanationEmaImbalance": {
+    "defaultMessage": "EMA imbalance",
+    "description": "Node explanation factor for EMA imbalance basis points"
+  },
+  "nodeExplanationMaxCpuP95": {
+    "defaultMessage": "Max CPU usage P95",
+    "description": "Node explanation factor for max CPU usage P95 millicores"
+  },
+  "nodeExplanationMaxMemP95": {
+    "defaultMessage": "Max memory usage P95",
+    "description": "Node explanation factor for max memory usage P95 KiB"
+  },
+  "nodeExplanationPodHeadroom": {
+    "defaultMessage": "Pod scheduling headroom",
+    "description": "Node explanation factor for pod scheduling headroom basis points"
+  },
+  "nodeExplanationSizingFormula": {
+    "defaultMessage": "Sizing formula",
+    "description": "Node explanation factor for sizing formula identifier"
+  },
+  "nodeExplanationTargetUtilization": {
+    "defaultMessage": "Target utilization",
+    "description": "Node explanation factor for target utilization basis points"
+  },
+  "nodeUtilizationP50Label": {
+    "defaultMessage": "{resource} P50",
+    "description": "Progress bar label for node utilization P50 percentile"
+  },
+  "nodeUtilizationP95Label": {
+    "defaultMessage": "{resource} P95",
+    "description": "Progress bar label for node utilization P95 percentile"
+  },
+  "nodeUtilizationTitle": {
+    "defaultMessage": "Utilization percentiles",
+    "description": "Card title for node CPU and memory utilization percentiles"
+  },
+  "nodes": {
+    "defaultMessage": "Nodes",
+    "description": "Node tab toggle label"
+  },
+  "notConfiguredChanges": {
+    "defaultMessage": "Changes will be reflected within 24 hours. {learnMore}",
+    "description": "Changes will be reflected within 24 hours. {learnMore}"
+  },
+  "notConfiguredCli": {
+    "defaultMessage": "In the CLI, run {clipboard}",
+    "description": "In the CLI, run {clipboard}"
+  },
+  "notConfiguredDesc": {
+    "defaultMessage": "To receive resource optimization recommendations for your namespaces, you must first enable each namespace.",
+    "description": "To receive resource optimization recommendations for your namespaces, you must first enable each namespace."
+  },
+  "notConfiguredNamespace": {
+    "defaultMessage": "To enable a namespace, label it with {clipboard}",
+    "description": "To enable a namespace, label it with {clipboard}"
+  },
+  "notConfiguredTitle": {
+    "defaultMessage": "Optimizations may not be configured",
+    "description": "Optimizations may not be configured"
+  },
+  "notificationCode1": {
+    "defaultMessage": "Short history / low confidence",
+    "description": "Notification code 1 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode10": {
+    "defaultMessage": "GPU underutilized",
+    "description": "Notification code 10 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode11": {
+    "defaultMessage": "Node underutilized",
+    "description": "Notification code 11 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode12": {
+    "defaultMessage": "Node overcommitted (requests ≫ allocatable)",
+    "description": "Notification code 12 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode13": {
+    "defaultMessage": "CPU/memory imbalance on node",
+    "description": "Notification code 13 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode14": {
+    "defaultMessage": "Autoscaler at maxReplicas",
+    "description": "Notification code 14 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode15": {
+    "defaultMessage": "Node idle or zombie",
+    "description": "Notification code 15 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode16": {
+    "defaultMessage": "Autoscaler flapping",
+    "description": "Notification code 16 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode17": {
+    "defaultMessage": "No autoscaler on variable load",
+    "description": "Notification code 17 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode18": {
+    "defaultMessage": "VM idle",
+    "description": "Notification code 18 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode19": {
+    "defaultMessage": "VM oversized",
+    "description": "Notification code 19 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode2": {
+    "defaultMessage": "Stale metrics (cluster stopped reporting)",
+    "description": "Notification code 2 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode20": {
+    "defaultMessage": "PVC orphaned (zero usage)",
+    "description": "Notification code 20 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode21": {
+    "defaultMessage": "HPA at maxReplicas",
+    "description": "Notification code 21 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode22": {
+    "defaultMessage": "HPA-managed workload",
+    "description": "Notification code 22 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode23": {
+    "defaultMessage": "Instance type not in catalog",
+    "description": "Notification code 23 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode24": {
+    "defaultMessage": "Deprecated instance type",
+    "description": "Notification code 24 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode25": {
+    "defaultMessage": "No cost data",
+    "description": "Notification code 25 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode26": {
+    "defaultMessage": "GPU idle",
+    "description": "Notification code 26 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode27": {
+    "defaultMessage": "GPU memory-bound",
+    "description": "Notification code 27 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode28": {
+    "defaultMessage": "No profiling data",
+    "description": "Notification code 28 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode29": {
+    "defaultMessage": "PVC oversized",
+    "description": "Notification code 29 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode3": {
+    "defaultMessage": "OOM kills in window",
+    "description": "Notification code 3 (CRITICAL) — row warning tooltip (#879)"
+  },
+  "notificationCode30": {
+    "defaultMessage": "PVC near full",
+    "description": "Notification code 30 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode31": {
+    "defaultMessage": "Source PVC deleted",
+    "description": "Notification code 31 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode32": {
+    "defaultMessage": "Never restored",
+    "description": "Notification code 32 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode33": {
+    "defaultMessage": "Newer snapshot exists",
+    "description": "Notification code 33 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode34": {
+    "defaultMessage": "Stale snapshot",
+    "description": "Notification code 34 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode35": {
+    "defaultMessage": "Backup-tool managed",
+    "description": "Notification code 35 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode36": {
+    "defaultMessage": "GPU time-slicing candidate",
+    "description": "Notification code 36 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode37": {
+    "defaultMessage": "Disk growing (no guest capacity data)",
+    "description": "Notification code 37 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode38": {
+    "defaultMessage": "No guest agent",
+    "description": "Notification code 38 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode39": {
+    "defaultMessage": "High disk I/O",
+    "description": "Notification code 39 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode4": {
+    "defaultMessage": "PDB caveat for MachineSet",
+    "description": "Notification code 4 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode40": {
+    "defaultMessage": "Filesystem filling (< 90 days)",
+    "description": "Notification code 40 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode41": {
+    "defaultMessage": "Instance type recommended",
+    "description": "Notification code 41 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode42": {
+    "defaultMessage": "Filesystem > 90% full",
+    "description": "Notification code 42 (CRITICAL) — row warning tooltip (#879)"
+  },
+  "notificationCode43": {
+    "defaultMessage": "VM abandoned",
+    "description": "Notification code 43 (CRITICAL) — row warning tooltip (#879)"
+  },
+  "notificationCode44": {
+    "defaultMessage": "Guest agent interrupted",
+    "description": "Notification code 44 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode45": {
+    "defaultMessage": "Insufficient VM metrics",
+    "description": "Notification code 45 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode46": {
+    "defaultMessage": "Unknown guest OS",
+    "description": "Notification code 46 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode47": {
+    "defaultMessage": "Windows update spike",
+    "description": "Notification code 47 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode48": {
+    "defaultMessage": "Frequent restarts",
+    "description": "Notification code 48 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode49": {
+    "defaultMessage": "Downsize held (performance engine)",
+    "description": "Notification code 49 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode5": {
+    "defaultMessage": "Idle workload (low % of requests)",
+    "description": "Notification code 5 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode50": {
+    "defaultMessage": "VM GPU idle",
+    "description": "Notification code 50 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode51": {
+    "defaultMessage": "VM GPU underutilized",
+    "description": "Notification code 51 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode52": {
+    "defaultMessage": "VM GPU memory saturated",
+    "description": "Notification code 52 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode53": {
+    "defaultMessage": "VM GPU compute saturated",
+    "description": "Notification code 53 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode54": {
+    "defaultMessage": "Mixed idle/active GPUs",
+    "description": "Notification code 54 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode55": {
+    "defaultMessage": "Network-saturated workload",
+    "description": "Notification code 55 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode56": {
+    "defaultMessage": "vGPU profile recommended",
+    "description": "Notification code 56 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode57": {
+    "defaultMessage": "GPU time-slicing unsafe (frame buffer)",
+    "description": "Notification code 57 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode58": {
+    "defaultMessage": "Sequential I/O pattern",
+    "description": "Notification code 58 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode59": {
+    "defaultMessage": "Random I/O pattern",
+    "description": "Notification code 59 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode6": {
+    "defaultMessage": "Prior recommendation appears applied",
+    "description": "Notification code 6 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode60": {
+    "defaultMessage": "Redundant VMs co-located on same node — consider adding anti-affinity rules",
+    "description": "Notification code 60 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode61": {
+    "defaultMessage": "Uneven VM distribution across nodes — consider topologySpreadConstraints",
+    "description": "Notification code 61 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode62": {
+    "defaultMessage": "VM shares storage with other VMs — correlated workload group detected",
+    "description": "Notification code 62 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode63": {
+    "defaultMessage": "VM memory exceeds single NUMA node capacity — NUMA pinning not possible",
+    "description": "Notification code 63 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode64": {
+    "defaultMessage": "Periodically idle (power-off schedule)",
+    "description": "Notification code 64 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode65": {
+    "defaultMessage": "Network-bound — SR-IOV may help",
+    "description": "Notification code 65 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode66": {
+    "defaultMessage": "Network-bound — DPDK may help",
+    "description": "Notification code 66 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode67": {
+    "defaultMessage": "Sustained minimal disk I/O",
+    "description": "Notification code 67 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode68": {
+    "defaultMessage": "Sustained random high IOPS",
+    "description": "Notification code 68 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode69": {
+    "defaultMessage": "Sustained sequential high throughput",
+    "description": "Notification code 69 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode7": {
+    "defaultMessage": "< 24h of data",
+    "description": "Notification code 7 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode70": {
+    "defaultMessage": "ResourceQuota near capacity",
+    "description": "Notification code 70 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode71": {
+    "defaultMessage": "ResourceQuota oversized",
+    "description": "Notification code 71 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode72": {
+    "defaultMessage": "ResourceQuota blocking (used equals hard limit)",
+    "description": "Notification code 72 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode73": {
+    "defaultMessage": "ClusterResourceQuota at capacity",
+    "description": "Notification code 73 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode74": {
+    "defaultMessage": "Near pod scheduling limit",
+    "description": "Notification code 74 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode75": {
+    "defaultMessage": "Autoscaler at minReplicas",
+    "description": "Notification code 75 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode76": {
+    "defaultMessage": "Fleet consolidation (MachineSet)",
+    "description": "Notification code 76 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode77": {
+    "defaultMessage": "Sparse data (limited observation days)",
+    "description": "Notification code 77 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode79": {
+    "defaultMessage": "Business-hours node sizing is not peak-safe",
+    "description": "Notification code 79 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode8": {
+    "defaultMessage": "Abandoned (zero usage 72h+)",
+    "description": "Notification code 8 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode80": {
+    "defaultMessage": "Business-hours GPU sizing uses the namespace office window",
+    "description": "Notification code 80 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode81": {
+    "defaultMessage": "Business-hours GPU time-slicing uses the cluster office window",
+    "description": "Notification code 81 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode82": {
+    "defaultMessage": "Business-hours VM sizing uses the namespace office window",
+    "description": "Notification code 82 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode83": {
+    "defaultMessage": "Hosted cluster scope — node recommendations cover worker nodes only",
+    "description": "Notification code 83 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode84": {
+    "defaultMessage": "Infrastructure node — apply via the infra MachineSet template",
+    "description": "Notification code 84 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode85": {
+    "defaultMessage": "Control-plane node — rightsizing via CPMS rolling update only",
+    "description": "Notification code 85 (INFO) — row warning tooltip (#879)"
+  },
+  "notificationCode86": {
+    "defaultMessage": "Unstable container (frequent restarts)",
+    "description": "Notification code 86 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode87": {
+    "defaultMessage": "Node pressure (kubelet conditions observed)",
+    "description": "Notification code 87 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode88": {
+    "defaultMessage": "Usage exceeds allocatable capacity — implausible data (#890)",
+    "description": "Notification code 88 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCode9": {
+    "defaultMessage": "Memory trending up",
+    "description": "Notification code 9 (WARNING) — row warning tooltip (#879)"
+  },
+  "notificationCodeUnknown": {
+    "defaultMessage": "Notification code:",
+    "description": "Fallback text for a notification code missing from the tooltip map (#879)"
+  },
+  "notificationCodesTooltipTitle": {
+    "defaultMessage": "This row has recommendation notices:",
+    "description": "Title above the notification meanings in the row warning icon tooltip (#879)"
+  },
+  "notificationsAlertTitle": {
+    "defaultMessage": "Duration based notifications",
+    "description": "Duration based notifications"
+  },
+  "openShift": {
+    "defaultMessage": "OpenShift",
+    "description": "OpenShift"
+  },
+  "optimizableContainers": {
+    "defaultMessage": "Optimizable containers on this project",
+    "description": "Optimizable containers on this project"
+  },
+  "optimizations": {
+    "defaultMessage": "Optimizations",
+    "description": "Optimizations"
+  },
+  "optimizationsCost": {
+    "defaultMessage": "Cost optimizations",
+    "description": "Cost optimizations"
+  },
+  "optimizationsDesc": {
+    "defaultMessage": "Get detailed recommendations for how to optimize your Red Hat OpenShift cost and performance.",
+    "description": "Get detailed recommendations for how to optimize your Red Hat OpenShift cost and performance."
+  },
+  "optimizationsDetails": {
+    "defaultMessage": "{count, plural, =0 {No optimizations} =1 {{count} optimization} other {{count} optimizations}}",
+    "description": "Optimization details"
+  },
+  "optimizationsInfoArialLabel": {
+    "defaultMessage": "A description of optimizations",
+    "description": "A description of optimizations"
+  },
+  "optimizationsInfoButtonArialLabel": {
+    "defaultMessage": "A dialog with a description of optimizations",
+    "description": "A dialog with a description of optimizations"
+  },
+  "optimizationsInfoDesc": {
+    "defaultMessage": "To receive these recommendations, you must first enable your namespaces. {learnMore}",
+    "description": "To receive these recommendations, you must first enable your namespaces. {learnMore}"
+  },
+  "optimizationsInfoTitle": {
+    "defaultMessage": "Assess and monitor usage from all of your clusters and provides optimization recommendations.",
+    "description": "Assess and monitor usage from all of your clusters and provides optimization recommendations."
+  },
+  "optimizationsLoadingStateDesc": {
+    "defaultMessage": "Searching for your optimizations. Do not refresh the browser",
+    "description": "Searching for your optimizations. Do not refresh the browser"
+  },
+  "optimizationsLoadingStateTitle": {
+    "defaultMessage": "Looking for optimizations...",
+    "description": "Looking for optimizations"
+  },
+  "optimizationsLongTerm": {
+    "defaultMessage": "Last 15 days (360h)",
+    "description": "Last 15 days (360h)"
+  },
+  "optimizationsMediumTerm": {
+    "defaultMessage": "Last 7 days (168h)",
+    "description": "Last 7 days (168h)"
+  },
+  "optimizationsNames": {
+    "defaultMessage": "{value, select, cluster {Cluster names} change  {Change} container {Container names} cpu  {CPU requests} current  {Current} hosted_cluster {Hosted cluster} incomplete {Incomplete} management_cluster {Management cluster} last_reported {Last reported} memory  {Memory requests} instance_type {Instance type} namespace {Namespace} node {Node} node_classification {Classification} node_cpu_util {CPU util P50/P95} node_mem_util {Mem util P50/P95} node_fleet_reduction {Fleet reduction} machineset_name {Machine set} node_pod_count {Pod count} project {Project names} project_type {Project types} potential_savings {Potential savings} pvc_name {PVC name} snapshot_name {Snapshot name} classification {Classification} state {State} tags {Tags} vm_name {VM name} vm_guest_os {Guest OS} vm_current_vcpu {Current vCPU} vm_current_memory {Current memory} vm_recommended_vcpu {Rec. vCPU} vm_recommended_memory {Rec. memory} vm_status {Status} vm_recommended_series {Recommended series} vm_confidence {Confidence} vm_preference {Preference} workload {Workload names} workload_type {Workload types} other {}}",
+    "description": "Optimization table column names"
+  },
+  "optimizationsNoRecommendations": {
+    "defaultMessage": "No recommendations available for this term.",
+    "description": "Message when no recommendation data is available for the selected term"
+  },
+  "optimizationsPerformance": {
+    "defaultMessage": "Performance optimizations",
+    "description": "Performance optimizations"
+  },
+  "optimizationsProject": {
+    "defaultMessage": "Optimization for this project",
+    "description": "Optimization for this project"
+  },
+  "optimizationsShortTerm": {
+    "defaultMessage": "Last 24 hrs (24h)",
+    "description": "Last 24 hrs (24h)"
+  },
+  "optimizationsTabSummaryAdditionalCost": {
+    "defaultMessage": "Additional cost: {amount}/month across {count, plural, =1 {1 recommendation} other {{count} recommendations}}",
+    "description": "Summary banner with additional-cost total when no savings exist for an optimizations tab"
+  },
+  "optimizationsTabSummaryCount": {
+    "defaultMessage": "{count, plural, =0 {No recommendations} =1 {1 recommendation} other {{count} recommendations}}",
+    "description": "Summary banner when savings are unavailable"
+  },
+  "optimizationsTabSummarySavings": {
+    "defaultMessage": "Total potential savings: {amount}/month across {count, plural, =1 {1 recommendation} other {{count} recommendations}}",
+    "description": "Summary banner with savings total for an optimizations tab"
+  },
+  "optimizationsTabSummarySavingsSplit": {
+    "defaultMessage": "Potential savings: {savings}/month across {savingsCount, plural, =1 {1 recommendation} other {{savingsCount} recommendations}} · Additional cost: {cost}/month across {costCount, plural, =1 {1 recommendation} other {{costCount} recommendations}}",
+    "description": "Summary banner with separate savings and additional-cost totals for an optimizations tab"
+  },
+  "optimizationsTabSummaryWaste": {
+    "defaultMessage": "Total monthly waste: {amount}/month across {count, plural, =1 {1 recommendation} other {{count} recommendations}}",
+    "description": "Summary banner with waste total for snapshot recommendations"
+  },
+  "optimizationsType": {
+    "defaultMessage": "View optimizations based on",
+    "description": "View optimizations based on"
+  },
+  "optimizationsValue": {
+    "defaultMessage": "{count, plural, =1 {{value} {units}} other {{value}{units}}}",
+    "description": "2 GiB"
+  },
+  "optimizationsValues": {
+    "defaultMessage": "{value, select, cluster {Cluster name} container {Container name} last_reported {Last reported} recommendation_id {Recommendation id} project {Project name} workload {Workload name} workload_type {Workload type} other {}}",
+    "description": "Selected items for export"
+  },
+  "optimizationsViewAll": {
+    "defaultMessage": "View all optimizations for this project",
+    "description": "View all optimizations for this project"
+  },
+  "optimizationsViewAllDisabled": {
+    "defaultMessage": "This project has not reported data this month.",
+    "description": "This project has not reported data this month."
+  },
+  "optimizeFor": {
+    "defaultMessage": "Optimize for",
+    "description": "Optimize for"
+  },
+  "optimizedStateDesc": {
+    "defaultMessage": "Good job optimizing the current configuration.",
+    "description": "Good job optimizing the current configuration."
+  },
+  "optimizedStateTitle": {
+    "defaultMessage": "You have reached recommended state!",
+    "description": "You have reached recommended state!"
+  },
+  "pageTitleDefault": {
+    "defaultMessage": "Cost Management ROS | OpenShift",
+    "description": "Cost Management ROS | OpenShift"
+  },
+  "pageTitleOptimizations": {
+    "defaultMessage": "Optimizations - Cost Management | OpenShift",
+    "description": "Optimizations - Cost Management | OpenShift"
+  },
+  "paginationTitle": {
+    "defaultMessage": "{placement, select, top {{title} top pagination} bottom {{title} bottom pagination} other {{title} pagination}}",
+    "description": "title for pagination aria"
+  },
+  "peakHoursSizing": {
+    "defaultMessage": "Peak hours sizing",
+    "description": "Card title for peak hours sizing recommendations"
+  },
+  "peakHoursSizingTooltip": {
+    "defaultMessage": "Recommended values based on your defined business hours schedule",
+    "description": "Tooltip for peak hours sizing card"
+  },
+  "percentPlus": {
+    "defaultMessage": "{count, plural, one {+{value}%} other {{value}%}}",
+    "description": "Percent value with plus symbol"
+  },
+  "performance": {
+    "defaultMessage": "Performance",
+    "description": "Performance"
+  },
+  "perspective": {
+    "defaultMessage": "Perspective",
+    "description": "Perspective dropdown label"
+  },
+  "perspectiveValues": {
+    "defaultMessage": "{value, select, aws {Amazon Web Services} aws_ocp {Amazon Web Services filtered by OpenShift} azure {Microsoft Azure} azure_ocp {Microsoft Azure filtered by OpenShift} gcp {Google Cloud Platform} gcp_ocp {Google Cloud Platform filtered by OpenShift} ibm {IBM Cloud} ibm_ocp {IBM filtered by OpenShift} oci {Oracle Cloud Infrastructure} ocp {All OpenShift} ocp_cloud {All cloud filtered by OpenShift} rhel {All RHEL} other {}}",
+    "description": "Perspective values"
+  },
+  "pvcActiveTerm": {
+    "defaultMessage": "Selected",
+    "description": "Label for the PVC breakdown term matching list projection"
+  },
+  "pvcCapacity": {
+    "defaultMessage": "Capacity",
+    "description": "PVC capacity column header"
+  },
+  "pvcClassificationHealthy": {
+    "defaultMessage": "Healthy",
+    "description": "PVC recommendation classification badge"
+  },
+  "pvcClassificationNearFull": {
+    "defaultMessage": "Near full",
+    "description": "PVC recommendation classification badge"
+  },
+  "pvcClassificationOrphaned": {
+    "defaultMessage": "Orphaned",
+    "description": "PVC recommendation classification badge"
+  },
+  "pvcClassificationOversized": {
+    "defaultMessage": "Oversized",
+    "description": "PVC recommendation classification badge"
+  },
+  "pvcClassificationReason": {
+    "defaultMessage": "Classification reason",
+    "description": "PVC explanation classification reason label"
+  },
+  "pvcDaysToFull": {
+    "defaultMessage": "Days to full",
+    "description": "PVC projected days until capacity is exhausted"
+  },
+  "pvcExplanationTitle": {
+    "defaultMessage": "Recommendation explanation",
+    "description": "PVC breakdown expandable explanation section title"
+  },
+  "pvcGrowthPerDay": {
+    "defaultMessage": "Growth",
+    "description": "PVC estimated daily growth rate"
+  },
+  "pvcMountedBy": {
+    "defaultMessage": "Mounted by",
+    "description": "PVC breakdown mounted-by pod label"
+  },
+  "pvcProjectionExhaustionDate": {
+    "defaultMessage": "Projected full: {date}",
+    "description": "PVC usage chart annotation for projected capacity exhaustion date"
+  },
+  "pvcProjectionLine": {
+    "defaultMessage": "Projected usage",
+    "description": "PVC usage chart projection line legend label"
+  },
+  "pvcResizeNoteTitle": {
+    "defaultMessage": "Resize guidance",
+    "description": "PVC operational resize note alert title"
+  },
+  "pvcTrendNoGrowth": {
+    "defaultMessage": "No growth detected",
+    "description": "PVC has enough history but WLS slope is flat or declining"
+  },
+  "pvcTrendUnavailable": {
+    "defaultMessage": "Trend unavailable — need at least {requiredDays, number} days of usage data for this term ({dataDays, number} available)",
+    "description": "PVC growth projection withheld until min digest count is met"
+  },
+  "pvcUsageAvg": {
+    "defaultMessage": "Average usage",
+    "description": "PVC historical usage chart average series"
+  },
+  "pvcUsageHistoryCaption": {
+    "defaultMessage": "Latest capacity: {capacity}",
+    "description": "PVC usage history chart caption"
+  },
+  "pvcUsageHistoryTitle": {
+    "defaultMessage": "Usage history",
+    "description": "PVC breakdown historical usage chart title"
+  },
+  "pvcUsageMax": {
+    "defaultMessage": "Peak usage",
+    "description": "PVC historical usage chart peak series"
+  },
+  "pvcUsagePercent": {
+    "defaultMessage": "Usage %",
+    "description": "PVC usage percentage column header"
+  },
+  "pvcVmName": {
+    "defaultMessage": "VM name",
+    "description": "PVC breakdown KubeVirt VM label"
+  },
+  "qualityChartAdoptionLegend": {
+    "defaultMessage": "Adoption %",
+    "description": "Legend label for adoption area chart"
+  },
+  "qualityChartAdoptionTitle": {
+    "defaultMessage": "Adoption rate",
+    "description": "Chart title for adoption rate over time"
+  },
+  "qualityChartOomLegend": {
+    "defaultMessage": "OOM count",
+    "description": "Legend label for OOM bar chart"
+  },
+  "qualityChartOomTitle": {
+    "defaultMessage": "OOM events after recommendation",
+    "description": "Chart title for OOM event count over time"
+  },
+  "qualityChartStabilityLegend": {
+    "defaultMessage": "Avg stability %",
+    "description": "Legend label for stability line chart"
+  },
+  "qualityChartStabilityTitle": {
+    "defaultMessage": "Recommendation stability",
+    "description": "Chart title for stability percentage over time"
+  },
+  "qualityColumnAdoption": {
+    "defaultMessage": "Adopted",
+    "description": "Table column header for adoption status"
+  },
+  "qualityColumnAge": {
+    "defaultMessage": "Rec. age",
+    "description": "Table column header for recommendation age in hours"
+  },
+  "qualityColumnCluster": {
+    "defaultMessage": "Cluster",
+    "description": "Table column header for cluster name"
+  },
+  "qualityColumnContainer": {
+    "defaultMessage": "Container",
+    "description": "Table column header for container name"
+  },
+  "qualityColumnContainerName": {
+    "defaultMessage": "Container",
+    "description": "Table column header for container name on GPU quality dashboard"
+  },
+  "qualityColumnContentionDays": {
+    "defaultMessage": "Contention days",
+    "description": "Table column header for GPU SM active contention day count"
+  },
+  "qualityColumnDate": {
+    "defaultMessage": "Date",
+    "description": "Table column header for measurement date"
+  },
+  "qualityColumnDaysAboveThreshold": {
+    "defaultMessage": "Days above threshold",
+    "description": "Table column header for PVC days above usage threshold"
+  },
+  "qualityColumnOom": {
+    "defaultMessage": "OOM events",
+    "description": "Table column header for OOM event count after recommendation"
+  },
+  "qualityColumnProject": {
+    "defaultMessage": "Project",
+    "description": "Table column header for project/namespace"
+  },
+  "qualityColumnPvcName": {
+    "defaultMessage": "PVC name",
+    "description": "Table column header for PVC name on quality dashboard"
+  },
+  "qualityColumnSaturationDays": {
+    "defaultMessage": "Saturation days",
+    "description": "Table column header for VM CPU/memory saturation day count"
+  },
+  "qualityColumnSnapshotName": {
+    "defaultMessage": "Snapshot name",
+    "description": "Table column header for snapshot name on quality dashboard"
+  },
+  "qualityColumnStability": {
+    "defaultMessage": "Stability %",
+    "description": "Table column header for recommendation stability"
+  },
+  "qualityColumnVmName": {
+    "defaultMessage": "VM name",
+    "description": "Table column header for VM name on quality dashboard"
+  },
+  "qualityColumnWorkload": {
+    "defaultMessage": "Workload",
+    "description": "Table column header for workload name"
+  },
+  "qualityCsvDownload": {
+    "defaultMessage": "Download CSV",
+    "description": "Button label to download quality metrics as CSV"
+  },
+  "qualityDashboardEmpty": {
+    "defaultMessage": "No quality metrics data is available for the selected filters.",
+    "description": "Empty state when no quality metrics data exists"
+  },
+  "qualityDashboardError": {
+    "defaultMessage": "Unable to load quality metrics. Please try again later.",
+    "description": "Error state for quality metrics dashboard"
+  },
+  "qualityDashboardTitle": {
+    "defaultMessage": "Quality metrics",
+    "description": "Title for the quality metrics dashboard"
+  },
+  "qualityEntityContainer": {
+    "defaultMessage": "Container",
+    "description": "Entity type selector label for containers"
+  },
+  "qualityEntityGpu": {
+    "defaultMessage": "GPU",
+    "description": "Entity type selector label for GPU MIG"
+  },
+  "qualityEntityPvc": {
+    "defaultMessage": "PVC",
+    "description": "Entity type selector label for PVCs"
+  },
+  "qualityEntitySnapshot": {
+    "defaultMessage": "Snapshot",
+    "description": "Entity type selector label for Snapshots"
+  },
+  "qualityEntityVm": {
+    "defaultMessage": "VM",
+    "description": "Entity type selector label for VMs"
+  },
+  "qualityFilterCluster": {
+    "defaultMessage": "Filter by cluster",
+    "description": "Placeholder for cluster filter input on quality dashboard"
+  },
+  "qualityFilterProject": {
+    "defaultMessage": "Filter by project",
+    "description": "Placeholder for project filter input on quality dashboard"
+  },
+  "qualityKpiAdoption": {
+    "defaultMessage": "Fleet adoption rate",
+    "description": "KPI card title for fleet-wide recommendation adoption rate"
+  },
+  "qualityKpiOom": {
+    "defaultMessage": "OOM events this period",
+    "description": "KPI card title for total OOM events after recommendations"
+  },
+  "qualityKpiStability": {
+    "defaultMessage": "Overall stability",
+    "description": "KPI card title for overall recommendation stability percentage"
+  },
+  "qualityPaginationNext": {
+    "defaultMessage": "Next",
+    "description": "Pagination button for next page"
+  },
+  "qualityPaginationPrevious": {
+    "defaultMessage": "Previous",
+    "description": "Pagination button for previous page"
+  },
+  "quotaDetailLoadError": {
+    "defaultMessage": "Unable to load quota recommendation details.",
+    "description": "Error when quota detail API fetch fails"
+  },
+  "quotaDetailTitle": {
+    "defaultMessage": "ResourceQuota recommendation",
+    "description": "Detail modal title fallback for namespace quota"
+  },
+  "quotaExplanationBaseCpu": {
+    "defaultMessage": "Base CPU",
+    "description": "Cluster quota explanation field for base CPU before headroom"
+  },
+  "quotaExplanationContainerCpuSum": {
+    "defaultMessage": "Container CPU sum",
+    "description": "Quota explanation field for summed container CPU recommendations"
+  },
+  "quotaExplanationContainerMemSum": {
+    "defaultMessage": "Container memory sum",
+    "description": "Quota explanation field for summed container memory recommendations"
+  },
+  "quotaExplanationHeadroom": {
+    "defaultMessage": "Headroom",
+    "description": "Quota explanation field for configured headroom percentage"
+  },
+  "quotaExplanationMaxUtilization": {
+    "defaultMessage": "Max utilization",
+    "description": "Quota explanation field for peak utilization across resources"
+  },
+  "quotaExplanationNsQuotaCpuSum": {
+    "defaultMessage": "Namespace quota CPU sum",
+    "description": "Cluster quota explanation field for summed namespace quota CPU"
+  },
+  "quotaExplanationNsQuotaMemSum": {
+    "defaultMessage": "Namespace quota memory sum",
+    "description": "Cluster quota explanation field for summed namespace quota memory"
+  },
+  "quotaExplanationReasonOptimal": {
+    "defaultMessage": "Current resource utilization ({utilization}) is within an acceptable range of the quota hard limit. No changes are recommended at this time.",
+    "description": "Explanation for optimal-type quota recommendation"
+  },
+  "quotaExplanationReasonRaise": {
+    "defaultMessage": "Current resource utilization ({utilization}) is approaching or exceeding the quota hard limit. Workloads may be throttled or fail to schedule. Raising the quota provides adequate headroom based on observed usage patterns.",
+    "description": "Explanation for raise-type quota recommendation"
+  },
+  "quotaExplanationReasonTighten": {
+    "defaultMessage": "Current resource utilization ({utilization}) is well below the quota hard limit. The quota can be safely reduced to match observed container resource recommendations (plus {headroom} headroom), freeing capacity for other namespaces.",
+    "description": "Explanation for tighten-type quota recommendation"
+  },
+  "quotaExplanationSignalCpu": {
+    "defaultMessage": "Signal C CPU used",
+    "description": "Quota explanation field for utilization signal CPU"
+  },
+  "quotaExplanationTechnicalDetails": {
+    "defaultMessage": "Technical details",
+    "description": "Expandable section label for quota explanation metrics"
+  },
+  "quotaExplanationTitle": {
+    "defaultMessage": "Why this recommendation",
+    "description": "Title for quota recommendation explanation on breakdown page"
+  },
+  "quotaHardLimit": {
+    "defaultMessage": "Hard limit",
+    "description": "Quota hard limit column"
+  },
+  "quotaHistoryEmpty": {
+    "defaultMessage": "No historical data is available yet for this quota recommendation.",
+    "description": "Empty state when quota breakdown has no history entries"
+  },
+  "quotaHistorySectionTitle": {
+    "defaultMessage": "Historical trends",
+    "description": "Section title for quota recommendation history charts on breakdown page"
+  },
+  "quotaHistoryUtilization": {
+    "defaultMessage": "Utilization",
+    "description": "Legend label for quota utilization percent series"
+  },
+  "quotaHistoryUtilizationTitle": {
+    "defaultMessage": "Utilization over time",
+    "description": "Chart title for quota utilization percent history"
+  },
+  "quotaMaxUtilization": {
+    "defaultMessage": "Max utilization",
+    "description": "Highest quota utilization percent across resource dimensions"
+  },
+  "quotaName": {
+    "defaultMessage": "ResourceQuota",
+    "description": "Column header for Kubernetes ResourceQuota object name"
+  },
+  "quotaNamespaceCount": {
+    "defaultMessage": "{count} namespaces",
+    "description": "Summary when CRQ matches more namespaces than shown inline"
+  },
+  "quotaNamespaces": {
+    "defaultMessage": "Namespaces",
+    "description": "ClusterResourceQuota matched namespace list column"
+  },
+  "quotaRecommendationTypeNone": {
+    "defaultMessage": "None",
+    "description": "Quota recommendation type none"
+  },
+  "quotaRecommendationTypeOptimal": {
+    "defaultMessage": "Optimal",
+    "description": "Quota recommendation type optimal"
+  },
+  "quotaRecommendationTypeRaise": {
+    "defaultMessage": "Raise",
+    "description": "Quota recommendation type raise — usage approaching limits"
+  },
+  "quotaRecommendationTypeTighten": {
+    "defaultMessage": "Tighten",
+    "description": "Quota recommendation type tighten — reduce over-provisioned quota"
+  },
+  "quotaRecommended": {
+    "defaultMessage": "Recommended",
+    "description": "Quota recommended hard limit column"
+  },
+  "quotaResourceBreakdown": {
+    "defaultMessage": "Quota resources",
+    "description": "Section title for hard/used/recommended quota breakdown"
+  },
+  "quotaResourceCpuRequest": {
+    "defaultMessage": "CPU request",
+    "description": "Quota CPU request resource row"
+  },
+  "quotaResourceDimension": {
+    "defaultMessage": "Resource",
+    "description": "Quota resource dimension column header"
+  },
+  "quotaResourceMemoryRequest": {
+    "defaultMessage": "Memory request",
+    "description": "Quota memory request resource row"
+  },
+  "quotaResourcePods": {
+    "defaultMessage": "Pods",
+    "description": "Quota pods resource row"
+  },
+  "quotaResourceStorageRequest": {
+    "defaultMessage": "Storage request",
+    "description": "Quota storage request resource row"
+  },
+  "quotaRiskLevel": {
+    "defaultMessage": "Risk level",
+    "description": "Quota recommendation risk level column and filter label"
+  },
+  "quotaRiskLevelHigh": {
+    "defaultMessage": "High",
+    "description": "Quota risk level high"
+  },
+  "quotaRiskLevelLow": {
+    "defaultMessage": "Low",
+    "description": "Quota risk level low"
+  },
+  "quotaRiskLevelMedium": {
+    "defaultMessage": "Medium",
+    "description": "Quota risk level medium"
+  },
+  "quotaRiskLevelNone": {
+    "defaultMessage": "None",
+    "description": "Quota risk level none"
+  },
+  "quotaSubCluster": {
+    "defaultMessage": "ClusterResourceQuota",
+    "description": "Quota tab ClusterResourceQuota sub-view toggle label"
+  },
+  "quotaSubNamespace": {
+    "defaultMessage": "Namespace ResourceQuota",
+    "description": "Quota tab namespace ResourceQuota sub-view toggle label"
+  },
+  "quotaUsed": {
+    "defaultMessage": "Used",
+    "description": "Quota used column"
+  },
+  "readOnlyPermissions": {
+    "defaultMessage": "You have read only permissions",
+    "description": "You have read only permissions"
+  },
+  "recommendationTermWindowDays": {
+    "defaultMessage": "Last {windowDays, number} {windowDays, plural, one {day} other {days}}",
+    "description": "Recommendation projection window label from settings API window_days"
+  },
+  "recommended": {
+    "defaultMessage": "Recommended",
+    "description": "Column header for recommended values"
+  },
+  "recommendedConfiguration": {
+    "defaultMessage": "Recommended configuration",
+    "description": "Recommended configuration"
+  },
+  "recommendedConfigurationTooltip": {
+    "defaultMessage": "Recommended values based on continuous 24/7 workload analysis",
+    "description": "Tooltip for recommended configuration card"
+  },
+  "recommendedLimit": {
+    "defaultMessage": "Recommended limit ({dateRange})",
+    "description": "Recommended limit (Jan 1-31)"
+  },
+  "recommendedRequest": {
+    "defaultMessage": "Recommended request ({dateRange})",
+    "description": "Recommended request (Jan 1-31)"
+  },
+  "replicaCount": {
+    "defaultMessage": "Replicas",
+    "description": "Label for replica count in detail header"
+  },
+  "replicaNoDataTooltip": {
+    "defaultMessage": "Not reported by the metrics operator. This value may be managed by an HPA or not available for this workload.",
+    "description": "Tooltip shown when a replica value is null"
+  },
+  "replicaOptimizationConfidenceHigh": {
+    "defaultMessage": "High confidence",
+    "description": "Confidence level description for replica recommendation"
+  },
+  "replicaOptimizationConfidenceLow": {
+    "defaultMessage": "Low confidence",
+    "description": "Confidence level description for replica recommendation"
+  },
+  "replicaOptimizationConfidenceMedium": {
+    "defaultMessage": "Medium confidence",
+    "description": "Confidence level description for replica recommendation"
+  },
+  "replicaOptimizationOptimal": {
+    "defaultMessage": "Optimal",
+    "description": "Badge text when current replica count is optimal"
+  },
+  "replicaOptimizationRecommended": {
+    "defaultMessage": "{recommended, plural, one {# replica} other {# replicas}}",
+    "description": "Display of recommended replica count"
+  },
+  "replicaOptimizationReduceBy": {
+    "defaultMessage": "Reduce by {count}",
+    "description": "Badge text when replica reduction is recommended"
+  },
+  "replicaOptimizationScaleUp": {
+    "defaultMessage": "Scale up by {count}",
+    "description": "Badge text when more replicas are recommended"
+  },
+  "replicaOptimizationTitle": {
+    "defaultMessage": "Replica recommendation",
+    "description": "Label for replica optimization section in container breakdown"
+  },
+  "replicaValues": {
+    "defaultMessage": "available {available} / min {min} / max {max} / desired {desired}",
+    "description": "Replica available/min/max/desired values"
+  },
+  "request": {
+    "defaultMessage": "Request",
+    "description": "Request"
+  },
+  "savingsEstimatedMonthly": {
+    "defaultMessage": "Estimated monthly savings",
+    "description": "Label for estimated monthly savings"
+  },
+  "savingsNoDataTooltip": {
+    "defaultMessage": "No cost data available",
+    "description": "Tooltip shown when savings dash is hovered"
+  },
+  "savingsNotAvailable": {
+    "defaultMessage": "—",
+    "description": "Dash shown when savings data is not available"
+  },
+  "savingsWaterfallAriaDesc": {
+    "defaultMessage": "Horizontal bar chart showing potential monthly savings broken down by optimization category",
+    "description": "Accessible description for the savings waterfall chart"
+  },
+  "savingsWaterfallEmpty": {
+    "defaultMessage": "No savings data available. Configure cost rates to see potential savings by category.",
+    "description": "Empty state when no savings data is returned from the API"
+  },
+  "savingsWaterfallError": {
+    "defaultMessage": "Unable to load savings data",
+    "description": "Error state when the savings summary API call fails"
+  },
+  "savingsWaterfallSubtitle": {
+    "defaultMessage": "Total estimated: {total} {currency}/month",
+    "description": "Subtitle showing total estimated savings beneath chart title"
+  },
+  "savingsWaterfallTitle": {
+    "defaultMessage": "Potential Savings by Category",
+    "description": "Title for the savings waterfall horizontal bar chart"
+  },
+  "selectClearAriaLabel": {
+    "defaultMessage": "Clear input value",
+    "description": "Clear input value"
+  },
+  "selectableTableAriaLabel": {
+    "defaultMessage": "Selectable table",
+    "description": "Selectable table"
+  },
+  "selectableTableHeaderAriaLabel": {
+    "defaultMessage": "Select to open the optimizations drawer",
+    "description": "Select to open the optimizations drawer"
+  },
+  "selectableTableRowAriaLabel": {
+    "defaultMessage": "Selectable table row",
+    "description": "Selectable table row"
+  },
+  "selected": {
+    "defaultMessage": "{value} selected",
+    "description": "{value} selected"
+  },
+  "settingsErrorDesc": {
+    "defaultMessage": "Failed to update settings",
+    "description": "Failed to update settings"
+  },
+  "settingsErrorTitle": {
+    "defaultMessage": "Unable to save application settings",
+    "description": "Unable to save application settings"
+  },
+  "settingsSuccessDesc": {
+    "defaultMessage": "Settings for Cost Management were replaced with new values",
+    "description": "Settings for Cost Management were replaced with new values"
+  },
+  "settingsSuccessTitle": {
+    "defaultMessage": "Application settings saved",
+    "description": "Application settings saved"
+  },
+  "sinceDate": {
+    "defaultMessage": "{dateRange}",
+    "description": "Jan 1-31"
+  },
+  "snapshotAgeDays": {
+    "defaultMessage": "Age (days)",
+    "description": "Snapshot age column header"
+  },
+  "snapshotClassificationActive": {
+    "defaultMessage": "Active",
+    "description": "Snapshot recommendation classification badge"
+  },
+  "snapshotClassificationManaged": {
+    "defaultMessage": "Managed",
+    "description": "Snapshot recommendation classification badge"
+  },
+  "snapshotClassificationNeverRestored": {
+    "defaultMessage": "Never restored",
+    "description": "Snapshot recommendation classification badge"
+  },
+  "snapshotClassificationOrphaned": {
+    "defaultMessage": "Orphaned",
+    "description": "Snapshot recommendation classification badge"
+  },
+  "snapshotClassificationRedundant": {
+    "defaultMessage": "Redundant",
+    "description": "Snapshot recommendation classification badge"
+  },
+  "snapshotClassificationStale": {
+    "defaultMessage": "Stale",
+    "description": "Snapshot recommendation classification badge"
+  },
+  "snapshotDetailTitle": {
+    "defaultMessage": "Snapshot details",
+    "description": "Snapshot detail modal title fallback"
+  },
+  "snapshotManagedBy": {
+    "defaultMessage": "Managed by",
+    "description": "Snapshot backup tool label"
+  },
+  "snapshotSourcePvcMissing": {
+    "defaultMessage": "The source PVC no longer exists in this namespace.",
+    "description": "Snapshot detail warning when source PVC was deleted"
+  },
+  "snapshotViewSourcePvc": {
+    "defaultMessage": "View source PVC recommendations",
+    "description": "Navigate from snapshot detail to PVC list filtered by source PVC"
+  },
+  "sourcePvc": {
+    "defaultMessage": "Source PVC",
+    "description": "Snapshot source PVC column header"
+  },
+  "storageGroupBy": {
+    "defaultMessage": "Group by",
+    "description": "Storage list group-by toolbar label"
+  },
+  "storageGroupByCluster": {
+    "defaultMessage": "Cluster",
+    "description": "Storage list group-by cluster option"
+  },
+  "storageGroupByNamespace": {
+    "defaultMessage": "Namespace",
+    "description": "Group-by namespace option"
+  },
+  "storageGroupByNode": {
+    "defaultMessage": "Node",
+    "description": "Group-by node option"
+  },
+  "storageGroupByNone": {
+    "defaultMessage": "None",
+    "description": "Storage list group-by option for ungrouped rows"
+  },
+  "storageGroupByProject": {
+    "defaultMessage": "Project",
+    "description": "Storage list group-by namespace/project option"
+  },
+  "storageRecommendationCount": {
+    "defaultMessage": "Recommendations",
+    "description": "Grouped storage table column for row count in a group"
+  },
+  "storageSubPvc": {
+    "defaultMessage": "PVC",
+    "description": "Storage tab PVC sub-view toggle label"
+  },
+  "storageSubSnapshot": {
+    "defaultMessage": "Snapshots",
+    "description": "Storage tab snapshot sub-view toggle label"
+  },
+  "storageTotalCapacity": {
+    "defaultMessage": "Total capacity",
+    "description": "Grouped PVC table column for summed capacity"
+  },
+  "storageTotalRestoreSize": {
+    "defaultMessage": "Total restore size",
+    "description": "Grouped snapshot table column for summed restore size"
+  },
+  "suggestions": {
+    "defaultMessage": "Suggestions",
+    "description": "Suggestions"
+  },
+  "toolBarBulkSelectAll": {
+    "defaultMessage": "Select all ({value} items)",
+    "description": "Select all ({value} items)"
+  },
+  "toolBarBulkSelectAriaDeselect": {
+    "defaultMessage": "Deselect all items",
+    "description": "Deselect all items"
+  },
+  "toolBarBulkSelectAriaSelect": {
+    "defaultMessage": "Select all items",
+    "description": "Select all items"
+  },
+  "toolBarBulkSelectNone": {
+    "defaultMessage": "Select none (0 items)",
+    "description": "Select none (0 items)"
+  },
+  "toolBarBulkSelectPage": {
+    "defaultMessage": "Select page ({value} items)",
+    "description": "Select page ({value} items)"
+  },
+  "typeaheadAriaClear": {
+    "defaultMessage": "Clear button and input",
+    "description": "Clear button and input"
+  },
+  "unitTooltips": {
+    "defaultMessage": "{units, select, byte_ms {{value} Byte-ms} core_hours {{value} core-hours} gb {{value} GB} gb_hours {{value} GB-hours} gb_mo {{value} GB-month} gb_ms {{value} GB-ms} gibibyte_month {{value} GiB-month} hour {{value} hours} hrs {{value} hours} ms {{value} milliseconds} vm_hours {{value} VM-hours} other {{value}}}",
+    "description": "return value and unit based on key: \"units\""
+  },
+  "units": {
+    "defaultMessage": "{units, select, bytes {bytes} cores {cores} ei {Ei} eib {EiB} gi {Gi} gib {GiB} ki {Ki} kib {KiB} mi {Mi} mib {MiB} m {m} millicores {millicores} other {}}",
+    "description": "return the proper unit label based on key: \"units\""
+  },
+  "unitsK8": {
+    "defaultMessage": "{units, select, bytes {bytes} cores {} ei {Ei} eib {Ei} gi {Gi} gib {Gi} ki {Ki} kib {Ki} mi {Mi} mib {Mi} m {m} millicores {m} other {}}",
+    "description": "return the Kubernetes unit label based on key: \"units\""
+  },
+  "usage": {
+    "defaultMessage": "Usage",
+    "description": "Usage"
+  },
+  "valueUnits": {
+    "defaultMessage": "{value} {units}",
+    "description": "{value} {units}"
+  },
+  "visualInsights": {
+    "defaultMessage": "Visual Insights",
+    "description": "Visual Insights section title"
+  },
+  "visualInsightsCpuThrottleEmpty": {
+    "defaultMessage": "No CPU throttling detected",
+    "description": "Empty state for CPU throttle chart"
+  },
+  "visualInsightsCpuThrottleMax": {
+    "defaultMessage": "Throttle (max)",
+    "description": "Legend label for CPU throttle max line"
+  },
+  "visualInsightsCpuThrottleP95": {
+    "defaultMessage": "Throttle (p95)",
+    "description": "Legend label for CPU throttle p95 area"
+  },
+  "visualInsightsCpuThrottleTrend": {
+    "defaultMessage": "CPU Throttle Trend",
+    "description": "CPU Throttle Trend chart title"
+  },
+  "visualInsightsCpuUsageP95": {
+    "defaultMessage": "CPU Usage (p95)",
+    "description": "Legend label for CPU usage p95 overlay line"
+  },
+  "visualInsightsGpuPeakHoursRadarTitle": {
+    "defaultMessage": "Peak hours GPU subsystem utilization",
+    "description": "Title for the Peak hours GPU subsystem utilization radar chart"
+  },
+  "visualInsightsGpuPeakHoursSectionTitle": {
+    "defaultMessage": "Peak hours GPU utilization",
+    "description": "Section title for Peak hours GPU radar and VRAM charts"
+  },
+  "visualInsightsGpuRadarAxisDram": {
+    "defaultMessage": "DRAM Bandwidth",
+    "description": "Radar chart axis label for DRAM bandwidth activity"
+  },
+  "visualInsightsGpuRadarAxisSm": {
+    "defaultMessage": "SM Activity",
+    "description": "Radar chart axis label for streaming multiprocessor activity"
+  },
+  "visualInsightsGpuRadarAxisTensor": {
+    "defaultMessage": "Tensor Core",
+    "description": "Radar chart axis label for tensor core pipeline activity"
+  },
+  "visualInsightsGpuRadarAxisVram": {
+    "defaultMessage": "VRAM Usage",
+    "description": "Radar chart axis label for VRAM (frame buffer) usage"
+  },
+  "visualInsightsGpuRadarDesc": {
+    "defaultMessage": "Radar chart showing SM activity, tensor core activity, DRAM bandwidth, and VRAM usage as percentages",
+    "description": "Accessible description for the GPU subsystem utilization radar chart"
+  },
+  "visualInsightsGpuRadarSubsystem": {
+    "defaultMessage": "Subsystem",
+    "description": "Column header for subsystem name in the radar chart accessibility table"
+  },
+  "visualInsightsGpuRadarTitle": {
+    "defaultMessage": "GPU Subsystem Utilization",
+    "description": "Title for the GPU subsystem utilization radar chart"
+  },
+  "visualInsightsGpuRadarUtilization": {
+    "defaultMessage": "Utilization",
+    "description": "Column header for utilization percentage in the radar chart accessibility table"
+  },
+  "visualInsightsGpuSectionTitle": {
+    "defaultMessage": "Visual Insights",
+    "description": "Section title for GPU visual insights section on breakdown pages"
+  },
+  "visualInsightsHeatmapAccessCaption": {
+    "defaultMessage": "{entity} hourly {metric} data",
+    "description": "Caption for the screen-reader-only data table"
+  },
+  "visualInsightsHeatmapAccessDay": {
+    "defaultMessage": "Day",
+    "description": "Column header for day-of-week in heatmap accessibility table"
+  },
+  "visualInsightsHeatmapAccessHour": {
+    "defaultMessage": "Hour",
+    "description": "Column header for hour in heatmap accessibility table"
+  },
+  "visualInsightsHeatmapAccessValue": {
+    "defaultMessage": "Value",
+    "description": "Column header for metric value in heatmap accessibility table"
+  },
+  "visualInsightsHeatmapTooltip": {
+    "defaultMessage": "{dayOfWeek} {hour}:00 – {value} {unit}",
+    "description": "Tooltip for a heatmap cell showing day, hour, and value"
+  },
+  "visualInsightsNodeActivityHeatmap": {
+    "defaultMessage": "Activity Heatmap",
+    "description": "Title for the node hourly utilization heatmap chart"
+  },
+  "visualInsightsNodeActivityHeatmapDesc": {
+    "defaultMessage": "Hour-of-day × day-of-week CPU utilization showing workload patterns",
+    "description": "Accessible description for the node utilization heatmap"
+  },
+  "visualInsightsNodeCpuTrendDesc": {
+    "defaultMessage": "Daily CPU utilization as a percentage of allocatable capacity over the selected date range",
+    "description": "Accessible description for the node CPU utilization trend chart"
+  },
+  "visualInsightsNodeCpuTrendTitle": {
+    "defaultMessage": "CPU Utilization Trend",
+    "description": "Title for the node CPU utilization trend chart"
+  },
+  "visualInsightsNodeMemoryTrendDesc": {
+    "defaultMessage": "Daily memory utilization as a percentage of allocatable capacity over the selected date range",
+    "description": "Accessible description for the node memory utilization trend chart"
+  },
+  "visualInsightsNodeMemoryTrendTitle": {
+    "defaultMessage": "Memory Utilization Trend",
+    "description": "Title for the node memory utilization trend chart"
+  },
+  "visualInsightsNodePeakHoursCpuDesc": {
+    "defaultMessage": "Daily P50 and P95 CPU usage in cores during the office window, with the Peak hours recommendation",
+    "description": "Accessible description for the node Peak hours CPU usage chart"
+  },
+  "visualInsightsNodePeakHoursCpuTitle": {
+    "defaultMessage": "Peak hours CPU usage",
+    "description": "Title for the node Peak hours CPU usage chart (absolute cores)"
+  },
+  "visualInsightsNodePeakHoursMemoryDesc": {
+    "defaultMessage": "Daily P50 and P95 memory usage in GiB during the office window, with the Peak hours recommendation",
+    "description": "Accessible description for the node Peak hours memory usage chart"
+  },
+  "visualInsightsNodePeakHoursMemoryTitle": {
+    "defaultMessage": "Peak hours memory usage",
+    "description": "Title for the node Peak hours memory usage chart (absolute GiB)"
+  },
+  "visualInsightsNodePodHeadroomDataAsOf": {
+    "defaultMessage": "Data as of {date}",
+    "description": "Staleness label below the node pod headroom gauge"
+  },
+  "visualInsightsNodePodHeadroomDesc": {
+    "defaultMessage": "Current pod count as a percentage of node pod capacity",
+    "description": "Accessible description for the node pod scheduling headroom donut gauge"
+  },
+  "visualInsightsNodePodHeadroomScheduled": {
+    "defaultMessage": "{percent}% scheduled",
+    "description": "Label shown in the center of the node pod headroom donut gauge"
+  },
+  "visualInsightsNodePodHeadroomTitle": {
+    "defaultMessage": "Pod Scheduling Headroom",
+    "description": "Title for the node pod scheduling headroom donut gauge"
+  },
+  "visualInsightsNodeRequestGapAllocatable": {
+    "defaultMessage": "Allocatable",
+    "description": "Legend label for the allocatable capacity line in node request gap charts"
+  },
+  "visualInsightsNodeRequestGapCpuTitle": {
+    "defaultMessage": "CPU Request vs Usage",
+    "description": "Title for the node CPU request versus usage gap chart"
+  },
+  "visualInsightsNodeRequestGapDesc": {
+    "defaultMessage": "Daily aggregate requests compared to P95 usage, as a percentage of allocatable capacity. The gap indicates overcommitted resources.",
+    "description": "Accessible description for the node request vs usage gap chart"
+  },
+  "visualInsightsNodeRequestGapMemTitle": {
+    "defaultMessage": "Memory Request vs Usage",
+    "description": "Title for the node memory request versus usage gap chart"
+  },
+  "visualInsightsNodeRequestGapRequest": {
+    "defaultMessage": "Requests",
+    "description": "Legend label for the requests line in node request gap charts"
+  },
+  "visualInsightsNodeRequestGapUsage": {
+    "defaultMessage": "P95 usage",
+    "description": "Legend label for the P95 usage line in node request gap charts"
+  },
+  "visualInsightsNodeTrendMax": {
+    "defaultMessage": "Max utilization",
+    "description": "Legend label for max utilization line in node trend charts"
+  },
+  "visualInsightsNodeTrendP50": {
+    "defaultMessage": "P50 utilization",
+    "description": "Legend label for P50 (median) utilization line in node trend charts"
+  },
+  "visualInsightsNodeTrendP95": {
+    "defaultMessage": "P95 utilization",
+    "description": "Legend label for P95 utilization line in node trend charts"
+  },
+  "visualInsightsNodeTrendThreshold": {
+    "defaultMessage": "Target utilization ({pct}%)",
+    "description": "Legend label for the target utilization threshold line in node trend charts, with dynamic percentage"
+  },
+  "visualInsightsOomTimeline": {
+    "defaultMessage": "OOM Event Timeline",
+    "description": "OOM Event Timeline chart title"
+  },
+  "visualInsightsOomTimelineEmpty": {
+    "defaultMessage": "No OOM events detected in this period",
+    "description": "Empty state for OOM timeline chart"
+  },
+  "visualInsightsOomTimelineError": {
+    "defaultMessage": "Could not load OOM event data",
+    "description": "Error state for OOM timeline chart — a failed fetch is shown, not treated as no data (#696)"
+  },
+  "visualInsightsOomTimelineTooltip": {
+    "defaultMessage": "{date}: {count, plural, one {{count} OOM kill} other {{count} OOM kills}}",
+    "description": "Tooltip for OOM timeline scatter point"
+  },
+  "visualInsightsPeakHoursChartCaption": {
+    "defaultMessage": "This series excludes hours outside the office window, including overnight windows.",
+    "description": "Caption under Peak hours usage charts on node, VM, GPU, and container/namespace utilization"
+  },
+  "visualInsightsPeakHoursP50Usage": {
+    "defaultMessage": "P50 usage",
+    "description": "Legend label for P50 usage on Peak hours node charts"
+  },
+  "visualInsightsPeakHoursSectionTitle": {
+    "defaultMessage": "Peak hours usage",
+    "description": "Section title for Peak hours utilization charts in Visual Insights"
+  },
+  "visualInsightsPvcUtilizationDataAsOf": {
+    "defaultMessage": "Data as of {date}",
+    "description": "Staleness label below the PVC utilization gauge"
+  },
+  "visualInsightsPvcUtilizationDesc": {
+    "defaultMessage": "Current PVC usage as a percentage of provisioned capacity",
+    "description": "Accessible description for the PVC utilization donut gauge"
+  },
+  "visualInsightsPvcUtilizationTitle": {
+    "defaultMessage": "PVC Utilization",
+    "description": "Title for the PVC utilization donut gauge"
+  },
+  "visualInsightsPvcUtilizationUsed": {
+    "defaultMessage": "{percent}% used",
+    "description": "Label shown in the center of the PVC utilization donut gauge"
+  },
+  "visualInsightsQuotaTrendCpuDesc": {
+    "defaultMessage": "Daily CPU request quota hard limit vs actual usage in millicores",
+    "description": "Accessible description for the CPU request quota headroom chart"
+  },
+  "visualInsightsQuotaTrendCpuTitle": {
+    "defaultMessage": "CPU Request",
+    "description": "Title for the CPU request quota headroom trend chart"
+  },
+  "visualInsightsQuotaTrendEmpty": {
+    "defaultMessage": "No quota trend data available for this period",
+    "description": "Empty state when no quota trend data exists"
+  },
+  "visualInsightsQuotaTrendError": {
+    "defaultMessage": "Unable to load quota trend data",
+    "description": "Error state when the quota trend API call fails"
+  },
+  "visualInsightsQuotaTrendHardLimit": {
+    "defaultMessage": "Hard limit",
+    "description": "Legend label for the quota hard limit line in headroom charts"
+  },
+  "visualInsightsQuotaTrendMemoryDesc": {
+    "defaultMessage": "Daily memory request quota hard limit vs actual usage",
+    "description": "Accessible description for the memory request quota headroom chart"
+  },
+  "visualInsightsQuotaTrendMemoryTitle": {
+    "defaultMessage": "Memory Request",
+    "description": "Title for the memory request quota headroom trend chart"
+  },
+  "visualInsightsQuotaTrendTitle": {
+    "defaultMessage": "Quota Headroom Trend",
+    "description": "Section title for the namespace quota headroom trend charts"
+  },
+  "visualInsightsQuotaTrendUsed": {
+    "defaultMessage": "Used",
+    "description": "Legend label for the actual usage line in headroom charts"
+  },
+  "visualInsightsSnapshotAgeDistribution": {
+    "defaultMessage": "Snapshot Age Distribution",
+    "description": "Title for the snapshot age distribution histogram chart"
+  },
+  "visualInsightsSnapshotAgeDistributionBucketHeader": {
+    "defaultMessage": "Age Range",
+    "description": "Accessible table header for age bucket labels in the snapshot age distribution chart"
+  },
+  "visualInsightsSnapshotAgeDistributionCountHeader": {
+    "defaultMessage": "Count",
+    "description": "Accessible table header for snapshot count in the age distribution chart"
+  },
+  "visualInsightsSnapshotAgeDistributionDesc": {
+    "defaultMessage": "Distribution of volume snapshots by age in days",
+    "description": "Accessible description for the snapshot age distribution chart"
+  },
+  "visualInsightsSnapshotAgeDistributionEmpty": {
+    "defaultMessage": "No snapshot data available",
+    "description": "Empty state when no snapshots exist for the age distribution chart"
+  },
+  "visualInsightsSnapshotAgeDistributionError": {
+    "defaultMessage": "Unable to load snapshot age distribution",
+    "description": "Error state when the snapshot age distribution API call fails"
+  },
+  "visualInsightsSnapshotAgeDistributionTooltip": {
+    "defaultMessage": "{label}: {count, plural, one {{count} snapshot} other {{count} snapshots}}",
+    "description": "Tooltip for a bar in the snapshot age distribution chart"
+  },
+  "visualInsightsSnapshotAgeDistributionYAxis": {
+    "defaultMessage": "Snapshot Count",
+    "description": "Y-axis label for the snapshot age distribution chart"
+  },
+  "visualInsightsSnapshotCostByType": {
+    "defaultMessage": "Snapshot Cost by Type",
+    "description": "Title for the snapshot cost-by-type donut chart"
+  },
+  "visualInsightsSnapshotCostByTypeDesc": {
+    "defaultMessage": "Proportional breakdown of snapshot storage cost by recommendation type",
+    "description": "Accessible description for the snapshot cost-by-type donut chart"
+  },
+  "visualInsightsSnapshotCostByTypeEmpty": {
+    "defaultMessage": "No snapshot cost data available",
+    "description": "Empty state when no snapshot cost data exists"
+  },
+  "visualInsightsSnapshotCostByTypeError": {
+    "defaultMessage": "Unable to load snapshot cost data",
+    "description": "Error state when the snapshot cost-by-type API call fails"
+  },
+  "visualInsightsSnapshotCostByTypeTooltip": {
+    "defaultMessage": "{type}: {cost} ({count, plural, one {{count} snapshot} other {{count} snapshots}})",
+    "description": "Tooltip for a segment in the snapshot cost-by-type donut chart"
+  },
+  "visualInsightsVmActivityHeatmap": {
+    "defaultMessage": "Activity Heatmap",
+    "description": "Title for the VM hourly activity heatmap chart"
+  },
+  "visualInsightsVmActivityHeatmapDesc": {
+    "defaultMessage": "Hour-of-day × day-of-week CPU utilization revealing idle periods",
+    "description": "Accessible description for the VM activity heatmap"
+  },
+  "visualInsightsVmActivityHeatmapEmpty": {
+    "defaultMessage": "No hourly activity data available. Hourly granularity requires live metric collection from the cluster operator and is not included in historical data imports.",
+    "description": "Empty state when no hourly VM/node data is available"
+  },
+  "visualInsightsVmCpuTrendDesc": {
+    "defaultMessage": "Daily p95 CPU usage in cores with recommended threshold over the observation window",
+    "description": "Accessible description for the VM CPU utilization trend chart"
+  },
+  "visualInsightsVmCpuTrendTitle": {
+    "defaultMessage": "CPU Utilization Trend",
+    "description": "Title for the VM CPU utilization trend line chart"
+  },
+  "visualInsightsVmDiskIo": {
+    "defaultMessage": "Disk I/O Trends",
+    "description": "Title for the VM disk I/O visual insights section"
+  },
+  "visualInsightsVmIoEmpty": {
+    "defaultMessage": "No I/O data available for this period",
+    "description": "Empty state when all VM I/O values are null or zero"
+  },
+  "visualInsightsVmIoRead": {
+    "defaultMessage": "Read",
+    "description": "Legend label for disk read series in I/O sparklines"
+  },
+  "visualInsightsVmIoWrite": {
+    "defaultMessage": "Write",
+    "description": "Legend label for disk write series in I/O sparklines"
+  },
+  "visualInsightsVmIopsDesc": {
+    "defaultMessage": "Daily p95 disk read and write IOPS over the observation period",
+    "description": "Accessible description for the IOPS sparkline chart"
+  },
+  "visualInsightsVmIopsTitle": {
+    "defaultMessage": "IOPS (p95)",
+    "description": "Title for the IOPS sparkline chart"
+  },
+  "visualInsightsVmMemoryTrendDesc": {
+    "defaultMessage": "Daily p95 memory usage in GiB with recommended threshold over the observation window",
+    "description": "Accessible description for the VM memory utilization trend chart"
+  },
+  "visualInsightsVmMemoryTrendTitle": {
+    "defaultMessage": "Memory Utilization Trend",
+    "description": "Title for the VM memory utilization trend line chart"
+  },
+  "visualInsightsVmPeakHoursCpuTitle": {
+    "defaultMessage": "Peak hours CPU usage",
+    "description": "Title for the VM Peak hours CPU utilization trend"
+  },
+  "visualInsightsVmPeakHoursMemoryTitle": {
+    "defaultMessage": "Peak hours memory usage",
+    "description": "Title for the VM Peak hours memory utilization trend"
+  },
+  "visualInsightsVmSizingDesc": {
+    "defaultMessage": "Comparison of current vs recommended vCPU and memory allocation",
+    "description": "Accessible description for the VM resource sizing chart"
+  },
+  "visualInsightsVmSizingMemoryGib": {
+    "defaultMessage": "Memory GiB",
+    "description": "X-axis group label for memory in the VM sizing chart"
+  },
+  "visualInsightsVmSizingResourceMetric": {
+    "defaultMessage": "Resource Metric",
+    "description": "X-axis label for the VM resource sizing chart"
+  },
+  "visualInsightsVmSizingSavings": {
+    "defaultMessage": "Estimated monthly savings: {amount} ({percent}% reduction)",
+    "description": "Savings callout below the VM resource sizing chart"
+  },
+  "visualInsightsVmSizingTitle": {
+    "defaultMessage": "VM Resource Sizing",
+    "description": "Title for the VM resource sizing grouped bar chart"
+  },
+  "visualInsightsVmSizingVcpu": {
+    "defaultMessage": "vCPU",
+    "description": "X-axis group label for vCPU in the VM sizing chart"
+  },
+  "visualInsightsVmThroughputDesc": {
+    "defaultMessage": "Daily p95 disk read and write throughput over the observation period",
+    "description": "Accessible description for the throughput sparkline chart"
+  },
+  "visualInsightsVmThroughputTitle": {
+    "defaultMessage": "Throughput (p95)",
+    "description": "Title for the throughput sparkline chart"
+  },
+  "visualInsightsVmTrendP95Usage": {
+    "defaultMessage": "P95 usage",
+    "description": "Legend label for p95 usage trend line in VM utilization charts"
+  },
+  "visualInsightsVmTrendRecommended": {
+    "defaultMessage": "Recommended",
+    "description": "Legend label for recommended threshold reference line in VM utilization charts"
+  },
+  "visualInsightsVmUtilizationTrends": {
+    "defaultMessage": "Utilization Trends",
+    "description": "Section title for the VM CPU and memory utilization trend charts"
+  },
+  "visualInsightsVramUtilizationDesc": {
+    "defaultMessage": "Peak GPU frame buffer usage as a percentage of total VRAM capacity",
+    "description": "Accessible description for the GPU VRAM utilization donut gauge"
+  },
+  "visualInsightsVramUtilizationSubtitle": {
+    "defaultMessage": "{usage} / {capacity} MiB",
+    "description": "Subtitle below the VRAM utilization gauge showing usage vs capacity"
+  },
+  "visualInsightsVramUtilizationTitle": {
+    "defaultMessage": "VRAM Utilization",
+    "description": "Title for the GPU VRAM utilization donut gauge"
+  },
+  "visualInsightsVramUtilizationUsed": {
+    "defaultMessage": "{percent}% used",
+    "description": "Label shown in the center of the VRAM utilization donut gauge"
+  },
+  "vmFilterCategory": {
+    "defaultMessage": "Category",
+    "description": "VM filter label for the category multi-select dropdown"
+  },
+  "vmFilterGuestOs": {
+    "defaultMessage": "Guest OS",
+    "description": "VM filter label for guest_os"
+  },
+  "vmFilterIsAbandoned": {
+    "defaultMessage": "Is abandoned",
+    "description": "VM filter label for is_abandoned boolean"
+  },
+  "vmFilterIsIdle": {
+    "defaultMessage": "Is idle",
+    "description": "VM filter label for is_idle boolean"
+  },
+  "vmFilterIsNetworkBound": {
+    "defaultMessage": "Is network bound",
+    "description": "VM filter label for is_network_bound boolean"
+  },
+  "vmFilterIsOversized": {
+    "defaultMessage": "Is oversized",
+    "description": "VM filter label for is_oversized boolean"
+  },
+  "vmFilterIsPowerOffCandidate": {
+    "defaultMessage": "Power-off candidate",
+    "description": "VM filter label for is_power_off_candidate boolean"
+  },
+  "vmMetadataFlagsTitle": {
+    "defaultMessage": "VM classification flags",
+    "description": "Alert title for VM metadata classification flags on breakdown page"
+  },
+  "vmStatusAbandoned": {
+    "defaultMessage": "Abandoned",
+    "description": "VM status badge for abandoned VMs"
+  },
+  "vmStatusIdle": {
+    "defaultMessage": "Idle",
+    "description": "VM status badge for idle VMs"
+  },
+  "vmStatusOk": {
+    "defaultMessage": "OK",
+    "description": "VM status badge for healthy VMs (deprecated, use vmStatusOptimized)"
+  },
+  "vmStatusOptimized": {
+    "defaultMessage": "Optimized",
+    "description": "VM status badge for optimally sized VMs"
+  },
+  "vmStatusOversized": {
+    "defaultMessage": "Oversized",
+    "description": "VM status badge for oversized VMs"
+  },
+  "vmStatusPowerOff": {
+    "defaultMessage": "Power-off candidate",
+    "description": "VM status badge for power-off candidate VMs"
+  },
+  "vmStatusUndersized": {
+    "defaultMessage": "Undersized",
+    "description": "VM status badge for undersized VMs needing more resources"
+  },
+  "wasteEstimatedMonthly": {
+    "defaultMessage": "Estimated monthly waste",
+    "description": "Label for estimated monthly waste column"
+  },
+  "welcomeInfo": {
+    "defaultMessage": "For more information visit {url}",
+    "description": "more information url"
+  },
+  "welcomeTitle": {
+    "defaultMessage": "Cost Management ROS UI",
+    "description": "Cost Management ROS UI"
+  },
+  "yes": {
+    "defaultMessage": "Yes",
+    "description": "Yes"
+  }
 }

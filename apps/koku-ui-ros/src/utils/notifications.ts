@@ -1,9 +1,4 @@
-import type {
-  Notification,
-  RecommendationEngine,
-  Recommendations,
-  RecommendationTerm,
-} from 'api/ros/recommendations';
+import type { Notification, RecommendationEngine, Recommendations, RecommendationTerm } from 'api/ros/recommendations';
 import { Interval, OptimizationType } from 'utils/commonTypes';
 
 // Filter notifications (e.g., optimized notices) that should not be associated with a warning icon
@@ -146,4 +141,34 @@ export const isIntervalOptimized = (
     }
   });
   return cpuLimitsOptimised && cpuRequestsOptimised && memoryRequestsOptimised && memoryLimitsOptimised;
+};
+
+// Returns the row's warning-worthy notification codes (#879 tooltip source):
+// the slim notification_codes array when present, else codes collected from
+// the nested per-engine notifications (legacy shape) — mirroring
+// hasNotificationsWarning's source logic so the list is non-empty whenever
+// the icon renders. Optimized-only notices are dropped when filtering
+// (the list-table icon rule).
+export const getWarningNotificationCodes = (
+  recommendations: Recommendations,
+  isFilterNotifications = false
+): number[] => {
+  if (!recommendations) {
+    return [];
+  }
+  let codes: number[];
+  if (recommendations.notification_codes?.length) {
+    codes = [...recommendations.notification_codes];
+  } else {
+    const notifications = filterDuplicateNotifications([
+      ...getNotifications(recommendations, Interval.short_term, OptimizationType.cost, false),
+      ...getNotifications(recommendations, Interval.short_term, OptimizationType.performance, false),
+      ...getNotifications(recommendations, Interval.medium_term, OptimizationType.cost, false),
+      ...getNotifications(recommendations, Interval.medium_term, OptimizationType.performance, false),
+      ...getNotifications(recommendations, Interval.long_term, OptimizationType.cost, false),
+      ...getNotifications(recommendations, Interval.long_term, OptimizationType.performance, false),
+    ]);
+    codes = notifications.map(notification => notification.code);
+  }
+  return isFilterNotifications ? codes.filter(code => !OPTIMIZED_NOTIFICATION_CODES.has(code)) : codes;
 };

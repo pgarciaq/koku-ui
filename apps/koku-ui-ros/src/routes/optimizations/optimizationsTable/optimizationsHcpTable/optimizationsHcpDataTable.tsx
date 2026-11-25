@@ -1,8 +1,8 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { Icon, Tooltip } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
+import { Tooltip } from '@patternfly/react-core';
 import type { RecommendationReport } from 'api/ros/recommendations';
+import { NotificationWarningIcon } from 'components/notificationWarningIcon';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -13,7 +13,6 @@ import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noO
 import { formatSavingsCellValue } from 'routes/optimizations/optimizationsTable/savingsCellUtils';
 import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { getTimeFromNow } from 'utils/dates';
-import { hasNotificationsWarning } from 'utils/notifications';
 
 import { OptimizationStateCell } from '../optimizationStateCell';
 import { RecommendationTagsLink } from '../recommendationTagsLink';
@@ -226,7 +225,6 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
       const namespace = item.project ?? '';
       const container = item.container ?? '';
       const lastReported = getTimeFromNow(item.last_reported);
-      const showWarningIcon = hasNotificationsWarning(item?.recommendations, true);
       // API-decided facts (#695): incomplete only fires for
       // evidenced-but-unassociated rows; management is the CLUSTER-level
       // topology class — hosted-scope rows on a management cluster carry it
@@ -324,13 +322,11 @@ const OptimizationsHcpDataTable: React.FC<OptimizationsHcpDataTableProps> = ({
                 ) : (
                   cluster
                 )}
-                {showWarningIcon && (
-                  <span style={styles.warningIcon}>
-                    <Icon status="warning">
-                      <ExclamationTriangleIcon />
-                    </Icon>
-                  </span>
-                )}
+                <NotificationWarningIcon
+                  recommendations={item?.recommendations}
+                  isFilterNotifications
+                  style={styles.warningIcon}
+                />
               </>
             ),
             hidden: isClusterHidden,

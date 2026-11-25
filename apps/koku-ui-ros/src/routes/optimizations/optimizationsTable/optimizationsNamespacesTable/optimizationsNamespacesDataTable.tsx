@@ -1,8 +1,8 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { Icon, Tooltip } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
+import { Tooltip } from '@patternfly/react-core';
 import type { RecommendationReport } from 'api/ros/recommendations';
+import { NotificationWarningIcon } from 'components/notificationWarningIcon';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -13,11 +13,10 @@ import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noO
 import { formatSavingsCellValue } from 'routes/optimizations/optimizationsTable/savingsCellUtils';
 import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { getTimeFromNow } from 'utils/dates';
-import { hasNotificationsWarning } from 'utils/notifications';
 
-import { getRequestProps } from '../utils';
 import { OptimizationStateCell } from '../optimizationStateCell';
 import { RecommendationTagsLink } from '../recommendationTagsLink';
+import { getRequestProps } from '../utils';
 
 interface OptimizationsNamespacesDataTableOwnProps {
   breadcrumbLabel?: string;
@@ -152,7 +151,6 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
       const cluster = item.cluster_alias ?? item.cluster_uuid ?? '';
       const namespace = item.project ?? '';
       const lastReported = getTimeFromNow(item.last_reported);
-      const showWarningIcon = hasNotificationsWarning(item?.recommendations, true);
 
       const optimizationsBreakdownPath = getOptimizationsBreakdownPath({
         basePath: linkPath,
@@ -170,10 +168,7 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
       const isIdleOrZombie = category === 'idle' || category === 'zombie';
       const potentialSavingsSource = isIdleOrZombie ? waste : savings;
       const potentialSavingsCell = (() => {
-        const formatted = formatSavingsCellValue(
-          potentialSavingsSource?.value,
-          potentialSavingsSource?.units
-        );
+        const formatted = formatSavingsCellValue(potentialSavingsSource?.value, potentialSavingsSource?.units);
         if (formatted != null) {
           return formatted;
         }
@@ -212,13 +207,11 @@ const OptimizationsNamespacesDataTable: React.FC<OptimizationsNamespacesDataTabl
                 ) : (
                   cluster
                 )}
-                {showWarningIcon && (
-                  <span style={styles.warningIcon}>
-                    <Icon status="warning">
-                      <ExclamationTriangleIcon />
-                    </Icon>
-                  </span>
-                )}
+                <NotificationWarningIcon
+                  recommendations={item?.recommendations}
+                  isFilterNotifications
+                  style={styles.warningIcon}
+                />
               </>
             ),
             hidden: isClusterHidden,

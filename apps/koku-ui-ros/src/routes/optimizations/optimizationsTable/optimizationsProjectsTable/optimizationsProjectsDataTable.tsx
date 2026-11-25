@@ -1,8 +1,7 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { Icon } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { RecommendationReport } from 'api/ros/recommendations';
+import { NotificationWarningIcon } from 'components/notificationWarningIcon';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -12,7 +11,6 @@ import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
 import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { getTimeFromNow } from 'utils/dates';
-import { hasNotificationsWarning } from 'utils/notifications';
 
 import { getRequestProps } from '../utils';
 
@@ -128,7 +126,6 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
       const container = item.container ?? '';
       const lastReported = getTimeFromNow(item.last_reported);
       const project = item.project ?? '';
-      const showWarningIcon = hasNotificationsWarning(item?.recommendations, true);
 
       const optimizationsBreakdownPath = getOptimizationsBreakdownPath({
         basePath: linkPath,
@@ -153,13 +150,11 @@ const OptimizationsProjectsDataTable: React.FC<OptimizationsProjectTableProps> =
             value: (
               <>
                 {cluster}
-                {showWarningIcon && (
-                  <span style={styles.warningIcon}>
-                    <Icon status="warning">
-                      <ExclamationTriangleIcon />
-                    </Icon>
-                  </span>
-                )}
+                <NotificationWarningIcon
+                  recommendations={item?.recommendations}
+                  isFilterNotifications
+                  style={styles.warningIcon}
+                />
               </>
             ),
           },

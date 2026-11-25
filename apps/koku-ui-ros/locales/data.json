@@ -1964,6 +1964,108 @@
         "value": "SM active avg"
       }
     ],
+    "hcpCapacityIllustrativeOnly": [
+      {
+        "type": 0,
+        "value": "Illustrative only — hosted control planes are not all highly available"
+      }
+    ],
+    "hcpCapacityScenarioAverageQps": [
+      {
+        "type": 0,
+        "value": "Average API load"
+      }
+    ],
+    "hcpCapacityScenarioHighQps": [
+      {
+        "type": 0,
+        "value": "High API load"
+      }
+    ],
+    "hcpCapacityScenarioLowQps": [
+      {
+        "type": 0,
+        "value": "Low API load"
+      }
+    ],
+    "hcpCapacityScenarioMediumQps": [
+      {
+        "type": 0,
+        "value": "Medium API load"
+      }
+    ],
+    "hcpCapacityScenarioRequest": [
+      {
+        "type": 0,
+        "value": "Request-based"
+      }
+    ],
+    "hcpCapacitySourceVersions": [
+      {
+        "type": 0,
+        "value": "OCP "
+      },
+      {
+        "type": 1,
+        "value": "ocp"
+      },
+      {
+        "type": 0,
+        "value": " · operator "
+      },
+      {
+        "type": 1,
+        "value": "operator"
+      }
+    ],
+    "hcpCapacityWarningBelowFloor": [
+      {
+        "type": 0,
+        "value": "OCP version is below the documented 4.17 floor"
+      }
+    ],
+    "hcpCapacityWarningInventoryIncomplete": [
+      {
+        "type": 0,
+        "value": "Hosted-cluster inventory incomplete — headroom unavailable"
+      }
+    ],
+    "hcpCapacityWarningMceStale": [
+      {
+        "type": 0,
+        "value": "MCE references may be stale"
+      }
+    ],
+    "hcpCapacityWarningPlacementUnknown": [
+      {
+        "type": 0,
+        "value": "Worker placement unknown — no native estimate"
+      }
+    ],
+    "hcpCapacityWarningPressureUnknown": [
+      {
+        "type": 0,
+        "value": "Node pressure unknown"
+      }
+    ],
+    "hcpCapacityWarningPressured": [
+      {
+        "type": 0,
+        "value": "Node pressure detected — exact headroom withheld"
+      }
+    ],
+    "hcpCapacityWarningSharedInfrastructure": [
+      {
+        "type": 0,
+        "value": "Compact topology — control planes share the worker infrastructure; estimates may overstate dedicated capacity"
+      }
+    ],
+    "hcpCapacityWarningStale": [
+      {
+        "type": 0,
+        "value": "Snapshot is stale"
+      }
+    ],
     "hcpGroupBy": [
       {
         "type": 0,
@@ -1988,6 +2090,12 @@
         "value": "Incomplete"
       }
     ],
+    "hcpOverheadContainersLink": [
+      {
+        "type": 0,
+        "value": "Full cluster view under Containers"
+      }
+    ],
     "hcpSubHosted": [
       {
         "type": 0,
@@ -2000,10 +2108,16 @@
         "value": "Management overhead"
       }
     ],
-    "hcpTabSubtitle": [
+    "hcpTabSubtitleHosted": [
       {
         "type": 0,
-        "value": "Control-plane rightsizing on management clusters: per-hosted-cluster attribution, plus shared management overhead."
+        "value": "Control-plane rightsizing, attributed per hosted cluster; unassociated rows are flagged."
+      }
+    ],
+    "hcpTabSubtitleOverhead": [
+      {
+        "type": 0,
+        "value": "Rightsizing for the management cluster's own platform namespaces — MCE, monitoring stack, and other shared overhead."
       }
     ],
     "historyAllEngines": [
@@ -2875,6 +2989,540 @@
       {
         "type": 0,
         "value": "Optimizations may not be configured"
+      }
+    ],
+    "notificationCode1": [
+      {
+        "type": 0,
+        "value": "Short history / low confidence"
+      }
+    ],
+    "notificationCode10": [
+      {
+        "type": 0,
+        "value": "GPU underutilized"
+      }
+    ],
+    "notificationCode11": [
+      {
+        "type": 0,
+        "value": "Node underutilized"
+      }
+    ],
+    "notificationCode12": [
+      {
+        "type": 0,
+        "value": "Node overcommitted (requests ≫ allocatable)"
+      }
+    ],
+    "notificationCode13": [
+      {
+        "type": 0,
+        "value": "CPU/memory imbalance on node"
+      }
+    ],
+    "notificationCode14": [
+      {
+        "type": 0,
+        "value": "Autoscaler at maxReplicas"
+      }
+    ],
+    "notificationCode15": [
+      {
+        "type": 0,
+        "value": "Node idle or zombie"
+      }
+    ],
+    "notificationCode16": [
+      {
+        "type": 0,
+        "value": "Autoscaler flapping"
+      }
+    ],
+    "notificationCode17": [
+      {
+        "type": 0,
+        "value": "No autoscaler on variable load"
+      }
+    ],
+    "notificationCode18": [
+      {
+        "type": 0,
+        "value": "VM idle"
+      }
+    ],
+    "notificationCode19": [
+      {
+        "type": 0,
+        "value": "VM oversized"
+      }
+    ],
+    "notificationCode2": [
+      {
+        "type": 0,
+        "value": "Stale metrics (cluster stopped reporting)"
+      }
+    ],
+    "notificationCode20": [
+      {
+        "type": 0,
+        "value": "PVC orphaned (zero usage)"
+      }
+    ],
+    "notificationCode21": [
+      {
+        "type": 0,
+        "value": "HPA at maxReplicas"
+      }
+    ],
+    "notificationCode22": [
+      {
+        "type": 0,
+        "value": "HPA-managed workload"
+      }
+    ],
+    "notificationCode23": [
+      {
+        "type": 0,
+        "value": "Instance type not in catalog"
+      }
+    ],
+    "notificationCode24": [
+      {
+        "type": 0,
+        "value": "Deprecated instance type"
+      }
+    ],
+    "notificationCode25": [
+      {
+        "type": 0,
+        "value": "No cost data"
+      }
+    ],
+    "notificationCode26": [
+      {
+        "type": 0,
+        "value": "GPU idle"
+      }
+    ],
+    "notificationCode27": [
+      {
+        "type": 0,
+        "value": "GPU memory-bound"
+      }
+    ],
+    "notificationCode28": [
+      {
+        "type": 0,
+        "value": "No profiling data"
+      }
+    ],
+    "notificationCode29": [
+      {
+        "type": 0,
+        "value": "PVC oversized"
+      }
+    ],
+    "notificationCode3": [
+      {
+        "type": 0,
+        "value": "OOM kills in window"
+      }
+    ],
+    "notificationCode30": [
+      {
+        "type": 0,
+        "value": "PVC near full"
+      }
+    ],
+    "notificationCode31": [
+      {
+        "type": 0,
+        "value": "Source PVC deleted"
+      }
+    ],
+    "notificationCode32": [
+      {
+        "type": 0,
+        "value": "Never restored"
+      }
+    ],
+    "notificationCode33": [
+      {
+        "type": 0,
+        "value": "Newer snapshot exists"
+      }
+    ],
+    "notificationCode34": [
+      {
+        "type": 0,
+        "value": "Stale snapshot"
+      }
+    ],
+    "notificationCode35": [
+      {
+        "type": 0,
+        "value": "Backup-tool managed"
+      }
+    ],
+    "notificationCode36": [
+      {
+        "type": 0,
+        "value": "GPU time-slicing candidate"
+      }
+    ],
+    "notificationCode37": [
+      {
+        "type": 0,
+        "value": "Disk growing (no guest capacity data)"
+      }
+    ],
+    "notificationCode38": [
+      {
+        "type": 0,
+        "value": "No guest agent"
+      }
+    ],
+    "notificationCode39": [
+      {
+        "type": 0,
+        "value": "High disk I/O"
+      }
+    ],
+    "notificationCode4": [
+      {
+        "type": 0,
+        "value": "PDB caveat for MachineSet"
+      }
+    ],
+    "notificationCode40": [
+      {
+        "type": 0,
+        "value": "Filesystem filling (< 90 days)"
+      }
+    ],
+    "notificationCode41": [
+      {
+        "type": 0,
+        "value": "Instance type recommended"
+      }
+    ],
+    "notificationCode42": [
+      {
+        "type": 0,
+        "value": "Filesystem > 90% full"
+      }
+    ],
+    "notificationCode43": [
+      {
+        "type": 0,
+        "value": "VM abandoned"
+      }
+    ],
+    "notificationCode44": [
+      {
+        "type": 0,
+        "value": "Guest agent interrupted"
+      }
+    ],
+    "notificationCode45": [
+      {
+        "type": 0,
+        "value": "Insufficient VM metrics"
+      }
+    ],
+    "notificationCode46": [
+      {
+        "type": 0,
+        "value": "Unknown guest OS"
+      }
+    ],
+    "notificationCode47": [
+      {
+        "type": 0,
+        "value": "Windows update spike"
+      }
+    ],
+    "notificationCode48": [
+      {
+        "type": 0,
+        "value": "Frequent restarts"
+      }
+    ],
+    "notificationCode49": [
+      {
+        "type": 0,
+        "value": "Downsize held (performance engine)"
+      }
+    ],
+    "notificationCode5": [
+      {
+        "type": 0,
+        "value": "Idle workload (low % of requests)"
+      }
+    ],
+    "notificationCode50": [
+      {
+        "type": 0,
+        "value": "VM GPU idle"
+      }
+    ],
+    "notificationCode51": [
+      {
+        "type": 0,
+        "value": "VM GPU underutilized"
+      }
+    ],
+    "notificationCode52": [
+      {
+        "type": 0,
+        "value": "VM GPU memory saturated"
+      }
+    ],
+    "notificationCode53": [
+      {
+        "type": 0,
+        "value": "VM GPU compute saturated"
+      }
+    ],
+    "notificationCode54": [
+      {
+        "type": 0,
+        "value": "Mixed idle/active GPUs"
+      }
+    ],
+    "notificationCode55": [
+      {
+        "type": 0,
+        "value": "Network-saturated workload"
+      }
+    ],
+    "notificationCode56": [
+      {
+        "type": 0,
+        "value": "vGPU profile recommended"
+      }
+    ],
+    "notificationCode57": [
+      {
+        "type": 0,
+        "value": "GPU time-slicing unsafe (frame buffer)"
+      }
+    ],
+    "notificationCode58": [
+      {
+        "type": 0,
+        "value": "Sequential I/O pattern"
+      }
+    ],
+    "notificationCode59": [
+      {
+        "type": 0,
+        "value": "Random I/O pattern"
+      }
+    ],
+    "notificationCode6": [
+      {
+        "type": 0,
+        "value": "Prior recommendation appears applied"
+      }
+    ],
+    "notificationCode60": [
+      {
+        "type": 0,
+        "value": "Redundant VMs co-located on same node — consider adding anti-affinity rules"
+      }
+    ],
+    "notificationCode61": [
+      {
+        "type": 0,
+        "value": "Uneven VM distribution across nodes — consider topologySpreadConstraints"
+      }
+    ],
+    "notificationCode62": [
+      {
+        "type": 0,
+        "value": "VM shares storage with other VMs — correlated workload group detected"
+      }
+    ],
+    "notificationCode63": [
+      {
+        "type": 0,
+        "value": "VM memory exceeds single NUMA node capacity — NUMA pinning not possible"
+      }
+    ],
+    "notificationCode64": [
+      {
+        "type": 0,
+        "value": "Periodically idle (power-off schedule)"
+      }
+    ],
+    "notificationCode65": [
+      {
+        "type": 0,
+        "value": "Network-bound — SR-IOV may help"
+      }
+    ],
+    "notificationCode66": [
+      {
+        "type": 0,
+        "value": "Network-bound — DPDK may help"
+      }
+    ],
+    "notificationCode67": [
+      {
+        "type": 0,
+        "value": "Sustained minimal disk I/O"
+      }
+    ],
+    "notificationCode68": [
+      {
+        "type": 0,
+        "value": "Sustained random high IOPS"
+      }
+    ],
+    "notificationCode69": [
+      {
+        "type": 0,
+        "value": "Sustained sequential high throughput"
+      }
+    ],
+    "notificationCode7": [
+      {
+        "type": 0,
+        "value": "< 24h of data"
+      }
+    ],
+    "notificationCode70": [
+      {
+        "type": 0,
+        "value": "ResourceQuota near capacity"
+      }
+    ],
+    "notificationCode71": [
+      {
+        "type": 0,
+        "value": "ResourceQuota oversized"
+      }
+    ],
+    "notificationCode72": [
+      {
+        "type": 0,
+        "value": "ResourceQuota blocking (used equals hard limit)"
+      }
+    ],
+    "notificationCode73": [
+      {
+        "type": 0,
+        "value": "ClusterResourceQuota at capacity"
+      }
+    ],
+    "notificationCode74": [
+      {
+        "type": 0,
+        "value": "Near pod scheduling limit"
+      }
+    ],
+    "notificationCode75": [
+      {
+        "type": 0,
+        "value": "Autoscaler at minReplicas"
+      }
+    ],
+    "notificationCode76": [
+      {
+        "type": 0,
+        "value": "Fleet consolidation (MachineSet)"
+      }
+    ],
+    "notificationCode77": [
+      {
+        "type": 0,
+        "value": "Sparse data (limited observation days)"
+      }
+    ],
+    "notificationCode79": [
+      {
+        "type": 0,
+        "value": "Business-hours node sizing is not peak-safe"
+      }
+    ],
+    "notificationCode8": [
+      {
+        "type": 0,
+        "value": "Abandoned (zero usage 72h+)"
+      }
+    ],
+    "notificationCode80": [
+      {
+        "type": 0,
+        "value": "Business-hours GPU sizing uses the namespace office window"
+      }
+    ],
+    "notificationCode81": [
+      {
+        "type": 0,
+        "value": "Business-hours GPU time-slicing uses the cluster office window"
+      }
+    ],
+    "notificationCode82": [
+      {
+        "type": 0,
+        "value": "Business-hours VM sizing uses the namespace office window"
+      }
+    ],
+    "notificationCode83": [
+      {
+        "type": 0,
+        "value": "Hosted cluster scope — node recommendations cover worker nodes only"
+      }
+    ],
+    "notificationCode84": [
+      {
+        "type": 0,
+        "value": "Infrastructure node — apply via the infra MachineSet template"
+      }
+    ],
+    "notificationCode85": [
+      {
+        "type": 0,
+        "value": "Control-plane node — rightsizing via CPMS rolling update only"
+      }
+    ],
+    "notificationCode86": [
+      {
+        "type": 0,
+        "value": "Unstable container (frequent restarts)"
+      }
+    ],
+    "notificationCode87": [
+      {
+        "type": 0,
+        "value": "Node pressure (kubelet conditions observed)"
+      }
+    ],
+    "notificationCode88": [
+      {
+        "type": 0,
+        "value": "Usage exceeds allocatable capacity — implausible data (#890)"
+      }
+    ],
+    "notificationCode9": [
+      {
+        "type": 0,
+        "value": "Memory trending up"
+      }
+    ],
+    "notificationCodeUnknown": [
+      {
+        "type": 0,
+        "value": "Notification code:"
+      }
+    ],
+    "notificationCodesTooltipTitle": [
+      {
+        "type": 0,
+        "value": "This row has recommendation notices:"
       }
     ],
     "notificationsAlertTitle": [
@@ -5910,6 +6558,12 @@
       {
         "type": 0,
         "value": "No OOM events detected in this period"
+      }
+    ],
+    "visualInsightsOomTimelineError": [
+      {
+        "type": 0,
+        "value": "Could not load OOM event data"
       }
     ],
     "visualInsightsOomTimelineTooltip": [

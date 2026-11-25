@@ -699,6 +699,452 @@ export default defineMessages({
     description: 'Duration based notifications',
     id: 'notificationsAlertTitle',
   },
+  notificationCodesTooltipTitle: {
+    defaultMessage: 'This row has recommendation notices:',
+    description: 'Title above the notification meanings in the row warning icon tooltip (#879)',
+    id: 'notificationCodesTooltipTitle',
+  },
+  notificationCodeUnknown: {
+    defaultMessage: 'Notification code:',
+    description: 'Fallback text for a notification code missing from the tooltip map (#879)',
+    id: 'notificationCodeUnknown',
+  },
+  notificationCode1: {
+    defaultMessage: 'Short history / low confidence',
+    description: 'Notification code 1 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode1',
+  },
+  notificationCode2: {
+    defaultMessage: 'Stale metrics (cluster stopped reporting)',
+    description: 'Notification code 2 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode2',
+  },
+  notificationCode3: {
+    defaultMessage: 'OOM kills in window',
+    description: 'Notification code 3 (CRITICAL) — row warning tooltip (#879)',
+    id: 'notificationCode3',
+  },
+  notificationCode4: {
+    defaultMessage: 'PDB caveat for MachineSet',
+    description: 'Notification code 4 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode4',
+  },
+  notificationCode5: {
+    defaultMessage: 'Idle workload (low % of requests)',
+    description: 'Notification code 5 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode5',
+  },
+  notificationCode6: {
+    defaultMessage: 'Prior recommendation appears applied',
+    description: 'Notification code 6 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode6',
+  },
+  notificationCode7: {
+    defaultMessage: '< 24h of data',
+    description: 'Notification code 7 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode7',
+  },
+  notificationCode8: {
+    defaultMessage: 'Abandoned (zero usage 72h+)',
+    description: 'Notification code 8 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode8',
+  },
+  notificationCode9: {
+    defaultMessage: 'Memory trending up',
+    description: 'Notification code 9 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode9',
+  },
+  notificationCode10: {
+    defaultMessage: 'GPU underutilized',
+    description: 'Notification code 10 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode10',
+  },
+  notificationCode11: {
+    defaultMessage: 'Node underutilized',
+    description: 'Notification code 11 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode11',
+  },
+  notificationCode12: {
+    defaultMessage: 'Node overcommitted (requests ≫ allocatable)',
+    description: 'Notification code 12 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode12',
+  },
+  notificationCode13: {
+    defaultMessage: 'CPU/memory imbalance on node',
+    description: 'Notification code 13 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode13',
+  },
+  notificationCode14: {
+    defaultMessage: 'Autoscaler at maxReplicas',
+    description: 'Notification code 14 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode14',
+  },
+  notificationCode15: {
+    defaultMessage: 'Node idle or zombie',
+    description: 'Notification code 15 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode15',
+  },
+  notificationCode16: {
+    defaultMessage: 'Autoscaler flapping',
+    description: 'Notification code 16 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode16',
+  },
+  notificationCode17: {
+    defaultMessage: 'No autoscaler on variable load',
+    description: 'Notification code 17 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode17',
+  },
+  notificationCode18: {
+    defaultMessage: 'VM idle',
+    description: 'Notification code 18 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode18',
+  },
+  notificationCode19: {
+    defaultMessage: 'VM oversized',
+    description: 'Notification code 19 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode19',
+  },
+  notificationCode20: {
+    defaultMessage: 'PVC orphaned (zero usage)',
+    description: 'Notification code 20 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode20',
+  },
+  notificationCode21: {
+    defaultMessage: 'HPA at maxReplicas',
+    description: 'Notification code 21 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode21',
+  },
+  notificationCode22: {
+    defaultMessage: 'HPA-managed workload',
+    description: 'Notification code 22 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode22',
+  },
+  notificationCode23: {
+    defaultMessage: 'Instance type not in catalog',
+    description: 'Notification code 23 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode23',
+  },
+  notificationCode24: {
+    defaultMessage: 'Deprecated instance type',
+    description: 'Notification code 24 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode24',
+  },
+  notificationCode25: {
+    defaultMessage: 'No cost data',
+    description: 'Notification code 25 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode25',
+  },
+  notificationCode26: {
+    defaultMessage: 'GPU idle',
+    description: 'Notification code 26 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode26',
+  },
+  notificationCode27: {
+    defaultMessage: 'GPU memory-bound',
+    description: 'Notification code 27 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode27',
+  },
+  notificationCode28: {
+    defaultMessage: 'No profiling data',
+    description: 'Notification code 28 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode28',
+  },
+  notificationCode29: {
+    defaultMessage: 'PVC oversized',
+    description: 'Notification code 29 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode29',
+  },
+  notificationCode30: {
+    defaultMessage: 'PVC near full',
+    description: 'Notification code 30 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode30',
+  },
+  notificationCode31: {
+    defaultMessage: 'Source PVC deleted',
+    description: 'Notification code 31 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode31',
+  },
+  notificationCode32: {
+    defaultMessage: 'Never restored',
+    description: 'Notification code 32 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode32',
+  },
+  notificationCode33: {
+    defaultMessage: 'Newer snapshot exists',
+    description: 'Notification code 33 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode33',
+  },
+  notificationCode34: {
+    defaultMessage: 'Stale snapshot',
+    description: 'Notification code 34 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode34',
+  },
+  notificationCode35: {
+    defaultMessage: 'Backup-tool managed',
+    description: 'Notification code 35 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode35',
+  },
+  notificationCode36: {
+    defaultMessage: 'GPU time-slicing candidate',
+    description: 'Notification code 36 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode36',
+  },
+  notificationCode37: {
+    defaultMessage: 'Disk growing (no guest capacity data)',
+    description: 'Notification code 37 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode37',
+  },
+  notificationCode38: {
+    defaultMessage: 'No guest agent',
+    description: 'Notification code 38 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode38',
+  },
+  notificationCode39: {
+    defaultMessage: 'High disk I/O',
+    description: 'Notification code 39 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode39',
+  },
+  notificationCode40: {
+    defaultMessage: 'Filesystem filling (< 90 days)',
+    description: 'Notification code 40 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode40',
+  },
+  notificationCode41: {
+    defaultMessage: 'Instance type recommended',
+    description: 'Notification code 41 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode41',
+  },
+  notificationCode42: {
+    defaultMessage: 'Filesystem > 90% full',
+    description: 'Notification code 42 (CRITICAL) — row warning tooltip (#879)',
+    id: 'notificationCode42',
+  },
+  notificationCode43: {
+    defaultMessage: 'VM abandoned',
+    description: 'Notification code 43 (CRITICAL) — row warning tooltip (#879)',
+    id: 'notificationCode43',
+  },
+  notificationCode44: {
+    defaultMessage: 'Guest agent interrupted',
+    description: 'Notification code 44 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode44',
+  },
+  notificationCode45: {
+    defaultMessage: 'Insufficient VM metrics',
+    description: 'Notification code 45 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode45',
+  },
+  notificationCode46: {
+    defaultMessage: 'Unknown guest OS',
+    description: 'Notification code 46 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode46',
+  },
+  notificationCode47: {
+    defaultMessage: 'Windows update spike',
+    description: 'Notification code 47 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode47',
+  },
+  notificationCode48: {
+    defaultMessage: 'Frequent restarts',
+    description: 'Notification code 48 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode48',
+  },
+  notificationCode49: {
+    defaultMessage: 'Downsize held (performance engine)',
+    description: 'Notification code 49 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode49',
+  },
+  notificationCode50: {
+    defaultMessage: 'VM GPU idle',
+    description: 'Notification code 50 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode50',
+  },
+  notificationCode51: {
+    defaultMessage: 'VM GPU underutilized',
+    description: 'Notification code 51 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode51',
+  },
+  notificationCode52: {
+    defaultMessage: 'VM GPU memory saturated',
+    description: 'Notification code 52 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode52',
+  },
+  notificationCode53: {
+    defaultMessage: 'VM GPU compute saturated',
+    description: 'Notification code 53 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode53',
+  },
+  notificationCode54: {
+    defaultMessage: 'Mixed idle/active GPUs',
+    description: 'Notification code 54 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode54',
+  },
+  notificationCode55: {
+    defaultMessage: 'Network-saturated workload',
+    description: 'Notification code 55 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode55',
+  },
+  notificationCode56: {
+    defaultMessage: 'vGPU profile recommended',
+    description: 'Notification code 56 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode56',
+  },
+  notificationCode57: {
+    defaultMessage: 'GPU time-slicing unsafe (frame buffer)',
+    description: 'Notification code 57 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode57',
+  },
+  notificationCode58: {
+    defaultMessage: 'Sequential I/O pattern',
+    description: 'Notification code 58 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode58',
+  },
+  notificationCode59: {
+    defaultMessage: 'Random I/O pattern',
+    description: 'Notification code 59 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode59',
+  },
+  notificationCode60: {
+    defaultMessage: 'Redundant VMs co-located on same node — consider adding anti-affinity rules',
+    description: 'Notification code 60 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode60',
+  },
+  notificationCode61: {
+    defaultMessage: 'Uneven VM distribution across nodes — consider topologySpreadConstraints',
+    description: 'Notification code 61 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode61',
+  },
+  notificationCode62: {
+    defaultMessage: 'VM shares storage with other VMs — correlated workload group detected',
+    description: 'Notification code 62 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode62',
+  },
+  notificationCode63: {
+    defaultMessage: 'VM memory exceeds single NUMA node capacity — NUMA pinning not possible',
+    description: 'Notification code 63 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode63',
+  },
+  notificationCode64: {
+    defaultMessage: 'Periodically idle (power-off schedule)',
+    description: 'Notification code 64 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode64',
+  },
+  notificationCode65: {
+    defaultMessage: 'Network-bound — SR-IOV may help',
+    description: 'Notification code 65 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode65',
+  },
+  notificationCode66: {
+    defaultMessage: 'Network-bound — DPDK may help',
+    description: 'Notification code 66 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode66',
+  },
+  notificationCode67: {
+    defaultMessage: 'Sustained minimal disk I/O',
+    description: 'Notification code 67 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode67',
+  },
+  notificationCode68: {
+    defaultMessage: 'Sustained random high IOPS',
+    description: 'Notification code 68 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode68',
+  },
+  notificationCode69: {
+    defaultMessage: 'Sustained sequential high throughput',
+    description: 'Notification code 69 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode69',
+  },
+  notificationCode70: {
+    defaultMessage: 'ResourceQuota near capacity',
+    description: 'Notification code 70 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode70',
+  },
+  notificationCode71: {
+    defaultMessage: 'ResourceQuota oversized',
+    description: 'Notification code 71 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode71',
+  },
+  notificationCode72: {
+    defaultMessage: 'ResourceQuota blocking (used equals hard limit)',
+    description: 'Notification code 72 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode72',
+  },
+  notificationCode73: {
+    defaultMessage: 'ClusterResourceQuota at capacity',
+    description: 'Notification code 73 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode73',
+  },
+  notificationCode74: {
+    defaultMessage: 'Near pod scheduling limit',
+    description: 'Notification code 74 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode74',
+  },
+  notificationCode75: {
+    defaultMessage: 'Autoscaler at minReplicas',
+    description: 'Notification code 75 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode75',
+  },
+  notificationCode76: {
+    defaultMessage: 'Fleet consolidation (MachineSet)',
+    description: 'Notification code 76 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode76',
+  },
+  notificationCode77: {
+    defaultMessage: 'Sparse data (limited observation days)',
+    description: 'Notification code 77 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode77',
+  },
+  notificationCode79: {
+    defaultMessage: 'Business-hours node sizing is not peak-safe',
+    description: 'Notification code 79 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode79',
+  },
+  notificationCode80: {
+    defaultMessage: 'Business-hours GPU sizing uses the namespace office window',
+    description: 'Notification code 80 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode80',
+  },
+  notificationCode81: {
+    defaultMessage: 'Business-hours GPU time-slicing uses the cluster office window',
+    description: 'Notification code 81 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode81',
+  },
+  notificationCode82: {
+    defaultMessage: 'Business-hours VM sizing uses the namespace office window',
+    description: 'Notification code 82 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode82',
+  },
+  notificationCode83: {
+    defaultMessage: 'Hosted cluster scope — node recommendations cover worker nodes only',
+    description: 'Notification code 83 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode83',
+  },
+  notificationCode84: {
+    defaultMessage: 'Infrastructure node — apply via the infra MachineSet template',
+    description: 'Notification code 84 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode84',
+  },
+  notificationCode85: {
+    defaultMessage: 'Control-plane node — rightsizing via CPMS rolling update only',
+    description: 'Notification code 85 (INFO) — row warning tooltip (#879)',
+    id: 'notificationCode85',
+  },
+  notificationCode86: {
+    defaultMessage: 'Unstable container (frequent restarts)',
+    description: 'Notification code 86 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode86',
+  },
+  notificationCode87: {
+    defaultMessage: 'Node pressure (kubelet conditions observed)',
+    description: 'Notification code 87 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode87',
+  },
+  notificationCode88: {
+    defaultMessage: 'Usage exceeds allocatable capacity — implausible data (#890)',
+    description: 'Notification code 88 (WARNING) — row warning tooltip (#879)',
+    id: 'notificationCode88',
+  },
+
   openShift: {
     defaultMessage: 'OpenShift',
     description: 'OpenShift',

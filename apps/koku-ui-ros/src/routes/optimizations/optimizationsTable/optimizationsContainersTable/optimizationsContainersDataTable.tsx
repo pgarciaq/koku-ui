@@ -1,8 +1,8 @@
 import 'routes/components/dataTable/dataTable.scss';
 
-import { Icon, Tooltip } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
+import { Tooltip } from '@patternfly/react-core';
 import type { RecommendationReport } from 'api/ros/recommendations';
+import { NotificationWarningIcon } from 'components/notificationWarningIcon';
 import messages from 'locales/messages';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
@@ -12,13 +12,11 @@ import { styles } from 'routes/components/dataTable/dataTable.styles';
 import { NoOptimizationsState } from 'routes/components/page/noOptimizations/noOptimizationsState';
 import { getOptimizationsBreakdownPath } from 'routes/utils/paths';
 import { getTimeFromNow } from 'utils/dates';
-import { hasNotificationsWarning } from 'utils/notifications';
 
-import { getRequestProps } from '../utils';
 import { OptimizationStateCell } from '../optimizationStateCell';
 import { RecommendationTagsLink } from '../recommendationTagsLink';
 import { formatSavingsCellValue } from '../savingsCellUtils';
-
+import { getRequestProps } from '../utils';
 
 interface OptimizationsContainersDataTableOwnProps {
   breadcrumbLabel?: string;
@@ -174,7 +172,6 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
       const project = item.project ?? '';
       const workload = item.workload ?? '';
       const workloadType = item.workload_type ?? '';
-      const showWarningIcon = hasNotificationsWarning(item?.recommendations, true);
 
       const optimizationsBreakdownPath = getOptimizationsBreakdownPath({
         basePath: linkPath,
@@ -248,13 +245,11 @@ const OptimizationsContainersDataTable: React.FC<OptimizationsContainersDataTabl
                 ) : (
                   cluster
                 )}
-                {showWarningIcon && (
-                  <span style={styles.warningIcon}>
-                    <Icon status="warning">
-                      <ExclamationTriangleIcon />
-                    </Icon>
-                  </span>
-                )}
+                <NotificationWarningIcon
+                  recommendations={item?.recommendations}
+                  isFilterNotifications
+                  style={styles.warningIcon}
+                />
               </>
             ),
             hidden: isClusterHidden,

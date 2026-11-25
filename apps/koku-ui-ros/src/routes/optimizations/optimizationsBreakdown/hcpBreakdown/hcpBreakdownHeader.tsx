@@ -1,12 +1,11 @@
-import { Content, ContentVariants, Icon, Label, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
+import { Content, ContentVariants, Label, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import type { RecommendationReportData } from 'api/ros/recommendations';
+import { NotificationWarningIcon } from 'components/notificationWarningIcon';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getTimeFromNow } from 'utils/dates';
-import { hasNotificationsWarning } from 'utils/notifications';
 
 import { styles } from '../optimizationsBreakdownHeader.styles';
 import { RecommendationIdMetadata } from '../RecommendationIdMetadata';
@@ -27,7 +26,6 @@ const HcpBreakdownHeader: React.FC<HcpBreakdownHeaderProps> = ({
   report,
 }) => {
   const intl = useIntl();
-  const showWarningIcon = hasNotificationsWarning(report?.recommendations);
 
   const getBackToLink = () => {
     return (
@@ -120,13 +118,7 @@ const HcpBreakdownHeader: React.FC<HcpBreakdownHeaderProps> = ({
         <Title headingLevel="h1" size={TitleSizes['2xl']}>
           {title}
         </Title>
-        {showWarningIcon && (
-          <span style={styles.warningIcon}>
-            <Icon status="warning">
-              <ExclamationTriangleIcon />
-            </Icon>
-          </span>
-        )}
+        <NotificationWarningIcon recommendations={report?.recommendations} style={styles.warningIcon} />
       </div>
       <div style={styles.description}>{getDescription()}</div>
     </header>

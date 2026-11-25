@@ -1,19 +1,17 @@
-import { Content, ContentVariants, Icon, Label, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
+import { Content, ContentVariants, Label, Title, TitleSizes, Tooltip } from '@patternfly/react-core';
 import { CheckCircleIcon } from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
-import { ExclamationTriangleIcon } from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
 import type { RecommendationReportData } from 'api/ros/recommendations';
+import { NotificationWarningIcon } from 'components/notificationWarningIcon';
 import messages from 'locales/messages';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { getTimeFromNow } from 'utils/dates';
 import { getContainerRecommendationId } from 'utils/recommendationIds';
-import { hasNotificationsWarning } from 'utils/notifications';
-
-import { RecommendationIdMetadata } from './RecommendationIdMetadata';
 
 import { styles } from './optimizationsBreakdownHeader.styles';
 import { OptimizationsBreakdownProjectLink } from './optimizationsBreakdownProjectLink';
+import { RecommendationIdMetadata } from './RecommendationIdMetadata';
 
 interface OptimizationsBreakdownHeaderOwnProps {
   breadcrumbLabel?: string;
@@ -33,7 +31,6 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
   report,
 }) => {
   const intl = useIntl();
-  const showWarningIcon = hasNotificationsWarning(report?.recommendations);
 
   const getBackToLink = () => {
     return (
@@ -54,9 +51,10 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
     const workloadType = report?.workload_type ? report.workload_type : '';
 
     const savings = report?.recommendations?.estimated_monthly_savings;
-    const savingsDisplay = savings?.value != null
-      ? `$${Number(savings.value).toFixed(2)} ${savings.units ?? 'USD'}`
-      : intl.formatMessage(messages.savingsNotAvailable);
+    const savingsDisplay =
+      savings?.value != null
+        ? `$${Number(savings.value).toFixed(2)} ${savings.units ?? 'USD'}`
+        : intl.formatMessage(messages.savingsNotAvailable);
 
     const replicas = report?.recommendations?.replicas;
     const monitoringEndTime = report?.recommendations?.monitoring_end_time;
@@ -67,7 +65,9 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
       }
       return (
         <Tooltip content={intl.formatMessage(messages.replicaNoDataTooltip)}>
-          <span tabIndex={0} style={{ cursor: 'default', borderBottom: '1px dotted' }}>—</span>
+          <span tabIndex={0} style={{ cursor: 'default', borderBottom: '1px dotted' }}>
+            —
+          </span>
         </Tooltip>
       );
     };
@@ -115,26 +115,37 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
             {intl.formatMessage(messages.optimizationsValues, { value: 'workload' })}
           </Content>
           <Content component={ContentVariants.dd}>{workload}</Content>
-          <Content component={ContentVariants.dt}>
-            {intl.formatMessage(messages.savingsEstimatedMonthly)}
-          </Content>
+          <Content component={ContentVariants.dt}>{intl.formatMessage(messages.savingsEstimatedMonthly)}</Content>
           <Content component={ContentVariants.dd}>
             {savingsDisplay}
             {(() => {
               const cpuSavings = report?.recommendations?.cpu_savings;
               const memorySavings = report?.recommendations?.memory_savings;
-              if (cpuSavings?.value == null && memorySavings?.value == null) return null;
+              if (cpuSavings?.value == null && memorySavings?.value == null) {
+                return null;
+              }
               const parts = [];
-              if (cpuSavings?.value != null) parts.push(`CPU: $${Number(cpuSavings.value).toFixed(2)}`);
-              if (memorySavings?.value != null) parts.push(`Memory: $${Number(memorySavings.value).toFixed(2)}`);
-              return <div style={{ fontSize: 'var(--pf-t--global--font--size--xs)', color: 'var(--pf-t--global--text--color--subtle)' }}>{parts.join(' | ')}</div>;
+              if (cpuSavings?.value != null) {
+                parts.push(`CPU: $${Number(cpuSavings.value).toFixed(2)}`);
+              }
+              if (memorySavings?.value != null) {
+                parts.push(`Memory: $${Number(memorySavings.value).toFixed(2)}`);
+              }
+              return (
+                <div
+                  style={{
+                    fontSize: 'var(--pf-t--global--font--size--xs)',
+                    color: 'var(--pf-t--global--text--color--subtle)',
+                  }}
+                >
+                  {parts.join(' | ')}
+                </div>
+              );
             })()}
           </Content>
           {replicas && (
             <>
-              <Content component={ContentVariants.dt}>
-                {intl.formatMessage(messages.replicaCount)}
-              </Content>
+              <Content component={ContentVariants.dt}>{intl.formatMessage(messages.replicaCount)}</Content>
               <Content component={ContentVariants.dd}>
                 {intl.formatMessage(messages.replicaValues, {
                   available: replicaValue(replicas.available),
@@ -147,25 +158,38 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
           )}
           {(() => {
             const replicaOpt = report?.recommendations?.replica_optimization;
-            if (!replicaOpt?.recommended_replicas) return null;
+            if (!replicaOpt?.recommended_replicas) {
+              return null;
+            }
             const current = replicas?.desired ?? replicas?.available;
             const recommended = replicaOpt.recommended_replicas;
             const diff = current != null ? current - recommended : 0;
 
             let badge: React.ReactNode;
             if (diff > 0) {
-              badge = <Label color="green">{intl.formatMessage(messages.replicaOptimizationReduceBy, { count: diff })}</Label>;
+              badge = (
+                <Label color="green">{intl.formatMessage(messages.replicaOptimizationReduceBy, { count: diff })}</Label>
+              );
             } else if (diff < 0) {
-              badge = <Label color="orange">{intl.formatMessage(messages.replicaOptimizationScaleUp, { count: Math.abs(diff) })}</Label>;
+              badge = (
+                <Label color="orange">
+                  {intl.formatMessage(messages.replicaOptimizationScaleUp, { count: Math.abs(diff) })}
+                </Label>
+              );
             } else {
-              badge = <Label color="blue" icon={<CheckCircleIcon />}>{intl.formatMessage(messages.replicaOptimizationOptimal)}</Label>;
+              badge = (
+                <Label color="blue" icon={<CheckCircleIcon />}>
+                  {intl.formatMessage(messages.replicaOptimizationOptimal)}
+                </Label>
+              );
             }
 
-            const confidenceMsg = replicaOpt.confidence === 'high'
-              ? messages.replicaOptimizationConfidenceHigh
-              : replicaOpt.confidence === 'medium'
-                ? messages.replicaOptimizationConfidenceMedium
-                : messages.replicaOptimizationConfidenceLow;
+            const confidenceMsg =
+              replicaOpt.confidence === 'high'
+                ? messages.replicaOptimizationConfidenceHigh
+                : replicaOpt.confidence === 'medium'
+                  ? messages.replicaOptimizationConfidenceMedium
+                  : messages.replicaOptimizationConfidenceLow;
 
             return (
               <>
@@ -177,7 +201,16 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
                     {intl.formatMessage(messages.replicaOptimizationRecommended, { recommended })}
                     {badge}
                     <Tooltip content={replicaOpt.explanation || intl.formatMessage(confidenceMsg)}>
-                      <Label variant="outline" color={replicaOpt.confidence === 'high' ? 'green' : replicaOpt.confidence === 'medium' ? 'yellow' : 'orange'}>
+                      <Label
+                        variant="outline"
+                        color={
+                          replicaOpt.confidence === 'high'
+                            ? 'green'
+                            : replicaOpt.confidence === 'medium'
+                              ? 'yellow'
+                              : 'orange'
+                        }
+                      >
                         {intl.formatMessage(confidenceMsg)}
                       </Label>
                     </Tooltip>
@@ -188,9 +221,7 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
           })()}
           {monitoringEndTime && (
             <>
-              <Content component={ContentVariants.dt}>
-                {intl.formatMessage(messages.dataThrough)}
-              </Content>
+              <Content component={ContentVariants.dt}>{intl.formatMessage(messages.dataThrough)}</Content>
               <Content component={ContentVariants.dd}>
                 {intl.formatDate(new Date(monitoringEndTime), { year: 'numeric', month: 'short', day: 'numeric' })}
               </Content>
@@ -208,13 +239,7 @@ const OptimizationsBreakdownHeader: React.FC<OptimizationsBreakdownHeaderProps> 
         <Title headingLevel="h1" size={TitleSizes['2xl']}>
           {report ? report.container : null}
         </Title>
-        {showWarningIcon && (
-          <span style={styles.warningIcon}>
-            <Icon status="warning">
-              <ExclamationTriangleIcon />
-            </Icon>
-          </span>
-        )}
+        <NotificationWarningIcon recommendations={report?.recommendations} style={styles.warningIcon} />
       </div>
       <div style={styles.description}>{getDescription()}</div>
     </header>
